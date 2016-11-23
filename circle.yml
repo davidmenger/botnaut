@@ -1,0 +1,41 @@
+# Required ENV variables
+#
+# - AWS_ACCOUNT_ID
+# -
+#
+# set by CircleCI: CIRCLE_PROJECT_USERNAME,CIRCLE_SHA1,
+
+machine:
+  node:
+    version: 6.9.1
+  services:
+    - docker
+
+deployment:
+  production:
+    branch: production
+    commands:
+      - npm run build
+      - docker build -t $CIRCLE_PROJECT_USERNAME-$CIRCLE_SHA1 .
+      - bash ./deploy.sh -n bot-production-service -c bot-cluster -i bot-production -r eu-west-1
+
+  staging:
+    branch: staging
+    commands:
+      - npm run build
+      - docker build -t $CIRCLE_PROJECT_USERNAME-$CIRCLE_SHA1 .
+      - bash ./deploy.sh -n bot-staging-service -c bot-cluster -i bot-staging -r eu-west-1
+
+database:
+  # Circle will execute the below commands
+  pre:
+    # Stop MongoDB
+    - sudo service mongod stop
+    # Download MongoDB 3.2.10
+    - curl -Ol https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu1204-3.2.10.tgz
+    # Untar it
+    - tar -zxvf mongodb-linux-x86_64-ubuntu1204-3.2.10.tgz
+    # Create data directory
+    - mkdir -p ./data/db
+    # Fork MongoDB and log to './mongod.log'. Print the log file if it failed.
+    - ./mongodb-linux-x86_64-ubuntu1204-3.2.10/bin/mongod --dbpath ./data/db --logpath ./mongod.log --fork || cat ./mongod.log

@@ -1,0 +1,23 @@
+public/assets/dist
+public/assets/*.js
+public/assets/*.js.gz
+public/assets/styles
+public/assets/font
+# public/assets/img/minify
+devel/sass/_generated
+devel/_env.json
+devel/node_modules
+.idea/
+
+# NodeJs
+
+/npm-debug.log
+node_modules
+/config/config.development.js
+/typings
+/coverage
+/html-report
+
+# Dont remove, because it's used in tests
+
+!/public/assets/img/minify/fb-share.jpg

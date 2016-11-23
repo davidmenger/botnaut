@@ -1,0 +1,30 @@
+{
+    "extends": "airbnb",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "defaultParams": false,
+            "destructuring": false,
+            "forOf": true,
+            "generators": true,
+            "modules": false,
+            "restParams": true
+        },
+        "sourceType": "script"
+    },
+    "rules": {
+        "func-names": 0,
+        "strict": [2, "global"],
+        "indent": [2, 4, {"SwitchCase": 1}],
+        "space-before-function-paren": [2, {"anonymous": "always", "named": "always"}],
+        "comma-dangle": [2, "never"],
+        "padded-blocks": 0,
+        "no-console": [2],
+        "no-underscore-dangle": 0,
+        "no-continue": 0,
+        "lines-around-directive": 0,
+        "no-plusplus": 0,
+        "import/no-extraneous-dependencies": 0,
+        "require-yield": 0,
+        "class-methods-use-this": 0
+    }
+}

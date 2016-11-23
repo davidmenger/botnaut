@@ -1,0 +1,13 @@
+{
+    "extends": "../.eslintrc",
+    "plugins": [
+        "mocha"
+    ],
+    "env": {
+        "mocha": true,
+        "node": true
+    },
+    "rules": {
+        "prefer-arrow-callback": 0
+    }
+}

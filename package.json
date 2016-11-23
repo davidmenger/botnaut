@@ -1,0 +1,54 @@
+{
+  "name": "prg-chatbot",
+  "version": "0.0.1",
+  "description": "Facebook Messenger Chatbot Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test:lint && npm run test:coverage && npm run test:coverage:threshold",
+    "test:coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --opts ./mocha.opts ./test",
+    "test:coverage:threshold": "node ./node_modules/.bin/istanbul check --branches 80 --functions 80 --statements 80 --lines 80  ./coverage/coverage.json",
+    "test:backend": "./node_modules/mocha/bin/mocha --opts ./mocha.opts ./test ./src",
+    "test:lint": "node ./node_modules/eslint/bin/eslint.js --ext .js src test *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/pragonauts/prg-chatbot.git"
+  },
+  "keywords": [
+    "Facebook",
+    "Messenger",
+    "Chatbot",
+    "Framework",
+    "Bot"
+  ],
+  "engines": {
+    "node": "^6.0.0"
+  },
+  "author": "Pragonauts",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pragonauts/prg-chatbot/issues"
+  },
+  "homepage": "https://github.com/pragonauts/prg-chatbot#readme",
+  "devDependencies": {
+    "eslint": "^3.10.2",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-mocha": "^0.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-mocha": "^4.7.0",
+    "eslint-plugin-react": "^6.7.1",
+    "mocha": "^3.1.2",
+    "mocha-istanbul": "^0.3.0",
+    "sinon": "^1.17.6"
+  },
+  "dependencies": {
+    "mongoose": "^4.6.8",
+    "path-to-regexp": "^1.7.0",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1"
+  },
+  "peerDependencies": {
+    "mongoose": "^4.0.0"
+  }
+}
