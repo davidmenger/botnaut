@@ -5,12 +5,18 @@
 
 const request = require('request-promise');
 
+/**
+ * Utility, which helps us to set up chatbot behavior
+ *
+ * @class Settings
+ */
 class Settings {
 
     /**
      * Creates an instance of Settings.
      *
      * @param {string} token
+     * @param {{error:function}} [log]
      *
      * @memberOf Settings
      */
@@ -37,6 +43,14 @@ class Settings {
         }).catch(e => this.log.error('Bot settings failed', e));
     }
 
+    /**
+     * Sets or clears bot's greeting
+     *
+     * @param {string} [text=false] leave empty to clear
+     * @returns {this}
+     *
+     * @memberOf Settings
+     */
     greeting (text = false) {
         if (text) {
             this._post({
@@ -53,6 +67,18 @@ class Settings {
         return this;
     }
 
+    /**
+     * Sets up the Get Started Button
+     *
+     * @param {string|object} [payload=false] leave blank to remove button, or provide the action
+     * @returns {this}
+     *
+     * @example
+     * const settings = new Settings(config.facebook.pageToken);
+     * settings.getStartedButton('/start'); // just an action
+     *
+     * @memberOf Settings
+     */
     getStartedButton (payload = false) {
         if (payload) {
             this._post({
@@ -69,10 +95,26 @@ class Settings {
         return this;
     }
 
+    /**
+     * Useful for using facebook extension in webviews
+     *
+     * @param {string|string[]} domain
+     * @returns {this}
+     *
+     * @memberOf Settings
+     */
     whitelistDomain (domain) {
+        let list = domain;
+
+        if (!Array.isArray(list)) {
+            list = [domain];
+        }
+
+        list = list.map(dom => dom.replace(/\/$/, ''));
+
         this._post({
             setting_type: 'domain_whitelisting',
-            whitelisted_domains: [domain.replace(/\/$/, '')],
+            whitelisted_domains: list,
             domain_action_type: 'add'
         });
         return this;

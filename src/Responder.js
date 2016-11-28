@@ -5,19 +5,57 @@
 
 const ReceiptTemplate = require('./ReceiptTemplate');
 const ButtonTemplate = require('./ButtonTemplate');
+const { makeAbsolute } = require('./pathUtils');
 const util = require('util');
 
+/**
+ * Instance of responder is passed as second parameter of handler (res)
+ *
+ * @class Responder
+ */
 class Responder {
 
-    constructor (senderId, sendFn, appUrl = null, token = null, translator = w => w) {
+    constructor (senderId, sendFn, token = null, options = {}) {
         this._send = sendFn;
         this.senderId = senderId;
-        this.appUrl = appUrl;
-        this.translator = translator;
         this.token = token;
+
         this.newState = {};
+
+        this.path = '';
+
+        this.options = {
+            translator: w => w,
+            appUrl: ''
+        };
+
+        Object.assign(this.options, options);
+
+        this._t = this.options.translator;
     }
 
+    setPath (currentContext) {
+        this.path = currentContext;
+    }
+
+    /**
+     * Send text as a response
+     *
+     * @param {string} text text to send to user, can contain placeholders (%s)
+     * @param {object.<string, string>} [quickReplys]
+     * @returns {this}
+     *
+     * @example
+     * res.text('Hello %s', name, {
+     *     action: 'Quick reply',
+     *     complexAction: {
+     *         label: 'Another quick reply',
+     *         someData: 'Will be included in payload data'
+     *     }
+     * })
+     *
+     * @memberOf Responder
+     */
     text (text, ...args) {
         const messageData = {
             recipient: {
@@ -33,7 +71,7 @@ class Responder {
             replies = args.pop();
         }
 
-        const translatedText = this.translator(text);
+        const translatedText = this._t(text);
 
         if (args.length > 0) {
             messageData.message.text = util.format(translatedText, ...args);
@@ -60,7 +98,7 @@ class Responder {
 
                     return {
                         content_type: 'text',
-                        title: this.translator(title),
+                        title: this._t(title),
                         payload
                     };
                 });
@@ -70,16 +108,56 @@ class Responder {
         return this;
     }
 
+    /**
+     * Sets new attributes to state (with Object.assign())
+     *
+     * @param {object} object
+     * @returns {this}
+     *
+     * @example
+     * res.setState({ visited: true });
+     *
+     * @memberOf Responder
+     */
     setState (object) {
         Object.assign(this.newState, object);
         return this;
     }
 
+    /**
+     * When user writes some text as reply, it will be processed as action
+     *
+     * @param {string} action desired action
+     * @returns {this}
+     *
+     * @memberOf Responder
+     */
+    expected (action) {
+        return this.setState({
+            expected: makeAbsolute(action, this.path)
+        });
+    }
+
+    /**
+     * Sends image as response. Requires appUrl option to send images from server
+     *
+     * @param {string} imageUrl relative or absolute url
+     * @returns {this}
+     *
+     * @example
+     * // image on same server (appUrl option)
+     * res.image('/img/foo.png');
+     *
+     * // image at url
+     * res.image('https://google.com/img/foo.png');
+     *
+     * @memberOf Responder
+     */
     image (imageUrl) {
         let url = imageUrl;
 
         if (!imageUrl.match(/^https?:\/\//)) {
-            url = `${this.appUrl}${imageUrl}`;
+            url = `${this.options.appUrl}${imageUrl}`;
         }
 
         const messageData = {
@@ -116,11 +194,75 @@ class Responder {
         return this;
     }
 
+    /**
+     * Sets delay between two responses
+     *
+     * @param {number} [ms=700]
+     * @returns {this}
+     *
+     * @memberOf Responder
+     */
+    wait (ms = 700) {
+        this._send({ wait: ms });
+        return this;
+    }
+
+    /**
+     * Sends "typing..." information
+     *
+     * @returns {this}
+     *
+     * @memberOf Responder
+     */
+    typingOn () {
+        this._senderAction('typing_on');
+        return this;
+    }
+
+    /**
+     * Stops "typing..." information
+     *
+     * @returns {this}
+     *
+     * @memberOf Responder
+     */
+    typingOff () {
+        this._senderAction('typing_off');
+        return this;
+    }
+
+    /**
+     * Reports last message from user as seen
+     *
+     * @returns {this}
+     *
+     * @memberOf Responder
+     */
+    seen () {
+        this._senderAction('mark_seen');
+        return this;
+    }
+
+    /**
+     * Sends Receipt template
+     *
+     * @param {string} recipientName
+     * @param {string} [paymentMethod='Cash'] should not contain more then 4 numbers
+     * @param {string} [currency='USD'] sets right currency
+     * @param {string} [uniqueCode=null] when omitted, will be generated randomly
+     * @returns {ReceiptTemplate}
+     *
+     * @example
+     * res.receipt('Name', 'Cash', 'CZK', '1')
+     *     .addElement('Element name', 1, 2, '/inside.png', 'text')
+     *     .send();
+     *
+     * @memberOf Responder
+     */
     receipt (recipientName, paymentMethod = 'Cash', currency = 'USD', uniqueCode = null) {
         return new ReceiptTemplate(
             payload => this.template(payload),
             this._createContext(),
-            this.translator,
             recipientName,
             paymentMethod,
             currency,
@@ -128,34 +270,28 @@ class Responder {
         );
     }
 
+    /**
+     * Sends nice button template. It can redirect user to server with token in url
+     *
+     * @param {string} text
+     * @returns {ButtonTemplate}
+     *
+     * @example
+     * res.button('Hello')
+     *     .postBackButton('Text', 'action')
+     *     .urlButton('Url button', '/internal', true) // opens webview with token
+     *     .urlButton('Other button', 'https://goo.gl') // opens in internal browser
+     *     .send();
+     *
+     * @memberOf Responder
+     */
     button (text) {
         const btn = new ButtonTemplate(
             payload => this.template(payload),
             this._createContext(),
-            this.translator,
             text
         );
         return btn;
-    }
-
-    wait (ms = 700) {
-        this._send({ wait: ms });
-        return this;
-    }
-
-    typingOn () {
-        this._senderAction('typing_on');
-        return this;
-    }
-
-    typingOff () {
-        this._senderAction('typing_off');
-        return this;
-    }
-
-    seen () {
-        this._senderAction('mark_seen');
-        return this;
     }
 
     _senderAction (action) {
@@ -171,10 +307,13 @@ class Responder {
     }
 
     _createContext () {
+        const { translator, appUrl } = this.options;
         return {
-            appUrl: this.appUrl,
-            token: this.token,
-            senderId: this.senderId
+            translator,
+            appUrl,
+            token: this.token || '',
+            senderId: this.senderId,
+            path: this.path
         };
     }
 }

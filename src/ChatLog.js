@@ -33,6 +33,4 @@ schema.statics.error = function (err, responses = [], request = {}) {
     // @todo add additional handler
 };
 
-const ChatLog = mongoose.model('ChatLog', schema);
-
-module.exports = ChatLog;
+module.exports = schema;

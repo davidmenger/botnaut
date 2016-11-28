@@ -19,7 +19,10 @@ function createMockReq (text = '', action = 'action', expected = null) {
 
 function createMockRes () {
     const ret = {
-
+        path: '',
+        setPath (path) {
+            this.path = path;
+        }
     };
     return ret;
 }
@@ -95,9 +98,9 @@ describe('Router', function () {
         it('should pass request to next routes', function () {
             const router = new Router();
 
-            const first = sinon.spy((req, res, next) => next());
-            const second = sinon.spy((req, res, next) => next());
-            const third = sinon.spy((req, res, next) => next());
+            const first = sinon.spy((req, res, postBack, next) => next());
+            const second = sinon.spy((req, res, postBack, next) => next());
+            const third = sinon.spy((req, res, postBack, next) => next());
             const resolverCallback = sinon.spy(() => true);
             const last = sinon.spy();
             const req = createMockReq('just a text', null);
@@ -150,12 +153,12 @@ describe('Router', function () {
         });
 
         it('should allow to set exit actions', function () {
-            const route = sinon.spy((req, res, next) => next('exit'));
+            const route = sinon.spy((req, res, postBack, next) => next('exit'));
             const noRoute = sinon.spy();
             const globalNext = sinon.spy();
 
-            const genericExit = sinon.spy((data, req, next) => next());
-            const exit = sinon.spy((data, req, next) => next('globalAction'));
+            const genericExit = sinon.spy((data, req, postBack, next) => next());
+            const exit = sinon.spy((data, req, postBack, next) => next('globalAction'));
             const noExit = sinon.spy();
 
             const req = createMockReq('', '/nested/inner');
@@ -172,7 +175,7 @@ describe('Router', function () {
             router.use('/nested', nestedRouter);
             router.use('/', noRoute);
 
-            router.reduce(req, res, globalNext);
+            router.reduce(req, res, () => {}, globalNext);
 
             // assert routes
             assert(!noRoute.called, 'route should not be called');
@@ -183,12 +186,11 @@ describe('Router', function () {
             assert(exit.called);
             assert(!noExit.called);
 
-
             assert(globalNext.called);
         });
 
         it('should pass expected actions to nested routers', function () {
-            const route = sinon.spy((req, res, next) => next());
+            const route = sinon.spy((req, res, postBack, next) => next());
             const noRoute = sinon.spy();
             const finalRoute = sinon.spy();
             const globalNext = sinon.spy();
@@ -235,6 +237,44 @@ describe('Router', function () {
                     assert.strictEqual(actionSpy.secondCall.args[1], '/*');
                 });
         });
+
+        it('should execute wildcard actions when the pattern is matching', function () {
+            const router = new Router();
+
+            const route = sinon.spy();
+            const noRoute = sinon.spy();
+            const req = createMockReq('action with text', 'anotherAction');
+            const res = createMockRes();
+
+            router.use(/^action-with-text$/, route);
+            router.use(noRoute);
+
+            router.reduce(req, res);
+
+            assert(!noRoute.called, 'route should not be called');
+            shouldBeCalled(route, req, res);
+        });
+
+        it('should make relative paths absolute and call postBack methods', function () {
+            const router = new Router();
+
+            const route = sinon.spy((req, res, postBack) => postBack('relative', { data: 1 }));
+            const noRoute = sinon.spy();
+            const postBack = sinon.spy();
+            const req = createMockReq('action with text', 'anotherAction');
+            const res = createMockRes();
+
+            router.use(route);
+            router.use('*', noRoute);
+
+            router.reduce(req, res, postBack, undefined, '/prefix');
+
+            assert(!noRoute.called, 'route should not be called');
+            shouldBeCalled(route, req, res);
+            assert(postBack.calledOnce);
+            assert.deepEqual(postBack.firstCall.args, ['/prefix/relative', { data: 1 }]);
+        });
+
     });
 
 });

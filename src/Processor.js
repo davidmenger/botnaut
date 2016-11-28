@@ -6,37 +6,72 @@
 const UserLoader = require('./UserLoader');
 const Responder = require('./Responder');
 const Request = require('./Request');
+const SecurityMiddleware = require('./SecurityMiddleware');
+const senderFactory = require('./senderFactory');
+const MemoryStateStorage = require('./MemoryStateStorage');
 
 function nextTick () {
     return new Promise(r => process.nextTick(r));
 }
 
+
 class Processor {
 
-    constructor (
-            reducer,
-            stateStorage,
-            senderFnFactory,
-            secure,
-            defaultState = {},
-            log = console,
-            translator = w => w,
-            appUrl = null,
-            timeout = 200) {
+    /**
+     * Creates an instance of Processor.
+     *
+     * @param {ReducerWrapper|function|Router} reducer
+     * @param {{appUrl?:string, translator?:function, timeout?:number, log?:object,
+        defaultState?:object, cookieName?:string, pageToken:string, appSecret:string,
+        chatLog?:object, tokenStorage?:object, senderFnFactory?:function,
+        securityMiddleware?:object}} options
+     * @param {{getOrCreateAndLock:function, saveState:function}} [stateStorage]
+     *
+     * @memberOf Processor
+     */
+    constructor (reducer, options, stateStorage = new MemoryStateStorage()) {
+        this.options = {
+            appUrl: '',
+            translator: w => w,
+            timeout: 200,
+            log: console,
+            defaultState: {},
+            cookieName: 'botToken',
+            pageToken: null, // required
+            appSecret: null, // required
+            chatLog: null,
+            tokenStorage: null,
+            senderFnFactory: null,
+            securityMiddleware: null
+        };
+        Object.assign(this.options, options);
 
         this.reducer = reducer;
         this.stateStorage = stateStorage;
-        this.timeout = timeout;
-        this.defaultState = defaultState;
-        this.log = log;
-        this.senderFnFactory = senderFnFactory;
-        this.translator = translator;
-        this.appUrl = appUrl;
-        this.userLoader = new UserLoader(senderFnFactory.token);
-        this.secure = secure;
+
+        if (!this.options.pageToken) {
+            throw new Error('Missing pageToken in options');
+        }
+
+        if (this.options.senderFnFactory) {
+            this.senderFnFactory = this.options.senderFnFactory;
+        } else {
+            this.senderFnFactory = senderFactory(this.options.pageToken, this.options.chatLog);
+        }
+
+        if (this.options.securityMiddleware) {
+            this.secure = this.options.securityMiddleware;
+        } else if (this.options.appSecret) {
+            const { appSecret, tokenStorage, cookieName } = this.options;
+            this.secure = new SecurityMiddleware(appSecret, tokenStorage, cookieName);
+        } else {
+            throw new Error('Missing `appSecret` in options. Please provide an appSecret or own securityMiddleware');
+        }
+
+        this.userLoader = new UserLoader(this.options.pageToken);
     }
 
-    _createNext (senderId) {
+    _createPostBack (senderId) {
         return (action = null, data = {}) => {
             if (action !== null) {
                 const request = Request.createPostBack(senderId, action, data);
@@ -48,7 +83,7 @@ class Processor {
 
     processMessage (message) {
         if (!message || !message.sender || !message.sender.id) {
-            this.log.warn('Bot received bad message', message);
+            this.options.log.warn('Bot received bad message', message);
             return Promise.resolve(null);
         }
 
@@ -63,13 +98,13 @@ class Processor {
 
                 let state = stateObject.state;
                 const req = new Request(message, state);
-                const res = new Responder(senderId, senderFn, this.appUrl, token, this.translator);
-                const next = this._createNext(senderId);
+                const res = new Responder(senderId, senderFn, token, this.options);
+                const postBack = this._createPostBack(senderId);
 
                 if (typeof this.reducer === 'function') {
-                    this.reducer(req, res, next);
+                    this.reducer(req, res, postBack);
                 } else {
-                    this.reducer.reduce(req, res, next);
+                    this.reducer.reduce(req, res, postBack);
                 }
 
                 state = Object.assign({}, state, res.newState);
@@ -80,11 +115,11 @@ class Processor {
                     lastInteraction: new Date()
                 });
 
-                return stateObject.save();
+                return this.stateStorage.saveState(stateObject);
             })
             .then(() => Promise.all(this.reducer.debugPromises || []))
             .catch((e) => {
-                this.log.error('Bot Processor', e);
+                this.options.log.error('Bot Processor', e);
             });
     }
 
@@ -99,10 +134,6 @@ class Processor {
     }
 
     _getOrCreateToken (senderId, stateObject) {
-        if (!this.secure) {
-            return { token: null, stateObject };
-        }
-
         return this.secure.getOrCreateToken(senderId)
                     .then(token => ({ token, stateObject }));
     }
@@ -112,10 +143,10 @@ class Processor {
         return this.userLoader.loadUser(senderId)
             .then((user) => {
                 state.state.user = user;
-                return state.save();
+                return this.stateStorage.saveState(state);
             })
             .catch((e) => {
-                this.log.warn(e);
+                this.options.log.warn(e);
                 return stateObject;
             });
     }
@@ -144,28 +175,15 @@ class Processor {
     }
 
     _wait () {
-        return new Promise(r => setTimeout(() => r(null), this.timeout + 10));
+        return new Promise(r => setTimeout(() => r(null), this.options.timeout + 10));
     }
 
     _model (senderId) {
-        const now = Date.now();
-        return this.stateStorage.findOneAndUpdate({
-            senderId,
-            lock: { $lt: now - this.timeout }
-        }, {
-            $setOnInsert: {
-                state: this.defaultState
-            },
-            $set: {
-                lock: now
-            }
-        }, {
-            new: true,
-            upsert: true
-        }).exec()
+        const { timeout, defaultState } = this.options;
+        return this.stateStorage.getOrCreateAndLock(senderId, defaultState, timeout)
             .catch((err) => {
                 if (!err || err.code !== 11000) {
-                    this.log.error('Bot processor load error', err);
+                    this.options.log.error('Bot processor load error', err);
                 } else if (err.code === 11000) {
                     return this._wait();
                 }

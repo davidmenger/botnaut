@@ -13,29 +13,26 @@ const EMPTY_STATE = { user: {} };
 function createStateStorage (state = EMPTY_STATE, simulateError = true) {
     const storage = {
         model: {
-            state,
-            save () {
-                return Promise.resolve(this);
-            }
+            state
+        },
+        saveState (newModel) {
+            this.model = newModel;
+            return Promise.resolve(this.model);
         },
         times: 0,
-        findOneAndUpdate (/* query, update, options*/) {
+        getOrCreateAndLock (/* query, update, options*/) {
             this.times++;
             if (simulateError && this.times < 2) {
                 const err = new Error();
                 err.code = 11000;
-                return {
-                    exec: () => Promise.reject(err)
-                };
+                return Promise.reject(err);
             }
 
-            return {
-                exec: () => Promise.resolve(this.model)
-            };
+            return Promise.resolve(this.model);
         }
     };
-    sinon.spy(storage, 'findOneAndUpdate');
-    sinon.spy(storage.model, 'save');
+    sinon.spy(storage, 'getOrCreateAndLock');
+    sinon.spy(storage, 'saveState');
     return storage;
 }
 
@@ -55,6 +52,16 @@ function createLogger () {
     };
 }
 
+function makeOptions (securityMiddleware = null) {
+    const senderFnFactory = createSenderFnFactory();
+    const defaultState = {};
+    const log = createLogger();
+
+    return {
+        senderFnFactory, defaultState, log, appSecret: 'a', pageToken: 'a', securityMiddleware
+    };
+}
+
 describe('Processor', function () {
 
     describe('#processMessage()', function () {
@@ -67,11 +74,8 @@ describe('Processor', function () {
             });
 
             const stateStorage = createStateStorage();
-            const sender = createSenderFnFactory();
-            const defaultState = {};
-            const logger = createLogger();
-
-            const proc = new Processor(reducer, stateStorage, sender, null, defaultState, logger);
+            const opts = makeOptions();
+            const proc = new Processor(reducer, opts, stateStorage);
 
             return proc.processMessage({
                 sender: {
@@ -85,36 +89,35 @@ describe('Processor', function () {
 
                 assert.deepEqual(stateStorage.model.state, {
                     final: 1,
-                    user: null
+                    user: {}
                 });
 
-                assert(stateStorage.model.save.called);
-                assert(sender.sender.called);
+                assert(stateStorage.saveState.called);
+                assert(opts.senderFnFactory.sender.called);
             });
         });
 
         it('invalid messages should be logged', function () {
-            const stateStorage = createStateStorage();
-            const sender = createSenderFnFactory();
-            const defaultState = {};
-            const logger = createLogger();
 
             const reducer = sinon.spy((req, res) => {
                 res.setState({ final: 1 });
             });
-            const proc = new Processor(reducer, stateStorage, sender, null, defaultState, logger);
+
+            const stateStorage = createStateStorage();
+            const opts = makeOptions();
+            const proc = new Processor(reducer, opts, stateStorage);
 
             return proc.processMessage()
                 .then(() => {
-                    assert(logger.warn.calledOnce);
+                    assert(opts.log.warn.calledOnce);
                     return proc.processMessage({});
                 })
                 .then(() => {
-                    assert(logger.warn.calledTwice);
+                    assert(opts.log.warn.calledTwice);
                     return proc.processMessage({ sender: 'ho' });
                 })
                 .then(() => {
-                    assert(logger.warn.calledThrice);
+                    assert(opts.log.warn.calledThrice);
                     return proc.processMessage({});
                 });
         });
@@ -131,16 +134,13 @@ describe('Processor', function () {
             const actionSpy = sinon.spy();
             wrapper.on('action', actionSpy);
 
-            const stateStorage = createStateStorage();
-            const sender = createSenderFnFactory();
-            const defaultState = {};
-            const logger = createLogger();
-
-            const secure = {
+            const securityMiddleware = {
                 getOrCreateToken: sinon.spy(() => Promise.resolve('token'))
             };
 
-            const proc = new Processor(wrapper, stateStorage, sender, secure, defaultState, logger);
+            const stateStorage = createStateStorage();
+            const opts = makeOptions(securityMiddleware);
+            const proc = new Processor(wrapper, opts, stateStorage);
 
             return proc.processMessage({
                 sender: {
@@ -156,11 +156,11 @@ describe('Processor', function () {
 
                 assert.deepEqual(stateStorage.model.state, {
                     final: 1,
-                    user: null
+                    user: {}
                 });
 
-                assert(stateStorage.model.save.called);
-                assert(sender.sender.called);
+                assert(stateStorage.saveState.called);
+                assert(opts.senderFnFactory.sender.called);
 
                 assert(actionSpy.calledOnce);
             });

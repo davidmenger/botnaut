@@ -11,7 +11,26 @@ function sizeLimitExceeded (expected, current) {
     return err;
 }
 
-function load (url, limit = 0, limitJustByBody = false, redirCount = 3) {
+/**
+ * Downloads a file from url into a buffer. Supports size limits and redirects.
+ *
+ * @param {string} url
+ * @param {number} [limit=0] limit in bytes
+ * @param {boolean} [limitJustByBody=false] when true, content size in header is ignored
+ * @param {number} [redirCount=3] maximmum amount of redirects
+ * @returns Promise.<Buffer>
+ *
+ * @example
+ * router.use('*', (req, res, postBack) => {
+ *     if (req.isFile()) {
+ *         bufferloader(req.attachmentUrl())
+ *             .then(buffer => postBack('downloaded', { data: buffer }))
+ *             .catch(err => postBack('donwloaded', { err }))
+ *     }
+ * });
+ *
+ */
+function bufferloader (url, limit = 0, limitJustByBody = false, redirCount = 3) {
     return new Promise((resolve, reject) => {
 
         if (redirCount <= 0) {
@@ -26,7 +45,7 @@ function load (url, limit = 0, limitJustByBody = false, redirCount = 3) {
             if (res.statusCode === 301 && res.headers && res.headers.location) {
                 // redirect
                 req.removeAllListeners();
-                resolve(load(res.headers.location, limit, limitJustByBody, redirCount - 1));
+                resolve(bufferloader(res.headers.location, limit, limitJustByBody, redirCount - 1));
                 return;
             } else if (res.statusCode !== 200) {
                 req.removeAllListeners();
@@ -75,10 +94,6 @@ function load (url, limit = 0, limitJustByBody = false, redirCount = 3) {
             reject(err);
         });
     });
-}
-
-function bufferloader () {
-    return load;
 }
 
 module.exports = bufferloader;

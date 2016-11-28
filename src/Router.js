@@ -4,8 +4,15 @@
 'use strict';
 
 const ReducerWrapper = require('./ReducerWrapper');
+const { makeAbsolute } = require('./pathUtils');
 const pathToRegexp = require('path-to-regexp');
 
+/**
+ * Cascading router
+ *
+ * @class Router
+ * @extends {ReducerWrapper}
+ */
 class Router extends ReducerWrapper {
 
     constructor () {
@@ -26,22 +33,64 @@ class Router extends ReducerWrapper {
         return normalizedPath.replace(/\/$/, '');
     }
 
-    use (path, pattern, reducer) {
-        let match;
+    _makeMatchCallback (pattern) {
+        if (pattern instanceof RegExp || typeof pattern === 'string') {
+            // @todo webalized pattern
+            return req => req.text(true).match(pattern);
+        }
+
+        return pattern;
+    }
+
+    /**
+     * Appends middleware, action handler or another router
+     *
+     * @param {string} [action] name of the action
+     * @param {RegExp|string|function} [pattern]
+     * @param {function|Router} reducer
+     * @returns {{next:function}}
+     *
+     * @example
+     * // middleware
+     * router.use((req, res, postBack, next) => {
+     *     next(); // strictly synchronous
+     * });
+     *
+     * // route with matching regexp
+     * router.use('action', /help/, (req, res) => {
+     *     res.text('Hello!');
+     * });
+     *
+     * // route with matching function
+     * router.use('action', req => req.text() === 'a', (req, res) => {
+     *     res.text('Hello!');
+     * });
+     *
+     * // append router with exit action
+     * router.use('/path', subRouter)
+     *    .next('exitAction', (data, req, postBack) => {
+     *        postBack('anotherAction', { someData: true })
+     *    });
+     *
+     * @memberOf Router
+     */
+    use (action, pattern, reducer) {
+        let match = null;
         let reduce;
+        let path = action;
 
         if (reducer) {
             reduce = reducer;
-
-            if (pattern instanceof RegExp || typeof pattern === 'string') {
-                // @todo webalized pattern
-                match = req => req.text(true).match(pattern);
-            } else {
-                match = pattern;
+            match = this._makeMatchCallback(pattern);
+        } else if (pattern) {
+            reduce = pattern;
+            if (typeof action !== 'string') {
+                path = '*';
+                match = this._makeMatchCallback(action);
             }
         } else {
-            reduce = pattern;
-            match = null;
+            reduce = path;
+            path = '*';
         }
         let isReducer = false;
 
@@ -54,12 +103,12 @@ class Router extends ReducerWrapper {
             reduce = (...args) => reducerFn(...args);
         }
 
-        const normalizedPath = this._normalizePath(path);
+        path = this._normalizePath(path);
         const nexts = [];
 
         this._routes.push({
-            path: normalizedPath,
-            pathMatch: pathToRegexp(normalizedPath, [], { end: !isReducer }),
+            path,
+            pathMatch: pathToRegexp(path, [], { end: !isReducer }),
             match,
             reduce,
             nexts,
@@ -67,9 +116,9 @@ class Router extends ReducerWrapper {
         });
 
         return {
-            next (action, listener) {
+            next (actionName, listener) {
                 nexts.push({
-                    action,
+                    action: actionName,
                     listener,
                     pathMatch: pathToRegexp(action)
                 });
@@ -78,7 +127,7 @@ class Router extends ReducerWrapper {
         };
     }
 
-    _createNext (route, req, res) {
+    _createNext (route, req, res, postBack) {
         const next = (action = null, data = {}) => {
             let finnished = false;
 
@@ -86,7 +135,7 @@ class Router extends ReducerWrapper {
                 finnished = route.nexts.some((nextAction) => {
                     if (nextAction.action === action || nextAction.action === '*') {
                         const nextContext = this._createNext({}, req, res);
-                        nextAction.listener(data, req, nextContext);
+                        nextAction.listener(data, req, postBack, nextContext);
 
                         if (!nextContext.called) {
                             return true;
@@ -117,14 +166,21 @@ class Router extends ReducerWrapper {
         return next;
     }
 
-    reduce (req, res, next = () => {}, path = '/') {
-        const action = this._action(req, path);
+    _makePostBackRelative (origPostBack, path) {
+        return function postBack (action, data = {}) {
+            return origPostBack(makeAbsolute(action, path), data);
+        };
+    }
 
+    reduce (req, res, postBack = () => {}, next = () => {}, path = '/') {
+        const action = this._action(req, path);
+        const relativePostBack = this._makePostBackRelative(postBack, path);
         const found = this._routes.some((route) => {
             if (this._routeMatch(route, action, req)) {
                 const pathContext = `${path === '/' ? '' : path}${route.path}`;
-                const nextContext = this._createNext(route, req, res);
-                route.reduce(req, res, nextContext, pathContext);
+                res.setPath(path);
+                const nextContext = this._createNext(route, req, res, relativePostBack);
+                route.reduce(req, res, relativePostBack, nextContext, pathContext);
 
                 if (!route.isReducer) {
                     this._emitAction(req, pathContext);

@@ -4,7 +4,6 @@
 'use strict';
 
 const crypto = require('crypto');
-const BotToken = require('./BotToken');
 
 class SecurityMiddleware {
 
@@ -12,11 +11,15 @@ class SecurityMiddleware {
      * Creates an instance of SecurityMiddleware.
      *
      * @param {string} appSecret
+     * @param {{getOrCreateToken:function, findByToken:function}} [tokenStorage] for webview tokens
+     * @param {string} [cookieName] name of the cookie, where the token is stored
      *
      * @memberOf SecurityMiddleware
      */
-    constructor (appSecret) {
+    constructor (appSecret, tokenStorage = null, cookieName = 'botToken') {
         this.appSecret = appSecret;
+        this.tokenStorage = tokenStorage;
+        this.cookieName = cookieName;
     }
 
     _getUnauthorizedError (message) {
@@ -40,7 +43,7 @@ class SecurityMiddleware {
                     }
 
                     if (senderId && senderId !== examinedSenderId) {
-                        throw new Error('Different senders!');
+                        throw this._getUnauthorizedError('Different senders!');
                     } else if (!senderId) {
                         senderId = examinedSenderId;
                     }
@@ -52,6 +55,13 @@ class SecurityMiddleware {
         return senderId;
     }
 
+    /**
+     * Middleware for Express Bodyparser verify option
+     *
+     * @returns middleware for bodyparser
+     *
+     * @memberOf SecurityMiddleware
+     */
     getSignatureVerifier () {
         const appSecret = this.appSecret;
         const err = this._getUnauthorizedError;
@@ -76,37 +86,63 @@ class SecurityMiddleware {
         };
     }
 
+    /**
+     * Utility, which verifies presence of frontend token
+     *
+     * - the tokenstorage should be included
+     *
+     * @param {object} req express request
+     * @returns Promise.<string>
+     *
+     * @memberOf SecurityMiddleware
+     */
     verifyReq (req) {
         const signature = req.headers['x-hub-signature'] || '';
         const match = signature.match(/^sha1=(.+)$/);
 
         if (match) {
             // previously verified by middleware getSignatureVerifier()
-            return Promise.resolve();
-        } else if (req.cookies.botToken) {
+            return Promise.resolve(null);
+        } else if (this.tokenStorage && req.cookies[this.cookieName]) {
 
             // examine senderId
-            const senderId = this._examineSender(req.body);
-
-            if (!senderId) {
-                throw this._getUnauthorizedError('No sender');
+            let senderId;
+            try {
+                senderId = this._examineSender(req.body);
+            } catch (e) {
+                return Promise.reject(e);
             }
 
-            return BotToken.findOne({ token: req.cookies.botToken, senderId })
-                .exec()
+            if (!senderId) {
+                return Promise.reject(this._getUnauthorizedError('No sender'));
+            }
+
+            return this.tokenStorage.findByToken(req.cookies[this.cookieName], senderId)
                 .then((token) => {
                     if (!token) {
                         throw this._getUnauthorizedError('No token found');
                     }
-                    return null;
+                    return token;
                 });
         }
 
-        throw this._getUnauthorizedError('No authorization');
+        return Promise.reject(this._getUnauthorizedError('No authorization'));
     }
 
+    /**
+     * Fetch token for user to be used as cookie
+     *
+     * @param {string} senderId
+     * @returns Promise.<string|null>
+     *
+     * @memberOf SecurityMiddleware
+     */
     getOrCreateToken (senderId) {
-        return BotToken.getOrCreateToken(senderId)
+        if (!this.tokenStorage) {
+            return Promise.resolve(null);
+        }
+
+        return this.tokenStorage.getOrCreateToken(senderId)
             .then(token => token.token);
     }
 

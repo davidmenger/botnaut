@@ -35,6 +35,11 @@ function wait (ms) {
     return new Promise(res => setTimeout(res, ms));
 }
 
+schema.statics.findByToken = function (token, senderId) {
+    return this.findOne({ token, senderId })
+                .exec();
+};
+
 schema.statics.getOrCreateToken = function (senderId) {
     if (!senderId) {
         return Promise.reject(new Error('Missing sender ID'));
@@ -69,6 +74,4 @@ schema.statics.getOrCreateToken = function (senderId) {
         });
 };
 
-const BotToken = mongoose.model('BotToken', schema);
-
-module.exports = BotToken;
+module.exports = schema;

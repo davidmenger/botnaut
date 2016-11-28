@@ -9,23 +9,25 @@ class BaseTemplate {
      * Creates an instance of BaseTemplate.
      *
      * @param {function} onDone
-     * @param {{appUrl: string, token: string, senderId: string}} context
+     * @param {{appUrl:string, token:string, senderId:string, translator:function}} context
      * @param {function} translator
      *
      * @memberOf BaseTemplate
      */
-    constructor (onDone, context = {}, translator = w => w) {
+    constructor (onDone, context = {}) {
         this.onDone = onDone;
 
         this.context = {
             appUrl: '',
             token: '',
-            senderId: ''
+            senderId: '',
+            translator: w => w,
+            path: ''
         };
 
-        this.translator = translator;
-
         Object.assign(this.context, context);
+
+        this._t = this.context.translator;
     }
 
     getTemplate () {

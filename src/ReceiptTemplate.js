@@ -5,10 +5,17 @@
 
 const BaseTemplate = require('./BaseTemplate');
 
+/**
+ * Provides fluent interface to make nice Receipts
+ * Instance of button template is returned by {Responder}
+ *
+ * @class ReceiptTemplate
+ * @extends {BaseTemplate}
+ */
 class ReceiptTemplate extends BaseTemplate {
 
-    constructor (onDone, context, translator, recipientName, paymentMethod = 'Cash', currency = 'USD', uniqueCode = null) {
-        super(onDone, context, translator);
+    constructor (onDone, context, recipientName, paymentMethod = 'Cash', currency = 'USD', uniqueCode = null) {
+        super(onDone, context);
 
         this.recipientName = recipientName;
         this.currency = currency;
@@ -18,9 +25,21 @@ class ReceiptTemplate extends BaseTemplate {
         this.uniqueCode = uniqueCode;
     }
 
+    /**
+     * Adds item to receipt
+     *
+     * @param {string} title
+     * @param {number} [price=0] a item price
+     * @param {number} [quantity=null] amount of items
+     * @param {string} [image=null] image of item
+     * @param {string} [subtitle=null] optional subtitle
+     * @returns {this}
+     *
+     * @memberOf ReceiptTemplate
+     */
     addElement (title, price = 0, quantity = null, image = null, subtitle = null) {
         const element = {
-            title: this.translator(title),
+            title: this._t(title),
             price
         };
 
@@ -35,7 +54,7 @@ class ReceiptTemplate extends BaseTemplate {
                 : `${this.context.appUrl}${image}`;
         }
         if (subtitle !== null) {
-            element.subtitle = this.translator(subtitle);
+            element.subtitle = this._t(subtitle);
         }
         this.elements.push(element);
         return this;

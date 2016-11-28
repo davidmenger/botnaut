@@ -57,7 +57,7 @@ function senderFactory (token, logger = console) {
             }
         };
     };
-    factoryFn.token = token;
+
     return factoryFn;
 }
 

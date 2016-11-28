@@ -16,6 +16,26 @@ const schema = new Schema({
 
 schema.index({ senderId: 1 }, { unique: true });
 
-const State = mongoose.model('State', schema);
+schema.statics.getOrCreateAndLock = function (senderId, defaultState = {}, timeout = 300) {
+    const now = Date.now();
+    return this.findOneAndUpdate({
+        senderId,
+        lock: { $lt: now - timeout }
+    }, {
+        $setOnInsert: {
+            state: defaultState
+        },
+        $set: {
+            lock: now
+        }
+    }, {
+        new: true,
+        upsert: true
+    }).exec();
+};
 
-module.exports = State;
+schema.statics.saveState = function (state) {
+    return state.save();
+};
+
+module.exports = schema;

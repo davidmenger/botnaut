@@ -1,9 +1,10 @@
 {
   "name": "prg-chatbot",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Facebook Messenger Chatbot Framework",
   "main": "index.js",
   "scripts": {
+    "doc": "node ./bin/makeApiDoc.js",
     "test": "npm run test:lint && npm run test:coverage && npm run test:coverage:threshold",
     "test:coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --opts ./mocha.opts ./test",
     "test:coverage:threshold": "node ./node_modules/.bin/istanbul check --branches 80 --functions 80 --statements 80 --lines 80  ./coverage/coverage.json",
@@ -31,6 +32,7 @@
   },
   "homepage": "https://github.com/pragonauts/prg-chatbot#readme",
   "devDependencies": {
+    "body-parser": "^1.15.2",
     "eslint": "^3.10.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-mocha": "^0.1.0",
@@ -38,6 +40,8 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-mocha": "^4.7.0",
     "eslint-plugin-react": "^6.7.1",
+    "express": "^4.14.0",
+    "jsdoc-to-markdown": "^2.0.1",
     "mocha": "^3.1.2",
     "mocha-istanbul": "^0.3.0",
     "sinon": "^1.17.6"
@@ -48,7 +52,9 @@
     "request": "^2.79.0",
     "request-promise": "^4.1.1"
   },
-  "peerDependencies": {
-    "mongoose": "^4.0.0"
+  "optionalDependencies": {
+    "mongoose": "^4.0.0",
+    "express": "^4.0.0",
+    "body-parser": "^1.10.0"
   }
 }

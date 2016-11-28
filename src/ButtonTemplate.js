@@ -4,23 +4,33 @@
 'use strict';
 
 const BaseTemplate = require('./BaseTemplate');
+const { makeAbsolute } = require('./pathUtils');
 
+/**
+ * Helps with creating of button template
+ * Instance of button template is returned by {Responder}
+ *
+ * @class ButtonTemplate
+ * @extends {BaseTemplate}
+ */
 class ButtonTemplate extends BaseTemplate {
 
-    constructor (onDone, context, translator, text) {
-        super(onDone, context, translator);
+    constructor (onDone, context, text) {
+        super(onDone, context);
 
         this.text = text;
         this.buttons = [];
     }
 
     /**
+     * Adds button. When `hasExtension` is set to `true`, url will contain hash like:
+     * `#token=foo&senderId=23344`
      *
-     *
-     * @param {string} title
-     * @param {string} url
+     * @param {string} title button text
+     * @param {string} url button url
+     * @param {boolean} hasExtension includes token in url
      * @param {string} [webviewHeight=null] compact|tall|full
-     * @returns
+     * @returns {this}
      *
      * @memberOf ButtonTemplate
      */
@@ -37,7 +47,7 @@ class ButtonTemplate extends BaseTemplate {
 
         this.buttons.push({
             type: 'web_url',
-            title: this.translator(title),
+            title: this._t(title),
             url,
             webview_height_ratio: webviewHeight || (hasExtension ? 'tall' : 'full'),
             messenger_extensions: hasExtension
@@ -45,12 +55,22 @@ class ButtonTemplate extends BaseTemplate {
         return this;
     }
 
+    /**
+     * Adds button, which makes another action
+     *
+     * @param {string} title Button title
+     * @param {string} action Button action (can be absolute or relative)
+     * @param {object} [data={}] Action data
+     * @returns {this}
+     *
+     * @memberOf ButtonTemplate
+     */
     postBackButton (title, action, data = {}) {
         this.buttons.push({
             type: 'postback',
-            title: this.translator(title),
+            title: this._t(title),
             payload: {
-                action,
+                action: makeAbsolute(action, this.context.path),
                 data
             }
         });
@@ -60,7 +80,7 @@ class ButtonTemplate extends BaseTemplate {
     getTemplate () {
         const res = {
             template_type: 'button',
-            text: this.translator(this.text),
+            text: this._t(this.text),
             buttons: this.buttons
         };
         return res;

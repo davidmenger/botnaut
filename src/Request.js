@@ -5,6 +5,11 @@
 
 const { tokenize } = require('./tokenizer');
 
+/**
+ * Instance of {Request} class is passed as first parameter of handler (req)
+ *
+ * @class Request
+ */
 class Request {
 
     constructor (data, state) {
@@ -20,9 +25,19 @@ class Request {
 
         this.path = '';
 
+        /**
+         * @prop {object} state current state of the conversation
+         */
         this.state = state;
     }
 
+    /**
+     * Checks, when message contains an attachment (file, image or location)
+     *
+     * @returns {boolean}
+     *
+     * @memberOf Request
+     */
     isAttachment () {
         return this.attachments.length > 0;
     }
@@ -34,14 +49,38 @@ class Request {
         return this.attachments[attachmentIndex].type === type;
     }
 
+    /**
+     * Checks, when the attachment is an image
+     *
+     * @param {number} [attachmentIndex=0] use, when user sends more then one attachment
+     * @returns {boolean}
+     *
+     * @memberOf Request
+     */
     isImage (attachmentIndex = 0) {
         return this._checkAttachmentType('image', attachmentIndex);
     }
 
+    /**
+     * Checks, when the attachment is a file
+     *
+     * @param {number} [attachmentIndex=0] use, when user sends more then one attachment
+     * @returns {boolean}
+     *
+     * @memberOf Request
+     */
     isFile (attachmentIndex = 0) {
         return this._checkAttachmentType('file', attachmentIndex);
     }
 
+    /**
+     * Returns whole attachment or null
+     *
+     * @param {number} [attachmentIndex=0] use, when user sends more then one attachment
+     * @returns {object|null}
+     *
+     * @memberOf Request
+     */
     attachment (attachmentIndex = 0) {
         if (this.attachments.length <= attachmentIndex) {
             return null;
@@ -49,6 +88,14 @@ class Request {
         return this.attachments[attachmentIndex];
     }
 
+    /**
+     * Returns attachment URL
+     *
+     * @param {number} [attachmentIndex=0] use, when user sends more then one attachment
+     * @returns {string|null}
+     *
+     * @memberOf Request
+     */
     attachmentUrl (attachmentIndex = 0) {
         if (this.attachments.length <= attachmentIndex) {
             return null;
@@ -60,10 +107,28 @@ class Request {
         return payload && payload.url;
     }
 
+    /**
+     * Returns true, when the request is text message, quick reply or attachment
+     *
+     * @returns {boolean}
+     *
+     * @memberOf Request
+     */
     isMessage () {
         return this.message !== null;
     }
 
+    /**
+     * Returns text of the message
+     *
+     * @param {boolean} [tokenized=false] when true, message is normalized to lowercase with `-`
+     * @returns {string}
+     *
+     * @example
+     * console.log(req.text(true)) // "can-you-help-me"
+     *
+     * @memberOf Request
+     */
     text (tokenized = false) {
         if (this.message === null) {
             return '';
@@ -76,6 +141,19 @@ class Request {
         return this.message.text || '';
     }
 
+    /**
+     * Returns action or data of quick reply
+     * When `getData` is `true`, object will be returned. Otherwise string or null.
+     *
+     * @param {boolean} [getData=false]
+     * @returns {null|string|object}
+     *
+     * @example
+     * typeof res.quickReply() === 'string' || res.quickReply() === null;
+     * typeof res.quickReply(true) === 'object';
+     *
+     * @memberOf Request
+     */
     quickReply (getData = false) {
         if (this.message === null
             || !this.message.quick_reply) {
@@ -85,10 +163,33 @@ class Request {
         return this._processPayload(this.message.quick_reply, getData);
     }
 
+    /**
+     * Returns true, if request is the postback
+     *
+     * @returns {boolean}
+     *
+     * @memberOf Request
+     */
     isPostBack () {
         return this._postback !== null;
     }
 
+    /**
+     * Returns action of the postback or quickreply
+     * When `getData` is `true`, object will be returned. Otherwise string or null.
+     *
+     * 1. the postback is checked
+     * 2. the quick reply is checked
+     *
+     * @param {boolean} [getData=false]
+     * @returns {null|string|object}
+     *
+     * @example
+     * typeof res.action() === 'string' || res.action() === null;
+     * typeof res.action(true) === 'object';
+     *
+     * @memberOf Request
+     */
     action (getData = false) {
         let res = null;
         if (this._postback !== null) {
@@ -100,6 +201,19 @@ class Request {
         return res || (getData ? {} : null);
     }
 
+    /**
+     * Returns action or data of postback
+     * When `getData` is `true`, object will be returned. Otherwise string or null.
+     *
+     * @param {boolean} [getData=false]
+     * @returns {null|string|object}
+     *
+     * @example
+     * typeof res.postBack() === 'string' || res.postBack() === null;
+     * typeof res.postBack(true) === 'object';
+     *
+     * @memberOf Request
+     */
     postBack (getData = false) {
         if (this._postback === null) {
             return null;
