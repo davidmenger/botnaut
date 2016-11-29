@@ -32,12 +32,12 @@ function createProcessor (reducer, processorOptions, stateStorage = null) {
     return new Processor(reducer, processorOptions, state);
 }
 
-function createRouter (processor) {
+function createRouter (processor, botToken) {
     const app = new Router();
 
     app.post('/', ...postMiddlewares(bodyParser, processor));
 
-    app.get('/', getVerifierMiddleware());
+    app.get('/', getVerifierMiddleware(botToken));
 
     return app;
 }
