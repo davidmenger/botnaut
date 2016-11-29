@@ -89,7 +89,9 @@ describe('Processor', function () {
 
                 assert.deepEqual(stateStorage.model.state, {
                     final: 1,
-                    user: {}
+                    user: {},
+                    _expected: null,
+                    _expectedKeywords: null
                 });
 
                 assert(stateStorage.saveState.called);
@@ -156,7 +158,9 @@ describe('Processor', function () {
 
                 assert.deepEqual(stateStorage.model.state, {
                     final: 1,
-                    user: {}
+                    user: {},
+                    _expected: null,
+                    _expectedKeywords: null
                 });
 
                 assert(stateStorage.saveState.called);

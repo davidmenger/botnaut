@@ -4,6 +4,7 @@
 'use strict';
 
 const { tokenize } = require('./tokenizer');
+const { quickReplyAction } = require('./quickReplies');
 
 /**
  * Instance of {Request} class is passed as first parameter of handler (req)
@@ -22,8 +23,6 @@ class Request {
         this.attachments = (data.message && data.message.attachments) || [];
 
         this.senderId = data.sender && data.sender.id;
-
-        this.path = '';
 
         /**
          * @prop {object} state current state of the conversation
@@ -192,13 +191,26 @@ class Request {
      */
     action (getData = false) {
         let res = null;
+
         if (this._postback !== null) {
             res = this._processPayload(this._postback, getData);
         }
         if (!res && this.message !== null && this.message.quick_reply) {
             res = this._processPayload(this.message.quick_reply, getData);
         }
-        return res || (getData ? {} : null);
+
+        if (getData) {
+            return res || {};
+        }
+
+        if (!res && this.state._expectedKeywords) {
+            res = quickReplyAction(this.state._expectedKeywords, this.text(true));
+        }
+        if (!res && this.state._expected) {
+            res = this.state._expected;
+        }
+
+        return res || null;
     }
 
     /**
@@ -252,6 +264,17 @@ Request.createPostBack = function (senderId, action, data = {}) {
                 action,
                 data
             }
+        }
+    };
+};
+
+Request.text = function (senderId, text) {
+    return {
+        sender: {
+            id: senderId
+        },
+        message: {
+            text
         }
     };
 };

@@ -32,6 +32,50 @@ describe('Request', function () {
 
     });
 
+    describe('#action()', function () {
+
+        it('should return action name from postback', function () {
+            const req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
+            assert.strictEqual(req.action(), ACTION);
+        });
+
+        it('should return action data from postback', function () {
+            const req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
+            assert.deepEqual(req.action(true), DATA);
+        });
+
+        it('should return action name from quick reply', function () {
+            const req = new Request(Request.quickReply(SENDER_ID, ACTION, DATA), STATE);
+            assert.strictEqual(req.action(), ACTION);
+        });
+
+        it('should return action data from quick reply', function () {
+            const req = new Request(Request.quickReply(SENDER_ID, ACTION, DATA), STATE);
+            assert.deepEqual(req.action(true), DATA);
+        });
+
+        it('should return action name from _expected state', function () {
+            const data = Request.quickReply(SENDER_ID, null);
+            const req = new Request(data, { _expected: ACTION });
+            assert.strictEqual(req.action(), ACTION);
+        });
+
+        it('should return action data from _expected state', function () {
+            const data = Request.quickReply(SENDER_ID, null);
+            const req = new Request(data, { _expected: ACTION });
+            assert.deepEqual(req.action(true), {});
+        });
+
+        it('should return action name from _expected text', function () {
+            const data = Request.text(SENDER_ID, 'Foo Bar');
+            const req = new Request(data, {
+                _expectedKeywords: [{ action: ACTION, match: 'foo-bar' }]
+            });
+            assert.strictEqual(req.action(), ACTION);
+        });
+
+    });
+
     describe('#postBack()', function () {
 
         it('should return action name', function () {

@@ -6,6 +6,7 @@
 const ReceiptTemplate = require('./ReceiptTemplate');
 const ButtonTemplate = require('./ButtonTemplate');
 const { makeAbsolute } = require('./pathUtils');
+const { makeQuickReplies } = require('./quickReplies');
 const util = require('util');
 
 /**
@@ -49,8 +50,9 @@ class Responder {
      * res.text('Hello %s', name, {
      *     action: 'Quick reply',
      *     complexAction: {
-     *         label: 'Another quick reply',
-     *         someData: 'Will be included in payload data'
+     *         title: 'Another quick reply', // required
+     *         match: 'string' || /regexp/, // optional
+     *         someData: 'Will be included in payload data' // optional
      *     }
      * })
      *
@@ -80,28 +82,11 @@ class Responder {
         }
 
         if (replies) {
-            messageData.message.quick_replies = Object.keys(replies)
-                .map((action) => {
-                    const value = replies[action];
-                    let title = value;
-                    let payload = action;
+            const { quickReplies, expectedKeywords }
+                = makeQuickReplies(replies, this.path, this._t);
 
-                    if (typeof value === 'object') {
-                        title = value.title;
-                        payload = {
-                            action,
-                            data: Object.assign({}, value)
-                        };
-                        delete payload.data.title;
-                        payload = JSON.stringify(payload);
-                    }
-
-                    return {
-                        content_type: 'text',
-                        title: this._t(title),
-                        payload
-                    };
-                });
+            messageData.message.quick_replies = quickReplies;
+            this.setState({ _expectedKeywords: expectedKeywords });
         }
 
         this._send(messageData);
@@ -134,7 +119,7 @@ class Responder {
      */
     expected (action) {
         return this.setState({
-            expected: makeAbsolute(action, this.path)
+            _expected: makeAbsolute(action, this.path)
         });
     }
 
@@ -197,12 +182,12 @@ class Responder {
     /**
      * Sets delay between two responses
      *
-     * @param {number} [ms=700]
+     * @param {number} [ms=600]
      * @returns {this}
      *
      * @memberOf Responder
      */
-    wait (ms = 700) {
+    wait (ms = 600) {
         this._send({ wait: ms });
         return this;
     }

@@ -212,10 +212,6 @@ class Router extends ReducerWrapper {
     _action (req, path) {
         let action = req.action();
 
-        if (!action && req.state.expected) {
-            action = req.state.expected;
-        }
-
         // try to normalize the action
         if (action) {
             if (!action.match(/^\//)) {

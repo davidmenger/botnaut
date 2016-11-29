@@ -1,6 +1,6 @@
 {
   "name": "prg-chatbot",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Facebook Messenger Chatbot Framework",
   "main": "index.js",
   "scripts": {

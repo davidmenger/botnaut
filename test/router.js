@@ -7,10 +7,10 @@ const assert = require('assert');
 const sinon = require('sinon');
 const Router = require('../src/Router');
 
-function createMockReq (text = '', action = 'action', expected = null) {
+function createMockReq (text = '', action = 'action') {
     const req = {
         senderId: 7,
-        state: { expected },
+        state: {},
         action (isData) { return isData ? {} : action; },
         text () { return text; }
     };
@@ -195,7 +195,7 @@ describe('Router', function () {
             const finalRoute = sinon.spy();
             const globalNext = sinon.spy();
 
-            const req = createMockReq('matching text', null, '/nested/inner');
+            const req = createMockReq('matching text', '/nested/inner');
             const res = createMockRes();
 
             const router = new Router();

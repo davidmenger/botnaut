@@ -33,7 +33,7 @@ class Processor {
         this.options = {
             appUrl: '',
             translator: w => w,
-            timeout: 200,
+            timeout: 100,
             log: console,
             defaultState: {},
             cookieName: 'botToken',
@@ -109,6 +109,16 @@ class Processor {
 
                 state = Object.assign({}, state, res.newState);
 
+                // reset expectations
+                if (req.isMessage() && !res.newState._expected) {
+                    state._expected = null;
+                }
+
+                // reset expectations
+                if (req.isMessage() && !res.newState._expectedKeywords) {
+                    state._expectedKeywords = null;
+                }
+
                 Object.assign(stateObject, {
                     state,
                     lock: 0,
@@ -153,7 +163,7 @@ class Processor {
 
     _loadState (senderId) {
         return new Promise((resolve, reject) => {
-            let retrys = 3;
+            let retrys = 4;
 
             const onLoad = (res) => {
                 if (!res) {
@@ -175,7 +185,7 @@ class Processor {
     }
 
     _wait () {
-        return new Promise(r => setTimeout(() => r(null), this.options.timeout + 10));
+        return new Promise(r => setTimeout(() => r(null), this.options.timeout + 25));
     }
 
     _model (senderId) {
@@ -184,10 +194,8 @@ class Processor {
             .catch((err) => {
                 if (!err || err.code !== 11000) {
                     this.options.log.error('Bot processor load error', err);
-                } else if (err.code === 11000) {
-                    return this._wait();
                 }
-                return null;
+                return this._wait();
             });
     }
 

@@ -55,21 +55,36 @@ describe('Responder', function () {
         it('should send nice structured text with advanced quick replies', function () {
             const { sendFn, opts } = createAssets();
             const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            res.path = '/foo';
 
             assert.strictEqual(res.text('Hello %s', 'string', {
                 option: {
-                    title: 'Text',
+                    title: 'Text Title',
                     information: 1
+                },
+                another: {
+                    title: 'Text2',
+                    match: /some|another/
+                },
+                textMatch: {
+                    title: 'Text2',
+                    match: 'Custom Text'
                 }
             }), res, 'should return self');
 
             assert(sendFn.calledOnce);
             assert.equal(sendFn.firstCall.args[0].recipient.id, SENDER_ID);
             assert.equal(sendFn.firstCall.args[0].message.text, '-Hello string');
-            assert.equal(sendFn.firstCall.args[0].message.quick_replies[0].title, '-Text');
-            assert.equal(sendFn.firstCall.args[0].message.quick_replies[0].payload, '{"action":"option","data":{"information":1}}');
+            assert.equal(sendFn.firstCall.args[0].message.quick_replies[0].title, '-Text Title');
+            assert.equal(sendFn.firstCall.args[0].message.quick_replies[0].payload, '{"action":"/foo/option","data":{"information":1}}');
 
-            assert(opts.translator.calledTwice);
+            assert.equal(opts.translator.callCount, 4);
+
+            assert.deepEqual(res.newState._expectedKeywords, [
+                { action: '/foo/option', match: 'text-title' },
+                { action: '/foo/another', match: 'some|another' },
+                { action: '/foo/textMatch', match: 'custom-text' }
+            ]);
         });
 
     });
@@ -183,7 +198,7 @@ describe('Responder', function () {
 
             res.expected('makeAction');
 
-            assert.deepEqual(res.newState, { expected: '/relative/makeAction' });
+            assert.deepEqual(res.newState, { _expected: '/relative/makeAction' });
         });
 
         it('should set state absolute expectation', function () {
@@ -194,7 +209,7 @@ describe('Responder', function () {
 
             res.expected('/absoule/path');
 
-            assert.deepEqual(res.newState, { expected: '/absoule/path' });
+            assert.deepEqual(res.newState, { _expected: '/absoule/path' });
         });
 
         it('should null expected action with null', function () {
@@ -205,7 +220,7 @@ describe('Responder', function () {
 
             res.expected(null);
 
-            assert.deepStrictEqual(res.newState, { expected: null });
+            assert.deepStrictEqual(res.newState, { _expected: null });
         });
 
     });
