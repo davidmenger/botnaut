@@ -10,7 +10,7 @@ const { postMiddlewares, getVerifierMiddleware } = require('./src/expressHooks')
 const Processor = require('./src/Processor');
 const BotToken = require('./src/BotToken');
 const State = require('./src/State');
-const ChatLog = require('./src/State');
+const ChatLog = require('./src/ChatLog');
 
 function createProcessor (reducer, processorOptions, stateStorage = null) {
     let state = stateStorage;
@@ -24,7 +24,7 @@ function createProcessor (reducer, processorOptions, stateStorage = null) {
         Object.assign(processorOptions, { tokenStorage });
     }
 
-    if (!processorOptions.tokenStorage) {
+    if (!processorOptions.chatLog) {
         const chatLog = mongoose.model('ChatLog', ChatLog);
         Object.assign(processorOptions, { chatLog });
     }
