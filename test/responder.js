@@ -81,9 +81,9 @@ describe('Responder', function () {
             assert.equal(opts.translator.callCount, 4);
 
             assert.deepEqual(res.newState._expectedKeywords, [
-                { action: '/foo/option', match: 'text-title' },
-                { action: '/foo/another', match: 'some|another' },
-                { action: '/foo/textMatch', match: 'custom-text' }
+                { action: '/foo/option', match: 'text-title', data: { information: 1 } },
+                { action: '/foo/another', match: 'some|another', data: {} },
+                { action: '/foo/textMatch', match: 'custom-text', data: {} }
             ]);
         });
 
@@ -198,7 +198,7 @@ describe('Responder', function () {
 
             res.expected('makeAction');
 
-            assert.deepEqual(res.newState, { _expected: '/relative/makeAction' });
+            assert.deepEqual(res.newState, { _expected: { action: '/relative/makeAction', data: {} } });
         });
 
         it('should set state absolute expectation', function () {
@@ -209,7 +209,7 @@ describe('Responder', function () {
 
             res.expected('/absoule/path');
 
-            assert.deepEqual(res.newState, { _expected: '/absoule/path' });
+            assert.deepEqual(res.newState, { _expected: { action: '/absoule/path', data: {} } });
         });
 
         it('should null expected action with null', function () {

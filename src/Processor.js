@@ -24,7 +24,7 @@ class Processor {
      * @param {{appUrl?:string, translator?:function, timeout?:number, log?:object,
         defaultState?:object, cookieName?:string, pageToken:string, appSecret:string,
         chatLog?:object, tokenStorage?:object, senderFnFactory?:function,
-        securityMiddleware?:object}} options
+        securityMiddleware?:object, loadUsers?:boolean}} options
      * @param {{getOrCreateAndLock:function, saveState:function}} [stateStorage]
      *
      * @memberOf Processor
@@ -42,7 +42,8 @@ class Processor {
             chatLog: null,
             tokenStorage: null,
             senderFnFactory: null,
-            securityMiddleware: null
+            securityMiddleware: null,
+            loadUsers: true
         };
         Object.assign(this.options, options);
 
@@ -68,15 +69,17 @@ class Processor {
             throw new Error('Missing `appSecret` in options. Please provide an appSecret or own securityMiddleware');
         }
 
-        this.userLoader = new UserLoader(this.options.pageToken);
+        this.userLoader = this.options.loadUsers ? new UserLoader(this.options.pageToken) : null;
     }
 
-    _createPostBack (senderId) {
+    _createPostBack (senderId, postbackAcumulator) {
         return (action = null, data = {}) => {
             if (action !== null) {
                 const request = Request.createPostBack(senderId, action, data);
-                nextTick()
+                const promise = nextTick()
                     .then(() => this.processMessage(request));
+
+                postbackAcumulator.push(promise);
             }
         };
     }
@@ -88,6 +91,7 @@ class Processor {
         }
 
         const senderId = message.sender.id;
+        const postbackAcumulator = [];
 
         return this._loadState(senderId)
             .then(stateObject => this._ensureUserProfileLoaded(senderId, stateObject))
@@ -99,7 +103,7 @@ class Processor {
                 let state = stateObject.state;
                 const req = new Request(message, state);
                 const res = new Responder(senderId, senderFn, token, this.options);
-                const postBack = this._createPostBack(senderId);
+                const postBack = this._createPostBack(senderId, postbackAcumulator);
 
                 if (typeof this.reducer === 'function') {
                     this.reducer(req, res, postBack);
@@ -128,8 +132,9 @@ class Processor {
                 return this.stateStorage.saveState(stateObject);
             })
             .then(() => Promise.all(this.reducer.debugPromises || []))
+            .then(() => Promise.all(postbackAcumulator))
             .catch((e) => {
-                this.options.log.error('Bot Processor', e);
+                this.options.log.error(e);
             });
     }
 
@@ -149,6 +154,9 @@ class Processor {
     }
 
     _ensureUserBound (stateObject, senderId) {
+        if (!this.userLoader) {
+            return stateObject;
+        }
         const state = stateObject;
         return this.userLoader.loadUser(senderId)
             .then((user) => {

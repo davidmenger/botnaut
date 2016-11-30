@@ -5,81 +5,222 @@
 
 const assert = require('assert');
 const ResponseAssert = require('./ResponseAssert');
+const Processor = require('./Processor');
+const Request = require('./Request');
+const MemoryStateStorage = require('./MemoryStateStorage');
+const ReducerWrapper = require('./ReducerWrapper');
+const { actionMatches } = require('./pathUtils');
+const AnyResponseAssert = require('./AnyResponseAssert');
+const asserts = require('./asserts');
 
+/**
+ * Utility for testing requests
+ *
+ * @class Tester
+ */
 class Tester {
 
-    constructor (processor, senderId = null) {
-        this.processor = processor;
+    /**
+     * Creates an instance of Tester.
+     *
+     * @param {Router|ReducerWrapper|function} reducer
+     * @param {string} [senderId=null]
+     * @param {object} [processorOptions={}] options for Processor
+     *
+     * @memberOf Tester
+     */
+    constructor (reducer, senderId = null, processorOptions = {}) {
+        this._responsesCollector = [];
+        this._actionsCollector = [];
 
-        this.responses = [];
-
-        this._collector = [];
+        this.storage = new MemoryStateStorage();
 
         // replace sender
-        this.processor.senderFnFactory = () => (data) => {
+        const senderFnFactory = () => (data) => {
             // on send
             // @todo validate length of quick_responses to 20!!
-            this._collector.push(data);
+            // @todo validate length of texts to 255!!
+            this._responsesCollector.push(data);
         };
 
         this.senderId = senderId || `${Math.random() * 1000}${Date.now()}`;
 
         // replace logger (throw instead of log)
-        this.processor.log = {
+        const log = {
             error: (e) => { throw e; },
             warn: e => console.warn(e), // eslint-disable-line
             log: e => console.log(e) // eslint-disable-line
         };
+
+        let wrappedReducer = reducer;
+
+        if (typeof reducer === 'function') {
+            wrappedReducer = new ReducerWrapper(reducer);
+        }
+
+        wrappedReducer.on('_action', (senderIdentifier, action, text) => {
+            this._actionsCollector.push({ action, text });
+        });
+
+        this.processor = new Processor(wrappedReducer, Object.assign({
+            pageToken: 'foo',
+            appSecret: 'bar',
+            senderFnFactory,
+            log,
+            loadUsers: false
+        }, processorOptions), this.storage);
+
+        this.responses = [];
+        this.actions = [];
     }
 
     _request (data) {
         return this.processor.processMessage(data)
             .then(() => {
-                this.responses = this._collector;
-                this._collector = [];
+                this.responses = this._responsesCollector;
+                this.actions = this._actionsCollector;
+                this._responsesCollector = [];
+                this._actionsCollector = [];
             });
     }
 
+    /**
+     * Returns single response asserter
+     *
+     * @param {number} [index=0] response index
+     * @returns {ResponseAssert}
+     *
+     * @memberOf Tester
+     */
     res (index = 0) {
-        if (this.responses.length <= index) {
+        if (this.responses.length <= index && index !== -1) {
             assert.fail(`Response ${index} does not exists. There are ${this.responses.length} responses`);
         }
 
         return new ResponseAssert(this.responses[index]);
     }
 
+    /**
+     * Returns any response asserter
+     *
+     * @returns {AnyResponseAssert}
+     *
+     * @memberOf Tester
+     */
+    any () {
+        return new AnyResponseAssert(this.responses);
+    }
+
+    /**
+     * Returns last response asserter
+     *
+     * @returns {ResponseAssert}
+     *
+     * @memberOf Tester
+     */
+    lastRes () {
+        if (this.responses.length === 0) {
+            assert.fail('Theres no response');
+        }
+        return new ResponseAssert(this.responses[this.responses.length - 1]);
+    }
+
+    /**
+     * Checks, that app past the action
+     *
+     * @param {string} path
+     * @returns {this}
+     *
+     * @memberOf Tester
+     */
+    passedAction (path) {
+        const ok = this.actions.some(action => actionMatches(action.action, path));
+        assert.ok(ok, `Action ${path} was not passed`);
+        return this;
+    }
+
+    /**
+     * Returns state
+     *
+     * @returns {object}
+     *
+     * @memberOf Tester
+     */
+    getState () {
+        return this.storage.getState(this.senderId);
+    }
+
+    /**
+     * Sets state with `Object.assign()`
+     *
+     * @param {object} [state={}]
+     *
+     * @memberOf Tester
+     */
+    setState (state) {
+        const stateObj = this.getState();
+        stateObj.state = Object.assign({}, stateObj.state, state);
+        this.storage.saveState(stateObj);
+    }
+
+    /**
+     * Makes text request
+     *
+     * @param {string} text
+     * @returns {Promise}
+     *
+     * @memberOf Tester
+     */
     text (text) {
-        return this._request({
-            sender: {
-                id: this.senderId
-            },
-            message: {
-                text
-            }
-        });
+        return this._request(Request.text(this.senderId, text));
     }
 
-    quickReply (payload) {
-        return this._request({
-            sender: {
-                id: this.senderId
-            },
-            message: {
-                text: typeof payload === 'string' ? payload : 'Ha',
-                quick_reply: { payload }
+    /**
+     * Send quick reply
+     *
+     * @param {string} action
+     * @param {object} [data={}]
+     * @returns {Promise}
+     *
+     * @memberOf Tester
+     */
+    quickReply (action, data = {}) {
+        let usedAction = action;
+        let usedData = data;
+
+        if (this.responses.length !== 0) {
+            const last = this.responses[this.responses.length - 1];
+            const quickReplys = asserts.getQuickReplies(last);
+
+            const res = quickReplys.filter((reply) => {
+                const route = typeof reply.payload === 'object' ? reply.payload.action : reply.payload;
+                return actionMatches(route, action);
+            });
+
+            if (res[0]) {
+                if (typeof res[0].payload === 'object') {
+                    usedAction = res[0].payload.action;
+                    usedData = res[0].payload.data;
+                } else {
+                    usedAction = res[0].payload;
+                }
             }
-        });
+        }
+
+        return this._request(Request.quickReply(this.senderId, usedAction, usedData));
     }
 
-    postBack (payload) {
-        return this._request({
-            sender: {
-                id: this.senderId
-            },
-            postback: {
-                payload
-            }
-        });
+    /**
+     * Sends postback
+     *
+     * @param {string} action
+     * @param {object} [data={}]
+     * @returns {Promise}
+     *
+     * @memberOf Tester
+     */
+    postBack (action, data = {}) {
+        return this._request(Request.createPostBack(this.senderId, action, data));
     }
 
 }

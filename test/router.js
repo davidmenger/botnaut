@@ -157,8 +157,8 @@ describe('Router', function () {
             const noRoute = sinon.spy();
             const globalNext = sinon.spy();
 
-            const genericExit = sinon.spy((data, req, postBack, next) => next());
-            const exit = sinon.spy((data, req, postBack, next) => next('globalAction'));
+            const genericExit = sinon.spy((data, req, res, postBack, next) => next());
+            const exit = sinon.spy((data, req, res, postBack, next) => next('globalAction'));
             const noExit = sinon.spy();
 
             const req = createMockReq('', '/nested/inner');

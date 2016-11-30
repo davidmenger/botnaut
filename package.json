@@ -1,6 +1,6 @@
 {
   "name": "prg-chatbot",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Facebook Messenger Chatbot Framework",
   "main": "index.js",
   "scripts": {
@@ -33,6 +33,7 @@
   "homepage": "https://github.com/pragonauts/prg-chatbot#readme",
   "devDependencies": {
     "body-parser": "^1.15.2",
+    "co": "^4.6.0",
     "eslint": "^3.10.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-mocha": "^0.1.0",
@@ -44,8 +45,8 @@
     "jsdoc-to-markdown": "^2.0.1",
     "mocha": "^3.1.2",
     "mocha-istanbul": "^0.3.0",
-    "sinon": "^1.17.6",
-    "mongoose": "^4.6.8"
+    "mongoose": "^4.6.8",
+    "sinon": "^1.17.6"
   },
   "dependencies": {
     "path-to-regexp": "^1.7.0",

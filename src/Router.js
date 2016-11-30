@@ -68,7 +68,7 @@ class Router extends ReducerWrapper {
      *
      * // append router with exit action
      * router.use('/path', subRouter)
-     *    .next('exitAction', (data, req, postBack) => {
+     *    .next('exitAction', (data, req, res, postBack, next) => {
      *        postBack('anotherAction', { someData: true })
      *    });
      *
@@ -98,6 +98,7 @@ class Router extends ReducerWrapper {
             isReducer = true;
 
             reduce.on('action', (...args) => this.emit('action', ...args));
+            reduce.on('_action', (...args) => this.emit('_action', ...args));
 
             const reducerFn = reduce.reduce.bind(reduce);
             reduce = (...args) => reducerFn(...args);
@@ -135,7 +136,7 @@ class Router extends ReducerWrapper {
                 finnished = route.nexts.some((nextAction) => {
                     if (nextAction.action === action || nextAction.action === '*') {
                         const nextContext = this._createNext({}, req, res);
-                        nextAction.listener(data, req, postBack, nextContext);
+                        nextAction.listener(data, req, res, postBack, nextContext);
 
                         if (!nextContext.called) {
                             return true;

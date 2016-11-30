@@ -3,22 +3,18 @@
  */
 'use strict';
 
+const assert = require('assert');
 const asserts = require('./asserts');
 
 /**
- * Utility for asserting single response
+ * Utility for searching among responses
  *
- * @class ResponseAssert
+ * @class AnyResponseAssert
  */
-class ResponseAssert {
+class AnyResponseAssert {
 
-    constructor (response = {}) {
-        this.response = response;
-    }
-
-    waiting () {
-        asserts.waiting(this.response);
-        return this;
+    constructor (responses = []) {
+        this.responses = responses;
     }
 
     /**
@@ -30,7 +26,9 @@ class ResponseAssert {
      * @memberOf ResponseAssert
      */
     contains (search) {
-        asserts.contains(this.response, search);
+        const ok = this.responses
+            .some(res => asserts.contains(res, search, false));
+        assert.ok(ok, `No response contains: "${search}"`);
         return this;
     }
 
@@ -43,7 +41,9 @@ class ResponseAssert {
      * @memberOf ResponseAssert
      */
     quickReplyAction (action) {
-        asserts.quickReplyAction(this.response, action);
+        const ok = this.responses
+            .some(res => asserts.quickReplyAction(res, action, false));
+        assert.ok(ok, `No quick action matches: "${action}"`);
         return this;
     }
 
@@ -56,7 +56,9 @@ class ResponseAssert {
      * @memberOf ResponseAssert
      */
     templateType (type) {
-        asserts.templateType(this.response, type);
+        const ok = this.responses
+            .some(res => asserts.templateType(res, type, false));
+        assert.ok(ok, `No response contains template type: "${type}"`);
         return this;
     }
 
@@ -69,11 +71,12 @@ class ResponseAssert {
      * @memberOf ResponseAssert
      */
     attachmentType (type) {
-        asserts.attachmentType(this.response, type);
+        const ok = this.responses
+            .some(res => asserts.attachmentType(res, type, false));
+        assert.ok(ok, `No response contains attachment type: "${type}"`);
         return this;
     }
 
-
 }
 
-module.exports = ResponseAssert;
+module.exports = AnyResponseAssert;

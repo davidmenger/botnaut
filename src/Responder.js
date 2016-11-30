@@ -117,9 +117,15 @@ class Responder {
      *
      * @memberOf Responder
      */
-    expected (action) {
+    expected (action, data = {}) {
+        if (!action) {
+            return this.setState({ _expected: null });
+        }
         return this.setState({
-            _expected: makeAbsolute(action, this.path)
+            _expected: {
+                action: makeAbsolute(action, this.path),
+                data
+            }
         });
     }
 

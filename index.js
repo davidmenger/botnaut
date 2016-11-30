@@ -12,6 +12,7 @@ const ReducerWrapper = require('./src/ReducerWrapper');
 const Tester = require('./src/Tester');
 const Settings = require('./src/Settings');
 const senderFactory = require('./src/senderFactory');
+const asserts = require('./src/asserts');
 
 module.exports = {
     // basic functionality
@@ -24,6 +25,7 @@ module.exports = {
     // utilities
     Tester,
     bufferloader,
+    asserts,
 
     // setup tools
     SecurityMiddleware,

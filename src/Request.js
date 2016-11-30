@@ -179,6 +179,8 @@ class Request {
      *
      * 1. the postback is checked
      * 2. the quick reply is checked
+     * 3. expected keywords are checked
+     * 4. expected state is checked
      *
      * @param {boolean} [getData=false]
      * @returns {null|string|object}
@@ -198,16 +200,19 @@ class Request {
         if (!res && this.message !== null && this.message.quick_reply) {
             res = this._processPayload(this.message.quick_reply, getData);
         }
+        if (!res && this.state._expectedKeywords) {
+            const payload = quickReplyAction(this.state._expectedKeywords, this.text(true));
+            if (payload) {
+                res = this._processPayload({ payload }, getData);
+            }
+        }
+        if (!res && this.state._expected) {
+            const payload = this.state._expected;
+            res = this._processPayload({ payload }, getData);
+        }
 
         if (getData) {
             return res || {};
-        }
-
-        if (!res && this.state._expectedKeywords) {
-            res = quickReplyAction(this.state._expectedKeywords, this.text(true));
-        }
-        if (!res && this.state._expected) {
-            res = this.state._expected;
         }
 
         return res || null;

@@ -6,7 +6,7 @@
 const { makeAbsolute } = require('./pathUtils');
 const { tokenize } = require('./tokenizer');
 
-function makeExpectedKeyword (action, title, matcher = null) {
+function makeExpectedKeyword (action, title, matcher = null, payloadData = {}) {
     let match = null;
 
     if (matcher instanceof RegExp) {
@@ -20,7 +20,8 @@ function makeExpectedKeyword (action, title, matcher = null) {
 
     return {
         action,
-        match
+        match,
+        data: payloadData
     };
 }
 
@@ -39,8 +40,9 @@ function makeQuickReplies (replies, path = '', translate = w => w) {
         .map((relativeAction) => {
             const value = replies[relativeAction];
             let title = value;
-            let payload = relativeAction;
+            let payloadData = null;
             const action = makeAbsolute(relativeAction, path);
+            let payload = action;
             let match;
 
             if (typeof value === 'object') {
@@ -53,13 +55,14 @@ function makeQuickReplies (replies, path = '', translate = w => w) {
                 };
                 delete payload.data.title;
                 delete payload.data.match;
+                payloadData = payload.data;
                 payload = JSON.stringify(payload);
             }
 
             title = translate(title);
 
             // add expectations
-            expectedKeywords.push(makeExpectedKeyword(action, title, match));
+            expectedKeywords.push(makeExpectedKeyword(action, title, match, payloadData));
 
             return {
                 content_type: 'text',
@@ -76,7 +79,7 @@ function makeQuickReplies (replies, path = '', translate = w => w) {
  *
  * @param {object[]} expectedKeywords
  * @param {string} normalizedText
- * @returns {null|string}
+ * @returns {null|object}
  */
 function quickReplyAction (expectedKeywords, normalizedText) {
     if (!normalizedText) {
@@ -89,7 +92,7 @@ function quickReplyAction (expectedKeywords, normalizedText) {
         return null;
     }
 
-    return found[0].action;
+    return found[0] || null;
 }
 
 module.exports = {

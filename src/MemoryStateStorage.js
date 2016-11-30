@@ -9,15 +9,21 @@ class MemoryStateStorage {
         this.store = new Map();
     }
 
-    getOrCreateAndLock (senderId, defaultState = {}) {
+    getState (senderId, defaultState = {}) {
         if (this.store.has(senderId)) {
-            return Promise.resolve(this.store.get(senderId));
+            return this.store.get(senderId);
         }
         const state = {
             senderId,
             state: defaultState
         };
-        return this.saveState(state);
+        this.saveState(state);
+        return state;
+    }
+
+    getOrCreateAndLock (senderId, defaultState = {}) {
+        const state = this.getState(senderId, defaultState);
+        return Promise.resolve(state);
     }
 
     saveState (state) {

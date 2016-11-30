@@ -60,8 +60,10 @@ class ReducerWrapper extends EventEmitter {
     }
 
     _emitAction (req, action = null) {
+        const params = [req.senderId, action || req.action(), req.text(), req];
+        this.emit('_action', ...params);
         process.nextTick(() => {
-            this.emit('action', req.senderId, action || req.action(), req.text(), req);
+            this.emit('action', ...params);
         });
     }
 

@@ -21,7 +21,11 @@ const apiDoc = jsdoc2md.renderSync({
         'src/Router.js',
         'src/ReducerWrapper.js',
         'src/Settings.js',
-        'src/bufferloader.js'
+        'src/bufferloader.js',
+        'src/Tester.js',
+        'src/ResponseAssert.js',
+        'src/AnyResponseAssert.js',
+        'src/asserts.js'
     ]
 });
 
