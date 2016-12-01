@@ -38,6 +38,12 @@ class BaseTemplate {
         this.onDone(this.getTemplate());
     }
 
+    _imageUrl (image) {
+        return image.match(/^https?:/)
+                ? image
+                : `${this.context.appUrl}${image}`;
+    }
+
 }
 
 module.exports = BaseTemplate;

@@ -49,9 +49,7 @@ class ReceiptTemplate extends BaseTemplate {
             element.quantity = quantity;
         }
         if (image !== null) {
-            element.image = image.match(/^https?:/)
-                ? image
-                : `${this.context.appUrl}${image}`;
+            element.image = this._imageUrl(image);
         }
         if (subtitle !== null) {
             element.subtitle = this._t(subtitle);

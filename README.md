@@ -126,6 +126,8 @@ app.use('textAction', /keyword|two-words?/, (req, res) => {
 <dd></dd>
 <dt><a href="#ReceiptTemplate">ReceiptTemplate</a> ⇐ <code>BaseTemplate</code></dt>
 <dd></dd>
+<dt><a href="#GenericTemplate">GenericTemplate</a> ⇐ <code><a href="#ButtonTemplate">ButtonTemplate</a></code></dt>
+<dd></dd>
 <dt><a href="#Router">Router</a> ⇐ <code><a href="#ReducerWrapper">ReducerWrapper</a></code></dt>
 <dd></dd>
 <dt><a href="#ReducerWrapper">ReducerWrapper</a> ⇐ <code>EventEmitter</code></dt>
@@ -351,6 +353,7 @@ typeof res.postBack(true) === 'object';
     * [.seen()](#Responder+seen) ⇒ <code>this</code>
     * [.receipt(recipientName, [paymentMethod], [currency], [uniqueCode])](#Responder+receipt) ⇒ <code>[ReceiptTemplate](#ReceiptTemplate)</code>
     * [.button(text)](#Responder+button) ⇒ <code>[ButtonTemplate](#ButtonTemplate)</code>
+    * [.genericTemplate()](#Responder+genericTemplate) ⇒ <code>[GenericTemplate](#GenericTemplate)</code>
 
 <a name="new_Responder_new"></a>
 
@@ -493,6 +496,25 @@ res.button('Hello')
     .urlButton('Other button', 'https://goo.gl') // opens in internal browser
     .send();
 ```
+<a name="Responder+genericTemplate"></a>
+
+### responder.genericTemplate() ⇒ <code>[GenericTemplate](#GenericTemplate)</code>
+Creates a generic template
+
+**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Example**  
+```javascript
+res.genericTemplate()
+    .addElement('title', 'subtitle')
+        .setElementImage('/local.png')
+        .setElementUrl('https://www.seznam.cz')
+        .postBackButton('Button title', 'action', { actionData: 1 })
+    .addElement('another', 'subtitle')
+        .setElementImage('https://goo.gl/image.png')
+        .setElementAction('action', { actionData: 1 })
+        .urlButton('Local link with extension', '/local/path', true, 'compact')
+    .send();
+```
 <a name="ButtonTemplate"></a>
 
 ## ButtonTemplate ⇐ <code>BaseTemplate</code>
@@ -568,6 +590,102 @@ Adds item to receipt
 | [quantity] | <code>number</code> | <code></code> | amount of items |
 | [image] | <code>string</code> | <code>null</code> | image of item |
 | [subtitle] | <code>string</code> | <code>null</code> | optional subtitle |
+
+<a name="GenericTemplate"></a>
+
+## GenericTemplate ⇐ <code>[ButtonTemplate](#ButtonTemplate)</code>
+**Kind**: global class  
+**Extends:** <code>[ButtonTemplate](#ButtonTemplate)</code>  
+
+* [GenericTemplate](#GenericTemplate) ⇐ <code>[ButtonTemplate](#ButtonTemplate)</code>
+    * [new GenericTemplate()](#new_GenericTemplate_new)
+    * [.addElement(title, [subtitle], [dontTranslate])](#GenericTemplate+addElement) ⇒ <code>this</code>
+    * [.setElementUrl(url, [hasExtension])](#GenericTemplate+setElementUrl) ⇒ <code>this</code>
+    * [.setElementImage(image)](#GenericTemplate+setElementImage) ⇒ <code>this</code>
+    * [.setElementAction(action, [data])](#GenericTemplate+setElementAction) ⇒ <code>this</code>
+    * [.urlButton(title, url, hasExtension, [webviewHeight])](#ButtonTemplate+urlButton) ⇒ <code>this</code>
+    * [.postBackButton(title, action, [data])](#ButtonTemplate+postBackButton) ⇒ <code>this</code>
+
+<a name="new_GenericTemplate_new"></a>
+
+### new GenericTemplate()
+Generic template utility
+
+<a name="GenericTemplate+addElement"></a>
+
+### genericTemplate.addElement(title, [subtitle], [dontTranslate]) ⇒ <code>this</code>
+Adds element to generic template
+
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| title | <code>string</code> |  | 
+| [subtitle] | <code>string</code> | <code>null</code> | 
+| [dontTranslate] | <code>boolean</code> | <code>false</code> | 
+
+<a name="GenericTemplate+setElementUrl"></a>
+
+### genericTemplate.setElementUrl(url, [hasExtension]) ⇒ <code>this</code>
+Sets url of recently added element
+
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| url | <code>any</code> |  | 
+| [hasExtension] | <code>boolean</code> | <code>false</code> | 
+
+<a name="GenericTemplate+setElementImage"></a>
+
+### genericTemplate.setElementImage(image) ⇒ <code>this</code>
+Sets image of recently added element
+
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+
+| Param | Type |
+| --- | --- |
+| image | <code>string</code> | 
+
+<a name="GenericTemplate+setElementAction"></a>
+
+### genericTemplate.setElementAction(action, [data]) ⇒ <code>this</code>
+Sets default action of recently added element
+
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| action | <code>string</code> |  | 
+| [data] | <code>object</code> | <code>{}</code> | 
+
+<a name="ButtonTemplate+urlButton"></a>
+
+### genericTemplate.urlButton(title, url, hasExtension, [webviewHeight]) ⇒ <code>this</code>
+Adds button. When `hasExtension` is set to `true`, url will contain hash like:
+`#token=foo&senderId=23344`
+
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| title | <code>string</code> |  | button text |
+| url | <code>string</code> |  | button url |
+| hasExtension | <code>boolean</code> |  | includes token in url |
+| [webviewHeight] | <code>string</code> | <code>null</code> | compact|tall|full |
+
+<a name="ButtonTemplate+postBackButton"></a>
+
+### genericTemplate.postBackButton(title, action, [data]) ⇒ <code>this</code>
+Adds button, which makes another action
+
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| title | <code>string</code> |  | Button title |
+| action | <code>string</code> |  | Button action (can be absolute or relative) |
+| [data] | <code>object</code> | <code>{}</code> | Action data |
 
 <a name="Router"></a>
 

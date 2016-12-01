@@ -1,0 +1,121 @@
+/*
+ * @author David Menger
+ */
+'use strict';
+
+const ButtonTemplate = require('./ButtonTemplate');
+const { makeAbsolute } = require('./pathUtils');
+
+/**
+ * Generic template utility
+ *
+ * @method urlButton
+ * @method postBackButton
+ *
+ * @class GenericTemplate
+ * @extends {ButtonTemplate}
+ */
+class GenericTemplate extends ButtonTemplate {
+
+    constructor (onDone, context = {}) {
+        super(onDone, context, null);
+
+        this.elements = [];
+
+        this._element = null;
+    }
+
+    /**
+     * Adds element to generic template
+     *
+     * @param {string} title
+     * @param {string} [subtitle=null]
+     * @param {boolean} [dontTranslate=false]
+     * @returns {this}
+     *
+     * @memberOf GenericTemplate
+     */
+    addElement (title, subtitle = null, dontTranslate = false) {
+        this._attachAndClearButtons();
+        const element = {
+            title: dontTranslate ? title : this._t(title)
+        };
+        if (subtitle !== null) {
+            Object.assign(element, { subtitle: dontTranslate ? subtitle : this._t(subtitle) });
+        }
+
+        this._element = element;
+        this.elements.push(element);
+        return this;
+    }
+
+    _attachAndClearButtons () {
+        if (this._element !== null && this.buttons.length > 0) {
+            Object.assign(this._element, {
+                buttons: this.buttons
+            });
+        }
+        this.buttons = [];
+    }
+
+    /**
+     * Sets url of recently added element
+     *
+     * @param {any} url
+     * @param {boolean} [hasExtension=false]
+     * @returns {this}
+     *
+     * @memberOf GenericTemplate
+     */
+    setElementUrl (url, hasExtension = false) {
+        Object.assign(this._element, {
+            item_url: this._makeExtensionUrl(url, hasExtension)
+        });
+        return this;
+    }
+
+    /**
+     * Sets image of recently added element
+     *
+     * @param {string} image
+     * @returns {this}
+     *
+     * @memberOf GenericTemplate
+     */
+    setElementImage (image) {
+        Object.assign(this._element, {
+            image_url: this._imageUrl(image)
+        });
+        return this;
+    }
+
+    /**
+     * Sets default action of recently added element
+     *
+     * @param {string} action
+     * @param {object} [data={}]
+     * @returns {this}
+     *
+     * @memberOf GenericTemplate
+     */
+    setElementAction (action, data = {}) {
+        Object.assign(this._element, {
+            default_action: {
+                action: makeAbsolute(action, this.context.path),
+                data
+            }
+        });
+        return this;
+    }
+
+    getTemplate () {
+        this._attachAndClearButtons();
+        const res = {
+            template_type: 'generic',
+            elements: this.elements
+        };
+        return res;
+    }
+}
+
+module.exports = GenericTemplate;

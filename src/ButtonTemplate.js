@@ -22,6 +22,17 @@ class ButtonTemplate extends BaseTemplate {
         this.buttons = [];
     }
 
+    _makeExtensionUrl (url, hasExtension) {
+        if (hasExtension) {
+            const hash = [
+                `token=${encodeURIComponent(this.context.token)}`,
+                `senderId=${encodeURIComponent(this.context.senderId)}`
+            ];
+            return `${this.context.appUrl || ''}${url}#${hash.join('&')}`;
+        }
+        return url;
+    }
+
     /**
      * Adds button. When `hasExtension` is set to `true`, url will contain hash like:
      * `#token=foo&senderId=23344`
@@ -35,20 +46,10 @@ class ButtonTemplate extends BaseTemplate {
      * @memberOf ButtonTemplate
      */
     urlButton (title, linkUrl, hasExtension = false, webviewHeight = null) {
-        let url = linkUrl;
-
-        if (hasExtension) {
-            const hash = [
-                `token=${encodeURIComponent(this.context.token)}`,
-                `senderId=${encodeURIComponent(this.context.senderId)}`
-            ];
-            url = `${this.context.appUrl || ''}${url}#${hash.join('&')}`;
-        }
-
         this.buttons.push({
             type: 'web_url',
             title: this._t(title),
-            url,
+            url: this._makeExtensionUrl(linkUrl, hasExtension),
             webview_height_ratio: webviewHeight || (hasExtension ? 'tall' : 'full'),
             messenger_extensions: hasExtension
         });

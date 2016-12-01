@@ -18,6 +18,7 @@ const apiDoc = jsdoc2md.renderSync({
         'src/Responder.js',
         'src/ButtonTemplate.js',
         'src/ReceiptTemplate.js',
+        'src/GenericTemplate.js',
         'src/Router.js',
         'src/ReducerWrapper.js',
         'src/Settings.js',

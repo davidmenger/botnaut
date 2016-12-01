@@ -5,6 +5,7 @@
 
 const ReceiptTemplate = require('./ReceiptTemplate');
 const ButtonTemplate = require('./ButtonTemplate');
+const GenericTemplate = require('./GenericTemplate');
 const { makeAbsolute } = require('./pathUtils');
 const { makeQuickReplies } = require('./quickReplies');
 const util = require('util');
@@ -283,6 +284,32 @@ class Responder {
             text
         );
         return btn;
+    }
+
+    /**
+     * Creates a generic template
+     *
+     * @example
+     * res.genericTemplate()
+     *     .addElement('title', 'subtitle')
+     *         .setElementImage('/local.png')
+     *         .setElementUrl('https://www.seznam.cz')
+     *         .postBackButton('Button title', 'action', { actionData: 1 })
+     *     .addElement('another', 'subtitle')
+     *         .setElementImage('https://goo.gl/image.png')
+     *         .setElementAction('action', { actionData: 1 })
+     *         .urlButton('Local link with extension', '/local/path', true, 'compact')
+     *     .send();
+     *
+     * @returns {GenericTemplate}
+     *
+     * @memberOf Responder
+     */
+    genericTemplate () {
+        return new GenericTemplate(
+            payload => this.template(payload),
+            this._createContext()
+        );
     }
 
     _senderAction (action) {
