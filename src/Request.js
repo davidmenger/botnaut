@@ -5,6 +5,7 @@
 
 const { tokenize } = require('./tokenizer');
 const { quickReplyAction } = require('./quickReplies');
+const { parseActionPayload } = require('./pathUtils');
 
 /**
  * Instance of {Request} class is passed as first parameter of handler (req)
@@ -203,12 +204,11 @@ class Request {
         if (!res && this.state._expectedKeywords) {
             const payload = quickReplyAction(this.state._expectedKeywords, this.text(true));
             if (payload) {
-                res = this._processPayload({ payload }, getData);
+                res = this._processPayload(payload, getData);
             }
         }
         if (!res && this.state._expected) {
-            const payload = this.state._expected;
-            res = this._processPayload({ payload }, getData);
+            res = this._processPayload(this.state._expected, getData);
         }
 
         if (getData) {
@@ -239,22 +239,13 @@ class Request {
     }
 
     _processPayload (object = {}, getData = false) {
-        let { payload } = object;
-        let isObject = typeof payload === 'object' && payload !== null;
-        const byDefault = getData ? {} : null;
-
-        if (typeof payload === 'string' && payload.match(/^\{.*\}$/)) {
-            payload = JSON.parse(payload);
-            isObject = true;
+        if (getData) {
+            const { data } = parseActionPayload(object);
+            return data;
         }
 
-        if (getData && isObject) {
-            return payload.data || payload;
-        } if (isObject) {
-            return payload.action;
-        }
-
-        return payload || byDefault;
+        const { action } = parseActionPayload(object);
+        return action;
     }
 
 }

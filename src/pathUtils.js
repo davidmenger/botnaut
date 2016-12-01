@@ -20,7 +20,35 @@ function actionMatches (route, requestedPath) {
     return route.indexOf(requestedPath) === expectedPos && expectedPos !== -1;
 }
 
+function parseActionPayload (object) {
+    let action;
+    let data = {};
+    if (typeof object === 'string') {
+        action = object;
+    } else if (typeof object.action === 'string') {
+        action = object.action;
+        data = object.data || data;
+    } else {
+        let payload = object.payload || object;
+        let isObject = typeof payload === 'object' && payload !== null;
+
+        if (typeof payload === 'string' && payload.match(/^\{.*\}$/)) {
+            payload = JSON.parse(payload);
+            isObject = true;
+        }
+
+        if (isObject) {
+            data = payload.data || payload;
+            action = payload.action;
+        } else {
+            action = payload;
+        }
+    }
+    return { action, data };
+}
+
 module.exports = {
     makeAbsolute,
-    actionMatches
+    actionMatches,
+    parseActionPayload
 };

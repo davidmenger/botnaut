@@ -92,6 +92,7 @@ class Router extends ReducerWrapper {
             reduce = path;
             path = '*';
         }
+
         let isReducer = false;
 
         if (typeof reduce === 'object' && reduce.reduce) {
@@ -178,12 +179,13 @@ class Router extends ReducerWrapper {
         const relativePostBack = this._makePostBackRelative(postBack, path);
         const found = this._routes.some((route) => {
             if (this._routeMatch(route, action, req)) {
-                const pathContext = `${path === '/' ? '' : path}${route.path}`;
+                let pathContext = `${path === '/' ? '' : path}${route.path.replace(/\/\*/, '')}`;
                 res.setPath(path);
                 const nextContext = this._createNext(route, req, res, relativePostBack);
                 route.reduce(req, res, relativePostBack, nextContext, pathContext);
 
                 if (!route.isReducer) {
+                    pathContext = `${path === '/' ? '' : path}${route.path}`;
                     this._emitAction(req, pathContext);
                 }
 

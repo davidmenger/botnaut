@@ -63,7 +63,16 @@ describe('Tester', function () {
             res.text(req.text());
         });
 
+        const goThru = new Router();
+
+        goThru.use('/start', (req, res, postBack, next) => {
+            res.text('Go thru');
+            next();
+        });
+
         const r = new Router();
+
+        r.use(goThru);
 
         r.use('/start', (req, res) => {
             res.text('Hello!', {
@@ -91,6 +100,7 @@ describe('Tester', function () {
             t.passedAction('start');
             t.passedAction('/start');
             t.any()
+                .contains('Go thru')
                 .contains('Hello')
                 .quickReplyAction('music')
                 .quickReplyAction('read');

@@ -4,7 +4,7 @@
 'use strict';
 
 const assert = require('assert');
-const { actionMatches } = require('./pathUtils');
+const { actionMatches, parseActionPayload } = require('./pathUtils');
 
 /**
  * Format message
@@ -122,7 +122,7 @@ function quickReplyAction (response, action, message = 'Should contain the actio
     }
     assert.ok(hasItems, m(message, action, 'Theres no quick response'));
     const has = replies.some((reply) => {
-        const route = typeof reply.payload === 'object' ? reply.payload.action : reply.payload;
+        const { action: route } = parseActionPayload(reply);
         return actionMatches(route, action);
     });
     if (message === false) {

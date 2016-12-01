@@ -9,7 +9,7 @@ const Processor = require('./Processor');
 const Request = require('./Request');
 const MemoryStateStorage = require('./MemoryStateStorage');
 const ReducerWrapper = require('./ReducerWrapper');
-const { actionMatches } = require('./pathUtils');
+const { actionMatches, parseActionPayload } = require('./pathUtils');
 const AnyResponseAssert = require('./AnyResponseAssert');
 const asserts = require('./asserts');
 
@@ -134,7 +134,7 @@ class Tester {
      * @memberOf Tester
      */
     passedAction (path) {
-        const ok = this.actions.some(action => actionMatches(action.action, path));
+        const ok = this.actions.some(action => !action.action.match(/\*/) && actionMatches(action.action, path));
         assert.ok(ok, `Action ${path} was not passed`);
         return this;
     }
@@ -193,7 +193,7 @@ class Tester {
             const quickReplys = asserts.getQuickReplies(last);
 
             const res = quickReplys.filter((reply) => {
-                const route = typeof reply.payload === 'object' ? reply.payload.action : reply.payload;
+                const { action: route } = parseActionPayload(reply);
                 return actionMatches(route, action);
             });
 
