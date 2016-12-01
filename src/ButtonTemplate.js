@@ -70,10 +70,10 @@ class ButtonTemplate extends BaseTemplate {
         this.buttons.push({
             type: 'postback',
             title: this._t(title),
-            payload: {
+            payload: JSON.stringify({
                 action: makeAbsolute(action, this.context.path),
                 data
-            }
+            })
         });
         return this;
     }

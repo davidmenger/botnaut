@@ -72,19 +72,19 @@ class Processor {
         this.userLoader = this.options.loadUsers ? new UserLoader(this.options.pageToken) : null;
     }
 
-    _createPostBack (senderId, postbackAcumulator) {
+    _createPostBack (senderId, postbackAcumulator, senderFn) {
         return (action = null, data = {}) => {
             if (action !== null) {
                 const request = Request.createPostBack(senderId, action, data);
                 const promise = nextTick()
-                    .then(() => this.processMessage(request));
+                    .then(() => this.processMessage(request, senderFn));
 
                 postbackAcumulator.push(promise);
             }
         };
     }
 
-    processMessage (message) {
+    processMessage (message, sender = null) {
         if (!message || !message.sender || !message.sender.id) {
             this.options.log.warn('Bot received bad message', message);
             return Promise.resolve(null);
@@ -93,17 +93,17 @@ class Processor {
         const senderId = message.sender.id;
         const postbackAcumulator = [];
 
+        const senderFn = sender || this.senderFnFactory(message);
+
         return this._loadState(senderId)
             .then(stateObject => this._ensureUserProfileLoaded(senderId, stateObject))
             .then(stateObject => this._getOrCreateToken(senderId, stateObject))
             .then(({ token, stateObject }) => {
 
-                const senderFn = this.senderFnFactory(message);
-
                 let state = stateObject.state;
                 const req = new Request(message, state);
                 const res = new Responder(senderId, senderFn, token, this.options);
-                const postBack = this._createPostBack(senderId, postbackAcumulator);
+                const postBack = this._createPostBack(senderId, postbackAcumulator, senderFn);
 
                 if (typeof this.reducer === 'function') {
                     this.reducer(req, res, postBack);

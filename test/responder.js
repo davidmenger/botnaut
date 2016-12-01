@@ -146,7 +146,7 @@ describe('Responder', function () {
 
             assert.equal(payload.buttons[0].title, '-Text');
             assert.equal(payload.buttons[0].type, 'postback');
-            assert.equal(payload.buttons[0].payload.action, '/hello/action');
+            assert.equal(payload.buttons[0].payload, '{"action":"/hello/action","data":{}}');
 
             assert.equal(payload.buttons[1].title, '-Url button');
             assert.equal(payload.buttons[1].type, 'web_url');
