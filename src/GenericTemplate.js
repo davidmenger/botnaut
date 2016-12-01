@@ -92,17 +92,19 @@ class GenericTemplate extends ButtonTemplate {
     /**
      * Sets default action of recently added element
      *
-     * @param {string} action
-     * @param {object} [data={}]
-     * @returns {this}
+     * @param {string} url button url
+     * @param {boolean} hasExtension includes token in url
+     * @param {string} [webviewHeight=null] compact|tall|full
      *
      * @memberOf GenericTemplate
      */
-    setElementAction (action, data = {}) {
+    setElementAction (url, hasExtension = false, webviewHeight = null) {
         Object.assign(this._element, {
             default_action: {
-                action: makeAbsolute(action, this.context.path),
-                data
+                type: 'web_url',
+                url: this._makeExtensionUrl(url, hasExtension),
+                webview_height_ratio: webviewHeight || (hasExtension ? 'tall' : 'full'),
+                messenger_extensions: hasExtension
             }
         });
         return this;

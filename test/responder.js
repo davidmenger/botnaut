@@ -203,7 +203,7 @@ describe('Responder', function () {
                     .postBackButton('Button title', 'action', { actionData: 1 })
                 .addElement('another', null, true)
                     .setElementImage('https://goo.gl/image.png')
-                    .setElementAction('action', { actionData: 1 })
+                    .setElementAction('/localUrl', true)
                     .urlButton('Local link with extension', '/local/path', true, 'compact')
                 .send();
 
@@ -226,7 +226,12 @@ describe('Responder', function () {
             assert.equal(payload.elements[1].title, 'another');
             assert.strictEqual(payload.elements[1].subtitle, undefined);
             assert.equal(payload.elements[1].image_url, 'https://goo.gl/image.png');
-            assert.deepEqual(payload.elements[1].default_action, { action: '/path/action', data: { actionData: 1 } });
+            assert.deepEqual(payload.elements[1].default_action, {
+                type: 'web_url',
+                url: 'http://goo.gl/localUrl#token=t&senderId=123',
+                webview_height_ratio: 'tall',
+                messenger_extensions: true
+            });
             assert.equal(payload.elements[1].buttons.length, 1);
 
             assert.notStrictEqual(payload.elements[0].buttons, payload.elements[1].buttons);
