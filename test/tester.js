@@ -76,7 +76,9 @@ describe('Tester', function () {
 
         r.use('/start', (req, res) => {
             res.text('Hello!', {
-                music: 'Listen music',
+                music: {
+                    title: 'Listen music'
+                },
                 read: 'Read books'
             });
         });

@@ -192,18 +192,13 @@ class Tester {
             const last = this.responses[this.responses.length - 1];
             const quickReplys = asserts.getQuickReplies(last);
 
-            const res = quickReplys.filter((reply) => {
-                const { action: route } = parseActionPayload(reply);
-                return actionMatches(route, action);
-            });
+            const res = quickReplys
+                .map(reply => parseActionPayload(reply))
+                .filter(({ action: route }) => actionMatches(route, action));
 
             if (res[0]) {
-                if (typeof res[0].payload === 'object') {
-                    usedAction = res[0].payload.action;
-                    usedData = res[0].payload.data;
-                } else {
-                    usedAction = res[0].payload;
-                }
+                usedAction = res[0].action;
+                usedData = res[0].data;
             }
         }
 
