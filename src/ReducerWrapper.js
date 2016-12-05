@@ -36,12 +36,6 @@ class ReducerWrapper extends EventEmitter {
 
         this._reduce = reduce;
 
-        /**
-         * @property {array} debugPromises usefull for debuging. {Processor}
-         * will wait, until theese promises are resolved
-         */
-        this.debugPromises = [];
-
         this.processMessage = null;
     }
 

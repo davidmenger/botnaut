@@ -70,14 +70,14 @@ const handler = (req, res, postBack) => {
             return;
         default:
             if (req.isImage()) {
+                const resolve = postBack.wait(); // usefull for tests
                 bufferloader(req.attachmentUrl(), 1000000)
-                    .then(buffer => postBack('downloaded', { data: buffer }))
-                    .catch(err => postBack('donwloaded', { err }))
+                    .then(buffer => resolve('downloaded', { data: buffer }))
+                    .catch(err => resolve('donwloaded', { err }))
             }
     }
 };
 ```
-
 
 ## Experimental: Router
 
@@ -171,7 +171,7 @@ app.use('textAction', /keyword|two-words?/, (req, res) => {
 <a name="Request"></a>
 
 ## Request
-**Kind**: global class  
+**Kind**: global class
 
 * [Request](#Request)
     * [new Request()](#new_Request_new)
@@ -196,7 +196,7 @@ Instance of {Request} class is passed as first parameter of handler (req)
 <a name="Request+state"></a>
 
 ### request.state
-**Kind**: instance property of <code>[Request](#Request)</code>  
+**Kind**: instance property of <code>[Request](#Request)</code>
 **Properties**
 
 | Name | Type | Description |
@@ -208,13 +208,13 @@ Instance of {Request} class is passed as first parameter of handler (req)
 ### request.isAttachment() ⇒ <code>boolean</code>
 Checks, when message contains an attachment (file, image or location)
 
-**Kind**: instance method of <code>[Request](#Request)</code>  
+**Kind**: instance method of <code>[Request](#Request)</code>
 <a name="Request+isImage"></a>
 
 ### request.isImage([attachmentIndex]) ⇒ <code>boolean</code>
 Checks, when the attachment is an image
 
-**Kind**: instance method of <code>[Request](#Request)</code>  
+**Kind**: instance method of <code>[Request](#Request)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -225,7 +225,7 @@ Checks, when the attachment is an image
 ### request.isFile([attachmentIndex]) ⇒ <code>boolean</code>
 Checks, when the attachment is a file
 
-**Kind**: instance method of <code>[Request](#Request)</code>  
+**Kind**: instance method of <code>[Request](#Request)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -236,7 +236,7 @@ Checks, when the attachment is a file
 ### request.attachment([attachmentIndex]) ⇒ <code>object</code> &#124; <code>null</code>
 Returns whole attachment or null
 
-**Kind**: instance method of <code>[Request](#Request)</code>  
+**Kind**: instance method of <code>[Request](#Request)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -247,7 +247,7 @@ Returns whole attachment or null
 ### request.attachmentUrl([attachmentIndex]) ⇒ <code>string</code> &#124; <code>null</code>
 Returns attachment URL
 
-**Kind**: instance method of <code>[Request](#Request)</code>  
+**Kind**: instance method of <code>[Request](#Request)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -258,19 +258,19 @@ Returns attachment URL
 ### request.isMessage() ⇒ <code>boolean</code>
 Returns true, when the request is text message, quick reply or attachment
 
-**Kind**: instance method of <code>[Request](#Request)</code>  
+**Kind**: instance method of <code>[Request](#Request)</code>
 <a name="Request+text"></a>
 
 ### request.text([tokenized]) ⇒ <code>string</code>
 Returns text of the message
 
-**Kind**: instance method of <code>[Request](#Request)</code>  
+**Kind**: instance method of <code>[Request](#Request)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [tokenized] | <code>boolean</code> | <code>false</code> | when true, message is normalized to lowercase with `-` |
 
-**Example**  
+**Example**
 ```javascript
 console.log(req.text(true)) // "can-you-help-me"
 ```
@@ -280,13 +280,13 @@ console.log(req.text(true)) // "can-you-help-me"
 Returns action or data of quick reply
 When `getData` is `true`, object will be returned. Otherwise string or null.
 
-**Kind**: instance method of <code>[Request](#Request)</code>  
+**Kind**: instance method of <code>[Request](#Request)</code>
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [getData] | <code>boolean</code> | <code>false</code> | 
+| [getData] | <code>boolean</code> | <code>false</code> |
 
-**Example**  
+**Example**
 ```javascript
 typeof res.quickReply() === 'string' || res.quickReply() === null;
 typeof res.quickReply(true) === 'object';
@@ -296,7 +296,7 @@ typeof res.quickReply(true) === 'object';
 ### request.isPostBack() ⇒ <code>boolean</code>
 Returns true, if request is the postback
 
-**Kind**: instance method of <code>[Request](#Request)</code>  
+**Kind**: instance method of <code>[Request](#Request)</code>
 <a name="Request+action"></a>
 
 ### request.action([getData]) ⇒ <code>null</code> &#124; <code>string</code> &#124; <code>object</code>
@@ -308,13 +308,13 @@ When `getData` is `true`, object will be returned. Otherwise string or null.
 3. expected keywords are checked
 4. expected state is checked
 
-**Kind**: instance method of <code>[Request](#Request)</code>  
+**Kind**: instance method of <code>[Request](#Request)</code>
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [getData] | <code>boolean</code> | <code>false</code> | 
+| [getData] | <code>boolean</code> | <code>false</code> |
 
-**Example**  
+**Example**
 ```javascript
 typeof res.action() === 'string' || res.action() === null;
 typeof res.action(true) === 'object';
@@ -325,13 +325,13 @@ typeof res.action(true) === 'object';
 Returns action or data of postback
 When `getData` is `true`, object will be returned. Otherwise string or null.
 
-**Kind**: instance method of <code>[Request](#Request)</code>  
+**Kind**: instance method of <code>[Request](#Request)</code>
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [getData] | <code>boolean</code> | <code>false</code> | 
+| [getData] | <code>boolean</code> | <code>false</code> |
 
-**Example**  
+**Example**
 ```javascript
 typeof res.postBack() === 'string' || res.postBack() === null;
 typeof res.postBack(true) === 'object';
@@ -339,7 +339,7 @@ typeof res.postBack(true) === 'object';
 <a name="Responder"></a>
 
 ## Responder
-**Kind**: global class  
+**Kind**: global class
 
 * [Responder](#Responder)
     * [new Responder()](#new_Responder_new)
@@ -365,14 +365,14 @@ Instance of responder is passed as second parameter of handler (res)
 ### responder.text(text, [quickReplys]) ⇒ <code>this</code>
 Send text as a response
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of <code>[Responder](#Responder)</code>
 
 | Param | Type | Description |
 | --- | --- | --- |
 | text | <code>string</code> | text to send to user, can contain placeholders (%s) |
 | [quickReplys] | <code>object.&lt;string, string&gt;</code> |  |
 
-**Example**  
+**Example**
 ```javascript
 res.text('Hello %s', name, {
     action: 'Quick reply',
@@ -388,13 +388,13 @@ res.text('Hello %s', name, {
 ### responder.setState(object) ⇒ <code>this</code>
 Sets new attributes to state (with Object.assign())
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of <code>[Responder](#Responder)</code>
 
 | Param | Type |
 | --- | --- |
-| object | <code>object</code> | 
+| object | <code>object</code> |
 
-**Example**  
+**Example**
 ```javascript
 res.setState({ visited: true });
 ```
@@ -403,7 +403,7 @@ res.setState({ visited: true });
 ### responder.expected(action) ⇒ <code>this</code>
 When user writes some text as reply, it will be processed as action
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of <code>[Responder](#Responder)</code>
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -414,13 +414,13 @@ When user writes some text as reply, it will be processed as action
 ### responder.image(imageUrl) ⇒ <code>this</code>
 Sends image as response. Requires appUrl option to send images from server
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of <code>[Responder](#Responder)</code>
 
 | Param | Type | Description |
 | --- | --- | --- |
 | imageUrl | <code>string</code> | relative or absolute url |
 
-**Example**  
+**Example**
 ```javascript
 // image on same server (appUrl option)
 res.image('/img/foo.png');
@@ -433,36 +433,36 @@ res.image('https://google.com/img/foo.png');
 ### responder.wait([ms]) ⇒ <code>this</code>
 Sets delay between two responses
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of <code>[Responder](#Responder)</code>
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [ms] | <code>number</code> | <code>600</code> | 
+| [ms] | <code>number</code> | <code>600</code> |
 
 <a name="Responder+typingOn"></a>
 
 ### responder.typingOn() ⇒ <code>this</code>
 Sends "typing..." information
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of <code>[Responder](#Responder)</code>
 <a name="Responder+typingOff"></a>
 
 ### responder.typingOff() ⇒ <code>this</code>
 Stops "typing..." information
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of <code>[Responder](#Responder)</code>
 <a name="Responder+seen"></a>
 
 ### responder.seen() ⇒ <code>this</code>
 Reports last message from user as seen
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of <code>[Responder](#Responder)</code>
 <a name="Responder+receipt"></a>
 
 ### responder.receipt(recipientName, [paymentMethod], [currency], [uniqueCode]) ⇒ <code>[ReceiptTemplate](#ReceiptTemplate)</code>
 Sends Receipt template
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of <code>[Responder](#Responder)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -471,7 +471,7 @@ Sends Receipt template
 | [currency] | <code>string</code> | <code>&quot;&#x27;USD&#x27;&quot;</code> | sets right currency |
 | [uniqueCode] | <code>string</code> | <code>null</code> | when omitted, will be generated randomly |
 
-**Example**  
+**Example**
 ```javascript
 res.receipt('Name', 'Cash', 'CZK', '1')
     .addElement('Element name', 1, 2, '/inside.png', 'text')
@@ -482,13 +482,13 @@ res.receipt('Name', 'Cash', 'CZK', '1')
 ### responder.button(text) ⇒ <code>[ButtonTemplate](#ButtonTemplate)</code>
 Sends nice button template. It can redirect user to server with token in url
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of <code>[Responder](#Responder)</code>
 
 | Param | Type |
 | --- | --- |
-| text | <code>string</code> | 
+| text | <code>string</code> |
 
-**Example**  
+**Example**
 ```javascript
 res.button('Hello')
     .postBackButton('Text', 'action')
@@ -501,8 +501,8 @@ res.button('Hello')
 ### responder.genericTemplate() ⇒ <code>[GenericTemplate](#GenericTemplate)</code>
 Creates a generic template
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
-**Example**  
+**Kind**: instance method of <code>[Responder](#Responder)</code>
+**Example**
 ```javascript
 res.genericTemplate()
     .addElement('title', 'subtitle')
@@ -518,8 +518,8 @@ res.genericTemplate()
 <a name="ButtonTemplate"></a>
 
 ## ButtonTemplate ⇐ <code>BaseTemplate</code>
-**Kind**: global class  
-**Extends:** <code>BaseTemplate</code>  
+**Kind**: global class
+**Extends:** <code>BaseTemplate</code>
 
 * [ButtonTemplate](#ButtonTemplate) ⇐ <code>BaseTemplate</code>
     * [new ButtonTemplate()](#new_ButtonTemplate_new)
@@ -538,7 +538,7 @@ Instance of button template is returned by {Responder}
 Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 `#token=foo&senderId=23344`
 
-**Kind**: instance method of <code>[ButtonTemplate](#ButtonTemplate)</code>  
+**Kind**: instance method of <code>[ButtonTemplate](#ButtonTemplate)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -552,7 +552,7 @@ Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 ### buttonTemplate.postBackButton(title, action, [data]) ⇒ <code>this</code>
 Adds button, which makes another action
 
-**Kind**: instance method of <code>[ButtonTemplate](#ButtonTemplate)</code>  
+**Kind**: instance method of <code>[ButtonTemplate](#ButtonTemplate)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -563,8 +563,8 @@ Adds button, which makes another action
 <a name="ReceiptTemplate"></a>
 
 ## ReceiptTemplate ⇐ <code>BaseTemplate</code>
-**Kind**: global class  
-**Extends:** <code>BaseTemplate</code>  
+**Kind**: global class
+**Extends:** <code>BaseTemplate</code>
 
 * [ReceiptTemplate](#ReceiptTemplate) ⇐ <code>BaseTemplate</code>
     * [new ReceiptTemplate()](#new_ReceiptTemplate_new)
@@ -581,7 +581,7 @@ Instance of button template is returned by {Responder}
 ### receiptTemplate.addElement(title, [price], [quantity], [image], [subtitle]) ⇒ <code>this</code>
 Adds item to receipt
 
-**Kind**: instance method of <code>[ReceiptTemplate](#ReceiptTemplate)</code>  
+**Kind**: instance method of <code>[ReceiptTemplate](#ReceiptTemplate)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -594,15 +594,15 @@ Adds item to receipt
 <a name="GenericTemplate"></a>
 
 ## GenericTemplate ⇐ <code>[ButtonTemplate](#ButtonTemplate)</code>
-**Kind**: global class  
-**Extends:** <code>[ButtonTemplate](#ButtonTemplate)</code>  
+**Kind**: global class
+**Extends:** <code>[ButtonTemplate](#ButtonTemplate)</code>
 
 * [GenericTemplate](#GenericTemplate) ⇐ <code>[ButtonTemplate](#ButtonTemplate)</code>
     * [new GenericTemplate()](#new_GenericTemplate_new)
     * [.addElement(title, [subtitle], [dontTranslate])](#GenericTemplate+addElement) ⇒ <code>this</code>
     * [.setElementUrl(url, [hasExtension])](#GenericTemplate+setElementUrl) ⇒ <code>this</code>
     * [.setElementImage(image)](#GenericTemplate+setElementImage) ⇒ <code>this</code>
-    * [.setElementAction(action, [data])](#GenericTemplate+setElementAction) ⇒ <code>this</code>
+    * [.setElementAction(url, hasExtension, [webviewHeight])](#GenericTemplate+setElementAction)
     * [.urlButton(title, url, hasExtension, [webviewHeight])](#ButtonTemplate+urlButton) ⇒ <code>this</code>
     * [.postBackButton(title, action, [data])](#ButtonTemplate+postBackButton) ⇒ <code>this</code>
 
@@ -616,48 +616,49 @@ Generic template utility
 ### genericTemplate.addElement(title, [subtitle], [dontTranslate]) ⇒ <code>this</code>
 Adds element to generic template
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>
 
 | Param | Type | Default |
 | --- | --- | --- |
-| title | <code>string</code> |  | 
-| [subtitle] | <code>string</code> | <code>null</code> | 
-| [dontTranslate] | <code>boolean</code> | <code>false</code> | 
+| title | <code>string</code> |  |
+| [subtitle] | <code>string</code> | <code>null</code> |
+| [dontTranslate] | <code>boolean</code> | <code>false</code> |
 
 <a name="GenericTemplate+setElementUrl"></a>
 
 ### genericTemplate.setElementUrl(url, [hasExtension]) ⇒ <code>this</code>
 Sets url of recently added element
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>
 
 | Param | Type | Default |
 | --- | --- | --- |
-| url | <code>any</code> |  | 
-| [hasExtension] | <code>boolean</code> | <code>false</code> | 
+| url | <code>any</code> |  |
+| [hasExtension] | <code>boolean</code> | <code>false</code> |
 
 <a name="GenericTemplate+setElementImage"></a>
 
 ### genericTemplate.setElementImage(image) ⇒ <code>this</code>
 Sets image of recently added element
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>
 
 | Param | Type |
 | --- | --- |
-| image | <code>string</code> | 
+| image | <code>string</code> |
 
 <a name="GenericTemplate+setElementAction"></a>
 
-### genericTemplate.setElementAction(action, [data]) ⇒ <code>this</code>
+### genericTemplate.setElementAction(url, hasExtension, [webviewHeight])
 Sets default action of recently added element
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>
 
-| Param | Type | Default |
-| --- | --- | --- |
-| action | <code>string</code> |  | 
-| [data] | <code>object</code> | <code>{}</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| url | <code>string</code> |  | button url |
+| hasExtension | <code>boolean</code> | <code>false</code> | includes token in url |
+| [webviewHeight] | <code>string</code> | <code>null</code> | compact|tall|full |
 
 <a name="ButtonTemplate+urlButton"></a>
 
@@ -665,7 +666,7 @@ Sets default action of recently added element
 Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 `#token=foo&senderId=23344`
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -679,7 +680,7 @@ Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 ### genericTemplate.postBackButton(title, action, [data]) ⇒ <code>this</code>
 Adds button, which makes another action
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -690,8 +691,8 @@ Adds button, which makes another action
 <a name="Router"></a>
 
 ## Router ⇐ <code>[ReducerWrapper](#ReducerWrapper)</code>
-**Kind**: global class  
-**Extends:** <code>[ReducerWrapper](#ReducerWrapper)</code>  
+**Kind**: global class
+**Extends:** <code>[ReducerWrapper](#ReducerWrapper)</code>
 
 * [Router](#Router) ⇐ <code>[ReducerWrapper](#ReducerWrapper)</code>
     * [new Router()](#new_Router_new)
@@ -708,7 +709,7 @@ Cascading router
 ### router.use([action], [pattern], reducer) ⇒ <code>Object</code>
 Appends middleware, action handler or another router
 
-**Kind**: instance method of <code>[Router](#Router)</code>  
+**Kind**: instance method of <code>[Router](#Router)</code>
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -716,7 +717,7 @@ Appends middleware, action handler or another router
 | [pattern] | <code>RegExp</code> &#124; <code>string</code> &#124; <code>function</code> |  |
 | reducer | <code>function</code> &#124; <code>[Router](#Router)</code> |  |
 
-**Example**  
+**Example**
 ```javascript
 // middleware
 router.use((req, res, postBack, next) => {
@@ -744,26 +745,25 @@ router.use('/path', subRouter)
 ### router.reduce(req, res, postBack)
 Reducer function
 
-**Kind**: instance method of <code>[Router](#Router)</code>  
-**Overrides:** <code>[reduce](#ReducerWrapper+reduce)</code>  
+**Kind**: instance method of <code>[Router](#Router)</code>
+**Overrides:** <code>[reduce](#ReducerWrapper+reduce)</code>
 
 | Param | Type |
 | --- | --- |
-| req | <code>[Request](#Request)</code> | 
-| res | <code>[Responder](#Responder)</code> | 
-| postBack | <code>function</code> | 
+| req | <code>[Request](#Request)</code> |
+| res | <code>[Responder](#Responder)</code> |
+| postBack | <code>function</code> |
 
 <a name="ReducerWrapper"></a>
 
 ## ReducerWrapper ⇐ <code>EventEmitter</code>
-**Kind**: global class  
-**Extends:** <code>EventEmitter</code>  
-**Emits**: <code>ReducerWrapper#event:action</code>  
+**Kind**: global class
+**Extends:** <code>EventEmitter</code>
+**Emits**: <code>ReducerWrapper#event:action</code>
 
 * [ReducerWrapper](#ReducerWrapper) ⇐ <code>EventEmitter</code>
     * [new ReducerWrapper()](#new_ReducerWrapper_new)
     * _instance_
-        * [.debugPromises](#ReducerWrapper.ReducerWrapper+debugPromises)
         * [.reduce(req, res, postBack)](#ReducerWrapper+reduce)
     * _static_
         * [.ReducerWrapper](#ReducerWrapper.ReducerWrapper)
@@ -774,7 +774,7 @@ Reducer function
 ### new ReducerWrapper()
 Solution for catching events. This is useful for analytics.
 
-**Example**  
+**Example**
 ```javascript
 const reducer = new ReducerWrapper((req, res) => {
     res.text('Hello');
@@ -784,33 +784,23 @@ reducer.on('action', (senderId, processedAction, text, req) => {
     // log action
 });
 ```
-<a name="ReducerWrapper.ReducerWrapper+debugPromises"></a>
-
-### reducerWrapper.debugPromises
-**Kind**: instance property of <code>[ReducerWrapper](#ReducerWrapper)</code>  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| debugPromises | <code>array</code> | usefull for debuging. {Processor} will wait, until theese promises are resolved |
-
 <a name="ReducerWrapper+reduce"></a>
 
 ### reducerWrapper.reduce(req, res, postBack)
 Reducer function
 
-**Kind**: instance method of <code>[ReducerWrapper](#ReducerWrapper)</code>  
+**Kind**: instance method of <code>[ReducerWrapper](#ReducerWrapper)</code>
 
 | Param | Type |
 | --- | --- |
-| req | <code>[Request](#Request)</code> | 
-| res | <code>[Responder](#Responder)</code> | 
-| postBack | <code>function</code> | 
+| req | <code>[Request](#Request)</code> |
+| res | <code>[Responder](#Responder)</code> |
+| postBack | <code>function</code> |
 
 <a name="ReducerWrapper.ReducerWrapper"></a>
 
 ### ReducerWrapper.ReducerWrapper
-**Kind**: static class of <code>[ReducerWrapper](#ReducerWrapper)</code>  
+**Kind**: static class of <code>[ReducerWrapper](#ReducerWrapper)</code>
 <a name="new_ReducerWrapper.ReducerWrapper_new"></a>
 
 #### new ReducerWrapper([reduce])
@@ -824,7 +814,7 @@ Creates an instance of ReducerWrapper.
 <a name="Settings"></a>
 
 ## Settings
-**Kind**: global class  
+**Kind**: global class
 
 * [Settings](#Settings)
     * [new Settings()](#new_Settings_new)
@@ -846,7 +836,7 @@ Utility, which helps us to set up chatbot behavior
 ### settings.greeting([text]) ⇒ <code>this</code>
 Sets or clears bot's greeting
 
-**Kind**: instance method of <code>[Settings](#Settings)</code>  
+**Kind**: instance method of <code>[Settings](#Settings)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -857,13 +847,13 @@ Sets or clears bot's greeting
 ### settings.getStartedButton([payload]) ⇒ <code>this</code>
 Sets up the Get Started Button
 
-**Kind**: instance method of <code>[Settings](#Settings)</code>  
+**Kind**: instance method of <code>[Settings](#Settings)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [payload] | <code>string</code> &#124; <code>object</code> | <code>false</code> | leave blank to remove button, or provide the action |
 
-**Example**  
+**Example**
 ```javascript
 const settings = new Settings(config.facebook.pageToken);
 settings.getStartedButton('/start'); // just an action
@@ -873,16 +863,16 @@ settings.getStartedButton('/start'); // just an action
 ### settings.whitelistDomain(domain) ⇒ <code>this</code>
 Useful for using facebook extension in webviews
 
-**Kind**: instance method of <code>[Settings](#Settings)</code>  
+**Kind**: instance method of <code>[Settings](#Settings)</code>
 
 | Param | Type |
 | --- | --- |
-| domain | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> | 
+| domain | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> |
 
 <a name="Settings.Settings"></a>
 
 ### Settings.Settings
-**Kind**: static class of <code>[Settings](#Settings)</code>  
+**Kind**: static class of <code>[Settings](#Settings)</code>
 <a name="new_Settings.Settings_new"></a>
 
 #### new Settings(token, [log])
@@ -891,13 +881,13 @@ Creates an instance of Settings.
 
 | Param | Type |
 | --- | --- |
-| token | <code>string</code> | 
-| [log] | <code>Object</code> | 
+| token | <code>string</code> |
+| [log] | <code>Object</code> |
 
 <a name="Tester"></a>
 
 ## Tester
-**Kind**: global class  
+**Kind**: global class
 
 * [Tester](#Tester)
     * [new Tester()](#new_Tester_new)
@@ -925,7 +915,7 @@ Utility for testing requests
 ### tester.res([index]) ⇒ <code>[ResponseAssert](#ResponseAssert)</code>
 Returns single response asserter
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of <code>[Tester](#Tester)</code>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -936,80 +926,80 @@ Returns single response asserter
 ### tester.any() ⇒ <code>[AnyResponseAssert](#AnyResponseAssert)</code>
 Returns any response asserter
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of <code>[Tester](#Tester)</code>
 <a name="Tester+lastRes"></a>
 
 ### tester.lastRes() ⇒ <code>[ResponseAssert](#ResponseAssert)</code>
 Returns last response asserter
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of <code>[Tester](#Tester)</code>
 <a name="Tester+passedAction"></a>
 
 ### tester.passedAction(path) ⇒ <code>this</code>
 Checks, that app past the action
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of <code>[Tester](#Tester)</code>
 
 | Param | Type |
 | --- | --- |
-| path | <code>string</code> | 
+| path | <code>string</code> |
 
 <a name="Tester+getState"></a>
 
 ### tester.getState() ⇒ <code>object</code>
 Returns state
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of <code>[Tester](#Tester)</code>
 <a name="Tester+setState"></a>
 
 ### tester.setState([state])
 Sets state with `Object.assign()`
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of <code>[Tester](#Tester)</code>
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [state] | <code>object</code> | <code>{}</code> | 
+| [state] | <code>object</code> | <code>{}</code> |
 
 <a name="Tester+text"></a>
 
 ### tester.text(text) ⇒ <code>Promise</code>
 Makes text request
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of <code>[Tester](#Tester)</code>
 
 | Param | Type |
 | --- | --- |
-| text | <code>string</code> | 
+| text | <code>string</code> |
 
 <a name="Tester+quickReply"></a>
 
 ### tester.quickReply(action, [data]) ⇒ <code>Promise</code>
 Send quick reply
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of <code>[Tester](#Tester)</code>
 
 | Param | Type | Default |
 | --- | --- | --- |
-| action | <code>string</code> |  | 
-| [data] | <code>object</code> | <code>{}</code> | 
+| action | <code>string</code> |  |
+| [data] | <code>object</code> | <code>{}</code> |
 
 <a name="Tester+postBack"></a>
 
 ### tester.postBack(action, [data]) ⇒ <code>Promise</code>
 Sends postback
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of <code>[Tester](#Tester)</code>
 
 | Param | Type | Default |
 | --- | --- | --- |
-| action | <code>string</code> |  | 
-| [data] | <code>object</code> | <code>{}</code> | 
+| action | <code>string</code> |  |
+| [data] | <code>object</code> | <code>{}</code> |
 
 <a name="Tester.Tester"></a>
 
 ### Tester.Tester
-**Kind**: static class of <code>[Tester](#Tester)</code>  
+**Kind**: static class of <code>[Tester](#Tester)</code>
 <a name="new_Tester.Tester_new"></a>
 
 #### new Tester(reducer, [senderId], [processorOptions])
@@ -1025,7 +1015,7 @@ Creates an instance of Tester.
 <a name="ResponseAssert"></a>
 
 ## ResponseAssert
-**Kind**: global class  
+**Kind**: global class
 
 * [ResponseAssert](#ResponseAssert)
     * [new ResponseAssert()](#new_ResponseAssert_new)
@@ -1050,93 +1040,93 @@ Utility for asserting single response
 ### responseAssert.contains(search) ⇒ <code>this</code>
 Checks, that response contains text
 
-**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>
 
 | Param | Type |
 | --- | --- |
-| search | <code>string</code> | 
+| search | <code>string</code> |
 
 <a name="ResponseAssert+quickReplyAction"></a>
 
 ### responseAssert.quickReplyAction(action) ⇒ <code>this</code>
 Checks quick response action
 
-**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>
 
 | Param | Type |
 | --- | --- |
-| action | <code>string</code> | 
+| action | <code>string</code> |
 
 <a name="ResponseAssert+templateType"></a>
 
 ### responseAssert.templateType(type) ⇒ <code>this</code>
 Checks template type
 
-**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>
 
 | Param | Type |
 | --- | --- |
-| type | <code>string</code> | 
+| type | <code>string</code> |
 
 <a name="ResponseAssert+attachmentType"></a>
 
 ### responseAssert.attachmentType(type) ⇒ <code>this</code>
 Checks attachment type
 
-**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>
 
 | Param | Type |
 | --- | --- |
-| type | <code>string</code> | 
+| type | <code>string</code> |
 
 <a name="ResponseAssert.AnyResponseAssert+contains"></a>
 
 ### ResponseAssert.AnyResponseAssert#contains(search) ⇒ <code>this</code>
 Checks, that response contains text
 
-**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>
 
 | Param | Type |
 | --- | --- |
-| search | <code>string</code> | 
+| search | <code>string</code> |
 
 <a name="ResponseAssert.AnyResponseAssert+quickReplyAction"></a>
 
 ### ResponseAssert.AnyResponseAssert#quickReplyAction(action) ⇒ <code>this</code>
 Checks quick response action
 
-**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>
 
 | Param | Type |
 | --- | --- |
-| action | <code>string</code> | 
+| action | <code>string</code> |
 
 <a name="ResponseAssert.AnyResponseAssert+templateType"></a>
 
 ### ResponseAssert.AnyResponseAssert#templateType(type) ⇒ <code>this</code>
 Checks template type
 
-**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>
 
 | Param | Type |
 | --- | --- |
-| type | <code>string</code> | 
+| type | <code>string</code> |
 
 <a name="ResponseAssert.AnyResponseAssert+attachmentType"></a>
 
 ### ResponseAssert.AnyResponseAssert#attachmentType(type) ⇒ <code>this</code>
 Checks attachment type
 
-**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>
 
 | Param | Type |
 | --- | --- |
-| type | <code>string</code> | 
+| type | <code>string</code> |
 
 <a name="AnyResponseAssert"></a>
 
 ## AnyResponseAssert
-**Kind**: global class  
+**Kind**: global class
 <a name="new_AnyResponseAssert_new"></a>
 
 ### new AnyResponseAssert()
@@ -1147,8 +1137,8 @@ Utility for searching among responses
 ## bufferloader(url, [limit], [limitJustByBody], [redirCount]) ⇒
 Downloads a file from url into a buffer. Supports size limits and redirects.
 
-**Kind**: global function  
-**Returns**: Promise.<Buffer>  
+**Kind**: global function
+**Returns**: Promise.<Buffer>
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -1157,7 +1147,7 @@ Downloads a file from url into a buffer. Supports size limits and redirects.
 | [limitJustByBody] | <code>boolean</code> | <code>false</code> | when true, content size in header is ignored |
 | [redirCount] | <code>number</code> | <code>3</code> | maximmum amount of redirects |
 
-**Example**  
+**Example**
 ```javascript
 router.use('*', (req, res, postBack) => {
     if (req.isFile()) {
@@ -1172,7 +1162,7 @@ router.use('*', (req, res, postBack) => {
 ## attachmentType(response, type, [message]) ⇒ <code>boolean</code>
 Checks attachment type
 
-**Kind**: global function  
+**Kind**: global function
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -1185,7 +1175,7 @@ Checks attachment type
 ## isText(response, [message]) ⇒ <code>boolean</code>
 Checks, that response is a text
 
-**Kind**: global function  
+**Kind**: global function
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -1197,7 +1187,7 @@ Checks, that response is a text
 ## contains(response, search, [message]) ⇒ <code>boolean</code>
 Checks, that text contain a message
 
-**Kind**: global function  
+**Kind**: global function
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -1210,7 +1200,7 @@ Checks, that text contain a message
 ## quickReplyAction(response, action, [message]) ⇒ <code>boolean</code>
 Checks quick response action
 
-**Kind**: global function  
+**Kind**: global function
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -1223,7 +1213,7 @@ Checks quick response action
 ## templateType(response, expectedType, [message]) ⇒ <code>boolean</code>
 Checks template type
 
-**Kind**: global function  
+**Kind**: global function
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -1236,7 +1226,7 @@ Checks template type
 ## waiting(response, [message]) ⇒ <code>boolean</code>
 Looks for waiting message
 
-**Kind**: global function  
+**Kind**: global function
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |

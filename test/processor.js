@@ -58,7 +58,7 @@ function makeOptions (securityMiddleware = null) {
     const log = createLogger();
 
     return {
-        senderFnFactory, defaultState, log, appSecret: 'a', pageToken: 'a', securityMiddleware
+        senderFnFactory, defaultState, log, appSecret: 'a', pageToken: 'a', securityMiddleware, loadUsers: false
     };
 }
 
@@ -122,6 +122,32 @@ describe('Processor', function () {
                     assert(opts.log.warn.calledThrice);
                     return proc.processMessage({});
                 });
+        });
+
+        it('should wait after all async postback are resolved', function () {
+
+            const reducer = sinon.spy((req, res, postBack) => {
+                if (!req.action()) {
+                    const resolve = postBack.wait();
+                    setTimeout(() => resolve('actionName'), 50);
+                }
+            });
+
+            const stateStorage = createStateStorage(EMPTY_STATE, false);
+            const opts = makeOptions();
+            const proc = new Processor(reducer, opts, stateStorage);
+
+            return proc.processMessage({
+                sender: {
+                    id: 1
+                },
+                message: {
+                    text: 'ahoj'
+                }
+            }).then(() => {
+                assert(reducer.calledTwice);
+                assert(stateStorage.saveState.calledTwice);
+            });
         });
 
         it('should work with tokenstorage and wrapper', function () {

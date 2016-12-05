@@ -73,15 +73,33 @@ class Processor {
     }
 
     _createPostBack (senderId, postbackAcumulator, senderFn) {
-        return (action = null, data = {}) => {
-            if (action !== null) {
-                const request = Request.createPostBack(senderId, action, data);
-                const promise = nextTick()
-                    .then(() => this.processMessage(request, senderFn));
-
-                postbackAcumulator.push(promise);
-            }
+        const makePostBack = (action, data = {}) => {
+            const request = Request.createPostBack(senderId, action, data);
+            return this.processMessage(request, senderFn);
         };
+
+        const wait = () => {
+            let res;
+            let rej;
+
+            const promise = new Promise((resolve, reject) => {
+                res = resolve;
+                rej = reject;
+            });
+
+            postbackAcumulator.push(promise);
+
+            return (...args) => makePostBack(...args)
+                .then(a => res(a))
+                .catch(e => rej(e));
+        };
+
+        const postBack = (...args) => postbackAcumulator.push(nextTick()
+            .then(() => makePostBack(...args)));
+
+        postBack.wait = wait;
+
+        return postBack;
     }
 
     processMessage (message, sender = null) {
@@ -131,7 +149,6 @@ class Processor {
 
                 return this.stateStorage.saveState(stateObject);
             })
-            .then(() => Promise.all(this.reducer.debugPromises || []))
             .then(() => Promise.all(postbackAcumulator))
             .catch((e) => {
                 this.options.log.error(e);
