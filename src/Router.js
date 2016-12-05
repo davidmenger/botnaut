@@ -168,10 +168,19 @@ class Router extends ReducerWrapper {
         return next;
     }
 
-    _makePostBackRelative (origPostBack, path) {
+    _relativePostBack (origPostBack, path) {
         return function postBack (action, data = {}) {
             return origPostBack(makeAbsolute(action, path), data);
         };
+    }
+
+    _makePostBackRelative (origPostBack, path) {
+        const postBack = this._relativePostBack(origPostBack, path);
+        postBack.wait = () => {
+            const deferredPostBack = origPostBack.wait();
+            return this._relativePostBack(deferredPostBack, path);
+        };
+        return postBack;
     }
 
     reduce (req, res, postBack = () => {}, next = () => {}, path = '/') {

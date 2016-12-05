@@ -275,6 +275,35 @@ describe('Router', function () {
             assert.deepEqual(postBack.firstCall.args, ['/prefix/relative', { data: 1 }]);
         });
 
+        it('should make relative paths absolute and call wait postBack methods', function () {
+            const router = new Router();
+
+            const route = sinon.spy((req, res, postBack) => {
+                const resolve = postBack.wait();
+                resolve('relative', { data: 1 });
+            });
+
+            const noRoute = sinon.spy();
+            const deferredPostBack = sinon.spy();
+
+            const postBack = {
+                wait: sinon.spy(() => deferredPostBack)
+            };
+            const req = createMockReq('action with text', 'anotherAction');
+            const res = createMockRes();
+
+            router.use(route);
+            router.use('*', noRoute);
+
+            router.reduce(req, res, postBack, undefined, '/prefix');
+
+            assert(!noRoute.called, 'route should not be called');
+            shouldBeCalled(route, req, res);
+            assert(postBack.wait.calledOnce);
+            assert(deferredPostBack.calledOnce);
+            assert.deepEqual(deferredPostBack.firstCall.args, ['/prefix/relative', { data: 1 }]);
+        });
+
     });
 
 });

@@ -75,7 +75,8 @@ class Processor {
     _createPostBack (senderId, postbackAcumulator, senderFn) {
         const makePostBack = (action, data = {}) => {
             const request = Request.createPostBack(senderId, action, data);
-            return this.processMessage(request, senderFn);
+            return nextTick()
+                .then(() => this.processMessage(request, senderFn));
         };
 
         const wait = () => {
@@ -94,8 +95,7 @@ class Processor {
                 .catch(e => rej(e));
         };
 
-        const postBack = (...args) => postbackAcumulator.push(nextTick()
-            .then(() => makePostBack(...args)));
+        const postBack = (...args) => postbackAcumulator.push(makePostBack(...args));
 
         postBack.wait = wait;
 
