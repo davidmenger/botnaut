@@ -246,13 +246,14 @@ describe('Router', function () {
             const req = createMockReq('action with text', 'anotherAction');
             const res = createMockRes();
 
-            router.use(/^action-with-text$/, route);
+            router.use(/should-not-match/, noRoute);
+            router.use(/^action\swith\stext$/, route);
             router.use(noRoute);
 
             router.reduce(req, res);
 
-            assert(!noRoute.called, 'route should not be called');
             shouldBeCalled(route, req, res);
+            assert(!noRoute.called, 'route should not be called');
         });
 
         it('should make relative paths absolute and call postBack methods', function () {

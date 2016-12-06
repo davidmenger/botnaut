@@ -213,7 +213,7 @@ class Router extends ReducerWrapper {
     }
 
     _routeMatch (route, action, req) {
-        if (action) {
+        if (action && route.path !== '/*') {
             return route.pathMatch.exec(action);
         } else if (route.match === null) {
             return route.pathMatch.exec('/');
