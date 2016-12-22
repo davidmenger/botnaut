@@ -17,7 +17,10 @@ describe('Tester', function () {
         music.use('/', (req, res) => {
             res.text('Listen to the music!', {
                 back: 'Go back',
-                play: 'Play'
+                play: {
+                    title: 'Play',
+                    match: /(^|\s)(play|plej)(\s|$)/
+                }
             });
         });
 
@@ -45,7 +48,7 @@ describe('Tester', function () {
             res.text('What?', {
                 go: {
                     title: 'Go',
-                    match: 'Foo',
+                    match: /(^|\s)(faa|fee)(\s|$)/,
                     foo: 1
                 }
             });
@@ -128,7 +131,7 @@ describe('Tester', function () {
                     .contains('Listen')
                     .quickReplyAction('play');
 
-            yield t.text('Play');
+            yield t.text('plej');
 
             t.passedAction('play')
                 .passedAction('/music');
@@ -152,7 +155,7 @@ describe('Tester', function () {
             t.any().contains('what');
             t.any().templateType('button');
 
-            yield t.text('foo');
+            yield t.text('faa');
 
             t.passedAction('go');
             t.any().contains('See: 1');

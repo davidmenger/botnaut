@@ -6,6 +6,7 @@
 const Hook = require('./src/Hook');
 const Processor = require('./src/Processor');
 const Router = require('./src/Router');
+const Request = require('./src/Request');
 const SecurityMiddleware = require('./src/SecurityMiddleware');
 const bufferloader = require('./src/bufferloader');
 const ReducerWrapper = require('./src/ReducerWrapper');
@@ -19,6 +20,7 @@ module.exports = {
     Hook,
     Processor,
     Router,
+    Request,
     ReducerWrapper,
     senderFactory,
 
