@@ -14,6 +14,21 @@ const STATE = {};
 
 describe('Request', function () {
 
+    it('should have senderId and recipientId and pageId', function () {
+
+        const postBack = Request.createPostBack(SENDER_ID, ACTION, DATA);
+
+        postBack.recipient = {
+            id: 789
+        };
+
+        const req = new Request(postBack, STATE, 456);
+
+        assert.strictEqual(req.senderId, SENDER_ID);
+        assert.strictEqual(req.pageId, 456);
+        assert.strictEqual(req.recipientId, 789);
+    });
+
     describe('#isPostBack()', function () {
 
         it('should know, whats postback', function () {

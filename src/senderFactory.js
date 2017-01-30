@@ -16,7 +16,7 @@ function sendData (token, data, queue, sent = []) {
     } else {
         sent.push(data);
         promise = request({
-            uri: 'https://graph.facebook.com/v2.6/me/messages',
+            uri: 'https://graph.facebook.com/v2.8/me/messages',
             qs: { access_token: token },
             method: 'POST',
             json: data

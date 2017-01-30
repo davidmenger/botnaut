@@ -20,7 +20,7 @@ function createStateStorage (state = EMPTY_STATE, simulateError = true) {
             return Promise.resolve(this.model);
         },
         times: 0,
-        getOrCreateAndLock (/* query, update, options*/) {
+        getOrCreateAndLock (/* senderId, defaultState, timeout, pageId */) {
             this.times++;
             if (simulateError && this.times < 2) {
                 const err = new Error();
@@ -66,6 +66,25 @@ describe('Processor', function () {
 
     describe('#processMessage()', function () {
 
+        it('should reject messages from page itself', function () {
+            const reducer = sinon.spy();
+
+            const stateStorage = createStateStorage();
+            const opts = makeOptions();
+            const proc = new Processor(reducer, opts, stateStorage);
+
+            return proc.processMessage({
+                sender: {
+                    id: 1
+                },
+                message: {
+                    text: 'ahoj'
+                }
+            }, 1).then(() => {
+                assert(!reducer.called);
+            });
+        });
+
         it('should work', function () {
 
             const reducer = sinon.spy((req, res) => {
@@ -84,7 +103,7 @@ describe('Processor', function () {
                 message: {
                     text: 'ahoj'
                 }
-            }).then(() => {
+            }, 10).then(() => {
                 assert(reducer.calledOnce);
 
                 assert.deepEqual(stateStorage.model.state, {
@@ -96,6 +115,12 @@ describe('Processor', function () {
 
                 assert(stateStorage.saveState.called);
                 assert(opts.senderFnFactory.sender.called);
+                assert.deepEqual(stateStorage.getOrCreateAndLock.firstCall.args, [
+                    1,
+                    {},
+                    100,
+                    10
+                ]);
             });
         });
 

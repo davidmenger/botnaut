@@ -16,9 +16,10 @@ class Hook {
         const wait = [];
 
         body.entry.forEach((event) => {
+            const pageId = event.id;
             if (Array.isArray(event.messaging)) {
                 event.messaging.forEach((data) => {
-                    const then = this.processor.processMessage(data);
+                    const then = this.processor.processMessage(data, pageId);
                     wait.push(then);
                 });
             }

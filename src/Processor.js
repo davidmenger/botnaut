@@ -24,7 +24,7 @@ class Processor {
      * @param {{appUrl?:string, translator?:function, timeout?:number, log?:object,
         defaultState?:object, cookieName?:string, pageToken:string, appSecret:string,
         chatLog?:object, tokenStorage?:object, senderFnFactory?:function,
-        securityMiddleware?:object, loadUsers?:boolean}} options
+        securityMiddleware?:object, loadUsers?:boolean, loadUsers?:object}} options
      * @param {{getOrCreateAndLock:function, saveState:function}} [stateStorage]
      *
      * @memberOf Processor
@@ -43,7 +43,8 @@ class Processor {
             tokenStorage: null,
             senderFnFactory: null,
             securityMiddleware: null,
-            loadUsers: true
+            loadUsers: true,
+            userLoader: null
         };
         Object.assign(this.options, options);
 
@@ -69,14 +70,20 @@ class Processor {
             throw new Error('Missing `appSecret` in options. Please provide an appSecret or own securityMiddleware');
         }
 
-        this.userLoader = this.options.loadUsers ? new UserLoader(this.options.pageToken) : null;
+        if (this.options.userLoader) {
+            this.userLoader = this.options.userLoader;
+        } else {
+            this.userLoader = this.options.loadUsers
+                ? new UserLoader(this.options.pageToken)
+                : null;
+        }
     }
 
-    _createPostBack (senderId, postbackAcumulator, senderFn) {
+    _createPostBack (senderId, pageId, postbackAcumulator, senderFn) {
         const makePostBack = (action, data = {}) => {
             const request = Request.createPostBack(senderId, action, data);
             return nextTick()
-                .then(() => this.processMessage(request, senderFn));
+                .then(() => this.processMessage(request, pageId, senderFn));
         };
 
         const wait = () => {
@@ -102,18 +109,24 @@ class Processor {
         return postBack;
     }
 
-    processMessage (message, sender = null) {
+    processMessage (message, pageId, sender = null) {
         if (!message || !message.sender || !message.sender.id) {
             this.options.log.warn('Bot received bad message', message);
             return Promise.resolve(null);
         }
 
         const senderId = message.sender.id;
-        const postbackAcumulator = [];
+
+        // ignore messages from the page
+        if (pageId === senderId) {
+            return Promise.resolve(null);
+        }
+
+        const postbacks = [];
 
         const senderFn = sender || this.senderFnFactory(message);
 
-        return this._loadState(senderId)
+        return this._loadState(senderId, pageId)
             .then(stateObject => this._ensureUserProfileLoaded(senderId, stateObject))
             .then(stateObject => this._getOrCreateToken(senderId, stateObject))
             .then(({ token, stateObject }) => {
@@ -121,7 +134,7 @@ class Processor {
                 let state = stateObject.state;
                 const req = new Request(message, state);
                 const res = new Responder(senderId, senderFn, token, this.options);
-                const postBack = this._createPostBack(senderId, postbackAcumulator, senderFn);
+                const postBack = this._createPostBack(senderId, pageId, postbacks, senderFn);
 
                 if (typeof this.reducer === 'function') {
                     this.reducer(req, res, postBack);
@@ -149,7 +162,7 @@ class Processor {
 
                 return this.stateStorage.saveState(stateObject);
             })
-            .then(() => Promise.all(postbackAcumulator))
+            .then(() => Promise.all(postbacks))
             .catch((e) => {
                 this.options.log.error(e);
             });
@@ -186,7 +199,7 @@ class Processor {
             });
     }
 
-    _loadState (senderId) {
+    _loadState (senderId, pageId) {
         return new Promise((resolve, reject) => {
             let retrys = 4;
 
@@ -197,7 +210,7 @@ class Processor {
                         return;
                     }
 
-                    this._model(senderId)
+                    this._model(senderId, pageId)
                         .then(onLoad)
                         .catch(reject);
                 } else {
@@ -213,9 +226,9 @@ class Processor {
         return new Promise(r => setTimeout(() => r(null), this.options.timeout + 25));
     }
 
-    _model (senderId) {
+    _model (senderId, pageId) {
         const { timeout, defaultState } = this.options;
-        return this.stateStorage.getOrCreateAndLock(senderId, defaultState, timeout)
+        return this.stateStorage.getOrCreateAndLock(senderId, defaultState, timeout, pageId)
             .catch((err) => {
                 if (!err || err.code !== 11000) {
                     this.options.log.error('Bot processor load error', err);

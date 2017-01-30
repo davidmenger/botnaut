@@ -14,7 +14,7 @@ const { parseActionPayload } = require('./pathUtils');
  */
 class Request {
 
-    constructor (data, state) {
+    constructor (data, state, pageId) {
         this.data = data;
 
         this.message = data.message || null;
@@ -23,7 +23,20 @@ class Request {
 
         this.attachments = (data.message && data.message.attachments) || [];
 
+        /**
+         * @prop {string} senderId sender.id from the event
+         */
         this.senderId = data.sender && data.sender.id;
+
+        /**
+         * @prop {string} recipientId recipient.id from the event
+         */
+        this.recipientId = data.recipient && data.recipient.id;
+
+        /**
+         * @prop {string} pageId page identifier from the event
+         */
+        this.pageId = pageId;
 
         /**
          * @prop {object} state current state of the conversation
