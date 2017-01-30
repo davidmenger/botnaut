@@ -127,7 +127,7 @@ class Processor {
         const senderFn = sender || this.senderFnFactory(message);
 
         return this._loadState(senderId, pageId)
-            .then(stateObject => this._ensureUserProfileLoaded(senderId, stateObject))
+            .then(stateObject => this._ensureUserProfileLoaded(senderId, pageId, stateObject))
             .then(stateObject => this._getOrCreateToken(senderId, stateObject))
             .then(({ token, stateObject }) => {
 
@@ -168,14 +168,14 @@ class Processor {
             });
     }
 
-    _ensureUserProfileLoaded (senderId, stateObject) {
+    _ensureUserProfileLoaded (senderId, pageId, stateObject) {
         if (stateObject.state
             && stateObject.state.user
             && Object.keys(stateObject.state.user).length !== 0) {
 
             return stateObject;
         }
-        return this._ensureUserBound(stateObject, senderId);
+        return this._ensureUserBound(stateObject, senderId, pageId);
     }
 
     _getOrCreateToken (senderId, stateObject) {
@@ -183,12 +183,12 @@ class Processor {
                     .then(token => ({ token, stateObject }));
     }
 
-    _ensureUserBound (stateObject, senderId) {
+    _ensureUserBound (stateObject, senderId, pageId) {
         if (!this.userLoader) {
             return stateObject;
         }
         const state = stateObject;
-        return this.userLoader.loadUser(senderId)
+        return this.userLoader.loadUser(senderId, pageId)
             .then((user) => {
                 state.state.user = user;
                 return this.stateStorage.saveState(state);
