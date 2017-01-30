@@ -7,7 +7,7 @@ const UserLoader = require('./UserLoader');
 const Responder = require('./Responder');
 const Request = require('./Request');
 const SecurityMiddleware = require('./SecurityMiddleware');
-const senderFactory = require('./senderFactory');
+const { senderFactory } = require('./senderFactory');
 const MemoryStateStorage = require('./MemoryStateStorage');
 
 function nextTick () {
@@ -124,7 +124,7 @@ class Processor {
 
         const postbacks = [];
 
-        const senderFn = sender || this.senderFnFactory(message);
+        const senderFn = sender || this.senderFnFactory(message, pageId);
 
         return this._loadState(senderId, pageId)
             .then(stateObject => this._ensureUserProfileLoaded(senderId, pageId, stateObject))

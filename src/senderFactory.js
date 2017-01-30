@@ -9,18 +9,22 @@ function wait (ms) {
     return new Promise(res => setTimeout(res, ms));
 }
 
-function sendData (token, data, queue, sent = []) {
+function sender (data, token) {
+    return request({
+        uri: 'https://graph.facebook.com/v2.8/me/messages',
+        qs: { access_token: token },
+        method: 'POST',
+        json: data
+    });
+}
+
+function sendData (senderFn, token, data, queue, sent = []) {
     let promise;
     if (data.wait) {
         promise = wait(data.wait);
     } else {
         sent.push(data);
-        promise = request({
-            uri: 'https://graph.facebook.com/v2.8/me/messages',
-            qs: { access_token: token },
-            method: 'POST',
-            json: data
-        });
+        promise = senderFn(data, token);
     }
     return promise
         .then(() => {
@@ -30,11 +34,11 @@ function sendData (token, data, queue, sent = []) {
                 return sent;
             }
 
-            return sendData(token, next, queue, sent);
+            return sendData(senderFn, token, next, queue, sent);
         });
 }
 
-function senderFactory (token, logger = console) {
+function senderFactory (token, logger = console, senderFn = sender) {
     const factoryFn = function factory (incommingMessage) {
         const queue = [];
         let working = false;
@@ -46,7 +50,7 @@ function senderFactory (token, logger = console) {
             } else {
                 working = true;
                 const sent = [];
-                sendData(token, payload, queue, sent)
+                sendData(senderFn, token, payload, queue, sent)
                     .then(() => {
                         working = false;
                         logger.log(sent, incommingMessage);
@@ -61,4 +65,7 @@ function senderFactory (token, logger = console) {
     return factoryFn;
 }
 
-module.exports = senderFactory;
+module.exports = {
+    senderFactory,
+    sender
+};

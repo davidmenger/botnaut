@@ -4,7 +4,7 @@
 'use strict';
 
 const sinon = require('sinon');
-const senderFactory = require('../src/senderFactory');
+const { senderFactory } = require('../src/senderFactory');
 
 const TOKEN = 'a';
 const INPUT_MESSAGE = { sender: { id: '1' } };
