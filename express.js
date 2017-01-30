@@ -44,5 +44,8 @@ function createRouter (processor, botToken, log = console) {
 
 module.exports = {
     createProcessor,
-    createRouter
+    createRouter,
+    State,
+    BotToken,
+    ChatLog
 };

@@ -14,6 +14,7 @@ const Tester = require('./src/Tester');
 const Settings = require('./src/Settings');
 const senderFactory = require('./src/senderFactory');
 const asserts = require('./src/asserts');
+const UserLoader = require('./src/UserLoader');
 
 module.exports = {
     // basic functionality
@@ -23,6 +24,7 @@ module.exports = {
     Request,
     ReducerWrapper,
     senderFactory,
+    UserLoader,
 
     // utilities
     Tester,
