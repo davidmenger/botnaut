@@ -15,6 +15,7 @@ const Settings = require('./src/Settings');
 const { senderFactory, sender } = require('./src/senderFactory');
 const asserts = require('./src/asserts');
 const UserLoader = require('./src/UserLoader');
+const MemoryStateStorage = require('./src/MemoryStateStorage');
 
 module.exports = {
     // basic functionality
@@ -31,6 +32,7 @@ module.exports = {
     Tester,
     bufferloader,
     asserts,
+    MemoryStateStorage,
 
     // setup tools
     SecurityMiddleware,
