@@ -936,7 +936,7 @@ Creates an instance of Settings.
         * [.postBack(action, [data])](#Tester+postBack) ⇒ <code>Promise</code>
     * _static_
         * [.Tester](#Tester.Tester)
-            * [new Tester(reducer, [senderId], [processorOptions])](#new_Tester.Tester_new)
+            * [new Tester(reducer, [senderId], [processorOptions], [storage])](#new_Tester.Tester_new)
 
 <a name="new_Tester_new"></a>
 
@@ -1035,7 +1035,7 @@ Sends postback
 **Kind**: static class of <code>[Tester](#Tester)</code>  
 <a name="new_Tester.Tester_new"></a>
 
-#### new Tester(reducer, [senderId], [processorOptions])
+#### new Tester(reducer, [senderId], [processorOptions], [storage])
 Creates an instance of Tester.
 
 
@@ -1044,6 +1044,7 @@ Creates an instance of Tester.
 | reducer | <code>[Router](#Router)</code> &#124; <code>[ReducerWrapper](#ReducerWrapper)</code> &#124; <code>function</code> |  |  |
 | [senderId] | <code>string</code> | <code>null</code> |  |
 | [processorOptions] | <code>object</code> | <code>{}</code> | options for Processor |
+| [storage] | <code>MemoryStateStorage</code> |  | place to override the storage |
 
 <a name="ResponseAssert"></a>
 

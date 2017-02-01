@@ -26,14 +26,20 @@ class Tester {
      * @param {Router|ReducerWrapper|function} reducer
      * @param {string} [senderId=null]
      * @param {object} [processorOptions={}] options for Processor
+     * @param {MemoryStateStorage} [storage] place to override the storage
      *
      * @memberOf Tester
      */
-    constructor (reducer, senderId = null, processorOptions = {}) {
+    constructor (reducer,
+            senderId = null,
+            processorOptions = {},
+            storage = new MemoryStateStorage()
+        ) {
+
         this._responsesCollector = [];
         this._actionsCollector = [];
 
-        this.storage = new MemoryStateStorage();
+        this.storage = storage;
 
         // replace sender
         const senderFnFactory = () => (data) => {
