@@ -132,7 +132,7 @@ class Processor {
             .then(({ token, stateObject }) => {
 
                 let state = stateObject.state;
-                const req = new Request(message, state);
+                const req = new Request(message, state, pageId);
                 const res = new Responder(senderId, senderFn, token, this.options);
                 const postBack = this._createPostBack(senderId, pageId, postbacks, senderFn);
 
