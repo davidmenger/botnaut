@@ -188,6 +188,7 @@ app.use('textAction', /keyword|two-words?/, (req, res) => {
     * [.text([tokenized])](#Request+text) ⇒ <code>string</code>
     * [.quickReply([getData])](#Request+quickReply) ⇒ <code>null</code> &#124; <code>string</code> &#124; <code>object</code>
     * [.isPostBack()](#Request+isPostBack) ⇒ <code>boolean</code>
+    * [.isReferral()](#Request+isReferral) ⇒ <code>boolean</code>
     * [.action([getData])](#Request+action) ⇒ <code>null</code> &#124; <code>string</code> &#124; <code>object</code>
     * [.postBack([getData])](#Request+postBack) ⇒ <code>null</code> &#124; <code>string</code> &#124; <code>object</code>
 
@@ -330,6 +331,12 @@ typeof res.quickReply(true) === 'object';
 Returns true, if request is the postback
 
 **Kind**: instance method of <code>[Request](#Request)</code>  
+<a name="Request+isReferral"></a>
+
+### request.isReferral() ⇒ <code>boolean</code>
+Returns true, if request is the referral
+
+**Kind**: instance method of <code>[Request](#Request)</code>  
 <a name="Request+action"></a>
 
 ### request.action([getData]) ⇒ <code>null</code> &#124; <code>string</code> &#124; <code>object</code>
@@ -337,9 +344,10 @@ Returns action of the postback or quickreply
 When `getData` is `true`, object will be returned. Otherwise string or null.
 
 1. the postback is checked
-2. the quick reply is checked
-3. expected keywords are checked
-4. expected state is checked
+2. the referral is checked
+3. the quick reply is checked
+4. expected keywords are checked
+5. expected state is checked
 
 **Kind**: instance method of <code>[Request](#Request)</code>  
 

@@ -21,6 +21,8 @@ class Request {
 
         this._postback = data.postback || null;
 
+        this._referral = data.referral || null;
+
         this.attachments = (data.message && data.message.attachments) || [];
 
         /**
@@ -188,13 +190,25 @@ class Request {
     }
 
     /**
+     * Returns true, if request is the referral
+     *
+     * @returns {boolean}
+     *
+     * @memberOf Request
+     */
+    isReferral () {
+        return this._referral !== null;
+    }
+
+    /**
      * Returns action of the postback or quickreply
      * When `getData` is `true`, object will be returned. Otherwise string or null.
      *
      * 1. the postback is checked
-     * 2. the quick reply is checked
-     * 3. expected keywords are checked
-     * 4. expected state is checked
+     * 2. the referral is checked
+     * 3. the quick reply is checked
+     * 4. expected keywords are checked
+     * 5. expected state is checked
      *
      * @param {boolean} [getData=false]
      * @returns {null|string|object}
@@ -211,9 +225,15 @@ class Request {
         if (this._postback !== null) {
             res = this._processPayload(this._postback, getData);
         }
+
+        if (!res && this._referral !== null && this._referral.ref) {
+            res = this._processPayload({ payload: this._referral.ref }, getData);
+        }
+
         if (!res && this.message !== null && this.message.quick_reply) {
             res = this._processPayload(this.message.quick_reply, getData);
         }
+
         if (!res && this.state._expectedKeywords) {
             const payload = quickReplyAction(this.state._expectedKeywords, this.text(true));
             if (payload) {
@@ -301,6 +321,22 @@ Request.quickReply = function (senderId, action, data = {}) {
                     data
                 })
             }
+        }
+    };
+};
+
+Request.referral = function (senderId, action, data = {}) {
+    return {
+        sender: {
+            id: senderId
+        },
+        referral: {
+            ref: JSON.stringify({
+                action,
+                data
+            }),
+            source: 'SHORTLINK',
+            type: 'OPEN_THREAD'
         }
     };
 };
