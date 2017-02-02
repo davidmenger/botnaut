@@ -23,6 +23,8 @@ class Request {
 
         this._referral = data.referral || null;
 
+        this._optin = data.optin || null;
+
         this.attachments = (data.message && data.message.attachments) || [];
 
         /**
@@ -201,6 +203,17 @@ class Request {
     }
 
     /**
+     * Returns true, if request is the optin
+     *
+     * @returns {boolean}
+     *
+     * @memberOf Request
+     */
+    isOptin () {
+        return this._optin !== null;
+    }
+
+    /**
      * Returns action of the postback or quickreply
      * When `getData` is `true`, object will be returned. Otherwise string or null.
      *
@@ -228,6 +241,10 @@ class Request {
 
         if (!res && this._referral !== null && this._referral.ref) {
             res = this._processPayload({ payload: this._referral.ref }, getData);
+        }
+
+        if (!res && this._optin !== null && this._optin.ref) {
+            res = this._processPayload({ payload: this._optin.ref }, getData);
         }
 
         if (!res && this.message !== null && this.message.quick_reply) {
@@ -337,6 +354,20 @@ Request.referral = function (senderId, action, data = {}) {
             }),
             source: 'SHORTLINK',
             type: 'OPEN_THREAD'
+        }
+    };
+};
+
+Request.optin = function (senderId, action, data = {}) {
+    return {
+        sender: {
+            id: senderId
+        },
+        optin: {
+            ref: JSON.stringify({
+                action,
+                data
+            })
         }
     };
 };

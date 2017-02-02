@@ -47,6 +47,15 @@ describe('Request', function () {
 
     });
 
+    describe('#isOptin()', function () {
+
+        it('should know, whats optin', function () {
+            const req = new Request(Request.optin(SENDER_ID, ACTION, DATA), STATE);
+            assert.strictEqual(req.isOptin(), true);
+        });
+
+    });
+
     describe('#.state', function () {
 
         it('should have state', function () {
@@ -75,6 +84,16 @@ describe('Request', function () {
 
         it('should return action data from postback', function () {
             const req = new Request(Request.referral(SENDER_ID, ACTION, DATA), STATE);
+            assert.deepEqual(req.action(true), DATA);
+        });
+
+        it('should return action name from referral', function () {
+            const req = new Request(Request.optin(SENDER_ID, ACTION, DATA), STATE);
+            assert.strictEqual(req.action(), ACTION);
+        });
+
+        it('should return action data from postback', function () {
+            const req = new Request(Request.optin(SENDER_ID, ACTION, DATA), STATE);
             assert.deepEqual(req.action(true), DATA);
         });
 

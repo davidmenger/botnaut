@@ -189,6 +189,7 @@ app.use('textAction', /keyword|two-words?/, (req, res) => {
     * [.quickReply([getData])](#Request+quickReply) ⇒ <code>null</code> &#124; <code>string</code> &#124; <code>object</code>
     * [.isPostBack()](#Request+isPostBack) ⇒ <code>boolean</code>
     * [.isReferral()](#Request+isReferral) ⇒ <code>boolean</code>
+    * [.isOptin()](#Request+isOptin) ⇒ <code>boolean</code>
     * [.action([getData])](#Request+action) ⇒ <code>null</code> &#124; <code>string</code> &#124; <code>object</code>
     * [.postBack([getData])](#Request+postBack) ⇒ <code>null</code> &#124; <code>string</code> &#124; <code>object</code>
 
@@ -335,6 +336,12 @@ Returns true, if request is the postback
 
 ### request.isReferral() ⇒ <code>boolean</code>
 Returns true, if request is the referral
+
+**Kind**: instance method of <code>[Request](#Request)</code>  
+<a name="Request+isOptin"></a>
+
+### request.isOptin() ⇒ <code>boolean</code>
+Returns true, if request is the optin
 
 **Kind**: instance method of <code>[Request](#Request)</code>  
 <a name="Request+action"></a>
