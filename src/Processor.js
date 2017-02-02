@@ -169,17 +169,28 @@ class Processor {
         const isRef = !!refHandler;
         const senderHandler = refHandler && refHandler.handler;
         const senderFn = sender || this.senderFnFactory(message, pageId, senderHandler);
+        let req;
+        let state;
 
         return this._loadState(isRef, senderId, pageId)
-            .then(stateObject => this.stateStorage.onAfterStateLoad(isRef, senderId, stateObject))
             .then(stateObject =>
                 this._ensureUserProfileLoaded(isRef, senderId, pageId, stateObject))
+            .then((stateObject) => {
+                state = stateObject.state;
+                req = new Request(message, state, pageId);
+                return this.stateStorage.onAfterStateLoad(req, stateObject);
+            })
             .then(stateObject => this._getOrCreateToken(isRef, senderId, stateObject))
             .then(({ token, stateObject }) => {
 
-                let state = stateObject.state;
-                const req = new Request(message, state, pageId);
+                // update the state of request
+                state = stateObject.state;
+                req.state = state;
+
+                // prepare responder
                 const res = new Responder(isRef, senderId, senderFn, token, this.options);
+
+                // create postBack handler
                 const wait = refHandler && refHandler.promise;
                 const postBack = this._createPostBack(senderId, pageId, postbacks, senderFn, wait);
 
@@ -202,7 +213,7 @@ class Processor {
                 }
 
                 if (!isRef) {
-                    return { stateObject, state };
+                    return stateObject;
                 }
 
                 if (!refHandler.called) {
@@ -210,11 +221,9 @@ class Processor {
                 }
 
                 return refHandler.promise()
-                    .then(recipientId => this._loadState(false, recipientId, pageId))
-                    .then(userStateObject => ({ stateObject: userStateObject, state }));
+                    .then(recipientId => this._loadState(false, recipientId, pageId));
             })
-            .then(({ stateObject, state }) => {
-
+            .then((stateObject) => {
                 Object.assign(stateObject, {
                     state,
                     lock: 0,

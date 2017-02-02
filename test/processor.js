@@ -32,7 +32,7 @@ function createStateStorage (state = EMPTY_STATE, simulateError = true) {
 
             return Promise.resolve(this.model);
         },
-        onAfterStateLoad (isRef, senderId, preparedState) {
+        onAfterStateLoad (req, preparedState) {
             return preparedState;
         }
     };

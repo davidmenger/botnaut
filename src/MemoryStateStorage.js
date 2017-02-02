@@ -26,7 +26,7 @@ class MemoryStateStorage {
         return Promise.resolve(state);
     }
 
-    onAfterStateLoad (isRef, senderId, state) {
+    onAfterStateLoad (req, state) {
         return Promise.resolve(state);
     }
 
