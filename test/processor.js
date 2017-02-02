@@ -22,7 +22,7 @@ function createStateStorage (state = EMPTY_STATE, simulateError = true) {
             return Promise.resolve(this.model);
         },
         times: 0,
-        getOrCreateAndLock (/* senderId, defaultState, timeout, pageId */) {
+        getOrCreateAndLock (/* senderId, defaultState, timeout */) {
             this.times++;
             if (simulateError && this.times < 2) {
                 const err = new Error();
@@ -96,6 +96,7 @@ describe('Processor', function () {
             const reducer = sinon.spy((req, res) => {
                 res.setState({ final: 1 });
                 res.text('Hello');
+                assert.strictEqual(req.pageId, 10);
             });
 
             const stateStorage = createStateStorage();
@@ -124,8 +125,7 @@ describe('Processor', function () {
                 assert.deepEqual(stateStorage.getOrCreateAndLock.firstCall.args, [
                     1,
                     {},
-                    100,
-                    10
+                    100
                 ]);
             });
         });
@@ -274,8 +274,7 @@ describe('Processor', function () {
                 assert.deepEqual(stateStorage.getOrCreateAndLock.firstCall.args, [
                     'senderid',
                     {},
-                    100,
-                    10
+                    100
                 ]);
 
                 assert.deepEqual(stateStorage.model.state, {

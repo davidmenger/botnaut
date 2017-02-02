@@ -156,7 +156,7 @@ class Processor {
             senderId = message.optin.user_ref;
             refHandler = this._createRefHandler();
         } else {
-            this.options.log.warn('Bot received bad message', message);
+            this.options.log.warn('Bot received bad message', { message, pageId });
             return Promise.resolve(null);
         }
 
@@ -172,7 +172,7 @@ class Processor {
         let req;
         let state;
 
-        return this._loadState(isRef, senderId, pageId)
+        return this._loadState(isRef, senderId)
             .then(stateObject =>
                 this._ensureUserProfileLoaded(isRef, senderId, pageId, stateObject))
             .then((stateObject) => {
@@ -217,13 +217,17 @@ class Processor {
                 }
 
                 if (!refHandler.called) {
-                    throw new Error('Call any send method, when optin is received!');
+                    this.options.log.warn('No text message was sent, when optin arrived!', { message, pageId });
+                    return null;
                 }
 
                 return refHandler.promise()
-                    .then(recipientId => this._loadState(false, recipientId, pageId));
+                    .then(recipientId => this._loadState(false, recipientId));
             })
             .then((stateObject) => {
+                if (!stateObject) {
+                    return null;
+                }
                 Object.assign(stateObject, {
                     state,
                     lock: 0,
@@ -282,7 +286,7 @@ class Processor {
             });
     }
 
-    _loadState (isRef, senderId, pageId) {
+    _loadState (isRef, senderId) {
         if (isRef) {
             return Promise.resolve({
                 state: Object.assign({}, this.options.defaultState)
@@ -299,7 +303,7 @@ class Processor {
                         return;
                     }
 
-                    this._model(senderId, pageId)
+                    this._model(senderId)
                         .then(onLoad)
                         .catch(reject);
                 } else {
@@ -315,9 +319,9 @@ class Processor {
         return new Promise(r => setTimeout(() => r(null), this.options.timeout + 25));
     }
 
-    _model (senderId, pageId) {
+    _model (senderId) {
         const { timeout, defaultState } = this.options;
-        return this.stateStorage.getOrCreateAndLock(senderId, defaultState, timeout, pageId)
+        return this.stateStorage.getOrCreateAndLock(senderId, defaultState, timeout)
             .catch((err) => {
                 if (!err || err.code !== 11000) {
                     this.options.log.error('Bot processor load error', err);
