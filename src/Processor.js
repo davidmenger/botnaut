@@ -25,7 +25,8 @@ class Processor {
         defaultState?:object, cookieName?:string, pageToken:string, appSecret:string,
         chatLog?:object, tokenStorage?:object, senderFnFactory?:function,
         securityMiddleware?:object, loadUsers?:boolean, loadUsers?:object}} options
-     * @param {{getOrCreateAndLock:function, saveState:function}} [stateStorage]
+     * @param {{getOrCreateAndLock:function, saveState:function,
+        onAfterStateLoad:function}} [stateStorage]
      *
      * @memberOf Processor
      */
@@ -79,12 +80,12 @@ class Processor {
         }
     }
 
-    _createPostBack (senderId, pageId, postbackAcumulator, senderFn) {
-        const makePostBack = (action, data = {}) => {
-            const request = Request.createPostBack(senderId, action, data);
-            return nextTick()
-                .then(() => this.processMessage(request, pageId, senderFn));
-        };
+    _createPostBack (senderId, pageId, postbackAcumulator, senderFn, waitAfter = nextTick) {
+        const makePostBack = (action, data = {}) => waitAfter()
+                .then((newSenderId) => {
+                    const request = Request.createPostBack(newSenderId || senderId, action, data);
+                    return this.processMessage(request, pageId, senderFn);
+                });
 
         const wait = () => {
             let res;
@@ -109,32 +110,78 @@ class Processor {
         return postBack;
     }
 
+    _createRefHandler () {
+        const handler = {
+            called: false,
+            resolved: false,
+            _resolve: null,
+            _promise: null,
+            promise () {
+                return handler._promise;
+            },
+            handler (res, nextData) {
+
+                if (nextData && !nextData.wait) {
+                    handler.called = true;
+                }
+
+                if (res && !handler.resolved) {
+                    handler._resolve(res.recipient_id);
+                }
+
+                const hasRecipientId = res && typeof res === 'object' && res.recipient_id;
+                const nextIsRef = nextData && nextData.recipient && nextData.recipient.user_ref;
+
+                // convert next user_ref to id
+                if (hasRecipientId && nextIsRef) {
+                    Object.assign(nextData, {
+                        recipient: { id: res.recipient_id }
+                    });
+                }
+
+                return nextData;
+            }
+        };
+        handler._promise = new Promise((resolve) => { handler._resolve = resolve; });
+        return handler;
+    }
+
     processMessage (message, pageId, sender = null) {
-        if (!message || !message.sender || !message.sender.id) {
+        let senderId;
+        let refHandler;
+
+        if (message && message.sender && message.sender.id) {
+            senderId = message.sender.id;
+        } else if (message && message.optin && message.optin.user_ref) {
+            senderId = message.optin.user_ref;
+            refHandler = this._createRefHandler();
+        } else {
             this.options.log.warn('Bot received bad message', message);
             return Promise.resolve(null);
         }
 
-        const senderId = message.sender.id;
-
         // ignore messages from the page
-        if (pageId === senderId) {
+        if (pageId === senderId && senderId) {
             return Promise.resolve(null);
         }
 
         const postbacks = [];
+        const isRef = !!refHandler;
+        const senderHandler = refHandler && refHandler.handler;
+        const senderFn = sender || this.senderFnFactory(message, pageId, senderHandler);
 
-        const senderFn = sender || this.senderFnFactory(message, pageId);
-
-        return this._loadState(senderId, pageId)
-            .then(stateObject => this._ensureUserProfileLoaded(senderId, pageId, stateObject))
-            .then(stateObject => this._getOrCreateToken(senderId, stateObject))
+        return this._loadState(isRef, senderId, pageId)
+            .then(stateObject => this.stateStorage.onAfterStateLoad(isRef, senderId, stateObject))
+            .then(stateObject =>
+                this._ensureUserProfileLoaded(isRef, senderId, pageId, stateObject))
+            .then(stateObject => this._getOrCreateToken(isRef, senderId, stateObject))
             .then(({ token, stateObject }) => {
 
                 let state = stateObject.state;
                 const req = new Request(message, state, pageId);
-                const res = new Responder(senderId, senderFn, token, this.options);
-                const postBack = this._createPostBack(senderId, pageId, postbacks, senderFn);
+                const res = new Responder(isRef, senderId, senderFn, token, this.options);
+                const wait = refHandler && refHandler.promise;
+                const postBack = this._createPostBack(senderId, pageId, postbacks, senderFn, wait);
 
                 if (typeof this.reducer === 'function') {
                     this.reducer(req, res, postBack);
@@ -154,6 +201,20 @@ class Processor {
                     state._expectedKeywords = null;
                 }
 
+                if (!isRef) {
+                    return { stateObject, state };
+                }
+
+                if (!refHandler.called) {
+                    throw new Error('Call any send method, when optin is received!');
+                }
+
+                return refHandler.promise()
+                    .then(recipientId => this._loadState(false, recipientId, pageId))
+                    .then(userStateObject => ({ stateObject: userStateObject, state }));
+            })
+            .then(({ stateObject, state }) => {
+
                 Object.assign(stateObject, {
                     state,
                     lock: 0,
@@ -168,17 +229,30 @@ class Processor {
             });
     }
 
-    _ensureUserProfileLoaded (senderId, pageId, stateObject) {
-        if (stateObject.state
+    _ensureUserProfileLoaded (isRef, senderId, pageId, stateObject) {
+        const hasUserInState = stateObject.state
             && stateObject.state.user
-            && Object.keys(stateObject.state.user).length !== 0) {
+            && Object.keys(stateObject.state.user).length !== 0;
 
+        if (isRef) {
+            if (!hasUserInState && this.userLoader) {
+                Object.assign(stateObject.state, { user: {} });
+            }
             return stateObject;
         }
+
+        if (hasUserInState) {
+            return stateObject;
+        }
+
         return this._ensureUserBound(stateObject, senderId, pageId);
     }
 
-    _getOrCreateToken (senderId, stateObject) {
+    _getOrCreateToken (isRef, senderId, stateObject) {
+        if (isRef) {
+            return { token: null, stateObject };
+        }
+
         return this.secure.getOrCreateToken(senderId)
                     .then(token => ({ token, stateObject }));
     }
@@ -199,7 +273,13 @@ class Processor {
             });
     }
 
-    _loadState (senderId, pageId) {
+    _loadState (isRef, senderId, pageId) {
+        if (isRef) {
+            return Promise.resolve({
+                state: Object.assign({}, this.options.defaultState)
+            });
+        }
+
         return new Promise((resolve, reject) => {
             let retrys = 4;
 

@@ -6,7 +6,9 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const Processor = require('../src/Processor');
+const Request = require('../src/Request');
 const ReducerWrapper = require('../src/ReducerWrapper');
+const { senderFactory } = require('../src/senderFactory');
 
 const EMPTY_STATE = { user: {} };
 
@@ -29,10 +31,14 @@ function createStateStorage (state = EMPTY_STATE, simulateError = true) {
             }
 
             return Promise.resolve(this.model);
+        },
+        onAfterStateLoad (isRef, senderId, preparedState) {
+            return preparedState;
         }
     };
     sinon.spy(storage, 'getOrCreateAndLock');
     sinon.spy(storage, 'saveState');
+    sinon.spy(storage, 'onAfterStateLoad');
     return storage;
 }
 
@@ -218,6 +224,63 @@ describe('Processor', function () {
                 assert(opts.senderFnFactory.sender.called);
 
                 assert(actionSpy.calledOnce);
+            });
+        });
+
+        it('should accept optins and save them in state', function () {
+
+            let callNo = 0;
+
+            const reducer = sinon.spy((req, res, postBack) => {
+                callNo++;
+                if (callNo === 1) {
+                    res.text('Hello');
+                    res.setState({ final: 1 });
+                    assert.strictEqual(req.senderId, null);
+                    res.text('Hello');
+                    postBack('action');
+                } else {
+                    res.setState({ final: 2 });
+                    assert.strictEqual(req.senderId, 'senderid');
+                    res.text('Hello');
+                }
+            });
+
+            const stateStorage = createStateStorage();
+            const opts = makeOptions();
+            const sender = sinon.spy(() => Promise.resolve({ recipient_id: 'senderid' }));
+
+            opts.senderFnFactory = senderFactory('a', { log: () => {} }, sender);
+
+            const proc = new Processor(reducer, opts, stateStorage);
+
+            return proc.processMessage(Request.optin('optinid', 'action'), 10).then(() => {
+                assert(reducer.calledTwice);
+
+                assert(stateStorage.onAfterStateLoad.called);
+                assert(stateStorage.onAfterStateLoad.firstCall
+                    .calledBefore(stateStorage.getOrCreateAndLock.firstCall));
+                assert(stateStorage.saveState.called);
+
+                assert(stateStorage.getOrCreateAndLock.secondCall
+                    .calledBefore(stateStorage.onAfterStateLoad.secondCall));
+
+                assert.equal(sender.callCount, 3);
+
+                // check the response
+                assert.deepEqual(sender.firstCall.args[0].recipient, { user_ref: 'optinid' });
+                assert.deepEqual(sender.secondCall.args[0].recipient, { id: 'senderid' });
+
+                assert.deepEqual(stateStorage.getOrCreateAndLock.firstCall.args, [
+                    'senderid',
+                    {},
+                    100,
+                    10
+                ]);
+
+                assert.deepEqual(stateStorage.model.state, {
+                    final: 2
+                });
             });
         });
     });

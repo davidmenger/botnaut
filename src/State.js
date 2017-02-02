@@ -34,6 +34,10 @@ schema.statics.getOrCreateAndLock = function (senderId, defaultState = {}, timeo
     }).exec();
 };
 
+schema.statics.onAfterStateLoad = function (isRef, senderId, state) {
+    return Promise.resolve(state);
+};
+
 schema.statics.saveState = function (state) {
     return state.save();
 };

@@ -947,6 +947,7 @@ Creates an instance of Settings.
         * [.getState()](#Tester+getState) ⇒ <code>object</code>
         * [.setState([state])](#Tester+setState)
         * [.text(text)](#Tester+text) ⇒ <code>Promise</code>
+        * [.optin(action, [data])](#Tester+optin) ⇒ <code>Promise</code>
         * [.quickReply(action, [data])](#Tester+quickReply) ⇒ <code>Promise</code>
         * [.postBack(action, [data])](#Tester+postBack) ⇒ <code>Promise</code>
     * _static_
@@ -1019,6 +1020,18 @@ Makes text request
 | Param | Type |
 | --- | --- |
 | text | <code>string</code> | 
+
+<a name="Tester+optin"></a>
+
+### tester.optin(action, [data]) ⇒ <code>Promise</code>
+Make optin call
+
+**Kind**: instance method of <code>[Tester](#Tester)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| action | <code>string</code> |  | 
+| [data] | <code>object</code> | <code>{}</code> | 
 
 <a name="Tester+quickReply"></a>
 

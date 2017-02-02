@@ -170,4 +170,51 @@ describe('Tester', function () {
         });
     });
 
+    it('should work with optins', function () {
+
+        const r = new Router();
+        let i = 0;
+
+        r.use('/start', (req, res, postBack) => {
+            i++;
+            res.text(`Hello ${req.state.i || '0'}`);
+            res.text(req.isOptin() ? 'optin' : 'postback');
+            res.text(req.senderId ? 'hasSender' : 'noSender');
+            res.setState({ i });
+            postBack('postBack');
+        });
+
+        r.use('/postBack', (req, res) => {
+            i++;
+            res.setState({ i });
+            res.text(`Go ${req.state.i}`);
+        });
+
+
+        const t = new Tester(r);
+
+        return co(function* () {
+
+            yield t.postBack('/start');
+
+            assert.deepEqual(t.getState().state, { i: 2 });
+            t.any()
+                .contains('postback')
+                .contains('hasSender')
+                .contains('Hello 0')
+                .contains('Go 1');
+
+            yield t.optin('/start');
+
+            assert.deepEqual(t.getState().state, { i: 4 });
+            t.any()
+                .contains('optin')
+                .contains('noSender')
+                .contains('Hello 0')
+                .contains('Go 3');
+
+        });
+
+    });
+
 });

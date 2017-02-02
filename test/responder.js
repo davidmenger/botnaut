@@ -24,7 +24,7 @@ describe('Responder', function () {
 
         it('should send nice text', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
 
             assert.strictEqual(res.text('Hello'), res, 'should return self');
 
@@ -37,14 +37,14 @@ describe('Responder', function () {
 
         it('should send nice text with quick replies', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(true, SENDER_ID, sendFn, TOKEN, opts);
 
             assert.strictEqual(res.text('Hello', {
                 option: 'Text'
             }), res, 'should return self');
 
             assert(sendFn.calledOnce);
-            assert.equal(sendFn.firstCall.args[0].recipient.id, SENDER_ID);
+            assert.equal(sendFn.firstCall.args[0].recipient.user_ref, SENDER_ID);
             assert.equal(sendFn.firstCall.args[0].message.text, '-Hello');
             assert.equal(sendFn.firstCall.args[0].message.quick_replies[0].title, '-Text');
             assert.equal(sendFn.firstCall.args[0].message.quick_replies[0].payload, 'option');
@@ -54,7 +54,7 @@ describe('Responder', function () {
 
         it('should send nice structured text with advanced quick replies', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
             res.path = '/foo';
 
             assert.strictEqual(res.text('Hello %s', 'string', {
@@ -93,12 +93,12 @@ describe('Responder', function () {
 
         it('should send image url with base path', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(true, SENDER_ID, sendFn, TOKEN, opts);
 
             assert.strictEqual(res.image('/img.png'), res, 'should return self');
 
             assert(sendFn.calledOnce);
-            assert.equal(sendFn.firstCall.args[0].recipient.id, SENDER_ID);
+            assert.equal(sendFn.firstCall.args[0].recipient.user_ref, SENDER_ID);
 
             const attachment = sendFn.firstCall.args[0].message.attachment;
             assert.equal(attachment.type, 'image');
@@ -107,7 +107,7 @@ describe('Responder', function () {
 
         it('should send image url without base path', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
 
             assert.strictEqual(res.image('http://goo.gl/img.png'), res, 'should return self');
 
@@ -125,7 +125,7 @@ describe('Responder', function () {
 
         it('should send message with url', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(true, SENDER_ID, sendFn, TOKEN, opts);
 
             res.setPath('/hello');
 
@@ -135,7 +135,7 @@ describe('Responder', function () {
                 .send();
 
             assert(sendFn.calledOnce);
-            assert.equal(sendFn.firstCall.args[0].recipient.id, SENDER_ID);
+            assert.equal(sendFn.firstCall.args[0].recipient.user_ref, SENDER_ID);
 
             const attachment = sendFn.firstCall.args[0].message.attachment;
             assert.equal(attachment.type, 'template');
@@ -162,7 +162,7 @@ describe('Responder', function () {
 
         it('should send message with receipt', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
 
             res.receipt('Name', 'Cash', 'CZK', '1')
                 .addElement('Element', 1, 2, '/inside.png', 'text')
@@ -192,7 +192,7 @@ describe('Responder', function () {
 
         it('should send message with generic template', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(true, SENDER_ID, sendFn, TOKEN, opts);
 
             res.setPath('/path');
 
@@ -208,7 +208,7 @@ describe('Responder', function () {
                 .send();
 
             assert(sendFn.calledOnce);
-            assert.equal(sendFn.firstCall.args[0].recipient.id, SENDER_ID);
+            assert.equal(sendFn.firstCall.args[0].recipient.user_ref, SENDER_ID);
 
             const attachment = sendFn.firstCall.args[0].message.attachment;
             assert.equal(attachment.type, 'template');
@@ -245,7 +245,7 @@ describe('Responder', function () {
 
         it('should set state to absolute expected value', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
 
             res.setPath('/relative');
 
@@ -256,7 +256,7 @@ describe('Responder', function () {
 
         it('should set state absolute expectation', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(true, SENDER_ID, sendFn, TOKEN, opts);
 
             res.setPath('/relative');
 
@@ -267,7 +267,7 @@ describe('Responder', function () {
 
         it('should null expected action with null', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
 
             res.setPath('/relative');
 
@@ -283,7 +283,7 @@ describe('Responder', function () {
 
         it('creates wait action', function () {
             const { sendFn, opts } = createAssets();
-            const res = new Responder(SENDER_ID, sendFn, TOKEN, opts);
+            const res = new Responder(true, SENDER_ID, sendFn, TOKEN, opts);
 
             res.wait(100);
 

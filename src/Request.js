@@ -30,7 +30,7 @@ class Request {
         /**
          * @prop {string} senderId sender.id from the event
          */
-        this.senderId = data.sender && data.sender.id;
+        this.senderId = (data.sender && data.sender.id) || null;
 
         /**
          * @prop {string} recipientId recipient.id from the event
@@ -358,16 +358,14 @@ Request.referral = function (senderId, action, data = {}) {
     };
 };
 
-Request.optin = function (senderId, action, data = {}) {
+Request.optin = function (userRef, action, data = {}) {
     return {
-        sender: {
-            id: senderId
-        },
         optin: {
             ref: JSON.stringify({
                 action,
                 data
-            })
+            }),
+            user_ref: userRef
         }
     };
 };

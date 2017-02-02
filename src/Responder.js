@@ -17,9 +17,10 @@ const util = require('util');
  */
 class Responder {
 
-    constructor (senderId, sendFn, token = null, options = {}) {
+    constructor (isRef, senderId, sendFn, token = null, options = {}) {
         this._send = sendFn;
-        this.senderId = senderId;
+        this._senderId = senderId;
+        this._isRef = isRef;
         this.token = token;
 
         this.newState = {};
@@ -62,12 +63,16 @@ class Responder {
     text (text, ...args) {
         const messageData = {
             recipient: {
-                id: this.senderId
+                id: this._senderId
             },
             message: {
                 text: null
             }
         };
+
+        if (this._isRef) {
+            messageData.recipient = { user_ref: this._senderId };
+        }
 
         let replies = null;
         if (args.length > 0 && typeof args[args.length - 1] === 'object' && args[args.length - 1] !== null) {
@@ -154,7 +159,7 @@ class Responder {
 
         const messageData = {
             recipient: {
-                id: this.senderId
+                id: this._senderId
             },
             message: {
                 attachment: {
@@ -165,6 +170,11 @@ class Responder {
                 }
             }
         };
+
+        if (this._isRef) {
+            messageData.recipient = { user_ref: this._senderId };
+        }
+
         this._send(messageData);
         return this;
     }
@@ -172,7 +182,7 @@ class Responder {
     template (payload) {
         const messageData = {
             recipient: {
-                id: this.senderId
+                id: this._senderId
             },
             message: {
                 attachment: {
@@ -181,6 +191,10 @@ class Responder {
                 }
             }
         };
+
+        if (this._isRef) {
+            messageData.recipient = { user_ref: this._senderId };
+        }
 
         this._send(messageData);
         return this;
@@ -315,10 +329,14 @@ class Responder {
     _senderAction (action) {
         const messageData = {
             recipient: {
-                id: this.senderId
+                id: this._senderId
             },
             sender_action: action
         };
+
+        if (this._isRef) {
+            messageData.recipient = { user_ref: this._senderId };
+        }
 
         this._send(messageData);
         return this;
@@ -330,7 +348,7 @@ class Responder {
             translator,
             appUrl,
             token: this.token || '',
-            senderId: this.senderId,
+            senderId: this._senderId,
             path: this.path
         };
     }

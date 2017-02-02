@@ -26,6 +26,10 @@ class MemoryStateStorage {
         return Promise.resolve(state);
     }
 
+    onAfterStateLoad (isRef, senderId, state) {
+        return Promise.resolve(state);
+    }
+
     saveState (state) {
         this.store.set(state.senderId, state);
         return Promise.resolve(state);

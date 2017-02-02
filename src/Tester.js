@@ -41,15 +41,16 @@ class Tester {
 
         this.storage = storage;
 
+        this.senderId = senderId || `${Math.random() * 1000}${Date.now()}`;
+
         // replace sender
-        const senderFnFactory = () => (data) => {
+        const senderFnFactory = (received, pageId, handler = (res, d) => d) => (data) => {
             // on send
             // @todo validate length of quick_responses to 20!!
             // @todo validate length of texts to 255!!
             this._responsesCollector.push(data);
+            handler({ recipient_id: this.senderId }, data);
         };
-
-        this.senderId = senderId || `${Math.random() * 1000}${Date.now()}`;
 
         // replace logger (throw instead of log)
         const log = {
@@ -179,6 +180,23 @@ class Tester {
      */
     text (text) {
         return this._request(Request.text(this.senderId, text));
+    }
+
+    /**
+     * Make optin call
+     *
+     * @param {string} action
+     * @param {object} [data={}]
+     * @returns {Promise}
+     *
+     * @memberOf Tester
+     */
+    optin (action, data = {}, userRef = null) {
+        let useRef = userRef;
+        if (useRef === null) {
+            useRef = `${Date.now()}${Math.floor(Date.now() * Math.random())}`;
+        }
+        return this._request(Request.optin(useRef, action, data));
     }
 
     /**
