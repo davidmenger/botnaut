@@ -7,6 +7,8 @@ const { tokenize } = require('./tokenizer');
 const { quickReplyAction } = require('./quickReplies');
 const { parseActionPayload } = require('./pathUtils');
 
+const BASE64_REGEX = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
+
 /**
  * Instance of {Request} class is passed as first parameter of handler (req)
  *
@@ -244,7 +246,7 @@ class Request {
         }
 
         if (!res && this._optin !== null && this._optin.ref) {
-            res = this._processPayload({ payload: this._optin.ref }, getData);
+            res = this._base64Ref(this._optin, getData);
         }
 
         if (!res && this.message !== null && this.message.quick_reply) {
@@ -286,6 +288,21 @@ class Request {
             return null;
         }
         return this._processPayload(this._postback, getData);
+    }
+
+    _base64Ref (object = {}, getData = false) {
+        let process = {};
+
+        if (object && object.ref) {
+            process = object.ref;
+
+            if (typeof process === 'string' && process.match(BASE64_REGEX)) {
+                process = (new Buffer(process, 'base64')).toString('utf8');
+            }
+            process = { payload: process };
+        }
+
+        return this._processPayload(process, getData);
     }
 
     _processPayload (object = {}, getData = false) {
@@ -359,12 +376,13 @@ Request.referral = function (senderId, action, data = {}) {
 };
 
 Request.optin = function (userRef, action, data = {}) {
+    const ref = new Buffer(JSON.stringify({
+        action,
+        data
+    }));
     return {
         optin: {
-            ref: JSON.stringify({
-                action,
-                data
-            }),
+            ref: ref.toString('base64'),
             user_ref: userRef
         }
     };

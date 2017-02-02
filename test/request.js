@@ -87,12 +87,12 @@ describe('Request', function () {
             assert.deepEqual(req.action(true), DATA);
         });
 
-        it('should return action name from referral', function () {
+        it('should return action name from optin', function () {
             const req = new Request(Request.optin(SENDER_ID, ACTION, DATA), STATE);
             assert.strictEqual(req.action(), ACTION);
         });
 
-        it('should return action data from postback', function () {
+        it('should return action data from optin', function () {
             const req = new Request(Request.optin(SENDER_ID, ACTION, DATA), STATE);
             assert.deepEqual(req.action(true), DATA);
         });
