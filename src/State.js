@@ -11,7 +11,10 @@ const schema = new Schema({
     state: Object,
     lock: Number,
     senderId: String,
-    lastInteraction: Date
+    lastInteraction: Date,
+    lastSendError: Date,
+    lastErrorMessage: String,
+    off: Boolean
 });
 
 schema.index({ senderId: 1 }, { unique: true });
@@ -23,7 +26,9 @@ schema.statics.getOrCreateAndLock = function (senderId, defaultState = {}, timeo
         lock: { $lt: now - timeout }
     }, {
         $setOnInsert: {
-            state: defaultState
+            state: defaultState,
+            lastSendError: null,
+            off: false
         },
         $set: {
             lock: now

@@ -250,7 +250,7 @@ describe('Processor', function () {
             const opts = makeOptions();
             const sender = sinon.spy(() => Promise.resolve({ recipient_id: 'senderid' }));
 
-            opts.senderFnFactory = senderFactory('a', { log: () => {} }, sender);
+            opts.senderFnFactory = senderFactory('a', { log: () => {} }, () => {}, sender);
 
             const proc = new Processor(reducer, opts, stateStorage);
 

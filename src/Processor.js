@@ -24,7 +24,8 @@ class Processor {
      * @param {{appUrl?:string, translator?:function, timeout?:number, log?:object,
         defaultState?:object, cookieName?:string, pageToken:string, appSecret:string,
         chatLog?:object, tokenStorage?:object, senderFnFactory?:function,
-        securityMiddleware?:object, loadUsers?:boolean, loadUsers?:object}} options
+        securityMiddleware?:object, loadUsers?:boolean, loadUsers?:object,
+        onSenderError?:function }} options
      * @param {{getOrCreateAndLock:function, saveState:function,
         onAfterStateLoad:function}} [stateStorage]
      *
@@ -45,7 +46,8 @@ class Processor {
             senderFnFactory: null,
             securityMiddleware: null,
             loadUsers: true,
-            userLoader: null
+            userLoader: null,
+            onSenderError: (err, message) => this.reportSendError(err, message)
         };
         Object.assign(this.options, options);
 
@@ -59,7 +61,11 @@ class Processor {
         if (this.options.senderFnFactory) {
             this.senderFnFactory = this.options.senderFnFactory;
         } else {
-            this.senderFnFactory = senderFactory(this.options.pageToken, this.options.chatLog);
+            this.senderFnFactory = senderFactory(
+                this.options.pageToken,
+                this.options.chatLog,
+                this.options.onSenderError
+            );
         }
 
         if (this.options.securityMiddleware) {
@@ -144,6 +150,30 @@ class Processor {
         };
         handler._promise = new Promise((resolve) => { handler._resolve = resolve; });
         return handler;
+    }
+
+    reportSendError (err, message) {
+        if (!message || !message.sender || !message.sender.id) {
+            return false;
+        }
+        if (err.code !== 403) {
+            return false;
+        }
+        const senderId = message.sender.id;
+        this._loadState(false, senderId)
+            .then((state) => {
+                Object.assign(state, {
+                    lastSendError: new Date(),
+                    lastErrorMessage: err.message,
+                    lock: 0
+                });
+                return this.stateStorage.saveState(state);
+            })
+            .catch((e) => {
+                this.options.log(e);
+            });
+
+        return true;
     }
 
     processMessage (message, pageId, sender = null) {
@@ -231,7 +261,8 @@ class Processor {
                 Object.assign(stateObject, {
                     state,
                     lock: 0,
-                    lastInteraction: new Date()
+                    lastInteraction: new Date(),
+                    off: false
                 });
 
                 return this.stateStorage.saveState(stateObject);

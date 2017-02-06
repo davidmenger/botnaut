@@ -40,7 +40,19 @@ function sendData (senderFn, token, data, queue, sent = [], handler = RES_HANDLE
             sendData(senderFn, token, queue.shift(), queue, sent, handler, result));
 }
 
-function senderFactory (token, logger = console, senderFn = sender) {
+function getDisconnectedError (e) {
+    if (!e.response || !e.response.body || !e.response.body.error) {
+        return null;
+    }
+    if (e.response.statusCode !== 403 || e.response.body.error.code !== 200) {
+        return null;
+    }
+    const err = new Error(e.response.body.error.message);
+    err.code = 403;
+    return err;
+}
+
+function senderFactory (token, logger = console, onSenderError = () => {}, senderFn = sender) {
     const factoryFn = function factory (incommingMessage, pageId, handler = RES_HANDLER) {
         const queue = [];
         let working = false;
@@ -58,7 +70,12 @@ function senderFactory (token, logger = console, senderFn = sender) {
                         logger.log(sent, incommingMessage);
                     })
                     .catch((e) => {
-                        logger.error(e, sent, incommingMessage);
+                        // detect disconnected users
+                        const err = getDisconnectedError(e);
+
+                        if (onSenderError(err || e, incommingMessage) !== true) {
+                            logger.error(e, sent, incommingMessage);
+                        }
                     });
             }
         };
