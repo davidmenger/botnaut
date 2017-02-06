@@ -99,11 +99,12 @@ class Settings {
      * Useful for using facebook extension in webviews
      *
      * @param {string|string[]} domain
+     * @param {boolean} [remove=false]
      * @returns {this}
      *
      * @memberOf Settings
      */
-    whitelistDomain (domain) {
+    whitelistDomain (domain, remove = false) {
         let list = domain;
 
         if (!Array.isArray(list)) {
@@ -115,7 +116,7 @@ class Settings {
         this._post({
             setting_type: 'domain_whitelisting',
             whitelisted_domains: list,
-            domain_action_type: 'add'
+            domain_action_type: remove ? 'remove' : 'add'
         });
         return this;
     }

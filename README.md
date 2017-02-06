@@ -869,7 +869,7 @@ Creates an instance of ReducerWrapper.
     * _instance_
         * [.greeting([text])](#Settings+greeting) ⇒ <code>this</code>
         * [.getStartedButton([payload])](#Settings+getStartedButton) ⇒ <code>this</code>
-        * [.whitelistDomain(domain)](#Settings+whitelistDomain) ⇒ <code>this</code>
+        * [.whitelistDomain(domain, [remove])](#Settings+whitelistDomain) ⇒ <code>this</code>
     * _static_
         * [.Settings](#Settings.Settings)
             * [new Settings(token, [log])](#new_Settings.Settings_new)
@@ -908,14 +908,15 @@ settings.getStartedButton('/start'); // just an action
 ```
 <a name="Settings+whitelistDomain"></a>
 
-### settings.whitelistDomain(domain) ⇒ <code>this</code>
+### settings.whitelistDomain(domain, [remove]) ⇒ <code>this</code>
 Useful for using facebook extension in webviews
 
 **Kind**: instance method of <code>[Settings](#Settings)</code>  
 
-| Param | Type |
-| --- | --- |
-| domain | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> | 
+| Param | Type | Default |
+| --- | --- | --- |
+| domain | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> |  | 
+| [remove] | <code>boolean</code> | <code>false</code> | 
 
 <a name="Settings.Settings"></a>
 
