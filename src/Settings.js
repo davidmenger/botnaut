@@ -4,6 +4,7 @@
 'use strict';
 
 const request = require('request-promise');
+const MenuComposer = require('./MenuComposer');
 
 /**
  * Utility, which helps us to set up chatbot behavior
@@ -119,6 +120,36 @@ class Settings {
             domain_action_type: remove ? 'remove' : 'add'
         });
         return this;
+    }
+
+    /**
+     * Sets up the persistent menu
+     *
+     * @param {string} [locale]
+     * @param {boolean} [inputDisabled]
+     * @returns {MenuComposer}
+     * @example
+     *
+     * const { Settings } = require('prg-chatbot');
+     *
+     * const settings = new Settings('page-token-string');
+     *
+     * settings.menu()
+     *     .addNested('Nested Menu')
+     *         .addUrl('Go to google', 'https://google.com')
+     *         .done()
+     *     .addPostBack('Do something', '/the/action')
+     *     .done();
+     */
+    menu (locale = 'default', inputDisabled = false) {
+        return new MenuComposer((actions) => {
+            this._post({
+                locale,
+                composer_input_disabled: inputDisabled,
+                call_to_actions: actions
+            });
+            return this;
+        });
     }
 }
 

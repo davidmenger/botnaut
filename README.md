@@ -132,13 +132,13 @@ app.use('textAction', /keyword|two-words?/, (req, res) => {
 <dd></dd>
 <dt><a href="#ReducerWrapper">ReducerWrapper</a> ⇐ <code>EventEmitter</code></dt>
 <dd></dd>
-<dt><a href="#Settings">Settings</a></dt>
-<dd></dd>
 <dt><a href="#Tester">Tester</a></dt>
 <dd></dd>
 <dt><a href="#ResponseAssert">ResponseAssert</a></dt>
 <dd></dd>
 <dt><a href="#AnyResponseAssert">AnyResponseAssert</a></dt>
+<dd></dd>
+<dt><a href="#Settings">Settings</a></dt>
 <dd></dd>
 </dl>
 
@@ -859,80 +859,6 @@ Creates an instance of ReducerWrapper.
 | --- | --- | --- | --- |
 | [reduce] | <code>function</code> | <code>o =&gt; o</code> | the handler function |
 
-<a name="Settings"></a>
-
-## Settings
-**Kind**: global class  
-
-* [Settings](#Settings)
-    * [new Settings()](#new_Settings_new)
-    * _instance_
-        * [.greeting([text])](#Settings+greeting) ⇒ <code>this</code>
-        * [.getStartedButton([payload])](#Settings+getStartedButton) ⇒ <code>this</code>
-        * [.whitelistDomain(domain, [remove])](#Settings+whitelistDomain) ⇒ <code>this</code>
-    * _static_
-        * [.Settings](#Settings.Settings)
-            * [new Settings(token, [log])](#new_Settings.Settings_new)
-
-<a name="new_Settings_new"></a>
-
-### new Settings()
-Utility, which helps us to set up chatbot behavior
-
-<a name="Settings+greeting"></a>
-
-### settings.greeting([text]) ⇒ <code>this</code>
-Sets or clears bot's greeting
-
-**Kind**: instance method of <code>[Settings](#Settings)</code>  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [text] | <code>string</code> | <code>false</code> | leave empty to clear |
-
-<a name="Settings+getStartedButton"></a>
-
-### settings.getStartedButton([payload]) ⇒ <code>this</code>
-Sets up the Get Started Button
-
-**Kind**: instance method of <code>[Settings](#Settings)</code>  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [payload] | <code>string</code> &#124; <code>object</code> | <code>false</code> | leave blank to remove button, or provide the action |
-
-**Example**  
-```javascript
-const settings = new Settings(config.facebook.pageToken);
-settings.getStartedButton('/start'); // just an action
-```
-<a name="Settings+whitelistDomain"></a>
-
-### settings.whitelistDomain(domain, [remove]) ⇒ <code>this</code>
-Useful for using facebook extension in webviews
-
-**Kind**: instance method of <code>[Settings](#Settings)</code>  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| domain | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> |  | 
-| [remove] | <code>boolean</code> | <code>false</code> | 
-
-<a name="Settings.Settings"></a>
-
-### Settings.Settings
-**Kind**: static class of <code>[Settings](#Settings)</code>  
-<a name="new_Settings.Settings_new"></a>
-
-#### new Settings(token, [log])
-Creates an instance of Settings.
-
-
-| Param | Type |
-| --- | --- |
-| token | <code>string</code> | 
-| [log] | <code>Object</code> | 
-
 <a name="Tester"></a>
 
 ## Tester
@@ -1194,6 +1120,106 @@ Checks attachment type
 
 ### new AnyResponseAssert()
 Utility for searching among responses
+
+<a name="Settings"></a>
+
+## Settings
+**Kind**: global class  
+
+* [Settings](#Settings)
+    * [new Settings()](#new_Settings_new)
+    * _instance_
+        * [.greeting([text])](#Settings+greeting) ⇒ <code>this</code>
+        * [.getStartedButton([payload])](#Settings+getStartedButton) ⇒ <code>this</code>
+        * [.whitelistDomain(domain, [remove])](#Settings+whitelistDomain) ⇒ <code>this</code>
+        * [.menu([locale], [inputDisabled])](#Settings+menu) ⇒ <code>MenuComposer</code>
+    * _static_
+        * [.Settings](#Settings.Settings)
+            * [new Settings(token, [log])](#new_Settings.Settings_new)
+
+<a name="new_Settings_new"></a>
+
+### new Settings()
+Utility, which helps us to set up chatbot behavior
+
+<a name="Settings+greeting"></a>
+
+### settings.greeting([text]) ⇒ <code>this</code>
+Sets or clears bot's greeting
+
+**Kind**: instance method of <code>[Settings](#Settings)</code>  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [text] | <code>string</code> | <code>false</code> | leave empty to clear |
+
+<a name="Settings+getStartedButton"></a>
+
+### settings.getStartedButton([payload]) ⇒ <code>this</code>
+Sets up the Get Started Button
+
+**Kind**: instance method of <code>[Settings](#Settings)</code>  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [payload] | <code>string</code> &#124; <code>object</code> | <code>false</code> | leave blank to remove button, or provide the action |
+
+**Example**  
+```javascript
+const settings = new Settings(config.facebook.pageToken);
+settings.getStartedButton('/start'); // just an action
+```
+<a name="Settings+whitelistDomain"></a>
+
+### settings.whitelistDomain(domain, [remove]) ⇒ <code>this</code>
+Useful for using facebook extension in webviews
+
+**Kind**: instance method of <code>[Settings](#Settings)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| domain | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> |  | 
+| [remove] | <code>boolean</code> | <code>false</code> | 
+
+<a name="Settings+menu"></a>
+
+### settings.menu([locale], [inputDisabled]) ⇒ <code>MenuComposer</code>
+Sets up the persistent menu
+
+**Kind**: instance method of <code>[Settings](#Settings)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [locale] | <code>string</code> | <code>&quot;default&quot;</code> | 
+| [inputDisabled] | <code>boolean</code> | <code>false</code> | 
+
+**Example**  
+```javascript
+const { Settings } = require('prg-chatbot');
+
+const settings = new Settings('page-token-string');
+
+settings.menu()
+    .addNested('Nested Menu')
+        .addUrl('Go to google', 'https://google.com')
+        .done()
+    .addPostBack('Do something', '/the/action')
+    .done();
+```
+<a name="Settings.Settings"></a>
+
+### Settings.Settings
+**Kind**: static class of <code>[Settings](#Settings)</code>  
+<a name="new_Settings.Settings_new"></a>
+
+#### new Settings(token, [log])
+Creates an instance of Settings.
+
+
+| Param | Type |
+| --- | --- |
+| token | <code>string</code> | 
+| [log] | <code>Object</code> | 
 
 <a name="bufferloader"></a>
 
