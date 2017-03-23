@@ -1131,7 +1131,7 @@ Utility for searching among responses
     * _instance_
         * [.greeting([text])](#Settings+greeting) ⇒ <code>this</code>
         * [.getStartedButton([payload])](#Settings+getStartedButton) ⇒ <code>this</code>
-        * [.whitelistDomain(domain, [remove])](#Settings+whitelistDomain) ⇒ <code>this</code>
+        * [.whitelistDomain(domains)](#Settings+whitelistDomain) ⇒ <code>this</code>
         * [.menu([locale], [inputDisabled])](#Settings+menu) ⇒ <code>MenuComposer</code>
     * _static_
         * [.Settings](#Settings.Settings)
@@ -1171,15 +1171,14 @@ settings.getStartedButton('/start'); // just an action
 ```
 <a name="Settings+whitelistDomain"></a>
 
-### settings.whitelistDomain(domain, [remove]) ⇒ <code>this</code>
+### settings.whitelistDomain(domains) ⇒ <code>this</code>
 Useful for using facebook extension in webviews
 
 **Kind**: instance method of <code>[Settings](#Settings)</code>  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| domain | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> |  | 
-| [remove] | <code>boolean</code> | <code>false</code> | 
+| Param | Type |
+| --- | --- |
+| domains | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> | 
 
 <a name="Settings+menu"></a>
 

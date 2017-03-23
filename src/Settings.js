@@ -28,7 +28,7 @@ class Settings {
 
     _post (data) {
         request({
-            uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+            uri: 'https://graph.facebook.com/v2.8/me/messenger_profile',
             qs: { access_token: this.token },
             method: 'POST',
             json: data
@@ -37,7 +37,7 @@ class Settings {
 
     _delete (data) {
         request({
-            uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
+            uri: 'https://graph.facebook.com/v2.8/me/messenger_profile',
             qs: { access_token: this.token },
             method: 'DELETE',
             json: data
@@ -55,14 +55,16 @@ class Settings {
     greeting (text = false) {
         if (text) {
             this._post({
-                setting_type: 'greeting',
-                greeting: {
-                    text
-                }
+                greeting: [
+                    {
+                        locale: 'default',
+                        text
+                    }
+                ]
             });
         } else {
             this._delete({
-                setting_type: 'greeting'
+                fields: ['greeting']
             });
         }
         return this;
@@ -83,14 +85,11 @@ class Settings {
     getStartedButton (payload = false) {
         if (payload) {
             this._post({
-                setting_type: 'call_to_actions',
-                thread_state: 'new_thread',
-                call_to_actions: [{ payload }]
+                get_started: { payload }
             });
         } else {
             this._delete({
-                setting_type: 'call_to_actions',
-                thread_state: 'new_thread'
+                fields: ['get_started']
             });
         }
         return this;
@@ -99,25 +98,22 @@ class Settings {
     /**
      * Useful for using facebook extension in webviews
      *
-     * @param {string|string[]} domain
-     * @param {boolean} [remove=false]
+     * @param {string|string[]} domains
      * @returns {this}
      *
      * @memberOf Settings
      */
-    whitelistDomain (domain, remove = false) {
-        let list = domain;
+    whitelistDomain (domains) {
+        let list = domains;
 
         if (!Array.isArray(list)) {
-            list = [domain];
+            list = [domains];
         }
 
         list = list.map(dom => dom.replace(/\/$/, ''));
 
         this._post({
-            setting_type: 'domain_whitelisting',
-            whitelisted_domains: list,
-            domain_action_type: remove ? 'remove' : 'add'
+            whitelisted_domains: list
         });
         return this;
     }
@@ -144,9 +140,13 @@ class Settings {
     menu (locale = 'default', inputDisabled = false) {
         return new MenuComposer((actions) => {
             this._post({
-                locale,
-                composer_input_disabled: inputDisabled,
-                call_to_actions: actions
+                persistent_menu: [
+                    {
+                        locale,
+                        composer_input_disabled: inputDisabled,
+                        call_to_actions: actions
+                    }
+                ]
             });
             return this;
         });
