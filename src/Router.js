@@ -129,10 +129,10 @@ class Router extends ReducerWrapper {
         };
     }
 
-    _createNext (route, req, res, postBack) {
+    _createNext (route, req, res, postBack, path) {
         const next = (action = null, data = {}) => {
             let finnished = false;
-
+            res.setPath(path);
             if (route.nexts) {
                 finnished = route.nexts.some((nextAction) => {
                     if (nextAction.action === action || nextAction.action === '*') {
@@ -190,7 +190,7 @@ class Router extends ReducerWrapper {
             if (this._routeMatch(route, action, req)) {
                 let pathContext = `${path === '/' ? '' : path}${route.path.replace(/\/\*/, '')}`;
                 res.setPath(path);
-                const nextContext = this._createNext(route, req, res, relativePostBack);
+                const nextContext = this._createNext(route, req, res, relativePostBack, path);
                 route.reduce(req, res, relativePostBack, nextContext, pathContext);
 
                 if (!route.isReducer) {
