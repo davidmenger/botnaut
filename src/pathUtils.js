@@ -8,7 +8,7 @@ const pathToRegexp = require('path-to-regexp');
 
 function makeAbsolute (action, contextPath = '') {
     const isAbsolute = !action || action.match(/^\//);
-    return isAbsolute ? action : path.join(contextPath, action);
+    return isAbsolute ? action : path.posix.join(contextPath, action);
 }
 
 function actionMatches (route, requestedPath) {
