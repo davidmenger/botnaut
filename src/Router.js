@@ -33,6 +33,12 @@ class Router extends ReducerWrapper {
         return normalizedPath.replace(/\/$/, '');
     }
 
+    _isMatcher (value) {
+        const type = typeof value;
+        return type === 'string' || value instanceof RegExp ||
+            (type === 'function' && value.length <= 1);
+    }
+
     _makeMatchCallback (pattern) {
         if (pattern instanceof RegExp || typeof pattern === 'string') {
             // @todo webalized pattern
@@ -47,7 +53,7 @@ class Router extends ReducerWrapper {
      *
      * @param {string} [action] name of the action
      * @param {RegExp|string|function} [pattern]
-     * @param {function|Router} reducer
+     * @param {...(function|Router)} reducers
      * @returns {{next:function}}
      *
      * @example
@@ -61,10 +67,17 @@ class Router extends ReducerWrapper {
      *     res.text('Hello!');
      * });
      *
-     * // route with matching function
+     * // route with matching function (the function is considered as matcher
+     * // in case of the function accepts zero or one arguments)
      * router.use('action', req => req.text() === 'a', (req, res) => {
      *     res.text('Hello!');
      * });
+     *
+     * // use multiple reducers
+     * router.use('/path', reducer1, reducer2)
+     *    .next('exitAction', (data, req, res, postBack, next) => {
+     *        postBack('anotherAction', { someData: true })
+     *    });
      *
      * // append router with exit action
      * router.use('/path', subRouter)
@@ -74,55 +87,49 @@ class Router extends ReducerWrapper {
      *
      * @memberOf Router
      */
-    use (action, pattern, reducer) {
-        let match = null;
-        let reduce;
-        let path = action;
+    use (...reducers) {
 
-        if (reducer) {
-            reduce = reducer;
-            match = this._makeMatchCallback(pattern);
-        } else if (pattern) {
-            reduce = pattern;
-            if (typeof action !== 'string') {
-                path = '*';
-                match = this._makeMatchCallback(action);
-            }
-        } else {
-            reduce = path;
-            path = '*';
-        }
+        let path = typeof reducers[0] === 'string' ? reducers.shift() : '*';
 
-        let isReducer = false;
+        // matcher can be only if there is another reduce function
+        const match = (reducers.length >= 2 && this._isMatcher(reducers[0]))
+            ? this._makeMatchCallback(reducers.shift())
+            : null;
 
-        if (typeof reduce === 'object' && reduce.reduce) {
-            isReducer = true;
-
-            reduce.on('action', (...args) => this.emit('action', ...args));
-            reduce.on('_action', (...args) => this.emit('_action', ...args));
-
-            const reducerFn = reduce.reduce.bind(reduce);
-            reduce = (...args) => reducerFn(...args);
-        }
-
-        path = this._normalizePath(path);
         const nexts = [];
 
-        this._routes.push({
-            path,
-            pathMatch: pathToRegexp(path, [], { end: !isReducer }),
-            match,
-            reduce,
-            nexts,
-            isReducer
-        });
+        for (let reduce of reducers) {
+
+            let isReducer = false;
+
+            if (typeof reduce === 'object' && reduce.reduce) {
+                isReducer = true;
+
+                reduce.on('action', (...args) => this.emit('action', ...args));
+                reduce.on('_action', (...args) => this.emit('_action', ...args));
+
+                const reducerFn = reduce.reduce.bind(reduce);
+                reduce = (...args) => reducerFn(...args);
+            }
+
+            path = this._normalizePath(path);
+
+            this._routes.push({
+                path,
+                pathMatch: pathToRegexp(path, [], { end: !isReducer }),
+                match,
+                reduce,
+                nexts,
+                isReducer
+            });
+        }
 
         return {
             next (actionName, listener) {
                 nexts.push({
                     action: actionName,
                     listener,
-                    pathMatch: pathToRegexp(action)
+                    pathMatch: pathToRegexp(path)
                 });
                 return this;
             }

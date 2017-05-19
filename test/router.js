@@ -101,6 +101,7 @@ describe('Router', function () {
             const first = sinon.spy((req, res, postBack, next) => next());
             const second = sinon.spy((req, res, postBack, next) => next());
             const third = sinon.spy((req, res, postBack, next) => next());
+            const fourth = sinon.spy((req, res, postBack, next) => next());
             const resolverCallback = sinon.spy(() => true);
             const last = sinon.spy();
             const req = createMockReq('just a text', null);
@@ -108,7 +109,7 @@ describe('Router', function () {
 
             router.use('fakin-action', /^just\sa\stext$/, first);
             router.use('anotheraction', 'just a text', second);
-            router.use('anotheraction', resolverCallback, third);
+            router.use('anotheraction', resolverCallback, third, fourth);
             router.use('*', last);
 
             router.reduce(req, res);
@@ -116,6 +117,7 @@ describe('Router', function () {
             shouldBeCalled(first, req, res);
             shouldBeCalled(second, req, res);
             shouldBeCalled(third, req, res);
+            shouldBeCalled(fourth, req, res);
             shouldBeCalled(last, req, res);
 
             assert(resolverCallback.called);
@@ -123,10 +125,14 @@ describe('Router', function () {
 
             first.calledBefore(second);
             first.calledBefore(third);
+            first.calledBefore(fourth);
             first.calledBefore(last);
             second.calledBefore(third);
+            second.calledBefore(fourth);
             second.calledBefore(last);
             third.calledBefore(last);
+            third.calledBefore(fourth);
+            fourth.calledBefore(last);
         });
 
     });
