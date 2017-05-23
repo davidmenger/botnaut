@@ -16,6 +16,7 @@
         "strict": [2, "global"],
         "indent": [2, 4, {"SwitchCase": 1}],
         "space-before-function-paren": [2, {"anonymous": "always", "named": "always"}],
+        "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
         "comma-dangle": [2, "never"],
         "padded-blocks": 0,
         "no-console": [2],
