@@ -25,7 +25,7 @@ class Processor {
         defaultState?:object, cookieName?:string, pageToken:string, appSecret:string,
         chatLog?:object, tokenStorage?:object, senderFnFactory?:function,
         securityMiddleware?:object, loadUsers?:boolean, loadUsers?:object,
-        onSenderError?:function }} options
+        onSenderError?:function, autoTyping?: boolean }} options
      * @param {{getOrCreateAndLock:function, saveState:function,
         onAfterStateLoad:function}} [stateStorage]
      *

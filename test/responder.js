@@ -87,6 +87,29 @@ describe('Responder', function () {
             ]);
         });
 
+        it('should send "typing" and "wait" in case of autoTyping is on', function () {
+            const { sendFn, opts } = createAssets();
+            opts.autoTyping = true;
+
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
+
+            res.text('Hahahaaaa');
+            res.text('You are so funny!! So funny I need to write this veeeeeeery long message to test typing_on is longer for long texts.');
+
+            assert(sendFn.callCount, 6);
+            assert.equal(sendFn.getCall(0).args[0].sender_action, 'typing_on');
+            assert.equal(typeof sendFn.getCall(1).args[0].wait, 'number');
+            assert.equal(sendFn.getCall(2).args[0].message.text, '-Hahahaaaa');
+            assert.equal(sendFn.getCall(3).args[0].sender_action, 'typing_on');
+            assert.equal(typeof sendFn.getCall(4).args[0].wait, 'number');
+            assert.equal(typeof sendFn.getCall(5).args[0].message.text, 'string');
+
+            assert(
+                sendFn.getCall(4).args[0].wait > sendFn.getCall(1).args[0].wait,
+                'The wait time should be longer for long texts.'
+            );
+        });
+
     });
 
     describe('#image()', function () {

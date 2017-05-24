@@ -95,6 +95,11 @@ class Responder {
             this.setState({ _expectedKeywords: expectedKeywords });
         }
 
+        if (this.options.autoTyping) {
+            const typingTime = Math.min(Math.max(messageData.message.text.length * 25, 500), 2700);
+            this.typingOn().wait(typingTime);
+        }
+
         this._send(messageData);
         return this;
     }
