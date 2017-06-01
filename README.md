@@ -744,7 +744,7 @@ Adds button, which makes another action
 
 * [Router](#Router) ⇐ <code>[ReducerWrapper](#ReducerWrapper)</code>
     * [new Router()](#new_Router_new)
-    * [.use([action], [pattern], reducer)](#Router+use) ⇒ <code>Object</code>
+    * [.use([action], [pattern], ...reducers)](#Router+use) ⇒ <code>Object</code>
     * [.reduce(req, res, postBack)](#ReducerWrapper+reduce)
 
 <a name="new_Router_new"></a>
@@ -754,7 +754,7 @@ Cascading router
 
 <a name="Router+use"></a>
 
-### router.use([action], [pattern], reducer) ⇒ <code>Object</code>
+### router.use([action], [pattern], ...reducers) ⇒ <code>Object</code>
 Appends middleware, action handler or another router
 
 **Kind**: instance method of <code>[Router](#Router)</code>  
@@ -763,7 +763,7 @@ Appends middleware, action handler or another router
 | --- | --- | --- |
 | [action] | <code>string</code> | name of the action |
 | [pattern] | <code>RegExp</code> &#124; <code>string</code> &#124; <code>function</code> |  |
-| reducer | <code>function</code> &#124; <code>[Router](#Router)</code> |  |
+| ...reducers | <code>function</code> &#124; <code>[Router](#Router)</code> |  |
 
 **Example**  
 ```javascript
@@ -777,10 +777,17 @@ router.use('action', /help/, (req, res) => {
     res.text('Hello!');
 });
 
-// route with matching function
+// route with matching function (the function is considered as matcher
+// in case of the function accepts zero or one arguments)
 router.use('action', req => req.text() === 'a', (req, res) => {
     res.text('Hello!');
 });
+
+// use multiple reducers
+router.use('/path', reducer1, reducer2)
+   .next('exitAction', (data, req, res, postBack, next) => {
+       postBack('anotherAction', { someData: true })
+   });
 
 // append router with exit action
 router.use('/path', subRouter)
