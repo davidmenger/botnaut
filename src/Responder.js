@@ -33,6 +33,14 @@ class Responder {
         };
 
         Object.assign(this.options, options);
+        if (this.options.autoTyping) {
+            this.options.autoTyping = Object.assign({
+                time: 600,
+                perCharacters: 'Sample text Sample texts'.length,
+                minTime: 500,
+                maxTime: 2700
+            }, this.options.autoTyping);
+        }
 
         this._t = this.options.translator;
     }
@@ -95,6 +103,7 @@ class Responder {
             this.setState({ _expectedKeywords: expectedKeywords });
         }
 
+        this._autoTypingIfEnabled(messageData.message.text);
         this._send(messageData);
         return this;
     }
@@ -175,6 +184,7 @@ class Responder {
             messageData.recipient = { user_ref: this._senderId };
         }
 
+        this._autoTypingIfEnabled(null);
         this._send(messageData);
         return this;
     }
@@ -196,6 +206,7 @@ class Responder {
             messageData.recipient = { user_ref: this._senderId };
         }
 
+        this._autoTypingIfEnabled(null);
         this._send(messageData);
         return this;
     }
@@ -352,6 +363,33 @@ class Responder {
             path: this.path
         };
     }
+
+    _autoTypingIfEnabled (text) {
+        if (!this.options.autoTyping) {
+            return;
+        }
+        const typingTime = this._getTypingTimeForText(text);
+        this.typingOn().wait(typingTime);
+    }
+
+    _getTypingTimeForText (text) {
+
+        const textLength = typeof text === 'string'
+            ? text.length
+            : this.options.autoTyping.perCharacters;
+
+        const timePerCharacter = this.options.autoTyping.time
+            / this.options.autoTyping.perCharacters;
+
+        return Math.min(
+            Math.max(
+                textLength * timePerCharacter,
+                this.options.autoTyping.minTime
+            ),
+            this.options.autoTyping.maxTime
+        );
+    }
+
 }
 
 module.exports = Responder;
