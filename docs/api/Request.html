@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Responder · Botnaut</title>
+        <title>Request · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="Router.html" />
+    <link rel="next" href="Responder.html" />
     
     
-    <link rel="prev" href="Request.html" />
+    <link rel="prev" href="../tutorial/testing.html" />
     
 
     </head>
@@ -489,7 +489,7 @@
         
         
     
-        <li class="chapter " data-level="2.1" data-path="Request.html">
+        <li class="chapter active" data-level="2.1" data-path="Request.html">
             
                 <a href="Request.html">
             
@@ -502,7 +502,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.2" data-path="Responder.html">
+        <li class="chapter " data-level="2.2" data-path="Responder.html">
             
                 <a href="Responder.html">
             
@@ -668,7 +668,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Responder</a>
+        <a href=".." >Request</a>
     </h1>
 </div>
 
@@ -683,178 +683,150 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <div id="Responder">&#xA0;</div>
+                                <div id="Request">&#xA0;</div>
 
-<h2 id="responder"><a name="responder" class="plugin-anchor" href="#responder"><i class="fa fa-link" aria-hidden="true"></i></a>Responder</h2>
+<h2 id="request"><a name="request" class="plugin-anchor" href="#request"><i class="fa fa-link" aria-hidden="true"></i></a>Request</h2>
 <p><strong>Kind</strong>: global class  </p>
 <ul>
-<li><a href="#Responder">Responder</a><ul>
-<li><a href="#new_Responder_new">new Responder()</a></li>
-<li><a href="#Responder_text">.text(text, [quickReplys])</a> &#x21D2; <code>this</code></li>
-<li><a href="#Responder_setState">.setState(object)</a> &#x21D2; <code>this</code></li>
-<li><a href="#Responder_expected">.expected(action)</a> &#x21D2; <code>this</code></li>
-<li><a href="#Responder_image">.image(imageUrl)</a> &#x21D2; <code>this</code></li>
-<li><a href="#Responder_wait">.wait([ms])</a> &#x21D2; <code>this</code></li>
-<li><a href="#Responder_typingOn">.typingOn()</a> &#x21D2; <code>this</code></li>
-<li><a href="#Responder_typingOff">.typingOff()</a> &#x21D2; <code>this</code></li>
-<li><a href="#Responder_seen">.seen()</a> &#x21D2; <code>this</code></li>
-<li><a href="#Responder_receipt">.receipt(recipientName, [paymentMethod], [currency], [uniqueCode])</a> &#x21D2; <code>ReceiptTemplate</code></li>
-<li><a href="#Responder_button">.button(text)</a> &#x21D2; <code>ButtonTemplate</code></li>
-<li><a href="#Responder_genericTemplate">.genericTemplate()</a> &#x21D2; <code>GenericTemplate</code></li>
+<li><a href="#Request">Request</a><ul>
+<li><a href="#new_Request_new">new Request()</a></li>
+<li><a href="#Request_senderId">.senderId</a></li>
+<li><a href="#Request_recipientId">.recipientId</a></li>
+<li><a href="#Request_pageId">.pageId</a></li>
+<li><a href="#Request_state">.state</a></li>
+<li><a href="#Request_isAttachment">.isAttachment()</a> &#x21D2; <code>boolean</code></li>
+<li><a href="#Request_isImage">.isImage([attachmentIndex])</a> &#x21D2; <code>boolean</code></li>
+<li><a href="#Request_isFile">.isFile([attachmentIndex])</a> &#x21D2; <code>boolean</code></li>
+<li><a href="#Request_attachment">.attachment([attachmentIndex])</a> &#x21D2; <code>object</code> | <code>null</code></li>
+<li><a href="#Request_attachmentUrl">.attachmentUrl([attachmentIndex])</a> &#x21D2; <code>string</code> | <code>null</code></li>
+<li><a href="#Request_isMessage">.isMessage()</a> &#x21D2; <code>boolean</code></li>
+<li><a href="#Request_text">.text([tokenized])</a> &#x21D2; <code>string</code></li>
+<li><a href="#Request_quickReply">.quickReply([getData])</a> &#x21D2; <code>null</code> | <code>string</code> | <code>object</code></li>
+<li><a href="#Request_isPostBack">.isPostBack()</a> &#x21D2; <code>boolean</code></li>
+<li><a href="#Request_isReferral">.isReferral()</a> &#x21D2; <code>boolean</code></li>
+<li><a href="#Request_isOptin">.isOptin()</a> &#x21D2; <code>boolean</code></li>
+<li><a href="#Request_action">.action([getData])</a> &#x21D2; <code>null</code> | <code>string</code> | <code>object</code></li>
+<li><a href="#Request_postBack">.postBack([getData])</a> &#x21D2; <code>null</code> | <code>string</code> | <code>object</code></li>
 </ul>
 </li>
 </ul>
-<div id="new_Responder_new">&#xA0;</div>
+<div id="new_Request_new">&#xA0;</div>
 
-<h3 id="new-responder"><a name="new-responder" class="plugin-anchor" href="#new-responder"><i class="fa fa-link" aria-hidden="true"></i></a>new Responder()</h3>
-<p>Instance of responder is passed as second parameter of handler (res)</p>
-<div id="Responder_text">&#xA0;</div>
+<h3 id="new-request"><a name="new-request" class="plugin-anchor" href="#new-request"><i class="fa fa-link" aria-hidden="true"></i></a>new Request()</h3>
+<p>Instance of {Request} class is passed as first parameter of handler (req)</p>
+<div id="Request_senderId">&#xA0;</div>
 
-<h3 id="respondertexttext-quickreplys-&#x21D2;-this"><a name="respondertexttext-quickreplys-&#x21D2;-this" class="plugin-anchor" href="#respondertexttext-quickreplys-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.text(text, [quickReplys]) &#x21D2; <code>this</code></h3>
-<p>Send text as a response</p>
-<p><strong>Kind</strong>: instance method of <code>Responder</code>  </p>
+<h3 id="requestsenderid"><a name="requestsenderid" class="plugin-anchor" href="#requestsenderid"><i class="fa fa-link" aria-hidden="true"></i></a>request.senderId</h3>
+<p><strong>Kind</strong>: instance property of <code>Request</code><br><strong>Properties</strong></p>
 <table>
 <thead>
 <tr>
-<th>Param</th>
+<th>Name</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>text</td>
+<td>senderId</td>
 <td><code>string</code></td>
-<td>text to send to user, can contain placeholders (%s)</td>
-</tr>
-<tr>
-<td>[quickReplys]</td>
-<td><code>object.&lt;string, string&gt;</code></td>
+<td>sender.id from the event</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Example</strong>  </p>
-<pre><code class="lang-javascript">res.text(<span class="hljs-string">&apos;Hello %s&apos;</span>, name, {
-    action: <span class="hljs-string">&apos;Quick reply&apos;</span>,
-    complexAction: {
-        title: <span class="hljs-string">&apos;Another quick reply&apos;</span>, <span class="hljs-comment">// required</span>
-        match: <span class="hljs-string">&apos;string&apos;</span> || <span class="hljs-regexp">/regexp/</span>, <span class="hljs-comment">// optional</span>
-        someData: <span class="hljs-string">&apos;Will be included in payload data&apos;</span> <span class="hljs-comment">// optional</span>
-    }
-})
-</code></pre>
-<div id="Responder_setState">&#xA0;</div>
+<div id="Request_recipientId">&#xA0;</div>
 
-<h3 id="respondersetstateobject-&#x21D2;-this"><a name="respondersetstateobject-&#x21D2;-this" class="plugin-anchor" href="#respondersetstateobject-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.setState(object) &#x21D2; <code>this</code></h3>
-<p>Sets new attributes to state (with Object.assign())</p>
-<p><strong>Kind</strong>: instance method of <code>Responder</code>  </p>
+<h3 id="requestrecipientid"><a name="requestrecipientid" class="plugin-anchor" href="#requestrecipientid"><i class="fa fa-link" aria-hidden="true"></i></a>request.recipientId</h3>
+<p><strong>Kind</strong>: instance property of <code>Request</code><br><strong>Properties</strong></p>
 <table>
 <thead>
 <tr>
-<th>Param</th>
+<th>Name</th>
 <th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>object</td>
+<td>recipientId</td>
+<td><code>string</code></td>
+<td>recipient.id from the event</td>
+</tr>
+</tbody>
+</table>
+<div id="Request_pageId">&#xA0;</div>
+
+<h3 id="requestpageid"><a name="requestpageid" class="plugin-anchor" href="#requestpageid"><i class="fa fa-link" aria-hidden="true"></i></a>request.pageId</h3>
+<p><strong>Kind</strong>: instance property of <code>Request</code><br><strong>Properties</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pageId</td>
+<td><code>string</code></td>
+<td>page identifier from the event</td>
+</tr>
+</tbody>
+</table>
+<div id="Request_state">&#xA0;</div>
+
+<h3 id="requeststate"><a name="requeststate" class="plugin-anchor" href="#requeststate"><i class="fa fa-link" aria-hidden="true"></i></a>request.state</h3>
+<p><strong>Kind</strong>: instance property of <code>Request</code><br><strong>Properties</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>state</td>
 <td><code>object</code></td>
+<td>current state of the conversation</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Example</strong>  </p>
-<pre><code class="lang-javascript">res.setState({ visited: <span class="hljs-literal">true</span> });
-</code></pre>
-<div id="Responder_expected">&#xA0;</div>
+<div id="Request_isAttachment">&#xA0;</div>
 
-<h3 id="responderexpectedaction-&#x21D2;-this"><a name="responderexpectedaction-&#x21D2;-this" class="plugin-anchor" href="#responderexpectedaction-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.expected(action) &#x21D2; <code>this</code></h3>
-<p>When user writes some text as reply, it will be processed as action</p>
-<p><strong>Kind</strong>: instance method of <code>Responder</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>action</td>
-<td><code>string</code></td>
-<td>desired action</td>
-</tr>
-</tbody>
-</table>
-<div id="Responder_image">&#xA0;</div>
+<h3 id="requestisattachment-&#x21D2;-boolean"><a name="requestisattachment-&#x21D2;-boolean" class="plugin-anchor" href="#requestisattachment-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isAttachment() &#x21D2; <code>boolean</code></h3>
+<p>Checks, when message contains an attachment (file, image or location)</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<div id="Request_isImage">&#xA0;</div>
 
-<h3 id="responderimageimageurl-&#x21D2;-this"><a name="responderimageimageurl-&#x21D2;-this" class="plugin-anchor" href="#responderimageimageurl-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.image(imageUrl) &#x21D2; <code>this</code></h3>
-<p>Sends image as response. Requires appUrl option to send images from server</p>
-<p><strong>Kind</strong>: instance method of <code>Responder</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>imageUrl</td>
-<td><code>string</code></td>
-<td>relative or absolute url</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Example</strong>  </p>
-<pre><code class="lang-javascript"><span class="hljs-comment">// image on same server (appUrl option)</span>
-res.image(<span class="hljs-string">&apos;/img/foo.png&apos;</span>);
-
-<span class="hljs-comment">// image at url</span>
-res.image(<span class="hljs-string">&apos;https://google.com/img/foo.png&apos;</span>);
-</code></pre>
-<div id="Responder_wait">&#xA0;</div>
-
-<h3 id="responderwaitms-&#x21D2;-this"><a name="responderwaitms-&#x21D2;-this" class="plugin-anchor" href="#responderwaitms-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.wait([ms]) &#x21D2; <code>this</code></h3>
-<p>Sets delay between two responses</p>
-<p><strong>Kind</strong>: instance method of <code>Responder</code>  </p>
+<h3 id="requestisimageattachmentindex-&#x21D2;-boolean"><a name="requestisimageattachmentindex-&#x21D2;-boolean" class="plugin-anchor" href="#requestisimageattachmentindex-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isImage([attachmentIndex]) &#x21D2; <code>boolean</code></h3>
+<p>Checks, when the attachment is an image</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
 <th>Default</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>[ms]</td>
+<td>[attachmentIndex]</td>
 <td><code>number</code></td>
-<td><code>600</code></td>
+<td><code>0</code></td>
+<td>use, when user sends more then one attachment</td>
 </tr>
 </tbody>
 </table>
-<div id="Responder_typingOn">&#xA0;</div>
+<div id="Request_isFile">&#xA0;</div>
 
-<h3 id="respondertypingon-&#x21D2;-this"><a name="respondertypingon-&#x21D2;-this" class="plugin-anchor" href="#respondertypingon-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.typingOn() &#x21D2; <code>this</code></h3>
-<p>Sends &quot;typing...&quot; information</p>
-<p><strong>Kind</strong>: instance method of <code>Responder</code>  </p>
-<div id="Responder_typingOff">&#xA0;</div>
-
-<h3 id="respondertypingoff-&#x21D2;-this"><a name="respondertypingoff-&#x21D2;-this" class="plugin-anchor" href="#respondertypingoff-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.typingOff() &#x21D2; <code>this</code></h3>
-<p>Stops &quot;typing...&quot; information</p>
-<p><strong>Kind</strong>: instance method of <code>Responder</code>  </p>
-<div id="Responder_seen">&#xA0;</div>
-
-<h3 id="responderseen-&#x21D2;-this"><a name="responderseen-&#x21D2;-this" class="plugin-anchor" href="#responderseen-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.seen() &#x21D2; <code>this</code></h3>
-<p>Reports last message from user as seen</p>
-<p><strong>Kind</strong>: instance method of <code>Responder</code>  </p>
-<div id="Responder_receipt">&#xA0;</div>
-
-<h3 id="responderreceiptrecipientname-paymentmethod-currency-uniquecode-&#x21D2;-receipttemplate"><a name="responderreceiptrecipientname-paymentmethod-currency-uniquecode-&#x21D2;-receipttemplate" class="plugin-anchor" href="#responderreceiptrecipientname-paymentmethod-currency-uniquecode-&#x21D2;-receipttemplate"><i class="fa fa-link" aria-hidden="true"></i></a>responder.receipt(recipientName, [paymentMethod], [currency], [uniqueCode]) &#x21D2; <code>ReceiptTemplate</code></h3>
-<p>Sends Receipt template</p>
-<p><strong>Kind</strong>: instance method of <code>Responder</code>  </p>
+<h3 id="requestisfileattachmentindex-&#x21D2;-boolean"><a name="requestisfileattachmentindex-&#x21D2;-boolean" class="plugin-anchor" href="#requestisfileattachmentindex-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isFile([attachmentIndex]) &#x21D2; <code>boolean</code></h3>
+<p>Checks, when the attachment is a file</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
 <table>
 <thead>
 <tr>
@@ -866,77 +838,189 @@ res.image(<span class="hljs-string">&apos;https://google.com/img/foo.png&apos;</
 </thead>
 <tbody>
 <tr>
-<td>recipientName</td>
-<td><code>string</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>[paymentMethod]</td>
-<td><code>string</code></td>
-<td><code>&quot;&apos;Cash&apos;&quot;</code></td>
-<td>should not contain more then 4 numbers</td>
-</tr>
-<tr>
-<td>[currency]</td>
-<td><code>string</code></td>
-<td><code>&quot;&apos;USD&apos;&quot;</code></td>
-<td>sets right currency</td>
-</tr>
-<tr>
-<td>[uniqueCode]</td>
-<td><code>string</code></td>
-<td><code>null</code></td>
-<td>when omitted, will be generated randomly</td>
+<td>[attachmentIndex]</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+<td>use, when user sends more then one attachment</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Example</strong>  </p>
-<pre><code class="lang-javascript">res.receipt(<span class="hljs-string">&apos;Name&apos;</span>, <span class="hljs-string">&apos;Cash&apos;</span>, <span class="hljs-string">&apos;CZK&apos;</span>, <span class="hljs-string">&apos;1&apos;</span>)
-    .addElement(<span class="hljs-string">&apos;Element name&apos;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&apos;/inside.png&apos;</span>, <span class="hljs-string">&apos;text&apos;</span>)
-    .send();
-</code></pre>
-<div id="Responder_button">&#xA0;</div>
+<div id="Request_attachment">&#xA0;</div>
 
-<h3 id="responderbuttontext-&#x21D2;-buttontemplate"><a name="responderbuttontext-&#x21D2;-buttontemplate" class="plugin-anchor" href="#responderbuttontext-&#x21D2;-buttontemplate"><i class="fa fa-link" aria-hidden="true"></i></a>responder.button(text) &#x21D2; <code>ButtonTemplate</code></h3>
-<p>Sends nice button template. It can redirect user to server with token in url</p>
-<p><strong>Kind</strong>: instance method of <code>Responder</code>  </p>
+<h3 id="requestattachmentattachmentindex-&#x21D2;-object--null"><a name="requestattachmentattachmentindex-&#x21D2;-object--null" class="plugin-anchor" href="#requestattachmentattachmentindex-&#x21D2;-object--null"><i class="fa fa-link" aria-hidden="true"></i></a>request.attachment([attachmentIndex]) &#x21D2; <code>object</code> | <code>null</code></h3>
+<p>Returns whole attachment or null</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
+<th>Default</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>text</td>
-<td><code>string</code></td>
+<td>[attachmentIndex]</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+<td>use, when user sends more then one attachment</td>
+</tr>
+</tbody>
+</table>
+<div id="Request_attachmentUrl">&#xA0;</div>
+
+<h3 id="requestattachmenturlattachmentindex-&#x21D2;-string--null"><a name="requestattachmenturlattachmentindex-&#x21D2;-string--null" class="plugin-anchor" href="#requestattachmenturlattachmentindex-&#x21D2;-string--null"><i class="fa fa-link" aria-hidden="true"></i></a>request.attachmentUrl([attachmentIndex]) &#x21D2; <code>string</code> | <code>null</code></h3>
+<p>Returns attachment URL</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[attachmentIndex]</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+<td>use, when user sends more then one attachment</td>
+</tr>
+</tbody>
+</table>
+<div id="Request_isMessage">&#xA0;</div>
+
+<h3 id="requestismessage-&#x21D2;-boolean"><a name="requestismessage-&#x21D2;-boolean" class="plugin-anchor" href="#requestismessage-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isMessage() &#x21D2; <code>boolean</code></h3>
+<p>Returns true, when the request is text message, quick reply or attachment</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<div id="Request_text">&#xA0;</div>
+
+<h3 id="requesttexttokenized-&#x21D2;-string"><a name="requesttexttokenized-&#x21D2;-string" class="plugin-anchor" href="#requesttexttokenized-&#x21D2;-string"><i class="fa fa-link" aria-hidden="true"></i></a>request.text([tokenized]) &#x21D2; <code>string</code></h3>
+<p>Returns text of the message</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[tokenized]</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>when true, message is normalized to lowercase with <code>-</code></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Example</strong>  </p>
-<pre><code class="lang-javascript">res.button(<span class="hljs-string">&apos;Hello&apos;</span>)
-    .postBackButton(<span class="hljs-string">&apos;Text&apos;</span>, <span class="hljs-string">&apos;action&apos;</span>)
-    .urlButton(<span class="hljs-string">&apos;Url button&apos;</span>, <span class="hljs-string">&apos;/internal&apos;</span>, <span class="hljs-literal">true</span>) <span class="hljs-comment">// opens webview with token</span>
-    .urlButton(<span class="hljs-string">&apos;Other button&apos;</span>, <span class="hljs-string">&apos;https://goo.gl&apos;</span>) <span class="hljs-comment">// opens in internal browser</span>
-    .send();
+<pre><code class="lang-javascript"><span class="hljs-built_in">console</span>.log(req.text(<span class="hljs-literal">true</span>)) <span class="hljs-comment">// &quot;can-you-help-me&quot;</span>
 </code></pre>
-<div id="Responder_genericTemplate">&#xA0;</div>
+<div id="Request_quickReply">&#xA0;</div>
 
-<h3 id="respondergenerictemplate-&#x21D2;-generictemplate"><a name="respondergenerictemplate-&#x21D2;-generictemplate" class="plugin-anchor" href="#respondergenerictemplate-&#x21D2;-generictemplate"><i class="fa fa-link" aria-hidden="true"></i></a>responder.genericTemplate() &#x21D2; <code>GenericTemplate</code></h3>
-<p>Creates a generic template</p>
-<p><strong>Kind</strong>: instance method of <code>Responder</code><br><strong>Example</strong>  </p>
-<pre><code class="lang-javascript">res.genericTemplate()
-    .addElement(<span class="hljs-string">&apos;title&apos;</span>, <span class="hljs-string">&apos;subtitle&apos;</span>)
-        .setElementImage(<span class="hljs-string">&apos;/local.png&apos;</span>)
-        .setElementUrl(<span class="hljs-string">&apos;https://www.seznam.cz&apos;</span>)
-        .postBackButton(<span class="hljs-string">&apos;Button title&apos;</span>, <span class="hljs-string">&apos;action&apos;</span>, { actionData: <span class="hljs-number">1</span> })
-    .addElement(<span class="hljs-string">&apos;another&apos;</span>, <span class="hljs-string">&apos;subtitle&apos;</span>)
-        .setElementImage(<span class="hljs-string">&apos;https://goo.gl/image.png&apos;</span>)
-        .setElementAction(<span class="hljs-string">&apos;action&apos;</span>, { actionData: <span class="hljs-number">1</span> })
-        .urlButton(<span class="hljs-string">&apos;Local link with extension&apos;</span>, <span class="hljs-string">&apos;/local/path&apos;</span>, <span class="hljs-literal">true</span>, <span class="hljs-string">&apos;compact&apos;</span>)
-    .send();
+<h3 id="requestquickreplygetdata-&#x21D2;-null--string--object"><a name="requestquickreplygetdata-&#x21D2;-null--string--object" class="plugin-anchor" href="#requestquickreplygetdata-&#x21D2;-null--string--object"><i class="fa fa-link" aria-hidden="true"></i></a>request.quickReply([getData]) &#x21D2; <code>null</code> | <code>string</code> | <code>object</code></h3>
+<p>Returns action or data of quick reply
+When <code>getData</code> is <code>true</code>, object will be returned. Otherwise string or null.</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[getData]</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">typeof</span> res.quickReply() === <span class="hljs-string">&apos;string&apos;</span> || res.quickReply() === <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">typeof</span> res.quickReply(<span class="hljs-literal">true</span>) === <span class="hljs-string">&apos;object&apos;</span>;
+</code></pre>
+<div id="Request_isPostBack">&#xA0;</div>
+
+<h3 id="requestispostback-&#x21D2;-boolean"><a name="requestispostback-&#x21D2;-boolean" class="plugin-anchor" href="#requestispostback-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isPostBack() &#x21D2; <code>boolean</code></h3>
+<p>Returns true, if request is the postback</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<div id="Request_isReferral">&#xA0;</div>
+
+<h3 id="requestisreferral-&#x21D2;-boolean"><a name="requestisreferral-&#x21D2;-boolean" class="plugin-anchor" href="#requestisreferral-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isReferral() &#x21D2; <code>boolean</code></h3>
+<p>Returns true, if request is the referral</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<div id="Request_isOptin">&#xA0;</div>
+
+<h3 id="requestisoptin-&#x21D2;-boolean"><a name="requestisoptin-&#x21D2;-boolean" class="plugin-anchor" href="#requestisoptin-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isOptin() &#x21D2; <code>boolean</code></h3>
+<p>Returns true, if request is the optin</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<div id="Request_action">&#xA0;</div>
+
+<h3 id="requestactiongetdata-&#x21D2;-null--string--object"><a name="requestactiongetdata-&#x21D2;-null--string--object" class="plugin-anchor" href="#requestactiongetdata-&#x21D2;-null--string--object"><i class="fa fa-link" aria-hidden="true"></i></a>request.action([getData]) &#x21D2; <code>null</code> | <code>string</code> | <code>object</code></h3>
+<p>Returns action of the postback or quickreply
+When <code>getData</code> is <code>true</code>, object will be returned. Otherwise string or null.</p>
+<ol>
+<li>the postback is checked</li>
+<li>the referral is checked</li>
+<li>the quick reply is checked</li>
+<li>expected keywords are checked</li>
+<li>expected state is checked</li>
+</ol>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[getData]</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">typeof</span> res.action() === <span class="hljs-string">&apos;string&apos;</span> || res.action() === <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">typeof</span> res.action(<span class="hljs-literal">true</span>) === <span class="hljs-string">&apos;object&apos;</span>;
+</code></pre>
+<div id="Request_postBack">&#xA0;</div>
+
+<h3 id="requestpostbackgetdata-&#x21D2;-null--string--object"><a name="requestpostbackgetdata-&#x21D2;-null--string--object" class="plugin-anchor" href="#requestpostbackgetdata-&#x21D2;-null--string--object"><i class="fa fa-link" aria-hidden="true"></i></a>request.postBack([getData]) &#x21D2; <code>null</code> | <code>string</code> | <code>object</code></h3>
+<p>Returns action or data of postback
+When <code>getData</code> is <code>true</code>, object will be returned. Otherwise string or null.</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[getData]</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">typeof</span> res.postBack() === <span class="hljs-string">&apos;string&apos;</span> || res.postBack() === <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">typeof</span> res.postBack(<span class="hljs-literal">true</span>) === <span class="hljs-string">&apos;object&apos;</span>;
 </code></pre>
 
                                 
@@ -965,12 +1049,12 @@ res.image(<span class="hljs-string">&apos;https://google.com/img/foo.png&apos;</
 
             
                 
-                <a href="Request.html" class="navigation navigation-prev " aria-label="Previous page: Request">
+                <a href="../tutorial/testing.html" class="navigation navigation-prev " aria-label="Previous page: Testing">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="Router.html" class="navigation navigation-next " aria-label="Next page: Router">
+                <a href="Responder.html" class="navigation navigation-next " aria-label="Next page: Responder">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -981,7 +1065,7 @@ res.image(<span class="hljs-string">&apos;https://google.com/img/foo.png&apos;</
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Responder","level":"2.2","depth":1,"next":{"title":"Router","level":"2.3","depth":1,"path":"api/Router.md","ref":"api/Router.md","articles":[]},"previous":{"title":"Request","level":"2.1","depth":1,"path":"api/Request.md","ref":"api/Request.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Responder.md","mtime":"2017-06-15T15:06:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:06:33.826Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Request","level":"2.1","depth":1,"next":{"title":"Responder","level":"2.2","depth":1,"path":"api/Responder.md","ref":"api/Responder.md","articles":[]},"previous":{"title":"Testing","level":"1.8","depth":1,"path":"tutorial/testing.md","ref":"tutorial/testing.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Request.md","mtime":"2017-06-15T15:38:40.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:38:47.060Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -4,7 +4,7 @@
   "description": "Facebook Messenger Chatbot Framework",
   "main": "index.js",
   "scripts": {
-    "doc": "node ./bin/makeApiDoc.js && gitbook install ./doc && gitbook build ./doc",
+    "doc": "node ./bin/makeApiDoc.js && gitbook install ./doc && gitbook build ./doc && rm -rf ./docs && mv ./doc/_book ./docs",
     "test": "npm run test:lint && npm run test:coverage && npm run test:coverage:threshold",
     "test:coverage": "nyc --reporter=html mocha --opts ./mocha.opts ./test && nyc report",
     "test:coverage:threshold": "nyc check-coverage --lines 80 --functions 80 --branches 78",
@@ -32,7 +32,6 @@
   },
   "homepage": "https://github.com/pragonauts/botnaut#readme",
   "devDependencies": {
-    "body-parser": "^1.15.2",
     "eslint": "^3.10.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-mocha": "^0.1.0",
@@ -40,12 +39,9 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-mocha": "^4.7.0",
     "eslint-plugin-react": "^6.7.1",
-    "express": "^4.14.0",
-    "gitbook": "^3.2.2",
     "gitbook-cli": "^2.3.0",
     "jsdoc-to-markdown": "^2.0.1",
     "mocha": "^3.1.2",
-    "mongoose": "^4.6.8",
     "nyc": "^11.0.2",
     "sinon": "^2.3.2"
   },

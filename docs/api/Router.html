@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Bot Settings · Botnaut</title>
+        <title>Router · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="express.html" />
+    <link rel="next" href="Tester.html" />
     
     
-    <link rel="prev" href="ButtonTemplate.html" />
+    <link rel="prev" href="Responder.html" />
     
 
     </head>
@@ -515,7 +515,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.3" data-path="Router.html">
+        <li class="chapter active" data-level="2.3" data-path="Router.html">
             
                 <a href="Router.html">
             
@@ -599,7 +599,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.6" data-path="Settings.html">
+        <li class="chapter " data-level="2.6" data-path="Settings.html">
             
                 <a href="Settings.html">
             
@@ -668,7 +668,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Bot Settings</a>
+        <a href=".." >Router</a>
     </h1>
 </div>
 
@@ -683,167 +683,78 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <div id="Settings">&#xA0;</div>
+                                <div id="Router">&#xA0;</div>
 
-<h2 id="settings"><a name="settings" class="plugin-anchor" href="#settings"><i class="fa fa-link" aria-hidden="true"></i></a>Settings</h2>
-<p><strong>Kind</strong>: global class  </p>
+<h2 id="router-&#x21D0;-reducerwrapper"><a name="router-&#x21D0;-reducerwrapper" class="plugin-anchor" href="#router-&#x21D0;-reducerwrapper"><i class="fa fa-link" aria-hidden="true"></i></a>Router &#x21D0; <code>ReducerWrapper</code></h2>
+<p><strong>Kind</strong>: global class<br><strong>Extends:</strong> <code>ReducerWrapper</code>  </p>
 <ul>
-<li><a href="#Settings">Settings</a><ul>
-<li><a href="#new_Settings_new">new Settings()</a></li>
-<li><em>instance</em><ul>
-<li><a href="#Settings_greeting">.greeting([text])</a> &#x21D2; <code>this</code></li>
-<li><a href="#Settings_getStartedButton">.getStartedButton([payload])</a> &#x21D2; <code>this</code></li>
-<li><a href="#Settings_whitelistDomain">.whitelistDomain(domains)</a> &#x21D2; <code>this</code></li>
-<li><a href="#Settings_menu">.menu([locale], [inputDisabled])</a> &#x21D2; <code>MenuComposer</code></li>
-</ul>
-</li>
-<li><em>static</em><ul>
-<li><a href="#Settings_Settings">.Settings</a><ul>
-<li><a href="#new_Settings_Settings_new">new Settings(token, [log])</a></li>
+<li><a href="#Router">Router</a> &#x21D0; <code>ReducerWrapper</code><ul>
+<li><a href="#new_Router_new">new Router()</a></li>
+<li><a href="#Router_use">.use([action], [matcher], ...reducers)</a> &#x21D2; <code>Object</code></li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<div id="new_Settings_new">&#xA0;</div>
+<div id="new_Router_new">&#xA0;</div>
 
-<h3 id="new-settings"><a name="new-settings" class="plugin-anchor" href="#new-settings"><i class="fa fa-link" aria-hidden="true"></i></a>new Settings()</h3>
-<p>Utility, which helps us to set up chatbot behavior</p>
-<div id="Settings_greeting">&#xA0;</div>
+<h3 id="new-router"><a name="new-router" class="plugin-anchor" href="#new-router"><i class="fa fa-link" aria-hidden="true"></i></a>new Router()</h3>
+<p>Cascading router</p>
+<div id="Router_use">&#xA0;</div>
 
-<h3 id="settingsgreetingtext-&#x21D2;-this"><a name="settingsgreetingtext-&#x21D2;-this" class="plugin-anchor" href="#settingsgreetingtext-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>settings.greeting([text]) &#x21D2; <code>this</code></h3>
-<p>Sets or clears bot&apos;s greeting</p>
-<p><strong>Kind</strong>: instance method of <code>Settings</code>  </p>
+<h3 id="routeruseaction-matcher-reducers-&#x21D2;-object"><a name="routeruseaction-matcher-reducers-&#x21D2;-object" class="plugin-anchor" href="#routeruseaction-matcher-reducers-&#x21D2;-object"><i class="fa fa-link" aria-hidden="true"></i></a>router.use([action], [matcher], ...reducers) &#x21D2; <code>Object</code></h3>
+<p>Appends middleware, action handler or another router</p>
+<p><strong>Kind</strong>: instance method of <code>Router</code>  </p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
-<th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>[text]</td>
+<td>[action]</td>
 <td><code>string</code></td>
-<td><code>false</code></td>
-<td>leave empty to clear</td>
+<td>name of the action</td>
 </tr>
-</tbody>
-</table>
-<div id="Settings_getStartedButton">&#xA0;</div>
-
-<h3 id="settingsgetstartedbuttonpayload-&#x21D2;-this"><a name="settingsgetstartedbuttonpayload-&#x21D2;-this" class="plugin-anchor" href="#settingsgetstartedbuttonpayload-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>settings.getStartedButton([payload]) &#x21D2; <code>this</code></h3>
-<p>Sets up the Get Started Button</p>
-<p><strong>Kind</strong>: instance method of <code>Settings</code>  </p>
-<table>
-<thead>
 <tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
+<td>[matcher]</td>
+<td><code>RegExp</code> | <code>string</code> | <code>function</code></td>
+<td>The function can be async</td>
 </tr>
-</thead>
-<tbody>
 <tr>
-<td>[payload]</td>
-<td><code>string</code> | <code>object</code></td>
-<td><code>false</code></td>
-<td>leave blank to remove button, or provide the action</td>
+<td>...reducers</td>
+<td><code>function</code> | <code>Router</code></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Example</strong>  </p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> settings = <span class="hljs-keyword">new</span> Settings(config.facebook.pageToken);
-settings.getStartedButton(<span class="hljs-string">&apos;/start&apos;</span>); <span class="hljs-comment">// just an action</span>
+<pre><code class="lang-javascript"><span class="hljs-comment">// middleware</span>
+router.use((req, res, postBack) =&gt; Router.CONTINUE);
+
+<span class="hljs-comment">// route with matching regexp</span>
+router.use(<span class="hljs-string">&apos;action&apos;</span>, <span class="hljs-regexp">/help/</span>, (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;Hello!&apos;</span>);
+});
+
+<span class="hljs-comment">// route with matching function (the function is considered as matcher</span>
+<span class="hljs-comment">// in case of the function accepts zero or one argument)</span>
+router.use(<span class="hljs-string">&apos;action&apos;</span>, req =&gt; req.text() === <span class="hljs-string">&apos;a&apos;</span>, (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;Hello!&apos;</span>);
+});
+
+<span class="hljs-comment">// use multiple reducers</span>
+router.use(<span class="hljs-string">&apos;/path&apos;</span>, reducer1, reducer2)
+   .next(<span class="hljs-string">&apos;exitAction&apos;</span>, (data, req, res, postBack, next) =&gt; {
+       postBack(<span class="hljs-string">&apos;anotherAction&apos;</span>, { someData: <span class="hljs-literal">true</span> })
+   });
+
+<span class="hljs-comment">// append router with exit action</span>
+router.use(<span class="hljs-string">&apos;/path&apos;</span>, subRouter)
+   .next(<span class="hljs-string">&apos;exitAction&apos;</span>, (data, req, res, postBack, next) =&gt; {
+       postBack(<span class="hljs-string">&apos;anotherAction&apos;</span>, { someData: <span class="hljs-literal">true</span> })
+   });
 </code></pre>
-<div id="Settings_whitelistDomain">&#xA0;</div>
-
-<h3 id="settingswhitelistdomaindomains-&#x21D2;-this"><a name="settingswhitelistdomaindomains-&#x21D2;-this" class="plugin-anchor" href="#settingswhitelistdomaindomains-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>settings.whitelistDomain(domains) &#x21D2; <code>this</code></h3>
-<p>Useful for using facebook extension in webviews</p>
-<p><strong>Kind</strong>: instance method of <code>Settings</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>domains</td>
-<td><code>string</code> | <code>Array.&lt;string&gt;</code></td>
-</tr>
-</tbody>
-</table>
-<div id="Settings_menu">&#xA0;</div>
-
-<h3 id="settingsmenulocale-inputdisabled-&#x21D2;-menucomposer"><a name="settingsmenulocale-inputdisabled-&#x21D2;-menucomposer" class="plugin-anchor" href="#settingsmenulocale-inputdisabled-&#x21D2;-menucomposer"><i class="fa fa-link" aria-hidden="true"></i></a>settings.menu([locale], [inputDisabled]) &#x21D2; <code>MenuComposer</code></h3>
-<p>Sets up the persistent menu</p>
-<p><strong>Kind</strong>: instance method of <code>Settings</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>[locale]</td>
-<td><code>string</code></td>
-<td><code>&quot;default&quot;</code></td>
-</tr>
-<tr>
-<td>[inputDisabled]</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Example</strong>  </p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Settings } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
-
-<span class="hljs-keyword">const</span> settings = <span class="hljs-keyword">new</span> Settings(<span class="hljs-string">&apos;page-token-string&apos;</span>);
-
-settings.menu()
-    .addNested(<span class="hljs-string">&apos;Nested Menu&apos;</span>)
-        .addUrl(<span class="hljs-string">&apos;Go to google&apos;</span>, <span class="hljs-string">&apos;https://google.com&apos;</span>)
-        .done()
-    .addPostBack(<span class="hljs-string">&apos;Do something&apos;</span>, <span class="hljs-string">&apos;/the/action&apos;</span>)
-    .done();
-</code></pre>
-<div id="Settings_Settings">&#xA0;</div>
-
-<h3 id="settingssettings"><a name="settingssettings" class="plugin-anchor" href="#settingssettings"><i class="fa fa-link" aria-hidden="true"></i></a>Settings.Settings</h3>
-<p><strong>Kind</strong>: static class of <code>Settings</code>  </p>
-<div id="new_Settings_Settings_new">&#xA0;</div>
-
-<h4 id="new-settingstoken-log"><a name="new-settingstoken-log" class="plugin-anchor" href="#new-settingstoken-log"><i class="fa fa-link" aria-hidden="true"></i></a>new Settings(token, [log])</h4>
-<p>Creates an instance of Settings.</p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>token</td>
-<td><code>string</code></td>
-</tr>
-<tr>
-<td>[log]</td>
-<td><code>Object</code></td>
-</tr>
-</tbody>
-</table>
 
                                 
                                 </section>
@@ -871,12 +782,12 @@ settings.menu()
 
             
                 
-                <a href="ButtonTemplate.html#ReceiptTemplate" class="navigation navigation-prev " aria-label="Previous page: ReceiptTemplate">
+                <a href="Responder.html" class="navigation navigation-prev " aria-label="Previous page: Responder">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="express.html" class="navigation navigation-next " aria-label="Next page: Express/MongoDb tools">
+                <a href="Tester.html" class="navigation navigation-next " aria-label="Next page: Tester">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -887,7 +798,7 @@ settings.menu()
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bot Settings","level":"2.6","depth":1,"next":{"title":"Express/MongoDb tools","level":"2.7","depth":1,"path":"api/express.md","ref":"api/express.md","articles":[]},"previous":{"title":"ReceiptTemplate","level":"2.5.3","depth":2,"anchor":"#ReceiptTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ReceiptTemplate","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Settings.md","mtime":"2017-06-15T15:06:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:06:33.826Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Router","level":"2.3","depth":1,"next":{"title":"Tester","level":"2.4","depth":1,"path":"api/Tester.md","ref":"api/Tester.md","articles":[]},"previous":{"title":"Responder","level":"2.2","depth":1,"path":"api/Responder.md","ref":"api/Responder.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Router.md","mtime":"2017-06-15T15:38:40.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:38:47.060Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Nesting - Reusable Blocks · Botnaut</title>
+        <title>Sending Templates · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="nestingRouters.html" />
+    <link rel="next" href="templates.html" />
     
     
-    <link rel="prev" href="advancedRouting.html" />
+    <link rel="prev" href="nestingRouters.html" />
     
 
     </head>
@@ -353,7 +353,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.6" data-path="nestingRouters.html">
+        <li class="chapter " data-level="1.6" data-path="nestingRouters.html">
             
                 <a href="nestingRouters.html">
             
@@ -398,7 +398,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.7" data-path="templates.html">
+        <li class="chapter active" data-level="1.7" data-path="templates.html">
             
                 <a href="templates.html">
             
@@ -668,7 +668,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Nesting - Reusable Blocks</a>
+        <a href=".." >Sending Templates</a>
     </h1>
 </div>
 
@@ -683,114 +683,153 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="nested-routers---creating-conversation-blocks"><a name="nested-routers---creating-conversation-blocks" class="plugin-anchor" href="#nested-routers---creating-conversation-blocks"><i class="fa fa-link" aria-hidden="true"></i></a>Nested Routers - Creating conversation blocks</h1>
-<p>Developing large chatbots with many flows requires advanced code organization.
-We came up with solution which allows:</p>
+                                <h1 id="sending-templates"><a name="sending-templates" class="plugin-anchor" href="#sending-templates"><i class="fa fa-link" aria-hidden="true"></i></a>Sending Templates</h1>
 <ul>
-<li>creating reusable conversation blocks</li>
-<li>composability of whole flows</li>
-<li>keeping code clear and maintainable</li>
+<li>When using extension, the url will contain a token for accessing the bot framework</li>
+<li>All links without a protocol will be treated as local links (<code>appUrl</code> from config will be used)</li>
+<li>All postback actions without leading <code>/</code> will be treated as relative actions</li>
 </ul>
-<h2 id="basic-concept"><a name="basic-concept" class="plugin-anchor" href="#basic-concept"><i class="fa fa-link" aria-hidden="true"></i></a>Basic concept</h2>
-<p>Each conversation block has a single entry point and one or more exit points.</p>
-<pre><code>  start
-    |
-  |-O------------|
-  |              |
-  | conversation |      is represented by single
-  |     block    |      &lt;Router&gt; instance
-  |              |
-  |-X---X---X----|
-    |   |   |
-
-    exit points
-</code></pre><p>When attaching the block into application, each exit point <strong>must be &quot;connected&quot;</strong> into
-a parent conversation block.</p>
-<h2 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h2>
-<p>First, let&apos;s start with a module. There is a single entry point: (<code>&apos;/&apos;</code>) and
-two exit points (<code>&apos;setName&apos;</code> and <code>&apos;leave&apos;</code>). It&apos;s recomended to return data instead of
-setting them to state.</p>
-<pre><code class="lang-javascript"><span class="hljs-comment">// setName.js</span>
-<span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<h2 id="button-template"><a name="button-template" class="plugin-anchor" href="#button-template"><i class="fa fa-link" aria-hidden="true"></i></a>Button Template</h2>
+<p>Show the button template</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
 
 <span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
 
-<span class="hljs-comment">// entry point</span>
-bot.use(<span class="hljs-string">&apos;/&apos;</span>, (req, res) =&gt; {
-    res.text(<span class="hljs-string">&apos;Please, give me a full name :)&apos;</span>)
-        .expected(<span class="hljs-string">&apos;name&apos;</span>);
-});
-
-<span class="hljs-comment">// leave exit point</span>
-bot.use(<span class="hljs-string">&apos;/leave&apos;</span>, () =&gt; Router.exit(<span class="hljs-string">&apos;leave&apos;</span>));
-
-bot.use(<span class="hljs-string">&apos;/name&apos;</span>, (req, res) =&gt; {
-    <span class="hljs-keyword">const</span> name = req.text();
-    <span class="hljs-keyword">if</span> (!name || name.split(<span class="hljs-string">&apos; &apos;</span>).length &lt; <span class="hljs-number">2</span>) {
-        res.text(<span class="hljs-string">&apos;Fullname must have two words or more.&apos;</span>)
-            .text(<span class="hljs-string">&apos;Please try it again&apos;</span>, {
-                leave: <span class="hljs-string">&apos;Don\&apos;t want&apos;</span>
-            });
-        <span class="hljs-comment">// just stop dispatching (equal to &quot;return undefined;&quot;)</span>
-        <span class="hljs-keyword">return</span> Router.END;
-    }
-    <span class="hljs-comment">// pass data to exit point</span>
-    <span class="hljs-keyword">return</span> Router.exit(<span class="hljs-string">&apos;setName&apos;</span>, { name });
+bot.use((req, res) =&gt; {
+    res.button(<span class="hljs-string">&apos;Hello&apos;</span>)
+        .postBackButton(<span class="hljs-string">&apos;Text&apos;</span>, <span class="hljs-string">&apos;action&apos;</span>)            <span class="hljs-comment">// makes a postback</span>
+        .urlButton(<span class="hljs-string">&apos;Url button&apos;</span>, <span class="hljs-string">&apos;/internal&apos;</span>, <span class="hljs-literal">true</span>)  <span class="hljs-comment">// opens authorized webview</span>
+        .urlButton(<span class="hljs-string">&apos;Other button&apos;</span>, <span class="hljs-string">&apos;https://goo.gl&apos;</span>) <span class="hljs-comment">// opens in internal browser</span>
+        .send();
 });
 
 <span class="hljs-built_in">module</span>.exports = bot;
 </code></pre>
-<p>And here is how to connect the block into the application.
-<strong>All exit points must be covered by handlers: <code>.onExit()</code></strong> to ensure continuous conversation.</p>
-<pre><code class="lang-javascript"><span class="hljs-comment">// index.js</span>
-<span class="hljs-keyword">const</span> { Router, Settings } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
-<span class="hljs-keyword">const</span> setName = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;./setName&apos;</span>);
+<h2 id="generic-template"><a name="generic-template" class="plugin-anchor" href="#generic-template"><i class="fa fa-link" aria-hidden="true"></i></a>Generic Template</h2>
+<p>Show the generic template</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+bot.use((req, res) =&gt; {
+    res.genericTemplate()
+        .addElement(<span class="hljs-string">&apos;title&apos;</span>, <span class="hljs-string">&apos;subtitle&apos;</span>)
+            .setElementImage(<span class="hljs-string">&apos;/local.png&apos;</span>)               <span class="hljs-comment">// set local image</span>
+            .setElementUrl(<span class="hljs-string">&apos;https://www.seznam.cz&apos;</span>)
+            .postBackButton(<span class="hljs-string">&apos;Button title&apos;</span>, <span class="hljs-string">&apos;action&apos;</span>, { actionData: <span class="hljs-number">1</span> })
+        .addElement(<span class="hljs-string">&apos;another&apos;</span>, <span class="hljs-string">&apos;subtitle&apos;</span>)
+            .setElementImage(<span class="hljs-string">&apos;https://goo.gl/image.png&apos;</span>) <span class="hljs-comment">// use remote image</span>
+            .setElementAction(<span class="hljs-string">&apos;action&apos;</span>, { actionData: <span class="hljs-number">1</span> })
+            .urlButton(<span class="hljs-string">&apos;Local link with extension&apos;</span>, <span class="hljs-string">&apos;/local/path&apos;</span>, <span class="hljs-literal">true</span>, <span class="hljs-string">&apos;compact&apos;</span>)
+        .send();
+});
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
+<h2 id="receipt-template"><a name="receipt-template" class="plugin-anchor" href="#receipt-template"><i class="fa fa-link" aria-hidden="true"></i></a>Receipt Template</h2>
+<p>Show the receipt template</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+bot.use((req, res) =&gt; {
+    res.receipt(<span class="hljs-string">&apos;Name&apos;</span>, <span class="hljs-string">&apos;Cash&apos;</span>, <span class="hljs-string">&apos;CZK&apos;</span>, <span class="hljs-string">&apos;1&apos;</span>)
+        .addElement(<span class="hljs-string">&apos;Element name&apos;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-string">&apos;/inside.png&apos;</span>, <span class="hljs-string">&apos;text&apos;</span>)
+        .send();
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
+<h2 id="working-with-webviews"><a name="working-with-webviews" class="plugin-anchor" href="#working-with-webviews"><i class="fa fa-link" aria-hidden="true"></i></a>Working with webviews</h2>
+<ul>
+<li><p><strong>Dont forget to whitelist your domain</strong></p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Settings } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
 
 <span class="hljs-keyword">const</span> settings = <span class="hljs-keyword">new</span> Settings(<span class="hljs-string">&apos;pagetoken&apos;</span>);
-settings.getStartedButton(<span class="hljs-string">&apos;/start&apos;</span>);
 
-<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
-
-bot.use(<span class="hljs-string">&apos;/start&apos;</span>, (req, res) =&gt; {
-    <span class="hljs-keyword">if</span> (req.state.name) {
-        res.text(<span class="hljs-string">`Hello, I&apos;am <span class="hljs-subst">${req.state.name}</span>`</span>, {
-            setName: <span class="hljs-string">&apos;That\&apos;s bad name&apos;</span>
-        });
-    } <span class="hljs-keyword">else</span> {
-        res.text(<span class="hljs-string">&apos;Hello, please give me name!&apos;</span>, {
-            setName: <span class="hljs-string">&apos;Let\&apos;s do it&apos;</span>
-        });
-    }
+settings.whitelistDomain(<span class="hljs-string">&apos;https://mydomain.com&apos;</span>);
+</code></pre>
+</li>
+<li><p><strong>Include Facebook Code in your page</strong></p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript">
+    <span class="hljs-built_in">window</span>.FB_PAGE_ID = <span class="hljs-string">&apos;&apos;</span>;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, s, id</span>)</span>{
+    <span class="hljs-keyword">var</span> js, fjs = d.getElementsByTagName(s)[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">if</span> (d.getElementById(id)) {<span class="hljs-keyword">return</span>;}
+    js = d.createElement(s); js.id = id;
+    js.src = <span class="hljs-string">&quot;//connect.facebook.com/en_US/messenger.Extensions.js&quot;</span>;
+    fjs.parentNode.insertBefore(js, fjs);
+    }(<span class="hljs-built_in">document</span>, <span class="hljs-string">&apos;script&apos;</span>, <span class="hljs-string">&apos;Messenger&apos;</span>));
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+</li>
+<li><p><strong>Closing the webview</strong></p>
+<pre><code class="lang-javascript">MessengerExtensions.requestCloseBrowser(() =&gt; {
+    <span class="hljs-comment">// yes</span>
+}, () =&gt; {
+    <span class="hljs-comment">// for classic browser</span>
+    <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">`http://m.me/<span class="hljs-subst">${window.FB_PAGE_ID}</span>`</span>;
 });
-
-bot.use(<span class="hljs-string">&apos;/setName&apos;</span>, setName)
-    <span class="hljs-comment">// react on setName exit point</span>
-    .onExit(<span class="hljs-string">&apos;setName&apos;</span>, ({ name }, req, res, postBack) =&gt; {
-        res.setState({ name });
-        postBack(<span class="hljs-string">&apos;/&apos;</span>);
-    })
-    <span class="hljs-comment">// react on leave exit point</span>
-    .onExit(<span class="hljs-string">&apos;leave&apos;</span>, (data, req, res, postBack) =&gt; postBack(<span class="hljs-string">&apos;/start&apos;</span>));
-
-<span class="hljs-built_in">module</span>.exports = bot;
 </code></pre>
-<p>And this is, how the implementation works:</p>
-<pre><code>*-----------------------------------*
-|                       Get started |
-| Hello, please give me name!       |
-|                                   |
-|                      Let\&apos;s do it |
-| Please, give me a full name :)    |
-|                                   |
-|                                Ok |
-| Fullname must have two words      |
-| or more.                          |
-| Please try it again               |
-|                                   |
-|                       Dorian Gray |
-| Hello, I&apos;am Dorian Gray           |
-*-----------------------------------*
+</li>
+<li><p><strong>Getting token and sender from URL</strong></p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> jsCookie <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;js-cookie&apos;</span>;
+
+<span class="hljs-keyword">let</span> sender = <span class="hljs-literal">null</span>;
+
+<span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.location.hash.match(<span class="hljs-regexp">/^#?.+/</span>)) {
+    <span class="hljs-keyword">const</span> { token, senderId } = <span class="hljs-built_in">window</span>.location.hash
+        .replace(<span class="hljs-regexp">/^#/</span>, <span class="hljs-string">&apos;&apos;</span>)
+        .split(<span class="hljs-string">&apos;&amp;&apos;</span>)
+        .map(a =&gt; <span class="hljs-string">`<span class="hljs-subst">${a}</span>`</span>.split(<span class="hljs-string">&apos;=&apos;</span>))
+        .reduce((o, item) =&gt; (item.length === <span class="hljs-number">2</span>
+            ? <span class="hljs-built_in">Object</span>.assign(o, { [item[<span class="hljs-number">0</span>]]: <span class="hljs-built_in">decodeURIComponent</span>(item[<span class="hljs-number">1</span>]) })
+            : o), {});
+
+    sender = senderId;
+
+    <span class="hljs-built_in">window</span>.location.hash = <span class="hljs-string">&apos;&apos;</span>;
+    jsCookie.set(<span class="hljs-string">&apos;botToken&apos;</span>, token, { expires: <span class="hljs-number">7</span>, HttpOnly: <span class="hljs-literal">true</span> });
+}
 </code></pre>
+</li>
+<li><p><strong>Sending the postback from browser to bot</strong></p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> $ <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;jquery&apos;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">postBack</span> (<span class="hljs-params">senderId, action, data = {}</span>) </span>{
+    <span class="hljs-keyword">return</span> {
+        object: <span class="hljs-string">&apos;page&apos;</span>,
+        entry: [{
+            id: <span class="hljs-string">&apos;page_id&apos;</span>,
+            time: <span class="hljs-built_in">Date</span>.now(),
+            messaging: [{
+                sender: { id: senderId },
+                postback: {
+                    payload: {
+                        action,
+                        data
+                    }
+                }
+            }]
+        }]
+    };
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jqueryRequest</span> (<span class="hljs-params">senderId, action, data, callback</span>) </span>{
+    $.ajax({
+        method: <span class="hljs-string">&apos;POST&apos;</span>,
+        url: <span class="hljs-string">&apos;/bot&apos;</span>,
+        contentType: <span class="hljs-string">&apos;application/json; charset=utf-8&apos;</span>,
+        data: <span class="hljs-built_in">JSON</span>.stringify(postBack(senderId, action, data)),
+        success: responseData =&gt; callback(<span class="hljs-literal">null</span>, responseData),
+        error: jqXHR =&gt; callback(jqXHR)
+    });
+}
+</code></pre>
+</li>
+</ul>
+
                                 
                                 </section>
                             
@@ -817,12 +856,12 @@ bot.use(<span class="hljs-string">&apos;/setName&apos;</span>, setName)
 
             
                 
-                <a href="advancedRouting.html#redirecting-flow-with-post-back" class="navigation navigation-prev " aria-label="Previous page: Redirecting with Postback">
+                <a href="nestingRouters.html#example" class="navigation navigation-prev " aria-label="Previous page: Example">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="nestingRouters.html#basic-concept" class="navigation navigation-next " aria-label="Next page: Concept">
+                <a href="templates.html#button-template" class="navigation navigation-next " aria-label="Next page: Button Template">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -833,7 +872,7 @@ bot.use(<span class="hljs-string">&apos;/setName&apos;</span>, setName)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Nesting - Reusable Blocks","level":"1.6","depth":1,"next":{"title":"Concept","level":"1.6.1","depth":2,"anchor":"#basic-concept","path":"tutorial/nestingRouters.md","ref":"tutorial/nestingRouters.md#basic-concept","articles":[]},"previous":{"title":"Redirecting with Postback","level":"1.5.4","depth":2,"anchor":"#redirecting-flow-with-post-back","path":"tutorial/advancedRouting.md","ref":"tutorial/advancedRouting.md#redirecting-flow-with-post-back","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/nestingRouters.md","mtime":"2017-06-15T14:44:01.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:06:33.826Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Sending Templates","level":"1.7","depth":1,"next":{"title":"Button Template","level":"1.7.1","depth":2,"anchor":"#button-template","path":"tutorial/templates.md","ref":"tutorial/templates.md#button-template","articles":[]},"previous":{"title":"Example","level":"1.6.2","depth":2,"anchor":"#example","path":"tutorial/nestingRouters.md","ref":"tutorial/nestingRouters.md#example","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/templates.md","mtime":"2017-06-15T15:16:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:38:47.060Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

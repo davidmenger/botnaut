@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Tester · Botnaut</title>
+        <title>Express/MongoDb tools · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="ButtonTemplate.html" />
+    <link rel="next" href="bufferloader.html" />
     
     
-    <link rel="prev" href="Router.html" />
+    <link rel="prev" href="Settings.html" />
     
 
     </head>
@@ -528,7 +528,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.4" data-path="Tester.html">
+        <li class="chapter " data-level="2.4" data-path="Tester.html">
             
                 <a href="Tester.html">
             
@@ -612,7 +612,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.7" data-path="express.html">
+        <li class="chapter active" data-level="2.7" data-path="express.html">
             
                 <a href="express.html">
             
@@ -668,7 +668,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Tester</a>
+        <a href=".." >Express/MongoDb tools</a>
     </h1>
 </div>
 
@@ -685,53 +685,42 @@
                                 
                                 <h2 id="classes"><a name="classes" class="plugin-anchor" href="#classes"><i class="fa fa-link" aria-hidden="true"></i></a>Classes</h2>
 <dl>
-<dt><a href="#Tester">Tester</a></dt>
-<dd></dd>
-<dt><a href="#ResponseAssert">ResponseAssert</a></dt>
-<dd></dd>
-<dt><a href="#AnyResponseAssert">AnyResponseAssert</a></dt>
-<dd></dd>
+<dt><a href="#State">State</a></dt>
+<dd><p>Conversation state storage</p>
+</dd>
+<dt><a href="#ChatLog">ChatLog</a></dt>
+<dd><p>Chat logs storage</p>
+</dd>
 </dl>
 
-<div id="Tester">&#xA0;</div>
+<h2 id="functions"><a name="functions" class="plugin-anchor" href="#functions"><i class="fa fa-link" aria-hidden="true"></i></a>Functions</h2>
+<dl>
+<dt><a href="#createProcessor">createProcessor(reducer, processorOptions, [stateStorage])</a></dt>
+<dd><p>Create a chat event processor</p>
+</dd>
+<dt><a href="#createRouter">createRouter(reducer, verifyToken, [log])</a></dt>
+<dd><p>Create an express route for accepting messenger events</p>
+</dd>
+</dl>
 
-<h2 id="tester"><a name="tester" class="plugin-anchor" href="#tester"><i class="fa fa-link" aria-hidden="true"></i></a>Tester</h2>
+<div id="State">&#xA0;</div>
+
+<h2 id="state"><a name="state" class="plugin-anchor" href="#state"><i class="fa fa-link" aria-hidden="true"></i></a>State</h2>
+<p>Conversation state storage</p>
 <p><strong>Kind</strong>: global class  </p>
 <ul>
-<li><a href="#Tester">Tester</a><ul>
-<li><a href="#new_Tester_new">new Tester()</a></li>
-<li><em>instance</em><ul>
-<li><a href="#Tester_res">.res([index])</a> &#x21D2; <code>ResponseAssert</code></li>
-<li><a href="#Tester_any">.any()</a> &#x21D2; <code>AnyResponseAssert</code></li>
-<li><a href="#Tester_lastRes">.lastRes()</a> &#x21D2; <code>ResponseAssert</code></li>
-<li><a href="#Tester_passedAction">.passedAction(path)</a> &#x21D2; <code>this</code></li>
-<li><a href="#Tester_getState">.getState()</a> &#x21D2; <code>object</code></li>
-<li><a href="#Tester_setState">.setState([state])</a></li>
-<li><a href="#Tester_text">.text(text)</a> &#x21D2; <code>Promise</code></li>
-<li><a href="#Tester_optin">.optin(action, [data])</a> &#x21D2; <code>Promise</code></li>
-<li><a href="#Tester_quickReply">.quickReply(action, [data])</a> &#x21D2; <code>Promise</code></li>
-<li><a href="#Tester_postBack">.postBack(action, [data])</a> &#x21D2; <code>Promise</code></li>
-</ul>
-</li>
-<li><em>static</em><ul>
-<li><a href="#Tester_Tester">.Tester</a><ul>
-<li><a href="#new_Tester_Tester_new">new Tester(reducer, [senderId], [processorOptions], [storage])</a></li>
+<li><a href="#State">State</a><ul>
+<li><a href="#State_connectAndSubscribe">.connectAndSubscribe(senderId, [defaultState], [timeout])</a> &#x21D2; <code>Promise.&lt;Object&gt;</code></li>
+<li><a href="#State_onAfterStateLoad">.onAfterStateLoad(req, state)</a> &#x21D2; <code>Promise.&lt;Object&gt;</code></li>
+<li><a href="#State_saveState">.saveState(state)</a> &#x21D2; <code>Promise</code></li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<div id="new_Tester_new">&#xA0;</div>
+<div id="State_connectAndSubscribe">&#xA0;</div>
 
-<h3 id="new-tester"><a name="new-tester" class="plugin-anchor" href="#new-tester"><i class="fa fa-link" aria-hidden="true"></i></a>new Tester()</h3>
-<p>Utility for testing requests</p>
-<div id="Tester_res">&#xA0;</div>
-
-<h3 id="testerresindex-&#x21D2;-responseassert"><a name="testerresindex-&#x21D2;-responseassert" class="plugin-anchor" href="#testerresindex-&#x21D2;-responseassert"><i class="fa fa-link" aria-hidden="true"></i></a>tester.res([index]) &#x21D2; <code>ResponseAssert</code></h3>
-<p>Returns single response asserter</p>
-<p><strong>Kind</strong>: instance method of <code>Tester</code>  </p>
+<h3 id="stateconnectandsubscribesenderid-defaultstate-timeout-&#x21D2;-promiseobject"><a name="stateconnectandsubscribesenderid-defaultstate-timeout-&#x21D2;-promiseobject" class="plugin-anchor" href="#stateconnectandsubscribesenderid-defaultstate-timeout-&#x21D2;-promiseobject"><i class="fa fa-link" aria-hidden="true"></i></a>state.connectAndSubscribe(senderId, [defaultState], [timeout]) &#x21D2; <code>Promise.&lt;Object&gt;</code></h3>
+<p>Load state and lock for other requests</p>
+<p><strong>Kind</strong>: instance method of <code>State</code>  </p>
 <table>
 <thead>
 <tr>
@@ -743,397 +732,330 @@
 </thead>
 <tbody>
 <tr>
-<td>[index]</td>
+<td>senderId</td>
+<td><code>*</code></td>
+<td></td>
+<td>user identifier</td>
+</tr>
+<tr>
+<td>[defaultState]</td>
+<td><code>Object</code></td>
+<td><code>Object</code></td>
+<td>given default state</td>
+</tr>
+<tr>
+<td>[timeout]</td>
 <td><code>number</code></td>
-<td><code>0</code></td>
-<td>response index</td>
+<td><code>300</code></td>
+<td>given default state</td>
 </tr>
 </tbody>
 </table>
-<div id="Tester_any">&#xA0;</div>
+<div id="State_onAfterStateLoad">&#xA0;</div>
 
-<h3 id="testerany-&#x21D2;-anyresponseassert"><a name="testerany-&#x21D2;-anyresponseassert" class="plugin-anchor" href="#testerany-&#x21D2;-anyresponseassert"><i class="fa fa-link" aria-hidden="true"></i></a>tester.any() &#x21D2; <code>AnyResponseAssert</code></h3>
-<p>Returns any response asserter</p>
-<p><strong>Kind</strong>: instance method of <code>Tester</code>  </p>
-<div id="Tester_lastRes">&#xA0;</div>
-
-<h3 id="testerlastres-&#x21D2;-responseassert"><a name="testerlastres-&#x21D2;-responseassert" class="plugin-anchor" href="#testerlastres-&#x21D2;-responseassert"><i class="fa fa-link" aria-hidden="true"></i></a>tester.lastRes() &#x21D2; <code>ResponseAssert</code></h3>
-<p>Returns last response asserter</p>
-<p><strong>Kind</strong>: instance method of <code>Tester</code>  </p>
-<div id="Tester_passedAction">&#xA0;</div>
-
-<h3 id="testerpassedactionpath-&#x21D2;-this"><a name="testerpassedactionpath-&#x21D2;-this" class="plugin-anchor" href="#testerpassedactionpath-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>tester.passedAction(path) &#x21D2; <code>this</code></h3>
-<p>Checks, that app past the action</p>
-<p><strong>Kind</strong>: instance method of <code>Tester</code>  </p>
+<h3 id="stateonafterstateloadreq-state-&#x21D2;-promiseobject"><a name="stateonafterstateloadreq-state-&#x21D2;-promiseobject" class="plugin-anchor" href="#stateonafterstateloadreq-state-&#x21D2;-promiseobject"><i class="fa fa-link" aria-hidden="true"></i></a>state.onAfterStateLoad(req, state) &#x21D2; <code>Promise.&lt;Object&gt;</code></h3>
+<p>Called afer load for postprocessing purposes</p>
+<p><strong>Kind</strong>: instance method of <code>State</code>  </p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>path</td>
-<td><code>string</code></td>
+<td>req</td>
+<td><code>Request</code></td>
+<td>chat request</td>
+</tr>
+<tr>
+<td>state</td>
+<td><code>Object</code></td>
+<td>given default state</td>
 </tr>
 </tbody>
 </table>
-<div id="Tester_getState">&#xA0;</div>
+<div id="State_saveState">&#xA0;</div>
 
-<h3 id="testergetstate-&#x21D2;-object"><a name="testergetstate-&#x21D2;-object" class="plugin-anchor" href="#testergetstate-&#x21D2;-object"><i class="fa fa-link" aria-hidden="true"></i></a>tester.getState() &#x21D2; <code>object</code></h3>
-<p>Returns state</p>
-<p><strong>Kind</strong>: instance method of <code>Tester</code>  </p>
-<div id="Tester_setState">&#xA0;</div>
-
-<h3 id="testersetstatestate"><a name="testersetstatestate" class="plugin-anchor" href="#testersetstatestate"><i class="fa fa-link" aria-hidden="true"></i></a>tester.setState([state])</h3>
-<p>Sets state with <code>Object.assign()</code></p>
-<p><strong>Kind</strong>: instance method of <code>Tester</code>  </p>
+<h3 id="statesavestatestate-&#x21D2;-promise"><a name="statesavestatestate-&#x21D2;-promise" class="plugin-anchor" href="#statesavestatestate-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>state.saveState(state) &#x21D2; <code>Promise</code></h3>
+<p>Called for saving state</p>
+<p><strong>Kind</strong>: instance method of <code>State</code>  </p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
-<th>Default</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>[state]</td>
-<td><code>object</code></td>
-<td><code>{}</code></td>
+<td>state</td>
+<td><code>Object</code></td>
+<td>given default state</td>
 </tr>
 </tbody>
 </table>
-<div id="Tester_text">&#xA0;</div>
+<div id="ChatLog">&#xA0;</div>
 
-<h3 id="testertexttext-&#x21D2;-promise"><a name="testertexttext-&#x21D2;-promise" class="plugin-anchor" href="#testertexttext-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.text(text) &#x21D2; <code>Promise</code></h3>
-<p>Makes text request</p>
-<p><strong>Kind</strong>: instance method of <code>Tester</code>  </p>
+<h2 id="chatlog"><a name="chatlog" class="plugin-anchor" href="#chatlog"><i class="fa fa-link" aria-hidden="true"></i></a>ChatLog</h2>
+<p>Chat logs storage</p>
+<p><strong>Kind</strong>: global class  </p>
+<ul>
+<li><a href="#ChatLog">ChatLog</a><ul>
+<li><a href="#ChatLog_log">.log(responses, request)</a></li>
+<li><a href="#ChatLog_error">.error(err, [responses], [request])</a></li>
+</ul>
+</li>
+</ul>
+<div id="ChatLog_log">&#xA0;</div>
+
+<h3 id="chatloglogresponses-request"><a name="chatloglogresponses-request" class="plugin-anchor" href="#chatloglogresponses-request"><i class="fa fa-link" aria-hidden="true"></i></a>chatLog.log(responses, request)</h3>
+<p>Log single event</p>
+<p><strong>Kind</strong>: instance method of <code>ChatLog</code>  </p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>text</td>
-<td><code>string</code></td>
+<td>responses</td>
+<td><code>Array.&lt;Object&gt;</code></td>
+<td>list of sent responses</td>
+</tr>
+<tr>
+<td>request</td>
+<td><code>Object</code></td>
+<td>event request</td>
 </tr>
 </tbody>
 </table>
-<div id="Tester_optin">&#xA0;</div>
+<div id="ChatLog_error">&#xA0;</div>
 
-<h3 id="testeroptinaction-data-&#x21D2;-promise"><a name="testeroptinaction-data-&#x21D2;-promise" class="plugin-anchor" href="#testeroptinaction-data-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.optin(action, [data]) &#x21D2; <code>Promise</code></h3>
-<p>Make optin call</p>
-<p><strong>Kind</strong>: instance method of <code>Tester</code>  </p>
+<h3 id="chatlogerrorerr-responses-request"><a name="chatlogerrorerr-responses-request" class="plugin-anchor" href="#chatlogerrorerr-responses-request"><i class="fa fa-link" aria-hidden="true"></i></a>chatLog.error(err, [responses], [request])</h3>
+<p>Log single event</p>
+<p><strong>Kind</strong>: instance method of <code>ChatLog</code>  </p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
-<th>Default</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>action</td>
-<td><code>string</code></td>
-<td></td>
+<td>err</td>
+<td><code>any</code></td>
+<td>error</td>
 </tr>
 <tr>
-<td>[data]</td>
-<td><code>object</code></td>
-<td><code>{}</code></td>
+<td>[responses]</td>
+<td><code>Array.&lt;Object&gt;</code></td>
+<td>list of sent responses</td>
+</tr>
+<tr>
+<td>[request]</td>
+<td><code>Object</code></td>
+<td>event request</td>
 </tr>
 </tbody>
 </table>
-<div id="Tester_quickReply">&#xA0;</div>
+<div id="createProcessor">&#xA0;</div>
 
-<h3 id="testerquickreplyaction-data-&#x21D2;-promise"><a name="testerquickreplyaction-data-&#x21D2;-promise" class="plugin-anchor" href="#testerquickreplyaction-data-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.quickReply(action, [data]) &#x21D2; <code>Promise</code></h3>
-<p>Send quick reply</p>
-<p><strong>Kind</strong>: instance method of <code>Tester</code>  </p>
+<h2 id="createprocessorreducer-processoroptions-statestorage"><a name="createprocessorreducer-processoroptions-statestorage" class="plugin-anchor" href="#createprocessorreducer-processoroptions-statestorage"><i class="fa fa-link" aria-hidden="true"></i></a>createProcessor(reducer, processorOptions, [stateStorage])</h2>
+<p>Create a chat event processor</p>
+<p><strong>Kind</strong>: global function  </p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>action</td>
-<td><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td>[data]</td>
-<td><code>object</code></td>
-<td><code>{}</code></td>
-</tr>
-</tbody>
-</table>
-<div id="Tester_postBack">&#xA0;</div>
-
-<h3 id="testerpostbackaction-data-&#x21D2;-promise"><a name="testerpostbackaction-data-&#x21D2;-promise" class="plugin-anchor" href="#testerpostbackaction-data-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.postBack(action, [data]) &#x21D2; <code>Promise</code></h3>
-<p>Sends postback</p>
-<p><strong>Kind</strong>: instance method of <code>Tester</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>action</td>
-<td><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td>[data]</td>
-<td><code>object</code></td>
-<td><code>{}</code></td>
-</tr>
-</tbody>
-</table>
-<div id="Tester_Tester">&#xA0;</div>
-
-<h3 id="testertester"><a name="testertester" class="plugin-anchor" href="#testertester"><i class="fa fa-link" aria-hidden="true"></i></a>Tester.Tester</h3>
-<p><strong>Kind</strong>: static class of <code>Tester</code>  </p>
-<div id="new_Tester_Tester_new">&#xA0;</div>
-
-<h4 id="new-testerreducer-senderid-processoroptions-storage"><a name="new-testerreducer-senderid-processoroptions-storage" class="plugin-anchor" href="#new-testerreducer-senderid-processoroptions-storage"><i class="fa fa-link" aria-hidden="true"></i></a>new Tester(reducer, [senderId], [processorOptions], [storage])</h4>
-<p>Creates an instance of Tester.</p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>reducer</td>
-<td><code>Router</code> | <code>ReducerWrapper</code> | <code>function</code></td>
-<td></td>
-<td></td>
+<td><code>function</code> | <code>Router</code></td>
+<td>Root router object or processor function</td>
 </tr>
 <tr>
-<td>[senderId]</td>
+<td>processorOptions</td>
+<td><code>Object</code></td>
+<td>settings for message processing</td>
+</tr>
+<tr>
+<td>[processorOptions.pageToken]</td>
 <td><code>string</code></td>
-<td><code>null</code></td>
-<td></td>
+<td>page token</td>
 </tr>
 <tr>
-<td>[processorOptions]</td>
-<td><code>object</code></td>
-<td><code>{}</code></td>
-<td>options for Processor</td>
+<td>[processorOptions.appSecret]</td>
+<td><code>string</code></td>
+<td>bot application secret</td>
 </tr>
 <tr>
-<td>[storage]</td>
-<td><code>MemoryStateStorage</code></td>
-<td></td>
-<td>place to override the storage</td>
+<td>[processorOptions.appUrl]</td>
+<td><code>string</code></td>
+<td>where the bot application is deployed</td>
+</tr>
+<tr>
+<td>[processorOptions.timeout]</td>
+<td><code>number</code></td>
+<td>how long the state will be locked for single event</td>
+</tr>
+<tr>
+<td>[processorOptions.log]</td>
+<td><code>Object</code></td>
+<td>console.log/error/warn like object</td>
+</tr>
+<tr>
+<td>[processorOptions.defaultState]</td>
+<td><code>Object</code></td>
+<td>default conversation state</td>
+</tr>
+<tr>
+<td>[processorOptions.chatLog]</td>
+<td><code>ChatLog</code></td>
+<td>discussion logger</td>
+</tr>
+<tr>
+<td>[processorOptions.tokenStorage]</td>
+<td><code>BotToken</code></td>
+<td>storage for chabot tokens</td>
+</tr>
+<tr>
+<td>[processorOptions.senderFnFactory]</td>
+<td><code>function</code></td>
+<td>override default sender function</td>
+</tr>
+<tr>
+<td>[processorOptions.securityMiddleware]</td>
+<td><code>function</code></td>
+<td>override webview calls authorizer</td>
+</tr>
+<tr>
+<td>[processorOptions.cookieName]</td>
+<td><code>string</code></td>
+<td>webview cookie (for default securityMiddleware)</td>
+</tr>
+<tr>
+<td>[processorOptions.loadUsers]</td>
+<td><code>boolean</code></td>
+<td>set false to not load user profiles</td>
+</tr>
+<tr>
+<td>[processorOptions.userLoader]</td>
+<td><code>Object</code></td>
+<td>override default user loader</td>
+</tr>
+<tr>
+<td>[processorOptions.onSenderError]</td>
+<td><code>function</code></td>
+<td>override default sender error reporter</td>
+</tr>
+<tr>
+<td>[processorOptions.autoTyping]</td>
+<td><code>Object</code> | <code>boolean</code></td>
+<td>enable auto typing</td>
+</tr>
+<tr>
+<td>[processorOptions.autoTyping.time]</td>
+<td><code>number</code></td>
+<td>default typing time</td>
+</tr>
+<tr>
+<td>[processorOptions.autoTyping.perCharacters]</td>
+<td><code>number</code></td>
+<td>typing time per character</td>
+</tr>
+<tr>
+<td>[processorOptions.autoTyping.minTime]</td>
+<td><code>number</code></td>
+<td>auto typing lower threshold</td>
+</tr>
+<tr>
+<td>[processorOptions.autoTyping.maxTime]</td>
+<td><code>number</code></td>
+<td>auto typing upper threshold</td>
+</tr>
+<tr>
+<td>[stateStorage]</td>
+<td><code>State</code></td>
+<td>storage for states</td>
 </tr>
 </tbody>
 </table>
-<div id="ResponseAssert">&#xA0;</div>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;express&apos;</span>);
+<span class="hljs-keyword">const</span> bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;body-parser&apos;</span>);
+<span class="hljs-keyword">const</span> { createRouter, createProcessor } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut/express&apos;</span>);
 
-<h2 id="responseassert"><a name="responseassert" class="plugin-anchor" href="#responseassert"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert</h2>
-<p><strong>Kind</strong>: global class  </p>
-<ul>
-<li><a href="#ResponseAssert">ResponseAssert</a><ul>
-<li><a href="#new_ResponseAssert_new">new ResponseAssert()</a></li>
-<li><em>instance</em><ul>
-<li><a href="#ResponseAssert_contains">.contains(search)</a> &#x21D2; <code>this</code></li>
-<li><a href="#ResponseAssert_quickReplyAction">.quickReplyAction(action)</a> &#x21D2; <code>this</code></li>
-<li><a href="#ResponseAssert_templateType">.templateType(type)</a> &#x21D2; <code>this</code></li>
-<li><a href="#ResponseAssert_attachmentType">.attachmentType(type)</a> &#x21D2; <code>this</code></li>
-</ul>
-</li>
-<li><em>static</em><ul>
-<li><a href="#ResponseAssert_AnyResponseAssert_contains">.AnyResponseAssert#contains(search)</a> &#x21D2; <code>this</code></li>
-<li><a href="#ResponseAssert_AnyResponseAssert_quickReplyAction">.AnyResponseAssert#quickReplyAction(action)</a> &#x21D2; <code>this</code></li>
-<li><a href="#ResponseAssert_AnyResponseAssert_templateType">.AnyResponseAssert#templateType(type)</a> &#x21D2; <code>this</code></li>
-<li><a href="#ResponseAssert_AnyResponseAssert_attachmentType">.AnyResponseAssert#attachmentType(type)</a> &#x21D2; <code>this</code></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<div id="new_ResponseAssert_new">&#xA0;</div>
+<span class="hljs-keyword">const</span> handler = (req, res, postBack) =&gt; {
+    res.typingOn()
+        .wait();
 
-<h3 id="new-responseassert"><a name="new-responseassert" class="plugin-anchor" href="#new-responseassert"><i class="fa fa-link" aria-hidden="true"></i></a>new ResponseAssert()</h3>
-<p>Utility for asserting single response</p>
-<div id="ResponseAssert_contains">&#xA0;</div>
+    <span class="hljs-keyword">switch</span> (req.action()) {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&apos;hello&apos;</span>:
+            res.text(<span class="hljs-string">&apos;Hello world&apos;</span>);
+            <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-comment">// send one quick reply</span>
+            res.text(<span class="hljs-string">&apos;What you want?&apos;</span>, {
+                hello: <span class="hljs-string">&apos;Say hello world&apos;</span>
+            })
+    }
+};
 
-<h3 id="responseassertcontainssearch-&#x21D2;-this"><a name="responseassertcontainssearch-&#x21D2;-this" class="plugin-anchor" href="#responseassertcontainssearch-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responseAssert.contains(search) &#x21D2; <code>this</code></h3>
-<p>Checks, that response contains text</p>
-<p><strong>Kind</strong>: instance method of <code>ResponseAssert</code>  </p>
+<span class="hljs-keyword">const</span> processor = createProcessor(handler, {
+    pageToken: <span class="hljs-string">&apos;stringhere&apos;</span>,
+    appSecret: <span class="hljs-string">&apos;botappsecret&apos;</span>
+});
+
+app = express();
+
+app.use(<span class="hljs-string">&apos;/bot&apos;</span>, createRouter(processor));
+
+app.listen(<span class="hljs-number">3000</span>);
+</code></pre>
+<div id="createRouter">&#xA0;</div>
+
+<h2 id="createrouterreducer-verifytoken-log"><a name="createrouterreducer-verifytoken-log" class="plugin-anchor" href="#createrouterreducer-verifytoken-log"><i class="fa fa-link" aria-hidden="true"></i></a>createRouter(reducer, verifyToken, [log])</h2>
+<p>Create an express route for accepting messenger events</p>
+<p><strong>Kind</strong>: global function  </p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>search</td>
+<td>reducer</td>
+<td><code>function</code> | <code>Router</code></td>
+<td>Root router object or processor function</td>
+</tr>
+<tr>
+<td>verifyToken</td>
 <td><code>string</code></td>
+<td>chatbot application token</td>
+</tr>
+<tr>
+<td>[log]</td>
+<td><code>Object</code></td>
+<td>console.* like logger object</td>
 </tr>
 </tbody>
 </table>
-<div id="ResponseAssert_quickReplyAction">&#xA0;</div>
-
-<h3 id="responseassertquickreplyactionaction-&#x21D2;-this"><a name="responseassertquickreplyactionaction-&#x21D2;-this" class="plugin-anchor" href="#responseassertquickreplyactionaction-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responseAssert.quickReplyAction(action) &#x21D2; <code>this</code></h3>
-<p>Checks quick response action</p>
-<p><strong>Kind</strong>: instance method of <code>ResponseAssert</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>action</td>
-<td><code>string</code></td>
-</tr>
-</tbody>
-</table>
-<div id="ResponseAssert_templateType">&#xA0;</div>
-
-<h3 id="responseasserttemplatetypetype-&#x21D2;-this"><a name="responseasserttemplatetypetype-&#x21D2;-this" class="plugin-anchor" href="#responseasserttemplatetypetype-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responseAssert.templateType(type) &#x21D2; <code>this</code></h3>
-<p>Checks template type</p>
-<p><strong>Kind</strong>: instance method of <code>ResponseAssert</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td><code>string</code></td>
-</tr>
-</tbody>
-</table>
-<div id="ResponseAssert_attachmentType">&#xA0;</div>
-
-<h3 id="responseassertattachmenttypetype-&#x21D2;-this"><a name="responseassertattachmenttypetype-&#x21D2;-this" class="plugin-anchor" href="#responseassertattachmenttypetype-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responseAssert.attachmentType(type) &#x21D2; <code>this</code></h3>
-<p>Checks attachment type</p>
-<p><strong>Kind</strong>: instance method of <code>ResponseAssert</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td><code>string</code></td>
-</tr>
-</tbody>
-</table>
-<div id="ResponseAssert_AnyResponseAssert_contains">&#xA0;</div>
-
-<h3 id="responseassertanyresponseassertcontainssearch-&#x21D2;-this"><a name="responseassertanyresponseassertcontainssearch-&#x21D2;-this" class="plugin-anchor" href="#responseassertanyresponseassertcontainssearch-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#contains(search) &#x21D2; <code>this</code></h3>
-<p>Checks, that response contains text</p>
-<p><strong>Kind</strong>: static method of <code>ResponseAssert</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>search</td>
-<td><code>string</code></td>
-</tr>
-</tbody>
-</table>
-<div id="ResponseAssert_AnyResponseAssert_quickReplyAction">&#xA0;</div>
-
-<h3 id="responseassertanyresponseassertquickreplyactionaction-&#x21D2;-this"><a name="responseassertanyresponseassertquickreplyactionaction-&#x21D2;-this" class="plugin-anchor" href="#responseassertanyresponseassertquickreplyactionaction-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#quickReplyAction(action) &#x21D2; <code>this</code></h3>
-<p>Checks quick response action</p>
-<p><strong>Kind</strong>: static method of <code>ResponseAssert</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>action</td>
-<td><code>string</code></td>
-</tr>
-</tbody>
-</table>
-<div id="ResponseAssert_AnyResponseAssert_templateType">&#xA0;</div>
-
-<h3 id="responseassertanyresponseasserttemplatetypetype-&#x21D2;-this"><a name="responseassertanyresponseasserttemplatetypetype-&#x21D2;-this" class="plugin-anchor" href="#responseassertanyresponseasserttemplatetypetype-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#templateType(type) &#x21D2; <code>this</code></h3>
-<p>Checks template type</p>
-<p><strong>Kind</strong>: static method of <code>ResponseAssert</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td><code>string</code></td>
-</tr>
-</tbody>
-</table>
-<div id="ResponseAssert_AnyResponseAssert_attachmentType">&#xA0;</div>
-
-<h3 id="responseassertanyresponseassertattachmenttypetype-&#x21D2;-this"><a name="responseassertanyresponseassertattachmenttypetype-&#x21D2;-this" class="plugin-anchor" href="#responseassertanyresponseassertattachmenttypetype-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#attachmentType(type) &#x21D2; <code>this</code></h3>
-<p>Checks attachment type</p>
-<p><strong>Kind</strong>: static method of <code>ResponseAssert</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td><code>string</code></td>
-</tr>
-</tbody>
-</table>
-<div id="AnyResponseAssert">&#xA0;</div>
-
-<h2 id="anyresponseassert"><a name="anyresponseassert" class="plugin-anchor" href="#anyresponseassert"><i class="fa fa-link" aria-hidden="true"></i></a>AnyResponseAssert</h2>
-<p><strong>Kind</strong>: global class  </p>
-<div id="new_AnyResponseAssert_new">&#xA0;</div>
-
-<h3 id="new-anyresponseassert"><a name="new-anyresponseassert" class="plugin-anchor" href="#new-anyresponseassert"><i class="fa fa-link" aria-hidden="true"></i></a>new AnyResponseAssert()</h3>
-<p>Utility for searching among responses</p>
 
                                 
                                 </section>
@@ -1161,12 +1083,12 @@
 
             
                 
-                <a href="Router.html" class="navigation navigation-prev " aria-label="Previous page: Router">
+                <a href="Settings.html" class="navigation navigation-prev " aria-label="Previous page: Bot Settings">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="ButtonTemplate.html" class="navigation navigation-next " aria-label="Next page: Template Builders">
+                <a href="bufferloader.html" class="navigation navigation-next " aria-label="Next page: Utils">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1177,7 +1099,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tester","level":"2.4","depth":1,"next":{"title":"Template Builders","level":"2.5","depth":1,"path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md","articles":[{"title":"ButtonTemplate","level":"2.5.1","depth":2,"anchor":"#ButtonTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ButtonTemplate","articles":[]},{"title":"GenericTemplate","level":"2.5.2","depth":2,"anchor":"#GenericTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#GenericTemplate","articles":[]},{"title":"ReceiptTemplate","level":"2.5.3","depth":2,"anchor":"#ReceiptTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ReceiptTemplate","articles":[]}]},"previous":{"title":"Router","level":"2.3","depth":1,"path":"api/Router.md","ref":"api/Router.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Tester.md","mtime":"2017-06-15T15:06:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:06:33.826Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Express/MongoDb tools","level":"2.7","depth":1,"next":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"previous":{"title":"Bot Settings","level":"2.6","depth":1,"path":"api/Settings.md","ref":"api/Settings.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/express.md","mtime":"2017-06-15T15:38:40.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:38:47.060Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

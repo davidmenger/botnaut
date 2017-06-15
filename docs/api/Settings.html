@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Template Builders · Botnaut</title>
+        <title>Bot Settings · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="ButtonTemplate.html" />
+    <link rel="next" href="express.html" />
     
     
-    <link rel="prev" href="Tester.html" />
+    <link rel="prev" href="ButtonTemplate.html" />
     
 
     </head>
@@ -541,7 +541,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.5" data-path="ButtonTemplate.html">
+        <li class="chapter " data-level="2.5" data-path="ButtonTemplate.html">
             
                 <a href="ButtonTemplate.html">
             
@@ -599,7 +599,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.6" data-path="Settings.html">
+        <li class="chapter active" data-level="2.6" data-path="Settings.html">
             
                 <a href="Settings.html">
             
@@ -668,7 +668,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Template Builders</a>
+        <a href=".." >Bot Settings</a>
     </h1>
 </div>
 
@@ -683,39 +683,39 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="classes"><a name="classes" class="plugin-anchor" href="#classes"><i class="fa fa-link" aria-hidden="true"></i></a>Classes</h2>
-<dl>
-<dt><a href="#ButtonTemplate">ButtonTemplate</a> &#x21D0; <code>BaseTemplate</code></dt>
-<dd></dd>
-<dt><a href="#GenericTemplate">GenericTemplate</a> &#x21D0; <code>ButtonTemplate</code></dt>
-<dd></dd>
-<dt><a href="#ReceiptTemplate">ReceiptTemplate</a> &#x21D0; <code>BaseTemplate</code></dt>
-<dd></dd>
-</dl>
+                                <div id="Settings">&#xA0;</div>
 
-<div id="ButtonTemplate">&#xA0;</div>
-
-<h2 id="buttontemplate-&#x21D0;-basetemplate"><a name="buttontemplate-&#x21D0;-basetemplate" class="plugin-anchor" href="#buttontemplate-&#x21D0;-basetemplate"><i class="fa fa-link" aria-hidden="true"></i></a>ButtonTemplate &#x21D0; <code>BaseTemplate</code></h2>
-<p><strong>Kind</strong>: global class<br><strong>Extends:</strong> <code>BaseTemplate</code>  </p>
+<h2 id="settings"><a name="settings" class="plugin-anchor" href="#settings"><i class="fa fa-link" aria-hidden="true"></i></a>Settings</h2>
+<p><strong>Kind</strong>: global class  </p>
 <ul>
-<li><a href="#ButtonTemplate">ButtonTemplate</a> &#x21D0; <code>BaseTemplate</code><ul>
-<li><a href="#new_ButtonTemplate_new">new ButtonTemplate()</a></li>
-<li><a href="#ButtonTemplate_urlButton">.urlButton(title, url, hasExtension, [webviewHeight])</a> &#x21D2; <code>this</code></li>
-<li><a href="#ButtonTemplate_postBackButton">.postBackButton(title, action, [data])</a> &#x21D2; <code>this</code></li>
+<li><a href="#Settings">Settings</a><ul>
+<li><a href="#new_Settings_new">new Settings()</a></li>
+<li><em>instance</em><ul>
+<li><a href="#Settings_greeting">.greeting([text])</a> &#x21D2; <code>this</code></li>
+<li><a href="#Settings_getStartedButton">.getStartedButton([payload])</a> &#x21D2; <code>this</code></li>
+<li><a href="#Settings_whitelistDomain">.whitelistDomain(domains)</a> &#x21D2; <code>this</code></li>
+<li><a href="#Settings_menu">.menu([locale], [inputDisabled])</a> &#x21D2; <code>MenuComposer</code></li>
+</ul>
+</li>
+<li><em>static</em><ul>
+<li><a href="#Settings_Settings">.Settings</a><ul>
+<li><a href="#new_Settings_Settings_new">new Settings(token, [log])</a></li>
 </ul>
 </li>
 </ul>
-<div id="new_ButtonTemplate_new">&#xA0;</div>
+</li>
+</ul>
+</li>
+</ul>
+<div id="new_Settings_new">&#xA0;</div>
 
-<h3 id="new-buttontemplate"><a name="new-buttontemplate" class="plugin-anchor" href="#new-buttontemplate"><i class="fa fa-link" aria-hidden="true"></i></a>new ButtonTemplate()</h3>
-<p>Helps with creating of button template
-Instance of button template is returned by {Responder}</p>
-<div id="ButtonTemplate_urlButton">&#xA0;</div>
+<h3 id="new-settings"><a name="new-settings" class="plugin-anchor" href="#new-settings"><i class="fa fa-link" aria-hidden="true"></i></a>new Settings()</h3>
+<p>Utility, which helps us to set up chatbot behavior</p>
+<div id="Settings_greeting">&#xA0;</div>
 
-<h3 id="buttontemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><a name="buttontemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this" class="plugin-anchor" href="#buttontemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>buttonTemplate.urlButton(title, url, hasExtension, [webviewHeight]) &#x21D2; <code>this</code></h3>
-<p>Adds button. When <code>hasExtension</code> is set to <code>true</code>, url will contain hash like:
-<code>#token=foo&amp;senderId=23344</code></p>
-<p><strong>Kind</strong>: instance method of <code>ButtonTemplate</code>  </p>
+<h3 id="settingsgreetingtext-&#x21D2;-this"><a name="settingsgreetingtext-&#x21D2;-this" class="plugin-anchor" href="#settingsgreetingtext-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>settings.greeting([text]) &#x21D2; <code>this</code></h3>
+<p>Sets or clears bot&apos;s greeting</p>
+<p><strong>Kind</strong>: instance method of <code>Settings</code>  </p>
 <table>
 <thead>
 <tr>
@@ -727,38 +727,18 @@ Instance of button template is returned by {Responder}</p>
 </thead>
 <tbody>
 <tr>
-<td>title</td>
+<td>[text]</td>
 <td><code>string</code></td>
-<td></td>
-<td>button text</td>
-</tr>
-<tr>
-<td>url</td>
-<td><code>string</code></td>
-<td></td>
-<td>button url</td>
-</tr>
-<tr>
-<td>hasExtension</td>
-<td><code>boolean</code></td>
-<td></td>
-<td>includes token in url</td>
-</tr>
-<tr>
-<td>[webviewHeight]</td>
-<td><code>string</code></td>
-<td><code>null</code></td>
-<td>compact</td>
-<td>tall</td>
-<td>full</td>
+<td><code>false</code></td>
+<td>leave empty to clear</td>
 </tr>
 </tbody>
 </table>
-<div id="ButtonTemplate_postBackButton">&#xA0;</div>
+<div id="Settings_getStartedButton">&#xA0;</div>
 
-<h3 id="buttontemplatepostbackbuttontitle-action-data-&#x21D2;-this"><a name="buttontemplatepostbackbuttontitle-action-data-&#x21D2;-this" class="plugin-anchor" href="#buttontemplatepostbackbuttontitle-action-data-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>buttonTemplate.postBackButton(title, action, [data]) &#x21D2; <code>this</code></h3>
-<p>Adds button, which makes another action</p>
-<p><strong>Kind</strong>: instance method of <code>ButtonTemplate</code>  </p>
+<h3 id="settingsgetstartedbuttonpayload-&#x21D2;-this"><a name="settingsgetstartedbuttonpayload-&#x21D2;-this" class="plugin-anchor" href="#settingsgetstartedbuttonpayload-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>settings.getStartedButton([payload]) &#x21D2; <code>this</code></h3>
+<p>Sets up the Get Started Button</p>
+<p><strong>Kind</strong>: instance method of <code>Settings</code>  </p>
 <table>
 <thead>
 <tr>
@@ -770,50 +750,41 @@ Instance of button template is returned by {Responder}</p>
 </thead>
 <tbody>
 <tr>
-<td>title</td>
-<td><code>string</code></td>
-<td></td>
-<td>Button title</td>
-</tr>
-<tr>
-<td>action</td>
-<td><code>string</code></td>
-<td></td>
-<td>Button action (can be absolute or relative)</td>
-</tr>
-<tr>
-<td>[data]</td>
-<td><code>object</code></td>
-<td><code>{}</code></td>
-<td>Action data</td>
+<td>[payload]</td>
+<td><code>string</code> | <code>object</code></td>
+<td><code>false</code></td>
+<td>leave blank to remove button, or provide the action</td>
 </tr>
 </tbody>
 </table>
-<div id="GenericTemplate">&#xA0;</div>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> settings = <span class="hljs-keyword">new</span> Settings(config.facebook.pageToken);
+settings.getStartedButton(<span class="hljs-string">&apos;/start&apos;</span>); <span class="hljs-comment">// just an action</span>
+</code></pre>
+<div id="Settings_whitelistDomain">&#xA0;</div>
 
-<h2 id="generictemplate-&#x21D0;-buttontemplate"><a name="generictemplate-&#x21D0;-buttontemplate" class="plugin-anchor" href="#generictemplate-&#x21D0;-buttontemplate"><i class="fa fa-link" aria-hidden="true"></i></a>GenericTemplate &#x21D0; <code>ButtonTemplate</code></h2>
-<p><strong>Kind</strong>: global class<br><strong>Extends:</strong> <code>ButtonTemplate</code>  </p>
-<ul>
-<li><a href="#GenericTemplate">GenericTemplate</a> &#x21D0; <code>ButtonTemplate</code><ul>
-<li><a href="#new_GenericTemplate_new">new GenericTemplate()</a></li>
-<li><a href="#GenericTemplate_addElement">.addElement(title, [subtitle], [dontTranslate])</a> &#x21D2; <code>this</code></li>
-<li><a href="#GenericTemplate_setElementUrl">.setElementUrl(url, [hasExtension])</a> &#x21D2; <code>this</code></li>
-<li><a href="#GenericTemplate_setElementImage">.setElementImage(image)</a> &#x21D2; <code>this</code></li>
-<li><a href="#GenericTemplate_setElementAction">.setElementAction(url, hasExtension, [webviewHeight])</a></li>
-<li><a href="#ButtonTemplate_urlButton">.urlButton(title, url, hasExtension, [webviewHeight])</a> &#x21D2; <code>this</code></li>
-<li><a href="#ButtonTemplate_postBackButton">.postBackButton(title, action, [data])</a> &#x21D2; <code>this</code></li>
-</ul>
-</li>
-</ul>
-<div id="new_GenericTemplate_new">&#xA0;</div>
+<h3 id="settingswhitelistdomaindomains-&#x21D2;-this"><a name="settingswhitelistdomaindomains-&#x21D2;-this" class="plugin-anchor" href="#settingswhitelistdomaindomains-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>settings.whitelistDomain(domains) &#x21D2; <code>this</code></h3>
+<p>Useful for using facebook extension in webviews</p>
+<p><strong>Kind</strong>: instance method of <code>Settings</code>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>domains</td>
+<td><code>string</code> | <code>Array.&lt;string&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<div id="Settings_menu">&#xA0;</div>
 
-<h3 id="new-generictemplate"><a name="new-generictemplate" class="plugin-anchor" href="#new-generictemplate"><i class="fa fa-link" aria-hidden="true"></i></a>new GenericTemplate()</h3>
-<p>Generic template utility</p>
-<div id="GenericTemplate_addElement">&#xA0;</div>
-
-<h3 id="generictemplateaddelementtitle-subtitle-donttranslate-&#x21D2;-this"><a name="generictemplateaddelementtitle-subtitle-donttranslate-&#x21D2;-this" class="plugin-anchor" href="#generictemplateaddelementtitle-subtitle-donttranslate-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.addElement(title, [subtitle], [dontTranslate]) &#x21D2; <code>this</code></h3>
-<p>Adds element to generic template</p>
-<p><strong>Kind</strong>: instance method of <code>GenericTemplate</code>  </p>
+<h3 id="settingsmenulocale-inputdisabled-&#x21D2;-menucomposer"><a name="settingsmenulocale-inputdisabled-&#x21D2;-menucomposer" class="plugin-anchor" href="#settingsmenulocale-inputdisabled-&#x21D2;-menucomposer"><i class="fa fa-link" aria-hidden="true"></i></a>settings.menu([locale], [inputDisabled]) &#x21D2; <code>MenuComposer</code></h3>
+<p>Sets up the persistent menu</p>
+<p><strong>Kind</strong>: instance method of <code>Settings</code>  </p>
 <table>
 <thead>
 <tr>
@@ -824,53 +795,37 @@ Instance of button template is returned by {Responder}</p>
 </thead>
 <tbody>
 <tr>
-<td>title</td>
+<td>[locale]</td>
 <td><code>string</code></td>
-<td></td>
+<td><code>&quot;default&quot;</code></td>
 </tr>
 <tr>
-<td>[subtitle]</td>
-<td><code>string</code></td>
-<td><code>null</code></td>
-</tr>
-<tr>
-<td>[dontTranslate]</td>
+<td>[inputDisabled]</td>
 <td><code>boolean</code></td>
 <td><code>false</code></td>
 </tr>
 </tbody>
 </table>
-<div id="GenericTemplate_setElementUrl">&#xA0;</div>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Settings } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
 
-<h3 id="generictemplatesetelementurlurl-hasextension-&#x21D2;-this"><a name="generictemplatesetelementurlurl-hasextension-&#x21D2;-this" class="plugin-anchor" href="#generictemplatesetelementurlurl-hasextension-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.setElementUrl(url, [hasExtension]) &#x21D2; <code>this</code></h3>
-<p>Sets url of recently added element</p>
-<p><strong>Kind</strong>: instance method of <code>GenericTemplate</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>url</td>
-<td><code>any</code></td>
-<td></td>
-</tr>
-<tr>
-<td>[hasExtension]</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-</tr>
-</tbody>
-</table>
-<div id="GenericTemplate_setElementImage">&#xA0;</div>
+<span class="hljs-keyword">const</span> settings = <span class="hljs-keyword">new</span> Settings(<span class="hljs-string">&apos;page-token-string&apos;</span>);
 
-<h3 id="generictemplatesetelementimageimage-&#x21D2;-this"><a name="generictemplatesetelementimageimage-&#x21D2;-this" class="plugin-anchor" href="#generictemplatesetelementimageimage-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.setElementImage(image) &#x21D2; <code>this</code></h3>
-<p>Sets image of recently added element</p>
-<p><strong>Kind</strong>: instance method of <code>GenericTemplate</code>  </p>
+settings.menu()
+    .addNested(<span class="hljs-string">&apos;Nested Menu&apos;</span>)
+        .addUrl(<span class="hljs-string">&apos;Go to google&apos;</span>, <span class="hljs-string">&apos;https://google.com&apos;</span>)
+        .done()
+    .addPostBack(<span class="hljs-string">&apos;Do something&apos;</span>, <span class="hljs-string">&apos;/the/action&apos;</span>)
+    .done();
+</code></pre>
+<div id="Settings_Settings">&#xA0;</div>
+
+<h3 id="settingssettings"><a name="settingssettings" class="plugin-anchor" href="#settingssettings"><i class="fa fa-link" aria-hidden="true"></i></a>Settings.Settings</h3>
+<p><strong>Kind</strong>: static class of <code>Settings</code>  </p>
+<div id="new_Settings_Settings_new">&#xA0;</div>
+
+<h4 id="new-settingstoken-log"><a name="new-settingstoken-log" class="plugin-anchor" href="#new-settingstoken-log"><i class="fa fa-link" aria-hidden="true"></i></a>new Settings(token, [log])</h4>
+<p>Creates an instance of Settings.</p>
 <table>
 <thead>
 <tr>
@@ -880,187 +835,12 @@ Instance of button template is returned by {Responder}</p>
 </thead>
 <tbody>
 <tr>
-<td>image</td>
+<td>token</td>
 <td><code>string</code></td>
 </tr>
-</tbody>
-</table>
-<div id="GenericTemplate_setElementAction">&#xA0;</div>
-
-<h3 id="generictemplatesetelementactionurl-hasextension-webviewheight"><a name="generictemplatesetelementactionurl-hasextension-webviewheight" class="plugin-anchor" href="#generictemplatesetelementactionurl-hasextension-webviewheight"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.setElementAction(url, hasExtension, [webviewHeight])</h3>
-<p>Sets default action of recently added element</p>
-<p><strong>Kind</strong>: instance method of <code>GenericTemplate</code>  </p>
-<table>
-<thead>
 <tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>url</td>
-<td><code>string</code></td>
-<td></td>
-<td>button url</td>
-</tr>
-<tr>
-<td>hasExtension</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>includes token in url</td>
-</tr>
-<tr>
-<td>[webviewHeight]</td>
-<td><code>string</code></td>
-<td><code>null</code></td>
-<td>compact</td>
-<td>tall</td>
-<td>full</td>
-</tr>
-</tbody>
-</table>
-<div id="ButtonTemplate_urlButton">&#xA0;</div>
-
-<h3 id="generictemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><a name="generictemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this" class="plugin-anchor" href="#generictemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.urlButton(title, url, hasExtension, [webviewHeight]) &#x21D2; <code>this</code></h3>
-<p>Adds button. When <code>hasExtension</code> is set to <code>true</code>, url will contain hash like:
-<code>#token=foo&amp;senderId=23344</code></p>
-<p><strong>Kind</strong>: instance method of <code>GenericTemplate</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td><code>string</code></td>
-<td></td>
-<td>button text</td>
-</tr>
-<tr>
-<td>url</td>
-<td><code>string</code></td>
-<td></td>
-<td>button url</td>
-</tr>
-<tr>
-<td>hasExtension</td>
-<td><code>boolean</code></td>
-<td></td>
-<td>includes token in url</td>
-</tr>
-<tr>
-<td>[webviewHeight]</td>
-<td><code>string</code></td>
-<td><code>null</code></td>
-<td>compact</td>
-<td>tall</td>
-<td>full</td>
-</tr>
-</tbody>
-</table>
-<div id="ButtonTemplate_postBackButton">&#xA0;</div>
-
-<h3 id="generictemplatepostbackbuttontitle-action-data-&#x21D2;-this"><a name="generictemplatepostbackbuttontitle-action-data-&#x21D2;-this" class="plugin-anchor" href="#generictemplatepostbackbuttontitle-action-data-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.postBackButton(title, action, [data]) &#x21D2; <code>this</code></h3>
-<p>Adds button, which makes another action</p>
-<p><strong>Kind</strong>: instance method of <code>GenericTemplate</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td><code>string</code></td>
-<td></td>
-<td>Button title</td>
-</tr>
-<tr>
-<td>action</td>
-<td><code>string</code></td>
-<td></td>
-<td>Button action (can be absolute or relative)</td>
-</tr>
-<tr>
-<td>[data]</td>
-<td><code>object</code></td>
-<td><code>{}</code></td>
-<td>Action data</td>
-</tr>
-</tbody>
-</table>
-<div id="ReceiptTemplate">&#xA0;</div>
-
-<h2 id="receipttemplate-&#x21D0;-basetemplate"><a name="receipttemplate-&#x21D0;-basetemplate" class="plugin-anchor" href="#receipttemplate-&#x21D0;-basetemplate"><i class="fa fa-link" aria-hidden="true"></i></a>ReceiptTemplate &#x21D0; <code>BaseTemplate</code></h2>
-<p><strong>Kind</strong>: global class<br><strong>Extends:</strong> <code>BaseTemplate</code>  </p>
-<ul>
-<li><a href="#ReceiptTemplate">ReceiptTemplate</a> &#x21D0; <code>BaseTemplate</code><ul>
-<li><a href="#new_ReceiptTemplate_new">new ReceiptTemplate()</a></li>
-<li><a href="#ReceiptTemplate_addElement">.addElement(title, [price], [quantity], [image], [subtitle])</a> &#x21D2; <code>this</code></li>
-</ul>
-</li>
-</ul>
-<div id="new_ReceiptTemplate_new">&#xA0;</div>
-
-<h3 id="new-receipttemplate"><a name="new-receipttemplate" class="plugin-anchor" href="#new-receipttemplate"><i class="fa fa-link" aria-hidden="true"></i></a>new ReceiptTemplate()</h3>
-<p>Provides fluent interface to make nice Receipts
-Instance of button template is returned by {Responder}</p>
-<div id="ReceiptTemplate_addElement">&#xA0;</div>
-
-<h3 id="receipttemplateaddelementtitle-price-quantity-image-subtitle-&#x21D2;-this"><a name="receipttemplateaddelementtitle-price-quantity-image-subtitle-&#x21D2;-this" class="plugin-anchor" href="#receipttemplateaddelementtitle-price-quantity-image-subtitle-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>receiptTemplate.addElement(title, [price], [quantity], [image], [subtitle]) &#x21D2; <code>this</code></h3>
-<p>Adds item to receipt</p>
-<p><strong>Kind</strong>: instance method of <code>ReceiptTemplate</code>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td><code>string</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>[price]</td>
-<td><code>number</code></td>
-<td><code>0</code></td>
-<td>a item price</td>
-</tr>
-<tr>
-<td>[quantity]</td>
-<td><code>number</code></td>
-<td><code></code></td>
-<td>amount of items</td>
-</tr>
-<tr>
-<td>[image]</td>
-<td><code>string</code></td>
-<td><code>null</code></td>
-<td>image of item</td>
-</tr>
-<tr>
-<td>[subtitle]</td>
-<td><code>string</code></td>
-<td><code>null</code></td>
-<td>optional subtitle</td>
+<td>[log]</td>
+<td><code>Object</code></td>
 </tr>
 </tbody>
 </table>
@@ -1091,12 +871,12 @@ Instance of button template is returned by {Responder}</p>
 
             
                 
-                <a href="Tester.html" class="navigation navigation-prev " aria-label="Previous page: Tester">
+                <a href="ButtonTemplate.html#ReceiptTemplate" class="navigation navigation-prev " aria-label="Previous page: ReceiptTemplate">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="ButtonTemplate.html#ButtonTemplate" class="navigation navigation-next " aria-label="Next page: ButtonTemplate">
+                <a href="express.html" class="navigation navigation-next " aria-label="Next page: Express/MongoDb tools">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1107,7 +887,7 @@ Instance of button template is returned by {Responder}</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Template Builders","level":"2.5","depth":1,"next":{"title":"ButtonTemplate","level":"2.5.1","depth":2,"anchor":"#ButtonTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ButtonTemplate","articles":[]},"previous":{"title":"Tester","level":"2.4","depth":1,"path":"api/Tester.md","ref":"api/Tester.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/ButtonTemplate.md","mtime":"2017-06-15T15:06:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:06:33.826Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Bot Settings","level":"2.6","depth":1,"next":{"title":"Express/MongoDb tools","level":"2.7","depth":1,"path":"api/express.md","ref":"api/express.md","articles":[]},"previous":{"title":"ReceiptTemplate","level":"2.5.3","depth":2,"anchor":"#ReceiptTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ReceiptTemplate","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Settings.md","mtime":"2017-06-15T15:38:40.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:38:47.060Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

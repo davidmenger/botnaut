@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Conversation State · Botnaut</title>
+        <title>Building a Conversation · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="conversationState.html" />
+    <link rel="next" href="buildingConversation.html" />
     
     
-    <link rel="prev" href="buildingConversation.html" />
+    <link rel="prev" href="../" />
     
 
     </head>
@@ -108,7 +108,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2" data-path="buildingConversation.html">
+        <li class="chapter active" data-level="1.2" data-path="buildingConversation.html">
             
                 <a href="buildingConversation.html">
             
@@ -166,7 +166,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.3" data-path="conversationState.html">
+        <li class="chapter " data-level="1.3" data-path="conversationState.html">
             
                 <a href="conversationState.html">
             
@@ -668,7 +668,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Conversation State</a>
+        <a href=".." >Building a Conversation</a>
     </h1>
 </div>
 
@@ -683,92 +683,119 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="working-with-conversation-state"><a name="working-with-conversation-state" class="plugin-anchor" href="#working-with-conversation-state"><i class="fa fa-link" aria-hidden="true"></i></a>Working with conversation state</h1>
-<p>Stateless conversation is annoying. Noone wants to repeat, what was said. So <strong>each user has own state object</strong>.</p>
-<h2 id="accessing-user-profile"><a name="accessing-user-profile" class="plugin-anchor" href="#accessing-user-profile"><i class="fa fa-link" aria-hidden="true"></i></a>Accessing user profile</h2>
-<p>Yes, you already have user profile in state.</p>
+                                <h1 id="building-a-conversation"><a name="building-a-conversation" class="plugin-anchor" href="#building-a-conversation"><i class="fa fa-link" aria-hidden="true"></i></a>Building a Conversation</h1>
+<h2 id="echo-reacting-to-text-messages"><a name="echo-reacting-to-text-messages" class="plugin-anchor" href="#echo-reacting-to-text-messages"><i class="fa fa-link" aria-hidden="true"></i></a>Echo: Reacting to text messages</h2>
+<p>Let&apos;s start with simple example. This is how to make an echo.</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
 <span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
 
+<span class="hljs-comment">// this route processes all incomming messages</span>
 bot.use((req, res) =&gt; {
-    <span class="hljs-keyword">const</span> { gender, locale, profilePic, lastName, firstName } = req.state.user;
-    res.text(<span class="hljs-string">`Hello <span class="hljs-subst">${firstName || &apos;you!&apos;}</span>`</span>);
+    res.text(<span class="hljs-string">&apos;I\&apos;ve got this message:&apos;</span>)
+        .text(req.text());
 });
 
 <span class="hljs-built_in">module</span>.exports = bot;
 </code></pre>
-<h2 id="using-the-state-in-navigation"><a name="using-the-state-in-navigation" class="plugin-anchor" href="#using-the-state-in-navigation"><i class="fa fa-link" aria-hidden="true"></i></a>Using the state in navigation</h2>
-<p>Request object contains <code>.state</code> attribute, which represents state before the event, Responder updates new state with <code>Object.assign()</code> approach.</p>
+<p>This works like this:</p>
+<pre><code>*-----------------------------------*
+|                            Hello! |
+| I&apos;ve got this message:            |
+| Hello!                            |
+|                                   |
+|              It smells like updog |
+| I&apos;ve got this message:            |
+| It smells like updog              |
+*-----------------------------------*
+</code></pre><h2 id="asking-a-question"><a name="asking-a-question" class="plugin-anchor" href="#asking-a-question"><i class="fa fa-link" aria-hidden="true"></i></a>Asking a question</h2>
+<p>When asking user a question, it&apos;s important to keeping reply in context. The <code>res.expected(&lt;path&gt;)</code> method ensures, that response will be dispatched by <code>/whichCat</code> route.</p>
+<p>Routes shoud always begin with <code>/</code> slash, but when referencing route, starting slash is treated as absolute path reference. When you omit the starting slash, path is treated as relative.</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
 <span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
 
-bot.use(<span class="hljs-string">&apos;/rename&apos;</span>, (req, res) =&gt; {
-    res.text(<span class="hljs-string">&apos;So, how will you call me?&apos;</span>)
-        .expected(<span class="hljs-string">&apos;setName&apos;</span>);
-});
+bot.use(<span class="hljs-string">&apos;/whichCat&apos;</span>, (req, res, postBack) =&gt; {
+    <span class="hljs-keyword">const</span> lowercaseText = req.text(<span class="hljs-literal">true</span>); <span class="hljs-comment">// converts &quot;N&#xFD;an. C&#xE1;t&quot; to &quot;nyan-cat&quot;</span>
 
-bot.use(<span class="hljs-string">&apos;/setName&apos;</span>, (req, res) =&gt; {
-    <span class="hljs-keyword">const</span> name = req.text();
-
-    res.text(<span class="hljs-string">`Now, I&apos;am <span class="hljs-subst">${name}</span>.`</span>)
-        .setState({ name });
-});
-
-bot.use((req, res) =&gt; {
-    <span class="hljs-keyword">const</span> { name } = req.state;
-    <span class="hljs-keyword">if</span> (name) {
-        res.text(<span class="hljs-string">`Call me <span class="hljs-subst">${name}</span>, ok?`</span>, {
-            rename: <span class="hljs-string">&apos;It\&apos;s not ok&apos;</span>
-        });
+    <span class="hljs-keyword">if</span> (lowercaseText.match(<span class="hljs-regexp">/nyan-cat/</span>)) {
+        res.text(<span class="hljs-string">&apos;Yeah, nyan cat!&apos;</span>);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (lowercaseText.match(<span class="hljs-regexp">/grumpy-cat/</span>)) {
+        res.text(<span class="hljs-string">&apos;Ugh, grumpy cat!&apos;</span>);
     } <span class="hljs-keyword">else</span> {
-        res.text(<span class="hljs-string">&apos;I have no name, give me one!&apos;</span>)
-            .expected(<span class="hljs-string">&apos;setName&apos;</span>);
+        <span class="hljs-keyword">return</span> Router.CONTINUE;
     }
 });
 
+bot.use((req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;So, Nyan cat or grumpy cat?&apos;</span>)
+        .expected(<span class="hljs-string">&apos;whichCat&apos;</span>); <span class="hljs-comment">// set the route, which will process next text request</span>
+});
+
 <span class="hljs-built_in">module</span>.exports = bot;
 </code></pre>
-<p>This example makes conversation flow like this:</p>
+<p>This works like this:</p>
 <pre><code>*-----------------------------------*
-|                             Hello |
-| I have no name, give me one!      |
+|                          Nyan cat |
+| So, Nyan cat or grumpy cat?       |
 |                                   |
-|                            Albert |
-| Now, I&apos;am Albert.                 |
+|                          Nyan cat |
+| Yeah, nyan cat!                   |
 |                                   |
-|                             Hello |
-| Call me Albert, ok?               |
-|                                   |
-|                       It&apos;s not ok |
-| So, how will you call me?         |
-|                                   |
-|                            Alfred |
-| Now, I&apos;am Alfred.                 |
+|                             What? |
+| So, Nyan cat or grumpy cat?       |
 *-----------------------------------*
-</code></pre><h2 id="reading-and-modifiing-user-state"><a name="reading-and-modifiing-user-state" class="plugin-anchor" href="#reading-and-modifiing-user-state"><i class="fa fa-link" aria-hidden="true"></i></a>Reading and modifiing user state</h2>
-<p>It&apos;s good to know, that request state is not modified, when <code>res.setState()</code> is called. It will be modified after dispatching process.</p>
+</code></pre><h2 id="using-quick-replies-for-controlling-conversation"><a name="using-quick-replies-for-controlling-conversation" class="plugin-anchor" href="#using-quick-replies-for-controlling-conversation"><i class="fa fa-link" aria-hidden="true"></i></a>Using Quick Replies for controlling conversation</h2>
+<p>Click is always simplier then writing a text. And also working with events is much easier then text processing.
+Let&apos;s lead conversation throuch quick replies.</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
 <span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+bot.use(<span class="hljs-string">&apos;/grumpy&apos;</span>, (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;Ugh, grumpy cat!&apos;</span>);
+});
+
+bot.use(<span class="hljs-string">&apos;/nyan&apos;</span>, (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;Yeah, nyan cat!&apos;</span>);
+});
 
 bot.use((req, res) =&gt; {
     <span class="hljs-comment">// let&apos;s give two options to user</span>
-    <span class="hljs-keyword">if</span> (req.state.odd) {
-        res.setState({ odd: <span class="hljs-literal">false</span> });
-        <span class="hljs-comment">// still req.state.odd === true</span>
-        <span class="hljs-keyword">this</span>.text(<span class="hljs-string">&apos;Odd&apos;</span>);
-    } <span class="hljs-keyword">else</span> {
-        res.setState({ odd: <span class="hljs-literal">false</span> });
-        <span class="hljs-comment">// still req.state.odd === false || req.state.odd === undefined</span>
-        <span class="hljs-keyword">this</span>.text(<span class="hljs-string">&apos;Even&apos;</span>);
-    }
+    res.text(<span class="hljs-string">&apos;So, Nyan cat or grumpy cat?&apos;</span>, {
+        grumpy: <span class="hljs-string">&apos;Grumpy cat&apos;</span>,
+        nyan: <span class="hljs-string">&apos;Nyan cat&apos;</span>
+    });
 });
 
 <span class="hljs-built_in">module</span>.exports = bot;
 </code></pre>
-<blockquote>
-<p>It&apos;s better to avoid using &quot;default state&quot;, because when you need to change default state in future updates,
-you should also migrate current users states to new structure.</p>
-</blockquote>
+<p>This code works <strong>exacly like previous example</strong>, because when quick replies are used, treir text representation
+is used to match the users input. String <code>&quot;Nyan cat&quot;</code> is converted to regular expression <code>/nyan-cat/</code>;</p>
+<h2 id="post-back-is-also-an-action"><a name="post-back-is-also-an-action" class="plugin-anchor" href="#post-back-is-also-an-action"><i class="fa fa-link" aria-hidden="true"></i></a>Post Back is also an action!</h2>
+<p>We&apos;ve normalized all Quick Replies, Post Backs, or Referrals to actions! You don&apos;t have to care about action type.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+bot.use(<span class="hljs-string">&apos;/grumpy&apos;</span>, (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;Ugh, grumpy cat!&apos;</span>);
+});
+
+bot.use(<span class="hljs-string">&apos;/nyan&apos;</span>, (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;Yeah, nyan cat!&apos;</span>);
+});
+
+bot.use((req, res) =&gt; {
+    <span class="hljs-comment">// allow access grumpy cat with button</span>
+    res.button(<span class="hljs-string">&apos;Lets choose grumpy cat&apos;</span>)
+        .postBackButton(<span class="hljs-string">&apos;Call it&apos;</span>, <span class="hljs-string">&apos;grumpy&apos;</span>)
+        .send();
+
+    <span class="hljs-comment">// and nyan cat with quick reply</span>
+    res.text(<span class="hljs-string">&apos;So, Nyan cat or grumpy cat?&apos;</span>, {
+        nyan: <span class="hljs-string">&apos;Nyan cat&apos;</span>
+    });
+});
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
 
                                 
                                 </section>
@@ -796,12 +823,12 @@ you should also migrate current users states to new structure.</p>
 
             
                 
-                <a href="buildingConversation.html#post-back-is-also-an-action" class="navigation navigation-prev " aria-label="Previous page: Postbacks">
+                <a href="../" class="navigation navigation-prev " aria-label="Previous page: Getting Started">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="conversationState.html#accessing-user-profile" class="navigation navigation-next " aria-label="Next page: User profile">
+                <a href="buildingConversation.html#asking-a-question" class="navigation navigation-next " aria-label="Next page: Asking a question">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -812,7 +839,7 @@ you should also migrate current users states to new structure.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Conversation State","level":"1.3","depth":1,"next":{"title":"User profile","level":"1.3.1","depth":2,"anchor":"#accessing-user-profile","path":"tutorial/conversationState.md","ref":"tutorial/conversationState.md#accessing-user-profile","articles":[]},"previous":{"title":"Postbacks","level":"1.2.3","depth":2,"anchor":"#post-back-is-also-an-action","path":"tutorial/buildingConversation.md","ref":"tutorial/buildingConversation.md#post-back-is-also-an-action","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/conversationState.md","mtime":"2017-06-15T14:44:17.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:06:33.826Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Building a Conversation","level":"1.2","depth":1,"next":{"title":"Asking a question","level":"1.2.1","depth":2,"anchor":"#asking-a-question","path":"tutorial/buildingConversation.md","ref":"tutorial/buildingConversation.md#asking-a-question","articles":[]},"previous":{"title":"Getting Started","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/buildingConversation.md","mtime":"2017-06-15T15:16:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:38:47.060Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

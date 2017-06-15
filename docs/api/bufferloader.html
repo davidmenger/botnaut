@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Router · Botnaut</title>
+        <title>Utils · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="Tester.html" />
     
-    
-    <link rel="prev" href="Responder.html" />
+    <link rel="prev" href="express.html" />
     
 
     </head>
@@ -515,7 +513,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.3" data-path="Router.html">
+        <li class="chapter " data-level="2.3" data-path="Router.html">
             
                 <a href="Router.html">
             
@@ -625,7 +623,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.8" data-path="bufferloader.html">
+        <li class="chapter active" data-level="2.8" data-path="bufferloader.html">
             
                 <a href="bufferloader.html">
             
@@ -668,7 +666,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Router</a>
+        <a href=".." >Utils</a>
     </h1>
 </div>
 
@@ -683,26 +681,37 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <div id="Router">&#xA0;</div>
+                                <h2 id="classes"><a name="classes" class="plugin-anchor" href="#classes"><i class="fa fa-link" aria-hidden="true"></i></a>Classes</h2>
+<dl>
+<dt><a href="#MemoryStateStorage">MemoryStateStorage</a></dt>
+<dd><p>Memory conversation state storage for testing purposes</p>
+</dd>
+</dl>
 
-<h2 id="router-&#x21D0;-reducerwrapper"><a name="router-&#x21D0;-reducerwrapper" class="plugin-anchor" href="#router-&#x21D0;-reducerwrapper"><i class="fa fa-link" aria-hidden="true"></i></a>Router &#x21D0; <code>ReducerWrapper</code></h2>
-<p><strong>Kind</strong>: global class<br><strong>Extends:</strong> <code>ReducerWrapper</code>  </p>
+<h2 id="functions"><a name="functions" class="plugin-anchor" href="#functions"><i class="fa fa-link" aria-hidden="true"></i></a>Functions</h2>
+<dl>
+<dt><a href="#bufferloader">bufferloader(url, [limit], [limitJustByBody], [redirCount])</a> &#x21D2;</dt>
+<dd><p>Downloads a file from url into a buffer. Supports size limits and redirects.</p>
+</dd>
+</dl>
+
+<div id="MemoryStateStorage">&#xA0;</div>
+
+<h2 id="memorystatestorage"><a name="memorystatestorage" class="plugin-anchor" href="#memorystatestorage"><i class="fa fa-link" aria-hidden="true"></i></a>MemoryStateStorage</h2>
+<p>Memory conversation state storage for testing purposes</p>
+<p><strong>Kind</strong>: global class  </p>
 <ul>
-<li><a href="#Router">Router</a> &#x21D0; <code>ReducerWrapper</code><ul>
-<li><a href="#new_Router_new">new Router()</a></li>
-<li><a href="#Router_use">.use([action], [pattern], ...reducers)</a> &#x21D2; <code>Object</code></li>
+<li><a href="#MemoryStateStorage">MemoryStateStorage</a><ul>
+<li><a href="#MemoryStateStorage_getOrCreateAndLock">.getOrCreateAndLock(senderId, defaultState)</a> &#x21D2; <code>Promise.&lt;Object&gt;</code></li>
+<li><a href="#MemoryStateStorage_onAfterStateLoad">.onAfterStateLoad(req, state)</a> &#x21D2; <code>Promise.&lt;Object&gt;</code></li>
+<li><a href="#MemoryStateStorage_saveState">.saveState(state)</a> &#x21D2; <code>Promise</code></li>
 </ul>
 </li>
 </ul>
-<div id="new_Router_new">&#xA0;</div>
+<div id="MemoryStateStorage_getOrCreateAndLock">&#xA0;</div>
 
-<h3 id="new-router"><a name="new-router" class="plugin-anchor" href="#new-router"><i class="fa fa-link" aria-hidden="true"></i></a>new Router()</h3>
-<p>Cascading router</p>
-<div id="Router_use">&#xA0;</div>
-
-<h3 id="routeruseaction-pattern-reducers-&#x21D2;-object"><a name="routeruseaction-pattern-reducers-&#x21D2;-object" class="plugin-anchor" href="#routeruseaction-pattern-reducers-&#x21D2;-object"><i class="fa fa-link" aria-hidden="true"></i></a>router.use([action], [pattern], ...reducers) &#x21D2; <code>Object</code></h3>
-<p>Appends middleware, action handler or another router</p>
-<p><strong>Kind</strong>: instance method of <code>Router</code>  </p>
+<h3 id="memorystatestoragegetorcreateandlocksenderid-defaultstate-&#x21D2;-promiseobject"><a name="memorystatestoragegetorcreateandlocksenderid-defaultstate-&#x21D2;-promiseobject" class="plugin-anchor" href="#memorystatestoragegetorcreateandlocksenderid-defaultstate-&#x21D2;-promiseobject"><i class="fa fa-link" aria-hidden="true"></i></a>memoryStateStorage.getOrCreateAndLock(senderId, defaultState) &#x21D2; <code>Promise.&lt;Object&gt;</code></h3>
+<p><strong>Kind</strong>: instance method of <code>MemoryStateStorage</code><br><strong>Returns</strong>: <code>Promise.&lt;Object&gt;</code> - - conversation state  </p>
 <table>
 <thead>
 <tr>
@@ -713,49 +722,111 @@
 </thead>
 <tbody>
 <tr>
-<td>[action]</td>
-<td><code>string</code></td>
-<td>name of the action</td>
+<td>senderId</td>
+<td><code>any</code></td>
+<td>sender identifier</td>
 </tr>
 <tr>
-<td>[pattern]</td>
-<td><code>RegExp</code> | <code>string</code> | <code>function</code></td>
+<td>defaultState</td>
+<td><code>Object</code></td>
+<td>default state of the conversation</td>
+</tr>
+</tbody>
+</table>
+<div id="MemoryStateStorage_onAfterStateLoad">&#xA0;</div>
+
+<h3 id="memorystatestorageonafterstateloadreq-state-&#x21D2;-promiseobject"><a name="memorystatestorageonafterstateloadreq-state-&#x21D2;-promiseobject" class="plugin-anchor" href="#memorystatestorageonafterstateloadreq-state-&#x21D2;-promiseobject"><i class="fa fa-link" aria-hidden="true"></i></a>memoryStateStorage.onAfterStateLoad(req, state) &#x21D2; <code>Promise.&lt;Object&gt;</code></h3>
+<p><strong>Kind</strong>: instance method of <code>MemoryStateStorage</code><br><strong>Returns</strong>: <code>Promise.&lt;Object&gt;</code> - - conversation state  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>req</td>
+<td><code>Request</code></td>
+<td>chat request</td>
+</tr>
+<tr>
+<td>state</td>
+<td><code>Object</code></td>
+<td>conversation state</td>
+</tr>
+</tbody>
+</table>
+<div id="MemoryStateStorage_saveState">&#xA0;</div>
+
+<h3 id="memorystatestoragesavestatestate-&#x21D2;-promise"><a name="memorystatestoragesavestatestate-&#x21D2;-promise" class="plugin-anchor" href="#memorystatestoragesavestatestate-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>memoryStateStorage.saveState(state) &#x21D2; <code>Promise</code></h3>
+<p><strong>Kind</strong>: instance method of <code>MemoryStateStorage</code>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>state</td>
+<td><code>Object</code></td>
+<td>conversation state</td>
+</tr>
+</tbody>
+</table>
+<div id="bufferloader">&#xA0;</div>
+
+<h2 id="bufferloaderurl-limit-limitjustbybody-redircount-&#x21D2;"><a name="bufferloaderurl-limit-limitjustbybody-redircount-&#x21D2;" class="plugin-anchor" href="#bufferloaderurl-limit-limitjustbybody-redircount-&#x21D2;"><i class="fa fa-link" aria-hidden="true"></i></a>bufferloader(url, [limit], [limitJustByBody], [redirCount]) &#x21D2;</h2>
+<p>Downloads a file from url into a buffer. Supports size limits and redirects.</p>
+<p><strong>Kind</strong>: global function<br><strong>Returns</strong>: Promise.<buffer>  </buffer></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td><code>string</code></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td>...reducers</td>
-<td><code>function</code> | <code>Router</code></td>
+<td>[limit]</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+<td>limit in bytes</td>
+</tr>
+<tr>
+<td>[limitJustByBody]</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>when true, content size in header is ignored</td>
+</tr>
+<tr>
+<td>[redirCount]</td>
+<td><code>number</code></td>
+<td><code>3</code></td>
+<td>maximmum amount of redirects</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Example</strong>  </p>
-<pre><code class="lang-javascript"><span class="hljs-comment">// middleware</span>
-router.use((req, res, postBack, next) =&gt; {
-    next(); <span class="hljs-comment">// strictly synchronous</span>
+<pre><code class="lang-javascript">router.use(<span class="hljs-string">&apos;*&apos;</span>, (req, res, postBack) =&gt; {
+    <span class="hljs-keyword">if</span> (req.isFile()) {
+        bufferloader(req.attachmentUrl())
+            .then(buffer =&gt; postBack(<span class="hljs-string">&apos;downloaded&apos;</span>, { data: buffer }))
+            .catch(err =&gt; postBack(<span class="hljs-string">&apos;donwloaded&apos;</span>, { err }))
+    }
 });
-
-<span class="hljs-comment">// route with matching regexp</span>
-router.use(<span class="hljs-string">&apos;action&apos;</span>, <span class="hljs-regexp">/help/</span>, (req, res) =&gt; {
-    res.text(<span class="hljs-string">&apos;Hello!&apos;</span>);
-});
-
-<span class="hljs-comment">// route with matching function (the function is considered as matcher</span>
-<span class="hljs-comment">// in case of the function accepts zero or one arguments)</span>
-router.use(<span class="hljs-string">&apos;action&apos;</span>, req =&gt; req.text() === <span class="hljs-string">&apos;a&apos;</span>, (req, res) =&gt; {
-    res.text(<span class="hljs-string">&apos;Hello!&apos;</span>);
-});
-
-<span class="hljs-comment">// use multiple reducers</span>
-router.use(<span class="hljs-string">&apos;/path&apos;</span>, reducer1, reducer2)
-   .next(<span class="hljs-string">&apos;exitAction&apos;</span>, (data, req, res, postBack, next) =&gt; {
-       postBack(<span class="hljs-string">&apos;anotherAction&apos;</span>, { someData: <span class="hljs-literal">true</span> })
-   });
-
-<span class="hljs-comment">// append router with exit action</span>
-router.use(<span class="hljs-string">&apos;/path&apos;</span>, subRouter)
-   .next(<span class="hljs-string">&apos;exitAction&apos;</span>, (data, req, res, postBack, next) =&gt; {
-       postBack(<span class="hljs-string">&apos;anotherAction&apos;</span>, { someData: <span class="hljs-literal">true</span> })
-   });
 </code></pre>
 
                                 
@@ -784,14 +855,10 @@ router.use(<span class="hljs-string">&apos;/path&apos;</span>, subRouter)
 
             
                 
-                <a href="Responder.html" class="navigation navigation-prev " aria-label="Previous page: Responder">
+                <a href="express.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Express/MongoDb tools">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="Tester.html" class="navigation navigation-next " aria-label="Next page: Tester">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -800,7 +867,7 @@ router.use(<span class="hljs-string">&apos;/path&apos;</span>, subRouter)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Router","level":"2.3","depth":1,"next":{"title":"Tester","level":"2.4","depth":1,"path":"api/Tester.md","ref":"api/Tester.md","articles":[]},"previous":{"title":"Responder","level":"2.2","depth":1,"path":"api/Responder.md","ref":"api/Responder.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Router.md","mtime":"2017-06-15T15:06:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:06:33.826Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Utils","level":"2.8","depth":1,"previous":{"title":"Express/MongoDb tools","level":"2.7","depth":1,"path":"api/express.md","ref":"api/express.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/bufferloader.md","mtime":"2017-06-15T15:38:40.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:38:47.060Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

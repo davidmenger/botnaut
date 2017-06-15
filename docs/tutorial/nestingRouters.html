@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Advanced Routing · Botnaut</title>
+        <title>Nesting - Reusable Blocks · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="advancedRouting.html" />
+    <link rel="next" href="nestingRouters.html" />
     
     
-    <link rel="prev" href="asyncActions.html" />
+    <link rel="prev" href="advancedRouting.html" />
     
 
     </head>
@@ -282,7 +282,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.5" data-path="advancedRouting.html">
+        <li class="chapter " data-level="1.5" data-path="advancedRouting.html">
             
                 <a href="advancedRouting.html">
             
@@ -353,7 +353,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" data-path="nestingRouters.html">
+        <li class="chapter active" data-level="1.6" data-path="nestingRouters.html">
             
                 <a href="nestingRouters.html">
             
@@ -668,7 +668,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Advanced Routing</a>
+        <a href=".." >Nesting - Reusable Blocks</a>
     </h1>
 </div>
 
@@ -683,99 +683,112 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="advanced-routing"><a name="advanced-routing" class="plugin-anchor" href="#advanced-routing"><i class="fa fa-link" aria-hidden="true"></i></a>Advanced Routing</h1>
-<h2 id="resolving-actions"><a name="resolving-actions" class="plugin-anchor" href="#resolving-actions"><i class="fa fa-link" aria-hidden="true"></i></a>Resolving actions</h2>
-<p>Text is always treated as action, so theese two routes are matched same, when the <code>/cat</code> action is issued.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+                                <h1 id="nested-routers---creating-conversation-blocks"><a name="nested-routers---creating-conversation-blocks" class="plugin-anchor" href="#nested-routers---creating-conversation-blocks"><i class="fa fa-link" aria-hidden="true"></i></a>Nested Routers - Creating conversation blocks</h1>
+<p>Developing large chatbots with many flows requires advanced code organization.
+We came up with solution which allows:</p>
+<ul>
+<li>creating reusable conversation blocks</li>
+<li>composability of whole flows</li>
+<li>keeping code clear and maintainable</li>
+</ul>
+<h2 id="basic-concept"><a name="basic-concept" class="plugin-anchor" href="#basic-concept"><i class="fa fa-link" aria-hidden="true"></i></a>Basic concept</h2>
+<p>Each conversation block has a single entry point and one or more exit points.</p>
+<pre><code>  start
+    |
+  |-O------------|
+  |              |
+  | conversation |      is represented by single
+  |     block    |      &lt;Router&gt; instance
+  |              |
+  |-X---X---X----|
+    |   |   |
+
+    exit points
+</code></pre><p>When attaching the block into application, each exit point <strong>must be &quot;connected&quot;</strong> into
+a parent conversation block.</p>
+<h2 id="example"><a name="example" class="plugin-anchor" href="#example"><i class="fa fa-link" aria-hidden="true"></i></a>Example</h2>
+<p>First, let&apos;s start with a module. There is a single entry point: (<code>&apos;/&apos;</code>) and
+two exit points (<code>&apos;setName&apos;</code> and <code>&apos;leave&apos;</code>). It&apos;s recomended to return data instead of
+setting them to state.</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// setName.js</span>
+<span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+
 <span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
 
-bot.use(req =&gt; req.action() === <span class="hljs-string">&apos;/cat&apos;</span>, (req, res) =&gt; {
-    res.text(<span class="hljs-string">&apos;Matched!&apos;</span>);
+<span class="hljs-comment">// entry point</span>
+bot.use(<span class="hljs-string">&apos;/&apos;</span>, (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;Please, give me a full name :)&apos;</span>)
+        .expected(<span class="hljs-string">&apos;name&apos;</span>);
 });
 
-bot.use(<span class="hljs-string">&apos;/cat&apos;</span>, (req, res) =&gt; { res.text(<span class="hljs-string">&apos;Matched!&apos;</span>); });
+<span class="hljs-comment">// leave exit point</span>
+bot.use(<span class="hljs-string">&apos;/leave&apos;</span>, () =&gt; Router.exit(<span class="hljs-string">&apos;leave&apos;</span>));
 
-<span class="hljs-built_in">module</span>.exports = bot;
-</code></pre>
-<blockquote>
-<p>Actual path resolver also takes into account the fact, that routers can be nested.</p>
-</blockquote>
-<h2 id="simple-text-actions"><a name="simple-text-actions" class="plugin-anchor" href="#simple-text-actions"><i class="fa fa-link" aria-hidden="true"></i></a>Simple text actions</h2>
-<p>It&apos;s possible to use reqular expression to match the specific text input. Without any AI tool.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
-<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
-
-bot.use(<span class="hljs-regexp">/h[ea]llo|hallo|ciao/</span>, (req, res) =&gt; {
-    res.text(<span class="hljs-string">&apos;Matched:&apos;</span>)
-        .text(req.text(<span class="hljs-literal">true</span>)); <span class="hljs-comment">// echoes normalized text</span>
-});
-
-bot.use((req, res) =&gt; { res.text(<span class="hljs-string">&apos;Not matched&apos;</span>); });
-
-<span class="hljs-built_in">module</span>.exports = bot;
-</code></pre>
-<p>And the code works like this. It matches lot of words, because the regular expression
-does not match whole words:</p>
-<pre><code>*-----------------------------------*
-|                             Hello |
-| Matched:                          |
-| hello                             |
-|                                   |
-|                      Hello robot! |
-| Matched:                          |
-| hello-robot                       |
-|                                   |
-|                         Hi! &#x10C;ia&#xF3;! |
-| Matched:                          |
-| hi-ciao                           |
-|                                   |
-|                           HiHello |
-| hihello                           |
-*-----------------------------------*
-</code></pre><h2 id="integrating-with-ai-prediction"><a name="integrating-with-ai-prediction" class="plugin-anchor" href="#integrating-with-ai-prediction"><i class="fa fa-link" aria-hidden="true"></i></a>Integrating with AI prediction</h2>
-<p>It&apos;s ofcourse possible to make integration with 3rd party service. Function should return a boolean, where <code>true === CONTINUE</code> and <code>false === BREAK</code>.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
-<span class="hljs-keyword">const</span> keyworder = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;keyworder&apos;</span>);
-<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
-
-bot.use((req) =&gt; {
-    <span class="hljs-keyword">if</span> (req.action()) {
-        <span class="hljs-comment">// skip events with specific action (postback, quick reply, ref...)</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+bot.use(<span class="hljs-string">&apos;/name&apos;</span>, (req, res) =&gt; {
+    <span class="hljs-keyword">const</span> name = req.text();
+    <span class="hljs-keyword">if</span> (!name || name.split(<span class="hljs-string">&apos; &apos;</span>).length &lt; <span class="hljs-number">2</span>) {
+        res.text(<span class="hljs-string">&apos;Fullname must have two words or more.&apos;</span>)
+            .text(<span class="hljs-string">&apos;Please try it again&apos;</span>, {
+                leave: <span class="hljs-string">&apos;Don\&apos;t want&apos;</span>
+            });
+        <span class="hljs-comment">// just stop dispatching (equal to &quot;return undefined;&quot;)</span>
+        <span class="hljs-keyword">return</span> Router.END;
     }
-    <span class="hljs-keyword">return</span> keyworder.resolve(req.text())
-        .then(intents =&gt; intents
-            .some(intent =&gt; intent.tag === <span class="hljs-string">&apos;greeting&apos;</span> &amp;&amp; intent.score &gt; <span class="hljs-number">0.95</span>)
-        );
-
-}, (req, res) =&gt; {
-    res.text(<span class="hljs-string">&apos;Matched:&apos;</span>);
+    <span class="hljs-comment">// pass data to exit point</span>
+    <span class="hljs-keyword">return</span> Router.exit(<span class="hljs-string">&apos;setName&apos;</span>, { name });
 });
 
 <span class="hljs-built_in">module</span>.exports = bot;
 </code></pre>
-<h2 id="redirecting-flow-with-post-back"><a name="redirecting-flow-with-post-back" class="plugin-anchor" href="#redirecting-flow-with-post-back"><i class="fa fa-link" aria-hidden="true"></i></a>Redirecting flow with Post Back</h2>
-<p>Sometimes there is need to redirect the conversation flow. For theese purposes,
-there is a <code>postBack(action: string, data: object?)</code> function.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<p>And here is how to connect the block into the application.
+<strong>All exit points must be covered by handlers: <code>.onExit()</code></strong> to ensure continuous conversation.</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// index.js</span>
+<span class="hljs-keyword">const</span> { Router, Settings } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> setName = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;./setName&apos;</span>);
+
+<span class="hljs-keyword">const</span> settings = <span class="hljs-keyword">new</span> Settings(<span class="hljs-string">&apos;pagetoken&apos;</span>);
+settings.getStartedButton(<span class="hljs-string">&apos;/start&apos;</span>);
+
 <span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
 
-bot.use(<span class="hljs-string">&apos;world&apos;</span>, (req, res) =&gt; {
-    res.text(<span class="hljs-string">&apos;world&apos;</span>);
+bot.use(<span class="hljs-string">&apos;/start&apos;</span>, (req, res) =&gt; {
+    <span class="hljs-keyword">if</span> (req.state.name) {
+        res.text(<span class="hljs-string">`Hello, I&apos;am <span class="hljs-subst">${req.state.name}</span>`</span>, {
+            setName: <span class="hljs-string">&apos;That\&apos;s bad name&apos;</span>
+        });
+    } <span class="hljs-keyword">else</span> {
+        res.text(<span class="hljs-string">&apos;Hello, please give me name!&apos;</span>, {
+            setName: <span class="hljs-string">&apos;Let\&apos;s do it&apos;</span>
+        });
+    }
 });
 
-bot.use((req, res, postBack) =&gt; {
-    res.text(<span class="hljs-string">&apos;Hello&apos;</span>);
-    postBack(<span class="hljs-string">&apos;world&apos;</span>);
-});
+bot.use(<span class="hljs-string">&apos;/setName&apos;</span>, setName)
+    <span class="hljs-comment">// react on setName exit point</span>
+    .onExit(<span class="hljs-string">&apos;setName&apos;</span>, ({ name }, req, res, postBack) =&gt; {
+        res.setState({ name });
+        postBack(<span class="hljs-string">&apos;/&apos;</span>);
+    })
+    <span class="hljs-comment">// react on leave exit point</span>
+    .onExit(<span class="hljs-string">&apos;leave&apos;</span>, (data, req, res, postBack) =&gt; postBack(<span class="hljs-string">&apos;/start&apos;</span>));
 
 <span class="hljs-built_in">module</span>.exports = bot;
 </code></pre>
-<p>The result of postBack looks like this</p>
+<p>And this is, how the implementation works:</p>
 <pre><code>*-----------------------------------*
-|                       Let&apos;s start |
-| hello                             |
-| world                             |
+|                       Get started |
+| Hello, please give me name!       |
+|                                   |
+|                      Let\&apos;s do it |
+| Please, give me a full name :)    |
+|                                   |
+|                                Ok |
+| Fullname must have two words      |
+| or more.                          |
+| Please try it again               |
+|                                   |
+|                       Dorian Gray |
+| Hello, I&apos;am Dorian Gray           |
 *-----------------------------------*
 </code></pre>
                                 
@@ -804,12 +817,12 @@ bot.use((req, res, postBack) =&gt; {
 
             
                 
-                <a href="asyncActions.html#loading-attachments-to-buffer" class="navigation navigation-prev " aria-label="Previous page: Loading Attachments">
+                <a href="advancedRouting.html#redirecting-flow-with-post-back" class="navigation navigation-prev " aria-label="Previous page: Redirecting with Postback">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="advancedRouting.html#resolving-actions" class="navigation navigation-next " aria-label="Next page: Resolving Actions">
+                <a href="nestingRouters.html#basic-concept" class="navigation navigation-next " aria-label="Next page: Concept">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -820,7 +833,7 @@ bot.use((req, res, postBack) =&gt; {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Advanced Routing","level":"1.5","depth":1,"next":{"title":"Resolving Actions","level":"1.5.1","depth":2,"anchor":"#resolving-actions","path":"tutorial/advancedRouting.md","ref":"tutorial/advancedRouting.md#resolving-actions","articles":[]},"previous":{"title":"Loading Attachments","level":"1.4.3","depth":2,"anchor":"#loading-attachments-to-buffer","path":"tutorial/asyncActions.md","ref":"tutorial/asyncActions.md#loading-attachments-to-buffer","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/advancedRouting.md","mtime":"2017-06-15T14:44:22.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:06:33.826Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Nesting - Reusable Blocks","level":"1.6","depth":1,"next":{"title":"Concept","level":"1.6.1","depth":2,"anchor":"#basic-concept","path":"tutorial/nestingRouters.md","ref":"tutorial/nestingRouters.md#basic-concept","articles":[]},"previous":{"title":"Redirecting with Postback","level":"1.5.4","depth":2,"anchor":"#redirecting-flow-with-post-back","path":"tutorial/advancedRouting.md","ref":"tutorial/advancedRouting.md#redirecting-flow-with-post-back","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/nestingRouters.md","mtime":"2017-06-15T15:16:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:38:47.060Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
