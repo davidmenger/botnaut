@@ -21,29 +21,7 @@ class Processor {
      * Creates an instance of Processor.
      *
      * @param {ReducerWrapper|function|Router} reducer
-     * @param {{
-        pageToken:string,
-        appSecret:string,
-        appUrl?:string,
-        translator?:function,
-        timeout?:number,
-        log?:object,
-        defaultState?:object,
-        cookieName?:string,
-        chatLog?:object,
-        tokenStorage?:object,
-        senderFnFactory?:function,
-        securityMiddleware?:object,
-        loadUsers?:boolean,
-        loadUsers?:object,
-        onSenderError?:function,
-        autoTyping?: boolean|{
-            time?: number,
-            perCharacters?: number,
-            minTime?: number,
-            maxTime?: number
-        }
-       }} options
+     * @param {ProcessorOptions} options - documented at express.js
      * @param {{
         getOrCreateAndLock:function,
         saveState:function,

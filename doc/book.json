@@ -1,0 +1,21 @@
+{
+    "title": "Botnaut",
+    "description": "Facebook Messenger framework for Node.js",
+    "author": "Pragonauts.com",
+    "variables": {
+        "twitter": "https://twitter.com/pragonauts"
+    },
+    "plugins": [ "theme-default", "collapsible-menu", "anchors" ],
+    "pluginsConfig": {
+        "theme-api": {
+            "theme": "dark",
+            "languages": [
+                {
+                    "lang": "js",
+                    "name": "JavaScript",
+                    "default": true
+                }
+            ]
+        }
+    }
+}

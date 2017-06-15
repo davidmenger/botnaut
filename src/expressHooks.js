@@ -7,18 +7,32 @@ const Hook = require('./Hook');
 
 function postMiddlewares (bodyParser, processor, log = console) {
     const hook = new Hook(processor);
+    let bodyParserMiddleware;
+    let processMiddleware;
 
-    const bodyParserMiddleware = bodyParser.json({
-        verify: processor.secure.getSignatureVerifier()
-    });
+    if (processor.secure) {
+        bodyParserMiddleware = bodyParser.json({
+            verify: processor.secure.getSignatureVerifier()
+        });
 
-    const processMiddleware = (req, res) => {
-        processor.secure.verifyReq(req)
-            .then(() => hook.onRequest(req.body))
-            .catch(e => log.error(e));
+        processMiddleware = (req, res) => {
+            processor.secure.verifyReq(req)
+                .then(() => hook.onRequest(req.body))
+                .catch(e => log.error(e));
 
-        res.send('OK');
-    };
+            res.send('OK');
+        };
+    } else {
+        bodyParserMiddleware = bodyParser.json();
+
+        processMiddleware = (req, res) => {
+            hook.onRequest(req.body)
+                .catch(e => log.error(e));
+
+            res.send('OK');
+        };
+    }
+
     return [bodyParserMiddleware, processMiddleware];
 }
 

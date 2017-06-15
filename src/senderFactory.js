@@ -6,19 +6,22 @@
 const request = require('request-promise');
 
 const RES_HANDLER = (res, nextData) => nextData;
+const DEFAULT_URI = 'https://graph.facebook.com/v2.8/me/messages';
 
 function wait (ms) {
     return new Promise(res => setTimeout(res, ms));
 }
 
-function sender (data, token) {
-    return request({
-        uri: 'https://graph.facebook.com/v2.8/me/messages',
-        qs: { access_token: token },
-        method: 'POST',
-        body: data,
-        json: true
-    });
+function createDefaultSender (uri = DEFAULT_URI) {
+    return function (data, token) {
+        return request({
+            uri,
+            qs: { access_token: token },
+            method: 'POST',
+            body: data,
+            json: true
+        });
+    };
 }
 
 function sendData (senderFn, token, data, queue, sent = [], handler = RES_HANDLER, res = null) {
@@ -52,7 +55,17 @@ function getDisconnectedError (e) {
     return err;
 }
 
-function senderFactory (token, logger = console, onSenderError = () => {}, senderFn = sender) {
+function senderFactory (token, logger = console, onSenderError = () => {}, sender = null) {
+    let senderFn;
+
+    if (typeof sender === 'string') {
+        senderFn = createDefaultSender(sender);
+    } else if (typeof sender === 'function') {
+        senderFn = sender;
+    } else {
+        senderFn = createDefaultSender();
+    }
+
     const factoryFn = function factory (incommingMessage, pageId, handler = RES_HANDLER) {
         const queue = [];
         let working = false;
@@ -86,5 +99,5 @@ function senderFactory (token, logger = console, onSenderError = () => {}, sende
 
 module.exports = {
     senderFactory,
-    sender
+    sender: createDefaultSender()
 };

@@ -1,0 +1,863 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Advanced Routing · Botnaut</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="author" content="Pragonauts.com">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="advancedRouting.html" />
+    
+    
+    <link rel="prev" href="asyncActions.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Building a chat bot</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="buildingConversation.html">
+            
+                <a href="buildingConversation.html">
+            
+                    
+                    Building a Conversation
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="buildingConversation.html">
+            
+                <a href="buildingConversation.html#asking-a-question">
+            
+                    
+                    Asking a question
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="buildingConversation.html">
+            
+                <a href="buildingConversation.html#using-quick-replies-for-controlling-conversation">
+            
+                    
+                    Using quick replies
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="buildingConversation.html">
+            
+                <a href="buildingConversation.html#post-back-is-also-an-action">
+            
+                    
+                    Postbacks
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="conversationState.html">
+            
+                <a href="conversationState.html">
+            
+                    
+                    Conversation State
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="conversationState.html">
+            
+                <a href="conversationState.html#accessing-user-profile">
+            
+                    
+                    User profile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="conversationState.html">
+            
+                <a href="conversationState.html#using-the-state-in-navigation">
+            
+                    
+                    Using state in navigation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="conversationState.html">
+            
+                <a href="conversationState.html#reading-and-modifiing-user-state">
+            
+                    
+                    Reading and writing state
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="asyncActions.html">
+            
+                <a href="asyncActions.html">
+            
+                    
+                    Asynchronous Actions
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="asyncActions.html">
+            
+                <a href="asyncActions.html#blocking-asynchronous-actions">
+            
+                    
+                    Blocking Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="asyncActions.html">
+            
+                <a href="asyncActions.html#non-blocking-asynchronous-actions">
+            
+                    
+                    Non Blocking Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="asyncActions.html">
+            
+                <a href="asyncActions.html#loading-attachments-to-buffer">
+            
+                    
+                    Loading Attachments
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5" data-path="advancedRouting.html">
+            
+                <a href="advancedRouting.html">
+            
+                    
+                    Advanced Routing
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="advancedRouting.html">
+            
+                <a href="advancedRouting.html#resolving-actions">
+            
+                    
+                    Resolving Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="advancedRouting.html">
+            
+                <a href="advancedRouting.html#simple-text-actions">
+            
+                    
+                    Text Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="advancedRouting.html">
+            
+                <a href="advancedRouting.html#integrating-with-ai-prediction">
+            
+                    
+                    Integrating AI
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="advancedRouting.html">
+            
+                <a href="advancedRouting.html#redirecting-flow-with-post-back">
+            
+                    
+                    Redirecting with Postback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="nestingRouters.html">
+            
+                <a href="nestingRouters.html">
+            
+                    
+                    Nesting - Reusable Blocks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="nestingRouters.html">
+            
+                <a href="nestingRouters.html#basic-concept">
+            
+                    
+                    Concept
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="nestingRouters.html">
+            
+                <a href="nestingRouters.html#example">
+            
+                    
+                    Example
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="templates.html">
+            
+                <a href="templates.html">
+            
+                    
+                    Sending Templates
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="templates.html">
+            
+                <a href="templates.html#button-template">
+            
+                    
+                    Button Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="templates.html">
+            
+                <a href="templates.html#generic-template">
+            
+                    
+                    Generic Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="templates.html">
+            
+                <a href="templates.html#receipt-template">
+            
+                    
+                    Receipt Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="templates.html">
+            
+                <a href="templates.html#working-with-webviews">
+            
+                    
+                    Webviews
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="testing.html">
+            
+                <a href="testing.html">
+            
+                    
+                    Testing
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../api/Request.html">
+            
+                <a href="../api/Request.html">
+            
+                    
+                    Request
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../api/Responder.html">
+            
+                <a href="../api/Responder.html">
+            
+                    
+                    Responder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../api/Router.html">
+            
+                <a href="../api/Router.html">
+            
+                    
+                    Router
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../api/Tester.html">
+            
+                <a href="../api/Tester.html">
+            
+                    
+                    Tester
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../api/ButtonTemplate.html">
+            
+                <a href="../api/ButtonTemplate.html">
+            
+                    
+                    Template Builders
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.5.1" data-path="../api/ButtonTemplate.html">
+            
+                <a href="../api/ButtonTemplate.html#ButtonTemplate">
+            
+                    
+                    ButtonTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.2" data-path="../api/ButtonTemplate.html">
+            
+                <a href="../api/ButtonTemplate.html#GenericTemplate">
+            
+                    
+                    GenericTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.3" data-path="../api/ButtonTemplate.html">
+            
+                <a href="../api/ButtonTemplate.html#ReceiptTemplate">
+            
+                    
+                    ReceiptTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../api/Settings.html">
+            
+                <a href="../api/Settings.html">
+            
+                    
+                    Bot Settings
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../api/express.html">
+            
+                <a href="../api/express.html">
+            
+                    
+                    Express/MongoDb tools
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="../api/bufferloader.html">
+            
+                <a href="../api/bufferloader.html">
+            
+                    
+                    Utils
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Advanced Routing</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="advanced-routing"><a name="advanced-routing" class="plugin-anchor" href="#advanced-routing"><i class="fa fa-link" aria-hidden="true"></i></a>Advanced Routing</h1>
+<h2 id="resolving-actions"><a name="resolving-actions" class="plugin-anchor" href="#resolving-actions"><i class="fa fa-link" aria-hidden="true"></i></a>Resolving actions</h2>
+<p>Text is always treated as action, so theese two routes are matched same, when the <code>/cat</code> action is issued.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+bot.use(req =&gt; req.action() === <span class="hljs-string">&apos;/cat&apos;</span>, (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;Matched!&apos;</span>);
+});
+
+bot.use(<span class="hljs-string">&apos;/cat&apos;</span>, (req, res) =&gt; { res.text(<span class="hljs-string">&apos;Matched!&apos;</span>); });
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
+<blockquote>
+<p>Actual path resolver also takes into account the fact, that routers can be nested.</p>
+</blockquote>
+<h2 id="simple-text-actions"><a name="simple-text-actions" class="plugin-anchor" href="#simple-text-actions"><i class="fa fa-link" aria-hidden="true"></i></a>Simple text actions</h2>
+<p>It&apos;s possible to use reqular expression to match the specific text input. Without any AI tool.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+bot.use(<span class="hljs-regexp">/h[ea]llo|hallo|ciao/</span>, (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;Matched:&apos;</span>)
+        .text(req.text(<span class="hljs-literal">true</span>)); <span class="hljs-comment">// echoes normalized text</span>
+});
+
+bot.use((req, res) =&gt; { res.text(<span class="hljs-string">&apos;Not matched&apos;</span>); });
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
+<p>And the code works like this. It matches lot of words, because the regular expression
+does not match whole words:</p>
+<pre><code>*-----------------------------------*
+|                             Hello |
+| Matched:                          |
+| hello                             |
+|                                   |
+|                      Hello robot! |
+| Matched:                          |
+| hello-robot                       |
+|                                   |
+|                         Hi! &#x10C;ia&#xF3;! |
+| Matched:                          |
+| hi-ciao                           |
+|                                   |
+|                           HiHello |
+| hihello                           |
+*-----------------------------------*
+</code></pre><h2 id="integrating-with-ai-prediction"><a name="integrating-with-ai-prediction" class="plugin-anchor" href="#integrating-with-ai-prediction"><i class="fa fa-link" aria-hidden="true"></i></a>Integrating with AI prediction</h2>
+<p>It&apos;s ofcourse possible to make integration with 3rd party service. Function should return a boolean, where <code>true === CONTINUE</code> and <code>false === BREAK</code>.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> keyworder = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;keyworder&apos;</span>);
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+bot.use((req) =&gt; {
+    <span class="hljs-keyword">if</span> (req.action()) {
+        <span class="hljs-comment">// skip events with specific action (postback, quick reply, ref...)</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+    <span class="hljs-keyword">return</span> keyworder.resolve(req.text())
+        .then(intents =&gt; intents
+            .some(intent =&gt; intent.tag === <span class="hljs-string">&apos;greeting&apos;</span> &amp;&amp; intent.score &gt; <span class="hljs-number">0.95</span>)
+        );
+
+}, (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;Matched:&apos;</span>);
+});
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
+<h2 id="redirecting-flow-with-post-back"><a name="redirecting-flow-with-post-back" class="plugin-anchor" href="#redirecting-flow-with-post-back"><i class="fa fa-link" aria-hidden="true"></i></a>Redirecting flow with Post Back</h2>
+<p>Sometimes there is need to redirect the conversation flow. For theese purposes,
+there is a <code>postBack(action: string, data: object?)</code> function.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+bot.use(<span class="hljs-string">&apos;world&apos;</span>, (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;world&apos;</span>);
+});
+
+bot.use((req, res, postBack) =&gt; {
+    res.text(<span class="hljs-string">&apos;Hello&apos;</span>);
+    postBack(<span class="hljs-string">&apos;world&apos;</span>);
+});
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
+<p>The result of postBack looks like this</p>
+<pre><code>*-----------------------------------*
+|                       Let&apos;s start |
+| hello                             |
+| world                             |
+*-----------------------------------*
+</code></pre>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="asyncActions.html#loading-attachments-to-buffer" class="navigation navigation-prev " aria-label="Previous page: Loading Attachments">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="advancedRouting.html#resolving-actions" class="navigation navigation-next " aria-label="Next page: Resolving Actions">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Advanced Routing","level":"1.5","depth":1,"next":{"title":"Resolving Actions","level":"1.5.1","depth":2,"anchor":"#resolving-actions","path":"tutorial/advancedRouting.md","ref":"tutorial/advancedRouting.md#resolving-actions","articles":[]},"previous":{"title":"Loading Attachments","level":"1.4.3","depth":2,"anchor":"#loading-attachments-to-buffer","path":"tutorial/asyncActions.md","ref":"tutorial/asyncActions.md#loading-attachments-to-buffer","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/advancedRouting.md","mtime":"2017-06-15T14:44:22.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-15T15:06:33.826Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-collapsible-menu/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

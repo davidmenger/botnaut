@@ -7,3 +7,5 @@ test
 bin
 circle.yml
 typings
+
+doc/*

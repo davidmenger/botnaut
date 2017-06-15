@@ -1,10 +1,10 @@
 {
-  "name": "prg-chatbot",
-  "version": "0.12.0",
+  "name": "botnaut",
+  "version": "0.19.0",
   "description": "Facebook Messenger Chatbot Framework",
   "main": "index.js",
   "scripts": {
-    "doc": "node ./bin/makeApiDoc.js",
+    "doc": "node ./bin/makeApiDoc.js && gitbook install ./doc && gitbook build ./doc",
     "test": "npm run test:lint && npm run test:coverage && npm run test:coverage:threshold",
     "test:coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --opts ./mocha.opts ./test",
     "test:coverage:threshold": "istanbul check --branches 80 --functions 80 --statements 80 --lines 80  ./coverage/coverage.json",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/pragonauts/prg-chatbot.git"
+    "url": "git+ssh://git@github.com/pragonauts/botnaut.git"
   },
   "keywords": [
     "Facebook",
@@ -28,9 +28,9 @@
   "author": "Pragonauts",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pragonauts/prg-chatbot/issues"
+    "url": "https://github.com/pragonauts/botnaut/issues"
   },
-  "homepage": "https://github.com/pragonauts/prg-chatbot#readme",
+  "homepage": "https://github.com/pragonauts/botnaut#readme",
   "devDependencies": {
     "body-parser": "^1.15.2",
     "co": "^4.6.0",
@@ -42,6 +42,8 @@
     "eslint-plugin-mocha": "^4.7.0",
     "eslint-plugin-react": "^6.7.1",
     "express": "^4.14.0",
+    "gitbook": "^3.2.2",
+    "gitbook-cli": "^2.3.0",
     "jsdoc-to-markdown": "^2.0.1",
     "mocha": "^3.1.2",
     "mocha-istanbul": "^0.3.0",

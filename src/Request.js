@@ -253,14 +253,15 @@ class Request {
             res = this._processPayload(this.message.quick_reply, getData);
         }
 
+        if (!res && this.state._expected) {
+            res = this._processPayload(this.state._expected, getData);
+        }
+
         if (!res && this.state._expectedKeywords) {
             const payload = quickReplyAction(this.state._expectedKeywords, this.text(true));
             if (payload) {
                 res = this._processPayload(payload, getData);
             }
-        }
-        if (!res && this.state._expected) {
-            res = this._processPayload(this.state._expected, getData);
         }
 
         if (getData) {

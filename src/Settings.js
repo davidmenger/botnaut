@@ -126,7 +126,7 @@ class Settings {
      * @returns {MenuComposer}
      * @example
      *
-     * const { Settings } = require('prg-chatbot');
+     * const { Settings } = require('botnaut');
      *
      * const settings = new Settings('page-token-string');
      *
