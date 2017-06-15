@@ -1,5 +1,7 @@
 # Botnaut - Facebook Messenger platform framework
 
+![Botnaut](https://github.com/pragonauts/botnaut/raw/master/doc/logo.png)
+
 [![CircleCI](https://circleci.com/gh/pragonauts/botnaut/tree/master.svg?style=svg)](https://circleci.com/gh/pragonauts/botnaut/tree/master)
 
 Framework for building reusable chatbot components. **Routing**, **Keyword recognition** is built-in.
