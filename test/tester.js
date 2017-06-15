@@ -24,9 +24,7 @@ describe('Tester', function () {
             });
         });
 
-        music.use('/back', (req, res, postBack, next) => {
-            next('exit');
-        });
+        music.use('/back', () => 'exit');
 
         music.use('/play', (req, res, postBack) => {
             res.image('/image.png');
@@ -35,9 +33,9 @@ describe('Tester', function () {
 
         const read = new Router();
 
-        read.use('/', (req, res, postBack, next) => {
+        read.use('/', (req, res) => {
             res.text('Lets read');
-            next();
+            return Router.CONTINUE;
         });
 
         read.use('/', (req, res) => {
@@ -68,9 +66,9 @@ describe('Tester', function () {
 
         const goThru = new Router();
 
-        goThru.use('/start', (req, res, postBack, next) => {
+        goThru.use('/start', (req, res) => {
             res.text('Go thru');
-            next();
+            return Router.CONTINUE;
         });
 
         const r = new Router();

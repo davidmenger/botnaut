@@ -3,16 +3,13 @@
  */
 'use strict';
 
+const co = require('co');
 const UserLoader = require('./UserLoader');
 const Responder = require('./Responder');
 const Request = require('./Request');
 const SecurityMiddleware = require('./SecurityMiddleware');
 const { senderFactory } = require('./senderFactory');
 const MemoryStateStorage = require('./MemoryStateStorage');
-
-function nextTick () {
-    return new Promise(r => process.nextTick(r));
-}
 
 
 class Processor {
@@ -85,7 +82,7 @@ class Processor {
         }
     }
 
-    _createPostBack (senderId, pageId, postbackAcumulator, senderFn, waitAfter = nextTick) {
+    _createPostBack (senderId, pageId, postbackAcumulator, senderFn, waitAfter) {
         const makePostBack = (action, data = {}) => waitAfter()
                 .then((newSenderId) => {
                     const request = Request.createPostBack(newSenderId || senderId, action, data);
@@ -121,7 +118,7 @@ class Processor {
             resolved: false,
             _resolve: null,
             _promise: null,
-            promise () {
+            getPromise () {
                 return handler._promise;
             },
             handler (res, nextData) {
@@ -201,6 +198,9 @@ class Processor {
         let req;
         let state;
 
+        let messageProcessed;
+        const messageProcessPromise = new Promise((res) => { messageProcessed = res; });
+
         return this._loadState(isRef, senderId)
             .then(stateObject =>
                 this._ensureUserProfileLoaded(isRef, senderId, pageId, stateObject))
@@ -210,7 +210,7 @@ class Processor {
                 return this.stateStorage.onAfterStateLoad(req, stateObject);
             })
             .then(stateObject => this._getOrCreateToken(isRef, senderId, stateObject))
-            .then(({ token, stateObject }) => {
+            .then(co.wrap(function* ({ token, stateObject }) {
 
                 // update the state of request
                 state = stateObject.state;
@@ -220,13 +220,19 @@ class Processor {
                 const res = new Responder(isRef, senderId, senderFn, token, this.options);
 
                 // create postBack handler
-                const wait = refHandler && refHandler.promise;
+                const wait = () =>
+                    messageProcessPromise.then(() => refHandler && refHandler.getPromise());
+
                 const postBack = this._createPostBack(senderId, pageId, postbacks, senderFn, wait);
 
+                let reduceResult;
                 if (typeof this.reducer === 'function') {
-                    this.reducer(req, res, postBack);
+                    reduceResult = this.reducer(req, res, postBack);
                 } else {
-                    this.reducer.reduce(req, res, postBack);
+                    reduceResult = this.reducer.reduce(req, res, postBack);
+                }
+                if (reduceResult instanceof Promise) { // note the result can be undefined
+                    yield reduceResult;
                 }
 
                 state = Object.assign({}, state, res.newState);
@@ -250,9 +256,9 @@ class Processor {
                     return null;
                 }
 
-                return refHandler.promise()
+                return refHandler.getPromise()
                     .then(recipientId => this._loadState(false, recipientId));
-            })
+            }.bind(this)))
             .then((stateObject) => {
                 if (!stateObject) {
                     return null;
@@ -266,6 +272,7 @@ class Processor {
 
                 return this.stateStorage.saveState(stateObject);
             })
+            .then(() => messageProcessed())
             .then(() => Promise.all(postbacks))
             .catch((e) => {
                 this.options.log.error(e);

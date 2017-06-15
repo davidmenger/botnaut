@@ -16,6 +16,7 @@ node_modules
 /config/config.development.js
 /typings
 /coverage
+/.nyc_output
 /html-report
 
 # Dont remove, because it's used in tests
