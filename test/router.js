@@ -102,7 +102,6 @@ describe('Router', function () {
             let i = 0;
 
             const first = sinon.spy(() => Router.CONTINUE);
-            const second = sinon.spy(() => Router.CONTINUE);
             const resolver = sinon.spy(() => new Promise(resolve => setTimeout(resolve, 50))
                 .then(() => i++)
                 .then(() => Router.CONTINUE)
@@ -121,15 +120,13 @@ describe('Router', function () {
             const req = createMockReq('just a text', null);
             const res = createMockRes();
 
-            router.use('fakin-action', /^just\sa\stext$/, first);
-            router.use('anotheraction', 'just a text', second);
-            router.use('anotheraction', resolver, third, fourth);
-            router.use('*', last);
+            router.use(/^just\sa\stext$/, first);
+            router.use(resolver, third, fourth);
+            router.use(last);
 
             yield router.reduce(req, res);
 
             shouldBeCalled(first, req, res);
-            shouldBeCalled(second, req, res);
             shouldBeCalled(third, req, res);
             shouldBeCalled(fourth, req, res);
             shouldBeCalled(last, req, res);
@@ -138,13 +135,9 @@ describe('Router', function () {
             assert.strictEqual(resolver.firstCall.args[0], req);
 
             resolver.calledBefore(first);
-            first.calledBefore(second);
             first.calledBefore(third);
             first.calledBefore(fourth);
             first.calledBefore(last);
-            second.calledBefore(third);
-            second.calledBefore(fourth);
-            second.calledBefore(last);
             third.calledBefore(last);
             third.calledBefore(fourth);
             fourth.calledBefore(last);
@@ -188,8 +181,8 @@ describe('Router', function () {
             const nestedRouter = new Router();
 
             nestedRouter.use('/inner', route)
-                .next('unusedExit', unusedExit)
-                .next('exit', exit);
+                .onExit('unusedExit', unusedExit)
+                .onExit('exit', exit);
 
             router.use('/nested', nestedRouter);
             router.use('/', noRoute);
@@ -209,9 +202,8 @@ describe('Router', function () {
         }));
 
         it('should pass expected actions to nested routers', co.wrap(function* () {
-            const route = sinon.spy(() => Router.CONTINUE);
+            const route = sinon.spy(() => {});
             const noRoute = sinon.spy();
-            const finalRoute = sinon.spy();
 
             const req = createMockReq('matching text', '/nested/inner');
             const res = createMockRes();
@@ -227,7 +219,6 @@ describe('Router', function () {
             router.use('/nogo', noRoute);
             router.use('/nested', forbiddenRouter);
             router.use('/nested', nestedRouter);
-            router.use('*', finalRoute);
 
             const actionSpy = sinon.spy();
 
@@ -238,7 +229,6 @@ describe('Router', function () {
             // assert routes
             assert(!noRoute.called, 'route should not be called');
             shouldBeCalled(route, req, res);
-            shouldBeCalled(finalRoute, req, res);
 
 
             assert.equal(reduceResult, undefined);
@@ -246,13 +236,11 @@ describe('Router', function () {
             // check fired action event
             return nextTick()
                 .then(() => {
-                    assert(actionSpy.calledTwice);
+                    assert(actionSpy.calledOnce);
                     assert.strictEqual(actionSpy.firstCall.args[0], req.senderId);
                     assert.strictEqual(actionSpy.firstCall.args[1], '/nested/inner');
                     assert.strictEqual(actionSpy.firstCall.args[2], 'matching text');
                     assert.strictEqual(actionSpy.firstCall.args[3], req);
-
-                    assert.strictEqual(actionSpy.secondCall.args[1], '/*');
                 });
         }));
 
@@ -261,17 +249,17 @@ describe('Router', function () {
 
             const route = sinon.spy();
             const noRoute = sinon.spy();
-            const req = createMockReq('action with text', 'anotherAction');
+            const req = createMockReq('action with text', null);
             const res = createMockRes();
 
             router.use(/should-not-match/, noRoute);
-            router.use(/^action\swith\stext$/, route);
+            router.use(/action\swith\stext/, route);
             router.use(noRoute);
 
             yield router.reduce(req, res);
 
-            shouldBeCalled(route, req, res);
             assert(!noRoute.called, 'route should not be called');
+            shouldBeCalled(route, req, res);
         }));
 
         it('should make relative paths absolute and call postBack methods', co.wrap(function* () {

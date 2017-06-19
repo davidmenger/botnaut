@@ -85,12 +85,12 @@ describe('Tester', function () {
         });
 
         r.use('/music', music)
-            .next('exit', (data, req, res, postBack) => {
+            .onExit('exit', (data, req, res, postBack) => {
                 postBack('/start');
             });
 
         r.use('/read', read)
-            .next('exit', (data, req, res, postBack) => {
+            .onExit('exit', (data, req, res, postBack) => {
                 postBack('/start');
             });
 
