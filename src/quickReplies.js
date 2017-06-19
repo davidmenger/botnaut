@@ -12,10 +12,10 @@ function makeExpectedKeyword (action, title, matcher = null, payloadData = {}) {
     if (matcher instanceof RegExp) {
         match = matcher.toString().replace(/^\/|\/$/g, '');
     } else if (typeof matcher === 'string') {
-        match = tokenize(matcher);
+        match = `^${tokenize(matcher)}$`;
     } else {
         // make matcher from title
-        match = tokenize(title);
+        match = `^${tokenize(title)}$`;
     }
 
     return {
