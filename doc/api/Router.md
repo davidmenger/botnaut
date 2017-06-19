@@ -6,7 +6,13 @@
 
 * [Router](#Router) ⇐ <code>ReducerWrapper</code>
     * [new Router()](#new_Router_new)
-    * [.use([action], [matcher], ...reducers)](#Router_use) ⇒ <code>Object</code>
+    * _instance_
+        * [.use([action], [matcher], ...reducers)](#Router_use) ⇒ <code>Object</code>
+    * _static_
+        * [.CONTINUE](#Router_CONTINUE)
+        * [.BREAK](#Router_BREAK)
+        * [.END](#Router_END)
+        * [.exit(action, [data])](#Router_exit) ⇒ <code>Array</code>
 
 {% raw %}<div id="new_Router_new">&nbsp;</div>{% endraw %}
 
@@ -32,7 +38,7 @@ Appends middleware, action handler or another router
 router.use((req, res, postBack) => Router.CONTINUE);
 
 // route with matching regexp
-router.use('action', /help/, (req, res) => {
+router.use(/help/, (req, res) => {
     res.text('Hello!');
 });
 
@@ -44,13 +50,71 @@ router.use('action', req => req.text() === 'a', (req, res) => {
 
 // use multiple reducers
 router.use('/path', reducer1, reducer2)
-   .next('exitAction', (data, req, res, postBack, next) => {
+   .onExit('exitAction', (data, req, res, postBack) => {
        postBack('anotherAction', { someData: true })
    });
 
 // append router with exit action
 router.use('/path', subRouter)
-   .next('exitAction', (data, req, res, postBack, next) => {
+   .onExit('exitAction', (data, req, res, postBack) => {
        postBack('anotherAction', { someData: true })
    });
+```
+{% raw %}<div id="Router_CONTINUE">&nbsp;</div>{% endraw %}
+
+### Router.CONTINUE
+Return `Router.CONTINUE` when action matches your route
+Its same as returning `true`
+
+**Kind**: static property of <code>[Router](#Router)</code>  
+**Properties**
+
+| Type |
+| --- |
+| <code>boolean</code> | 
+
+{% raw %}<div id="Router_BREAK">&nbsp;</div>{% endraw %}
+
+### Router.BREAK
+Return `Router.BREAK` when action does not match your route
+Its same as returning `false`
+
+**Kind**: static property of <code>[Router](#Router)</code>  
+**Properties**
+
+| Type |
+| --- |
+| <code>boolean</code> | 
+
+{% raw %}<div id="Router_END">&nbsp;</div>{% endraw %}
+
+### Router.END
+Returning `Router.END` constant stops dispatching request
+Its same as returning `undefined`
+
+**Kind**: static property of <code>[Router](#Router)</code>  
+**Properties**
+
+| Type |
+| --- |
+| <code>null</code> | 
+
+{% raw %}<div id="Router_exit">&nbsp;</div>{% endraw %}
+
+### Router.exit(action, [data]) ⇒ <code>Array</code>
+Create the exit point
+Its same as returning `['action', { data }]`
+
+**Kind**: static method of <code>[Router](#Router)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| action | <code>string</code> | the exit action |
+| [data] | <code>Object</code> | the data |
+
+**Example**  
+```javascript
+router.use((req, res) => {
+    return Router.exit('exitName');
+});
 ```
