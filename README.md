@@ -6,7 +6,7 @@
 
 Framework for building reusable chatbot components. **Routing**, **Keyword recognition** is built-in.
 
-- [**[API documentation](https://botnaut.pragonauts.com)**]
+- [**[API documentation](http://botnaut.pragonauts.com)**]
 
 ## Requirements and installation
 

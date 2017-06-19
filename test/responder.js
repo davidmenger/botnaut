@@ -81,9 +81,9 @@ describe('Responder', function () {
             assert.equal(opts.translator.callCount, 4);
 
             assert.deepEqual(res.newState._expectedKeywords, [
-                { action: '/foo/option', match: 'text-title', data: { information: 1 } },
+                { action: '/foo/option', match: '^text-title$', data: { information: 1 } },
                 { action: '/foo/another', match: 'some|another', data: {} },
-                { action: '/foo/textMatch', match: 'custom-text', data: {} }
+                { action: '/foo/textMatch', match: '^custom-text$', data: {} }
             ]);
         });
 
