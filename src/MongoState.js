@@ -58,7 +58,7 @@ schema.statics.getOrCreateAndLock = function (senderId, defaultState = {}, timeo
 };
 
 /**
- * Called afer load for postprocessing purposes
+ * Called after load for postprocessing purposes
  *
  * @method
  * @name State#onAfterStateLoad

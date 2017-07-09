@@ -4,7 +4,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const crypto = require('crypto');
+const generateToken = require('./generateToken');
 
 const { Schema } = mongoose;
 
@@ -16,19 +16,12 @@ const schema = new Schema({
 schema.index({ token: true }, { unique: true });
 schema.index({ senderId: true }, { unique: true });
 
-function createTokenBuffer () {
-    return new Promise((res, rej) => crypto.randomBytes(255,
-        (err, buf) => (err ? rej(err) : res(buf))
-    ));
-}
-
-function updateToken (token) {
-    return createTokenBuffer()
-        .then((buf) => {
-            const ret = token;
-            ret.token = buf.toString('base64');
-            return ret.save();
-        });
+function updateToken (tokenObject) {
+    return generateToken().then((token) => {
+        const ret = tokenObject;
+        ret.token = token;
+        return ret.save();
+    });
 }
 
 function wait (ms) {

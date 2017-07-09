@@ -47,13 +47,17 @@
   },
   "dependencies": {
     "co": "^4.6.0",
+    "lodash.transform": "^4.6.0",
     "path-to-regexp": "^1.7.0",
     "request": "^2.79.0",
     "request-promise": "^4.1.1"
   },
   "optionalDependencies": {
-    "mongoose": "^4.0.0",
+    "aws-sdk": "^2.78.0",
+    "body-parser": "^1.10.0",
+    "dynamodb-marshaler": "^2.0.0",
     "express": "^4.0.0",
-    "body-parser": "^1.10.0"
+    "mongoose": "^4.0.0",
+    "uuid": "^3.1.0"
   }
 }
