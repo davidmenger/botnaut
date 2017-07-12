@@ -82,7 +82,7 @@ describe('SecurityMiddleware', function () {
 
             const secure = new SecurityMiddleware(APP_SECRET);
 
-            const middleware = secure.getSignatureVerifier();
+            const middleware = (req, res, buf) => secure.verifySignature(buf, req.headers['x-hub-signature']);
             assert.doesNotThrow(() => {
                 simulateBodyParser(middleware, Buffer.alloc(1), null);
             });
@@ -92,7 +92,7 @@ describe('SecurityMiddleware', function () {
 
             const secure = new SecurityMiddleware(APP_SECRET);
 
-            const middleware = secure.getSignatureVerifier();
+            const middleware = (req, res, buf) => secure.verifySignature(buf, req.headers['x-hub-signature']);
 
             assert.throws(() => {
                 simulateBodyParser(middleware, TEST_BUFFER, BAD_HEADER);
@@ -103,7 +103,7 @@ describe('SecurityMiddleware', function () {
 
             const secure = new SecurityMiddleware(APP_SECRET);
 
-            const middleware = secure.getSignatureVerifier();
+            const middleware = (req, res, buf) => secure.verifySignature(buf, req.headers['x-hub-signature']);
             assert.doesNotThrow(() => {
                 simulateBodyParser(middleware, TEST_BUFFER, TEST_HEADER);
             });

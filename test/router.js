@@ -86,6 +86,7 @@ describe('Router', function () {
             const req = createMockReq('just a text', null);
             const res = createMockRes();
 
+            router.use('*', noRoute);
             router.use(/^just\sa\stext$/, route);
             router.use('*', noRoute);
 
@@ -96,33 +97,37 @@ describe('Router', function () {
 
         }));
 
-        it('should pass request to next routes', co.wrap(function* () {
+        it('should work with CONTINUE, BREAK correctly', co.wrap(function* () {
             const router = new Router();
 
             let i = 0;
 
             const first = sinon.spy(() => Router.CONTINUE);
-            const resolver = sinon.spy(() => new Promise(resolve => setTimeout(resolve, 50))
+            const asyncResolver = sinon.spy(() => new Promise(resolve => setTimeout(resolve, 50))
                 .then(() => i++)
                 .then(() => Router.CONTINUE)
             );
             const third = sinon.spy(() => {
-                assert.equal(i, 1, 'The third reducer should be called after async resolver was resolved.');
+                assert.equal(i, 1, 'The third reducer should be called after asyncResolver was resolved.');
                 return new Promise(resolve => setTimeout(resolve, 50))
                     .then(() => i++)
                     .then(() => Router.CONTINUE);
             });
             const fourth = sinon.spy(() => {
                 assert.equal(i, 2, 'The fourth reducer should be called after the third async reducer was resolved.');
-                return Router.CONTINUE;
+                return Router.BREAK;
             });
+            const notCalledAfterFourth = sinon.spy();
+            const notCalledAfterLast1 = sinon.spy();
+            const notCalledAfterLast2 = sinon.spy();
             const last = sinon.spy();
             const req = createMockReq('just a text', null);
             const res = createMockRes();
 
             router.use(/^just\sa\stext$/, first);
-            router.use(resolver, third, fourth);
-            router.use(last);
+            router.use(asyncResolver, third, fourth, notCalledAfterFourth);
+            router.use(last, notCalledAfterLast1);
+            router.use(notCalledAfterLast2);
 
             yield router.reduce(req, res);
 
@@ -131,16 +136,20 @@ describe('Router', function () {
             shouldBeCalled(fourth, req, res);
             shouldBeCalled(last, req, res);
 
-            assert.equal(resolver.callCount, 1, 'The resolver should be called once');
-            assert.strictEqual(resolver.firstCall.args[0], req);
+            assert.equal(asyncResolver.callCount, 1, 'The asyncResolver should be called once');
+            assert.strictEqual(asyncResolver.firstCall.args[0], req);
 
-            resolver.calledBefore(first);
+            asyncResolver.calledBefore(first);
             first.calledBefore(third);
             first.calledBefore(fourth);
             first.calledBefore(last);
             third.calledBefore(last);
             third.calledBefore(fourth);
             fourth.calledBefore(last);
+
+            assert(notCalledAfterFourth.notCalled);
+            assert(notCalledAfterLast1.notCalled);
+            assert(notCalledAfterLast2.notCalled);
         }));
 
     });

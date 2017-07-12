@@ -12,7 +12,8 @@ function postMiddlewares (bodyParser, processor, log = console) {
 
     if (processor.secure) {
         bodyParserMiddleware = bodyParser.json({
-            verify: processor.secure.getSignatureVerifier()
+            verify: (req, res, buf) =>
+                processor.secure.verifySignature(buf, req.headers['x-hub-signature'])
         });
 
         processMiddleware = (req, res) => {

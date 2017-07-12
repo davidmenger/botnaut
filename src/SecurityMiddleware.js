@@ -56,34 +56,25 @@ class SecurityMiddleware {
     }
 
     /**
-     * Middleware for Express Bodyparser verify option
-     *
-     * @returns middleware for bodyparser
-     *
-     * @memberOf SecurityMiddleware
+     * @param {Buffer|string} body
+     * @param {string} [signature]
      */
-    getSignatureVerifier () {
-        const appSecret = this.appSecret;
-        const err = this._getUnauthorizedError;
-        return function verifier (req, res, buf) {
-            const signature = req.headers['x-hub-signature'];
-            let verified = true;
+    verifySignature (body, signature) {
 
-            if (signature) {
-                const elements = signature.split('=');
-                const signatureHash = elements[1];
-                const expectedHash = crypto
-                                    .createHmac('sha1', appSecret)
-                                    .update(buf)
-                                    .digest('hex');
+        if (!signature) {
+            return;
+        }
 
-                verified = signatureHash === expectedHash;
-            }
+        const elements = signature.split('=');
+        const signatureHash = elements[1];
+        const expectedHash = crypto
+            .createHmac('sha1', this.appSecret)
+            .update(body)
+            .digest('hex');
 
-            if (!verified) {
-                throw err("Couldn't validate the request signature.");
-            }
-        };
+        if (signatureHash !== expectedHash) {
+            throw this._getUnauthorizedError("Couldn't validate the request signature.");
+        }
     }
 
     /**
