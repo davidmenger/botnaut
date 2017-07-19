@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "co": "^4.6.0",
+    "deep-equal": "^1.0.1",
     "lodash.transform": "^4.6.0",
     "path-to-regexp": "^1.7.0",
     "request": "^2.79.0",

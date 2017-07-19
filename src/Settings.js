@@ -5,6 +5,7 @@
 
 const request = require('request-promise');
 const MenuComposer = require('./MenuComposer');
+const deepEqual = require('deep-equal');
 
 /**
  * Utility, which helps us to set up chatbot behavior
@@ -33,6 +34,22 @@ class Settings {
             method: 'POST',
             json: data
         }).catch(e => this.log.error('Bot settings failed', e));
+    }
+
+    _get (fields = null) {
+        const queryString = { access_token: this.token };
+        if (fields) {
+            queryString.fields = fields.join(',');
+        }
+        return request({
+            uri: 'https://graph.facebook.com/v2.8/me/messenger_profile',
+            qs: queryString,
+            method: 'GET',
+            json: true
+        }).catch((e) => {
+            this.log.error('Bot settings failed', e);
+            return Promise.reject(e);
+        });
     }
 
     _delete (data) {
@@ -139,15 +156,22 @@ class Settings {
      */
     menu (locale = 'default', inputDisabled = false) {
         return new MenuComposer((actions) => {
-            this._post({
-                persistent_menu: [
-                    {
+            this._get(['persistent_menu'])
+                .then((result) => {
+
+                    const existingMenu = result.data[0].persistent_menu;
+                    const newMenu = [{
                         locale,
                         composer_input_disabled: inputDisabled,
                         call_to_actions: actions
+                    }];
+
+                    if (!deepEqual(newMenu, existingMenu)) {
+                        this._post({
+                            persistent_menu: newMenu
+                        });
                     }
-                ]
-            });
+                }).catch(e => this.log.error('Bot settings failed', e));
             return this;
         });
     }
