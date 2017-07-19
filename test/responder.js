@@ -264,6 +264,59 @@ describe('Responder', function () {
 
     });
 
+    describe('#list()', function () {
+
+        it('should send message with generic template', function () {
+            const { sendFn, opts } = createAssets();
+            const res = new Responder(true, SENDER_ID, sendFn, TOKEN, opts);
+
+            res.setPath('/path');
+
+            res.list()
+                .addElement('title', 'subtitle')
+                    .setElementImage('/local.png')
+                    .setElementUrl('https://www.seznam.cz')
+                    .postBackButton('Button title', 'action', { actionData: 1 })
+                .addElement('another', null, true)
+                    .setElementImage('https://goo.gl/image.png')
+                    .setElementAction('/localUrl', true)
+                    .urlButton('Local link with extension', '/local/path', true, 'compact')
+                .send();
+
+            assert(sendFn.calledOnce);
+            assert.equal(sendFn.firstCall.args[0].recipient.user_ref, SENDER_ID);
+
+            const attachment = sendFn.firstCall.args[0].message.attachment;
+            assert.equal(attachment.type, 'template');
+
+            const payload = attachment.payload;
+            assert.equal(payload.template_type, 'list');
+            assert.equal(payload.elements.length, 2);
+
+            assert.equal(payload.elements[0].title, '-title');
+            assert.equal(payload.elements[0].subtitle, '-subtitle');
+            assert.equal(payload.elements[0].image_url, `${APP_URL}/local.png`);
+            assert.equal(payload.elements[0].item_url, 'https://www.seznam.cz');
+            assert.equal(payload.elements[0].buttons.length, 1);
+
+            assert.equal(payload.elements[1].title, 'another');
+            assert.strictEqual(payload.elements[1].subtitle, undefined);
+            assert.equal(payload.elements[1].image_url, 'https://goo.gl/image.png');
+            assert.deepEqual(payload.elements[1].default_action, {
+                type: 'web_url',
+                url: 'http://goo.gl/localUrl#token=t&senderId=123',
+                webview_height_ratio: 'tall',
+                messenger_extensions: true
+            });
+            assert.equal(payload.elements[1].buttons.length, 1);
+
+            assert.notStrictEqual(payload.elements[0].buttons, payload.elements[1].buttons);
+
+            assert.equal(opts.translator.callCount, 4);
+        });
+
+    });
+
     describe('#expected()', function () {
 
         it('should set state to absolute expected value', function () {
