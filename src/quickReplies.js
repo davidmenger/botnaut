@@ -43,11 +43,9 @@ function makeQuickReplies (replies, path = '', translate = w => w) {
             let payloadData = null;
             const action = makeAbsolute(relativeAction, path);
             let payload = action;
-            let match;
 
             if (typeof value === 'object') {
                 title = value.title;
-                match = value.match;
 
                 payload = {
                     action,
@@ -61,8 +59,10 @@ function makeQuickReplies (replies, path = '', translate = w => w) {
 
             title = translate(title);
 
-            // add expectations
-            expectedKeywords.push(makeExpectedKeyword(action, title, match, payloadData));
+            // add expectations, explicitly only
+            if (typeof value === 'object' && value.match) {
+                expectedKeywords.push(makeExpectedKeyword(action, title, value.match, payloadData));
+            }
 
             return {
                 content_type: 'text',
