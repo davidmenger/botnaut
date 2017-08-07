@@ -6,6 +6,7 @@
 const ReceiptTemplate = require('./ReceiptTemplate');
 const ButtonTemplate = require('./ButtonTemplate');
 const GenericTemplate = require('./GenericTemplate');
+const ListTemplate = require('./ListTemplate');
 const { makeAbsolute } = require('./pathUtils');
 const { makeQuickReplies } = require('./quickReplies');
 const util = require('util');
@@ -332,6 +333,35 @@ class Responder {
      */
     genericTemplate () {
         return new GenericTemplate(
+            payload => this.template(payload),
+            this._createContext()
+        );
+    }
+
+    /**
+     * Creates a generic template
+     *
+     * @example
+     * res.list('compact')
+     *     .postBackButton('Main button', 'action', { actionData: 1 })
+     *     .addElement('title', 'subtitle')
+     *         .setElementImage('/local.png')
+     *         .setElementUrl('https://www.seznam.cz')
+     *         .postBackButton('Button title', 'action', { actionData: 1 })
+     *     .addElement('another', 'subtitle')
+     *         .setElementImage('https://goo.gl/image.png')
+     *         .setElementAction('action', { actionData: 1 })
+     *         .urlButton('Local link with extension', '/local/path', true, 'compact')
+     *     .send();
+     *
+     * @param {'large'|'compact'} [topElementStyle='large']
+     * @returns {ListTemplate}
+     *
+     * @memberOf Responder
+     */
+    list (topElementStyle = 'large') {
+        return new ListTemplate(
+            topElementStyle,
             payload => this.template(payload),
             this._createContext()
         );
