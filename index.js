@@ -16,6 +16,7 @@ const { senderFactory, sender } = require('./src/senderFactory');
 const asserts = require('./src/asserts');
 const UserLoader = require('./src/UserLoader');
 const MemoryStateStorage = require('./src/MemoryStateStorage');
+const responderFactory = require('./src/responderFactory');
 
 module.exports = {
     // basic functionality
@@ -27,6 +28,7 @@ module.exports = {
     senderFactory,
     sender,
     UserLoader,
+    responderFactory,
 
     // utilities
     Tester,
