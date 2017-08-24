@@ -89,7 +89,7 @@ bot.use((req, res) => {
         // still req.state.odd === true
         this.text('Odd');
     } else {
-        res.setState({ odd: false });
+        res.setState({ odd: true });
         // still req.state.odd === false || req.state.odd === undefined
         this.text('Even');
     }

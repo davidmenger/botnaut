@@ -16,12 +16,14 @@ const ButtonTemplate = require('./ButtonTemplate');
  */
 class GenericTemplate extends ButtonTemplate {
 
-    constructor (onDone, context = {}) {
+    constructor (onDone, context = {}, sharable = false, isSquare = false) {
         super(onDone, context, null);
 
         this.elements = [];
 
         this._element = null;
+        this._sharable = sharable;
+        this._isSquare = isSquare;
     }
 
     /**
@@ -113,7 +115,9 @@ class GenericTemplate extends ButtonTemplate {
         this._attachAndClearButtons();
         const res = {
             template_type: 'generic',
-            elements: this.elements
+            elements: this.elements,
+            sharable: this._sharable,
+            image_aspect_ratio: this._isSquare ? 'square' : 'horizontal'
         };
         return res;
     }

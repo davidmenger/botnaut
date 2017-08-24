@@ -36,10 +36,10 @@ class Responder {
         Object.assign(this.options, options);
         if (this.options.autoTyping) {
             this.options.autoTyping = Object.assign({
-                time: 600,
+                time: 450,
                 perCharacters: 'Sample text Sample texts'.length,
-                minTime: 500,
-                maxTime: 2700
+                minTime: 400,
+                maxTime: 1400
             }, this.options.autoTyping);
         }
 
@@ -315,6 +315,8 @@ class Responder {
     /**
      * Creates a generic template
      *
+     * @param {boolean} [shareable] - ability to share template
+     * @param {boolean} [isSquare] - use square aspect ratio for images
      * @example
      * res.genericTemplate()
      *     .addElement('title', 'subtitle')
@@ -331,10 +333,12 @@ class Responder {
      *
      * @memberOf Responder
      */
-    genericTemplate () {
+    genericTemplate (shareable = false, isSquare = false) {
         return new GenericTemplate(
             payload => this.template(payload),
-            this._createContext()
+            this._createContext(),
+            shareable,
+            isSquare
         );
     }
 

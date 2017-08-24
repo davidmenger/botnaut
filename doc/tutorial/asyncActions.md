@@ -18,7 +18,7 @@ const { Router } = require('botnaut');
 const bot = new Router();
 
 function asyncAction () {
-    return new Promise(r => setTimeout(() => Math.rand(), 100));
+    return new Promise(r => setTimeout(() => r(Math.rand()), 100));
 }
 
 bot.use((req, res) => {

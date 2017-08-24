@@ -74,6 +74,12 @@ class DynamoStateStorage {
                 });
 
                 return state;
+            })
+            .catch((e) => {
+                if (e.code === 'ConditionalCheckFailedException') {
+                    Object.assign(e, { code: 11000 });
+                }
+                throw e;
             });
     }
 

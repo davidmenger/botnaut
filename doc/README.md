@@ -51,9 +51,9 @@ Advanced chatbot framework gives you:
 
     app.use('/bot', createRouter(processor, 'verifyTokenHere'));
 
-    app.listen(3000);
+    mongoose.connect('mongodb://localhost/myapp')
+        .then(() => app.listen(3000));
     ```
-
 
   - **Deploy and setup Facebook Messenger Application**
 
