@@ -57,16 +57,9 @@ class Processor {
         if (this.options.senderFnFactory) {
             this.senderFnFactory = this.options.senderFnFactory;
         } else {
-            const senderLogger = {
-                log: (...args) => this.options.chatLog.log(...args),
-                error: (...args) => {
-                    this.options.log.error(args[0]); // just error
-                    this.options.chatLog.error(...args);
-                }
-            };
             this.senderFnFactory = senderFactory(
                 this.options.pageToken,
-                senderLogger,
+                this.options.chatLog,
                 this.options.onSenderError
             );
         }
