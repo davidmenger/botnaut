@@ -212,6 +212,12 @@ class Processor {
             .then(stateObject => this._getOrCreateToken(isRef, senderId, stateObject))
             .then(co.wrap(function* ({ token, stateObject }) {
 
+                // ensure the request was not processed
+                if (stateObject.lastTimestamps && message.timestamp
+                        && stateObject.lastTimestamps.indexOf(message.timestamp) !== -1) {
+                    return null;
+                }
+
                 // update the state of request
                 state = stateObject.state;
                 req.state = state;
@@ -263,9 +269,21 @@ class Processor {
                 if (!stateObject) {
                     return null;
                 }
+
+                // store the message timestamp to prevent event rotating
+                let lastTimestamps = stateObject.lastTimestamps || [];
+                if (message.timestamp) {
+                    lastTimestamps = lastTimestamps.slice();
+                    lastTimestamps.push(message.timestamp);
+                    if (lastTimestamps.length > 10) {
+                        lastTimestamps.shift();
+                    }
+                }
+
                 Object.assign(stateObject, {
                     state,
                     lock: 0,
+                    lastTimestamps,
                     lastInteraction: new Date(),
                     off: false
                 });

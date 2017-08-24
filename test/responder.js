@@ -87,6 +87,21 @@ describe('Responder', function () {
             ]);
         });
 
+        it('should send typing off and seen messages', function () {
+            const { sendFn, opts } = createAssets();
+
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
+
+            res.typingOn();
+            res.typingOff();
+            res.seen();
+
+            assert(sendFn.callCount, 3);
+            assert.equal(sendFn.getCall(0).args[0].sender_action, 'typing_on');
+            assert.equal(sendFn.getCall(1).args[0].sender_action, 'typing_off');
+            assert.equal(sendFn.getCall(2).args[0].sender_action, 'mark_seen');
+        });
+
         it('should send "typing" and "wait" in case of autoTyping is on', function () {
             const { sendFn, opts } = createAssets();
             opts.autoTyping = true;

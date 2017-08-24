@@ -700,6 +700,8 @@
 <li><a href="#Request_attachment">.attachment([attachmentIndex])</a> &#x21D2; <code>object</code> | <code>null</code></li>
 <li><a href="#Request_attachmentUrl">.attachmentUrl([attachmentIndex])</a> &#x21D2; <code>string</code> | <code>null</code></li>
 <li><a href="#Request_isMessage">.isMessage()</a> &#x21D2; <code>boolean</code></li>
+<li><a href="#Request_isQuickReply">.isQuickReply()</a> &#x21D2; <code>boolean</code></li>
+<li><a href="#Request_isText">.isText()</a> &#x21D2; <code>boolean</code></li>
 <li><a href="#Request_text">.text([tokenized])</a> &#x21D2; <code>string</code></li>
 <li><a href="#Request_quickReply">.quickReply([getData])</a> &#x21D2; <code>null</code> | <code>string</code> | <code>object</code></li>
 <li><a href="#Request_isPostBack">.isPostBack()</a> &#x21D2; <code>boolean</code></li>
@@ -896,6 +898,16 @@
 <h3 id="requestismessage-&#x21D2;-boolean"><a name="requestismessage-&#x21D2;-boolean" class="plugin-anchor" href="#requestismessage-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isMessage() &#x21D2; <code>boolean</code></h3>
 <p>Returns true, when the request is text message, quick reply or attachment</p>
 <p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<div id="Request_isQuickReply">&#xA0;</div>
+
+<h3 id="requestisquickreply-&#x21D2;-boolean"><a name="requestisquickreply-&#x21D2;-boolean" class="plugin-anchor" href="#requestisquickreply-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isQuickReply() &#x21D2; <code>boolean</code></h3>
+<p>Check, that message is a quick reply</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
+<div id="Request_isText">&#xA0;</div>
+
+<h3 id="requestistext-&#x21D2;-boolean"><a name="requestistext-&#x21D2;-boolean" class="plugin-anchor" href="#requestistext-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isText() &#x21D2; <code>boolean</code></h3>
+<p>Check, that message is PURE text</p>
+<p><strong>Kind</strong>: instance method of <code>Request</code>  </p>
 <div id="Request_text">&#xA0;</div>
 
 <h3 id="requesttexttokenized-&#x21D2;-string"><a name="requesttexttokenized-&#x21D2;-string" class="plugin-anchor" href="#requesttexttokenized-&#x21D2;-string"><i class="fa fa-link" aria-hidden="true"></i></a>request.text([tokenized]) &#x21D2; <code>string</code></h3>
@@ -1065,7 +1077,7 @@ When <code>getData</code> is <code>true</code>, object will be returned. Otherwi
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Request","level":"2.1","depth":1,"next":{"title":"Responder","level":"2.2","depth":1,"path":"api/Responder.md","ref":"api/Responder.md","articles":[]},"previous":{"title":"Testing","level":"1.8","depth":1,"path":"tutorial/testing.md","ref":"tutorial/testing.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Request.md","mtime":"2017-08-24T08:48:21.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-24T08:48:55.623Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Request","level":"2.1","depth":1,"next":{"title":"Responder","level":"2.2","depth":1,"path":"api/Responder.md","ref":"api/Responder.md","articles":[]},"previous":{"title":"Testing","level":"1.8","depth":1,"path":"tutorial/testing.md","ref":"tutorial/testing.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Request.md","mtime":"2017-08-24T13:13:13.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-24T13:13:19.301Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

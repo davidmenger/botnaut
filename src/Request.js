@@ -138,6 +138,28 @@ class Request {
     }
 
     /**
+     * Check, that message is a quick reply
+     *
+     * @returns {boolean}
+     *
+     * @memberOf Request
+     */
+    isQuickReply () {
+        return this.message !== null && this.message.quick_reply;
+    }
+
+    /**
+     * Check, that message is PURE text
+     *
+     * @returns {boolean}
+     */
+    isText () {
+        return this.message !== null
+            && !this.message.quick_reply
+            && !!this.message.text;
+    }
+
+    /**
      * Returns text of the message
      *
      * @param {boolean} [tokenized=false] when true, message is normalized to lowercase with `-`
