@@ -43,7 +43,8 @@ module.exports = (languageResolver, options) => {
         const lang = languageResolver(req);
         return getTranslator(lang).then((translator) => {
             Object.assign(res, {
-                t: translator
+                t: translator,
+                tq: translator
             });
             return Router.CONTINUE;
         });
