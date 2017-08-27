@@ -13,7 +13,8 @@ function createMockReq (text = '', action = 'action') {
         senderId: 7,
         state: {},
         action (isData) { return isData ? {} : action; },
-        text () { return text; }
+        text () { return text; },
+        isText () { return !!text; }
     };
     return req;
 }

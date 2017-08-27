@@ -48,7 +48,7 @@ Load state and lock for other requests
 {% raw %}<div id="State_onAfterStateLoad">&nbsp;</div>{% endraw %}
 
 ### state.onAfterStateLoad(req, state) ⇒ <code>Promise.&lt;Object&gt;</code>
-Called afer load for postprocessing purposes
+Called after load for postprocessing purposes
 
 **Kind**: instance method of <code>[State](#State)</code>  
 
@@ -121,8 +121,8 @@ Create a chat event processor
 | [processorOptions.timeout] | <code>number</code> | how long the state will be locked for single event |
 | [processorOptions.log] | <code>Object</code> | console.log/error/warn like object |
 | [processorOptions.defaultState] | <code>Object</code> | default conversation state |
-| [processorOptions.chatLog] | <code>[ChatLog](#ChatLog)</code> | discussion logger |
-| [processorOptions.tokenStorage] | <code>BotToken</code> | storage for chabot tokens |
+| [processorOptions.chatLog] | <code>MongoChatLog</code> | discussion logger |
+| [processorOptions.tokenStorage] | <code>MongoBotToken</code> | storage for chabot tokens |
 | [processorOptions.senderFnFactory] | <code>function</code> | override default sender function |
 | [processorOptions.securityMiddleware] | <code>function</code> | override webview calls authorizer |
 | [processorOptions.cookieName] | <code>string</code> | webview cookie (for default securityMiddleware) |
@@ -134,7 +134,7 @@ Create a chat event processor
 | [processorOptions.autoTyping.perCharacters] | <code>number</code> | typing time per character |
 | [processorOptions.autoTyping.minTime] | <code>number</code> | auto typing lower threshold |
 | [processorOptions.autoTyping.maxTime] | <code>number</code> | auto typing upper threshold |
-| [stateStorage] | <code>[State](#State)</code> | storage for states |
+| [stateStorage] | <code>MongoState</code> | storage for states |
 
 **Example**  
 ```javascript

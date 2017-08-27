@@ -70,11 +70,11 @@ function attachmentType (response, type, message = 'Attachment type does not mat
  * @returns {boolean}
  */
 function isText (response, message = 'Should be a text') {
-    const is = typeof getText(response) === 'string';
+    const is = typeof getText(response) === 'string' && !response.message.quick_reply;
     if (message === false) {
         return is;
     }
-    assert(typeof getText(response) === 'string', message);
+    assert(is, message);
     return true;
 }
 

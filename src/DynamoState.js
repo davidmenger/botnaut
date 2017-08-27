@@ -11,7 +11,7 @@ const ISODatePattern = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d:\d\d)|
 function deepMap (obj, iterator, context) {
     return transform(obj, (result, val, key) => {
         // eslint-disable-next-line no-param-reassign
-        result[key] = typeof val === 'object' && !(val instanceof Date) ?
+        result[key] = typeof val === 'object' && !(val instanceof Date) && val !== null ?
             deepMap(val, iterator, context) :
             iterator.call(context, val, key, obj);
     });
@@ -74,6 +74,12 @@ class DynamoStateStorage {
                 });
 
                 return state;
+            })
+            .catch((e) => {
+                if (e.code === 'ConditionalCheckFailedException') {
+                    Object.assign(e, { code: 11000 });
+                }
+                throw e;
             });
     }
 

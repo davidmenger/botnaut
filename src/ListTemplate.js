@@ -1,5 +1,5 @@
 /*
- * @author David Menger
+ * @author Václav Oborník
  */
 'use strict';
 
@@ -11,19 +11,21 @@ const ButtonTemplate = require('./ButtonTemplate');
  * @method urlButton
  * @method postBackButton
  *
- * @class GenericTemplate
+ * @class ListTemplate
  * @extends {ButtonTemplate}
  */
-class GenericTemplate extends ButtonTemplate {
+class ListTemplate extends ButtonTemplate {
 
-    constructor (onDone, context = {}, sharable = false, isSquare = false) {
+    constructor (topElementStyle, onDone, context = {}) {
         super(onDone, context, null);
 
         this.elements = [];
 
+        this.topLevelButtons = [];
+
+        this.topElementStyle = topElementStyle;
+
         this._element = null;
-        this._sharable = sharable;
-        this._isSquare = isSquare;
     }
 
     /**
@@ -34,7 +36,7 @@ class GenericTemplate extends ButtonTemplate {
      * @param {boolean} [dontTranslate=false]
      * @returns {this}
      *
-     * @memberOf GenericTemplate
+     * @memberOf ListTemplate
      */
     addElement (title, subtitle = null, dontTranslate = false) {
         this._attachAndClearButtons();
@@ -51,10 +53,15 @@ class GenericTemplate extends ButtonTemplate {
     }
 
     _attachAndClearButtons () {
-        if (this._element !== null && this.buttons.length > 0) {
-            Object.assign(this._element, {
-                buttons: this.buttons
-            });
+        if (this.buttons.length) {
+            if (this._element === null) {
+                this.topLevelButtons = this.buttons;
+
+            } else {
+                Object.assign(this._element, {
+                    buttons: this.buttons
+                });
+            }
         }
         this.buttons = [];
     }
@@ -66,7 +73,7 @@ class GenericTemplate extends ButtonTemplate {
      * @param {boolean} [hasExtension=false]
      * @returns {this}
      *
-     * @memberOf GenericTemplate
+     * @memberOf ListTemplate
      */
     setElementUrl (url, hasExtension = false) {
         Object.assign(this._element, {
@@ -81,7 +88,7 @@ class GenericTemplate extends ButtonTemplate {
      * @param {string} image
      * @returns {this}
      *
-     * @memberOf GenericTemplate
+     * @memberOf ListTemplate
      */
     setElementImage (image) {
         Object.assign(this._element, {
@@ -97,7 +104,7 @@ class GenericTemplate extends ButtonTemplate {
      * @param {boolean} hasExtension includes token in url
      * @param {string} [webviewHeight=null] compact|tall|full
      *
-     * @memberOf GenericTemplate
+     * @memberOf ListTemplate
      */
     setElementAction (url, hasExtension = false, webviewHeight = null) {
         Object.assign(this._element, {
@@ -114,13 +121,13 @@ class GenericTemplate extends ButtonTemplate {
     getTemplate () {
         this._attachAndClearButtons();
         const res = {
-            template_type: 'generic',
+            template_type: 'list',
             elements: this.elements,
-            sharable: this._sharable,
-            image_aspect_ratio: this._isSquare ? 'square' : 'horizontal'
+            buttons: this.topLevelButtons,
+            top_element_style: this.topElementStyle
         };
         return res;
     }
 }
 
-module.exports = GenericTemplate;
+module.exports = ListTemplate;

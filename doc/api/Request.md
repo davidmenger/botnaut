@@ -15,6 +15,8 @@
     * [.attachment([attachmentIndex])](#Request_attachment) ⇒ <code>object</code> &#124; <code>null</code>
     * [.attachmentUrl([attachmentIndex])](#Request_attachmentUrl) ⇒ <code>string</code> &#124; <code>null</code>
     * [.isMessage()](#Request_isMessage) ⇒ <code>boolean</code>
+    * [.isQuickReply()](#Request_isQuickReply) ⇒ <code>boolean</code>
+    * [.isText()](#Request_isText) ⇒ <code>boolean</code>
     * [.text([tokenized])](#Request_text) ⇒ <code>string</code>
     * [.quickReply([getData])](#Request_quickReply) ⇒ <code>null</code> &#124; <code>string</code> &#124; <code>object</code>
     * [.isPostBack()](#Request_isPostBack) ⇒ <code>boolean</code>
@@ -122,6 +124,18 @@ Returns attachment URL
 
 ### request.isMessage() ⇒ <code>boolean</code>
 Returns true, when the request is text message, quick reply or attachment
+
+**Kind**: instance method of <code>[Request](#Request)</code>  
+{% raw %}<div id="Request_isQuickReply">&nbsp;</div>{% endraw %}
+
+### request.isQuickReply() ⇒ <code>boolean</code>
+Check, that message is a quick reply
+
+**Kind**: instance method of <code>[Request](#Request)</code>  
+{% raw %}<div id="Request_isText">&nbsp;</div>{% endraw %}
+
+### request.isText() ⇒ <code>boolean</code>
+Check, that message is PURE text
 
 **Kind**: instance method of <code>[Request](#Request)</code>  
 {% raw %}<div id="Request_text">&nbsp;</div>{% endraw %}

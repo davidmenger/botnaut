@@ -138,6 +138,28 @@ class Request {
     }
 
     /**
+     * Check, that message is a quick reply
+     *
+     * @returns {boolean}
+     *
+     * @memberOf Request
+     */
+    isQuickReply () {
+        return this.message !== null && this.message.quick_reply;
+    }
+
+    /**
+     * Check, that message is PURE text
+     *
+     * @returns {boolean}
+     */
+    isText () {
+        return this.message !== null
+            && !this.message.quick_reply
+            && !!this.message.text;
+    }
+
+    /**
      * Returns text of the message
      *
      * @param {boolean} [tokenized=false] when true, message is normalized to lowercase with `-`
@@ -253,15 +275,15 @@ class Request {
             res = this._processPayload(this.message.quick_reply, getData);
         }
 
-        if (!res && this.state._expected) {
-            res = this._processPayload(this.state._expected, getData);
-        }
-
         if (!res && this.state._expectedKeywords) {
             const payload = quickReplyAction(this.state._expectedKeywords, this.text(true));
             if (payload) {
                 res = this._processPayload(payload, getData);
             }
+        }
+
+        if (!res && this.state._expected) {
+            res = this._processPayload(this.state._expected, getData);
         }
 
         if (getData) {

@@ -115,3 +115,67 @@ The result of postBack looks like this
 | world                             |
 *-----------------------------------*
 ```
+
+## Or conditions - addressable text microiteractions
+
+Some microinteractions can be triggered by text and also by action, so why to separate them.
+
+**!addressable microiteractions has global scope**
+
+```javascript
+const bot = new Router();
+
+bot.use(['world', /^world-text$/], (req, res) => {
+    res.text('world');
+});
+
+bot.use((req, res, postBack) => {
+    res.text('Hello', {
+        world: 'quick reply'
+    }).expected('./');
+});
+
+module.exports = bot;
+```
+
+The result looks like this:
+
+```
+*-----------------------------------*
+|                       Let's start |
+| Hello                             |
+|                             world |
+| world                             |
+*-----------------------------------*
+```
+
+## Expected cases
+
+For clean code it's good to handle text for quick replies separately.
+
+```javascript
+const bot = new Router();
+
+bot.use((req, res, postBack) => {
+    res.text('Hello', {
+        world: 'quick reply'
+    }).expected('expectedRoute');
+});
+
+bot.use('expectedRoute', /^foo$/, (req, res) => res.text('foooooo'));
+
+bot.use('expectedRoute', /^bar$/, (req, res) => res.text('barrrrr'));
+
+module.exports = bot;
+```
+
+The result looks like this:
+
+```
+*-----------------------------------*
+|                       Let's start |
+| Hello                             |
+|                               bar |
+| bar                               |
+*-----------------------------------*
+```

@@ -15,7 +15,8 @@
     * [.seen()](#Responder_seen) ⇒ <code>this</code>
     * [.receipt(recipientName, [paymentMethod], [currency], [uniqueCode])](#Responder_receipt) ⇒ <code>ReceiptTemplate</code>
     * [.button(text)](#Responder_button) ⇒ <code>ButtonTemplate</code>
-    * [.genericTemplate()](#Responder_genericTemplate) ⇒ <code>GenericTemplate</code>
+    * [.genericTemplate([shareable], [isSquare])](#Responder_genericTemplate) ⇒ <code>GenericTemplate</code>
+    * [.list([topElementStyle])](#Responder_list) ⇒ <code>ListTemplate</code>
 
 {% raw %}<div id="new_Responder_new">&nbsp;</div>{% endraw %}
 
@@ -160,13 +161,44 @@ res.button('Hello')
 ```
 {% raw %}<div id="Responder_genericTemplate">&nbsp;</div>{% endraw %}
 
-### responder.genericTemplate() ⇒ <code>GenericTemplate</code>
+### responder.genericTemplate([shareable], [isSquare]) ⇒ <code>GenericTemplate</code>
 Creates a generic template
 
 **Kind**: instance method of <code>[Responder](#Responder)</code>  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [shareable] | <code>boolean</code> | <code>false</code> | ability to share template |
+| [isSquare] | <code>boolean</code> | <code>false</code> | use square aspect ratio for images |
+
 **Example**  
 ```javascript
 res.genericTemplate()
+    .addElement('title', 'subtitle')
+        .setElementImage('/local.png')
+        .setElementUrl('https://www.seznam.cz')
+        .postBackButton('Button title', 'action', { actionData: 1 })
+    .addElement('another', 'subtitle')
+        .setElementImage('https://goo.gl/image.png')
+        .setElementAction('action', { actionData: 1 })
+        .urlButton('Local link with extension', '/local/path', true, 'compact')
+    .send();
+```
+{% raw %}<div id="Responder_list">&nbsp;</div>{% endraw %}
+
+### responder.list([topElementStyle]) ⇒ <code>ListTemplate</code>
+Creates a generic template
+
+**Kind**: instance method of <code>[Responder](#Responder)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [topElementStyle] | <code>&#x27;large&#x27;</code> &#124; <code>&#x27;compact&#x27;</code> | <code>&#x27;large&#x27;</code> | 
+
+**Example**  
+```javascript
+res.list('compact')
+    .postBackButton('Main button', 'action', { actionData: 1 })
     .addElement('title', 'subtitle')
         .setElementImage('/local.png')
         .setElementUrl('https://www.seznam.cz')

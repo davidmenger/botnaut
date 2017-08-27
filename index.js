@@ -17,6 +17,7 @@ const asserts = require('./src/asserts');
 const UserLoader = require('./src/UserLoader');
 const MemoryStateStorage = require('./src/MemoryStateStorage');
 const IntentProvider = require('./src/IntentProvider');
+const translate = require('./src/translate');
 
 module.exports = {
     // basic functionality
@@ -35,6 +36,7 @@ module.exports = {
     asserts,
     MemoryStateStorage,
     IntentProvider,
+    translate,
 
     // setup tools
     SecurityMiddleware,
