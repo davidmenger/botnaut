@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const request = require('request-promise');
+const request = require('request-promise-native');
 
 const RES_HANDLER = (res, nextData) => nextData;
 const DEFAULT_URI = 'https://graph.facebook.com/v2.8/me/messages';

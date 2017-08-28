@@ -183,6 +183,17 @@ class Request {
     }
 
     /**
+     * Returns the request expected handler in case have been set last response
+     *
+     * @returns {string|null}
+     *
+     * @memberOf Request
+     */
+    expected () {
+        return this.state._expected || null;
+    }
+
+    /**
      * Returns action or data of quick reply
      * When `getData` is `true`, object will be returned. Otherwise string or null.
      *

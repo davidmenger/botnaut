@@ -18,6 +18,7 @@
     * [.isQuickReply()](#Request_isQuickReply) ⇒ <code>boolean</code>
     * [.isText()](#Request_isText) ⇒ <code>boolean</code>
     * [.text([tokenized])](#Request_text) ⇒ <code>string</code>
+    * [.expected()](#Request_expected) ⇒ <code>string</code> &#124; <code>null</code>
     * [.quickReply([getData])](#Request_quickReply) ⇒ <code>null</code> &#124; <code>string</code> &#124; <code>object</code>
     * [.isPostBack()](#Request_isPostBack) ⇒ <code>boolean</code>
     * [.isReferral()](#Request_isReferral) ⇒ <code>boolean</code>
@@ -153,6 +154,12 @@ Returns text of the message
 ```javascript
 console.log(req.text(true)) // "can-you-help-me"
 ```
+{% raw %}<div id="Request_expected">&nbsp;</div>{% endraw %}
+
+### request.expected() ⇒ <code>string</code> &#124; <code>null</code>
+Returns the request expected handler in case have been set last response
+
+**Kind**: instance method of <code>[Request](#Request)</code>  
 {% raw %}<div id="Request_quickReply">&nbsp;</div>{% endraw %}
 
 ### request.quickReply([getData]) ⇒ <code>null</code> &#124; <code>string</code> &#124; <code>object</code>

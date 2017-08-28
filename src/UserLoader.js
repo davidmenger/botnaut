@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const request = require('request-promise');
+const request = require('request-promise-native');
 
 class UserLoader {
 
