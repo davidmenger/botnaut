@@ -23,14 +23,14 @@ class Ai {
          *
          * @type {number}
          */
-        this.confidence = 0.95;
+        this.confidence = 0.94;
 
         /**
          * Lower threshold - for navigate and makeSure methods
          *
          * @type {number}
          */
-        this.threshold = 0.8;
+        this.threshold = 0.6;
 
         /**
          * The logger (console by default)
@@ -162,7 +162,7 @@ class Ai {
             : Object.keys(knownIntents);
 
         const actionMap = Array.isArray(knownIntents)
-            ? knownIntents.reduce((o, i) => Object.assign(o, { i }), {})
+            ? knownIntents.reduce((o, i) => Object.assign(o, { [i]: i }), {})
             : knownIntents;
 
         return (req, res, postBack) => {
