@@ -6,7 +6,7 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const co = require('co');
-const ai = require('../src/ai');
+const Ai = require('../src/Ai');
 const Router = require('../src/Router');
 
 const DEFAULT_SCORE = 0.96;
@@ -27,6 +27,8 @@ function fakeReq (text = 'text') {
 }
 
 let syncRes;
+
+const ai = new Ai();
 
 describe('<Ai>', function () {
 

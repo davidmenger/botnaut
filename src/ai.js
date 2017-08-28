@@ -22,7 +22,6 @@ class Ai {
          * Upper threshold - for match method and for navigate method
          *
          * @type {number}
-         * @memberOf Ai
          */
         this.confidence = 0.95;
 
@@ -30,7 +29,6 @@ class Ai {
          * Lower threshold - for navigate and makeSure methods
          *
          * @type {number}
-         * @memberOf Ai
          */
         this.threshold = 0.8;
 
@@ -38,7 +36,6 @@ class Ai {
          * The logger (console by default)
          *
          * @type {Object}
-         * @memberOf Ai
          */
         this.logger = console;
     }
@@ -51,6 +48,7 @@ class Ai {
      * @param {number} options.cacheSize - remember number of caches
      * @param {number} options.matches - ask AI for number of matches
      * @param {string} prefix - model prefix
+     * @memberOf Ai
      */
     register (model, options = {}, prefix = 'default', Model = WingbotModel) {
         const opts = Object.assign({
@@ -70,6 +68,7 @@ class Ai {
      * @param {number} [confidence]
      * @param {string} [prefix]
      * @returns {function} - the middleware
+     * @memberOf Ai
      * @example
      * const { Router, ai } = require('botnaut');
      *
@@ -97,6 +96,7 @@ class Ai {
      * @param {number} [confidence] - upper threshold for confidence
      * @param {string} [prefix] - model name
      * @returns {function} - the middleware
+     * @memberOf Ai
      * @example
      * const { Router, ai } = require('botnaut');
      *
@@ -131,6 +131,7 @@ class Ai {
      * @param {number} [confidence] - upper threshold for confidence
      * @param {string} prefix - model name
      * @returns {function} - the middleware
+     * @memberOf Ai
      * @example
      * const { Router, ai } = require('botnaut');
      *
@@ -245,4 +246,4 @@ class Ai {
 
 }
 
-module.exports = new Ai();
+module.exports = Ai;

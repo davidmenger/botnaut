@@ -4,16 +4,32 @@
 **Kind**: global class  
 
 * [Ai](#Ai)
-    * _instance_
-        * [.register(model, options, prefix)](#Ai_register)
-        * [.match(intent, [confidence], [prefix])](#Ai_match) ⇒ <code>function</code>
-        * [.navigate(knownIntents, [threshold], [confidence], [prefix])](#Ai_navigate) ⇒ <code>function</code>
-        * [.makeSure(knownIntents, [threshold], [confidence], prefix)](#Ai_makeSure) ⇒ <code>function</code>
-    * _static_
-        * [.this.confidence](#Ai_this_confidence) : <code>number</code>
-        * [.this.threshold](#Ai_this_threshold) : <code>number</code>
-        * [.this.logger](#Ai_this_logger) : <code>Object</code>
+    * [.confidence](#Ai_confidence) : <code>number</code>
+    * [.threshold](#Ai_threshold) : <code>number</code>
+    * [.logger](#Ai_logger) : <code>Object</code>
+    * [.register(model, options, prefix)](#Ai_register)
+    * [.match(intent, [confidence], [prefix])](#Ai_match) ⇒ <code>function</code>
+    * [.navigate(knownIntents, [threshold], [confidence], [prefix])](#Ai_navigate) ⇒ <code>function</code>
+    * [.makeSure(knownIntents, [threshold], [confidence], prefix)](#Ai_makeSure) ⇒ <code>function</code>
 
+{% raw %}<div id="Ai_confidence">&nbsp;</div>{% endraw %}
+
+### ai.confidence : <code>number</code>
+Upper threshold - for match method and for navigate method
+
+**Kind**: instance property of <code>[Ai](#Ai)</code>  
+{% raw %}<div id="Ai_threshold">&nbsp;</div>{% endraw %}
+
+### ai.threshold : <code>number</code>
+Lower threshold - for navigate and makeSure methods
+
+**Kind**: instance property of <code>[Ai](#Ai)</code>  
+{% raw %}<div id="Ai_logger">&nbsp;</div>{% endraw %}
+
+### ai.logger : <code>Object</code>
+The logger (console by default)
+
+**Kind**: instance property of <code>[Ai](#Ai)</code>  
 {% raw %}<div id="Ai_register">&nbsp;</div>{% endraw %}
 
 ### ai.register(model, options, prefix)
@@ -118,21 +134,3 @@ bot.use(ai.makeSure(['intent1', 'intent2']), (req, res) => {
     }));
 });
 ```
-{% raw %}<div id="Ai_this_confidence">&nbsp;</div>{% endraw %}
-
-### Ai.this.confidence : <code>number</code>
-Upper threshold - for match method and for navigate method
-
-**Kind**: static property of <code>[Ai](#Ai)</code>  
-{% raw %}<div id="Ai_this_threshold">&nbsp;</div>{% endraw %}
-
-### Ai.this.threshold : <code>number</code>
-Lower threshold - for navigate and makeSure methods
-
-**Kind**: static property of <code>[Ai](#Ai)</code>  
-{% raw %}<div id="Ai_this_logger">&nbsp;</div>{% endraw %}
-
-### Ai.this.logger : <code>Object</code>
-The logger (console by default)
-
-**Kind**: static property of <code>[Ai](#Ai)</code>  

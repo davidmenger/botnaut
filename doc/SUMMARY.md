@@ -43,3 +43,4 @@
 * [Bot Settings](api/Settings.md)
 * [Express/MongoDb tools](api/express.md)
 * [Utils](api/bufferloader.md)
+* [Ai](api/ai.md)
