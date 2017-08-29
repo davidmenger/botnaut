@@ -146,6 +146,16 @@ class Responder {
     }
 
     /**
+     * Converts relative action to absolute action path
+     *
+     * @param {string} action relative action to covert to absolute
+     * @returns {string} absolute action path
+     */
+    toAbsoluteAction (action) {
+        return makeAbsolute(action, this.path);
+    }
+
+    /**
      * Sends image as response. Requires appUrl option to send images from server
      *
      * @param {string} imageUrl relative or absolute url

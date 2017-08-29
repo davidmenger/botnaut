@@ -226,6 +226,29 @@ describe('Responder', function () {
 
     });
 
+    describe('#toAbsoluteAction()', function () {
+
+        it('converts relative ation to absolute', function () {
+            const { sendFn, opts } = createAssets();
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
+
+            assert.equal(res.toAbsoluteAction('xyz'), 'xyz');
+            assert.equal(res.toAbsoluteAction('/xyz'), '/xyz');
+
+            res.setPath('abs');
+
+            assert.equal(res.toAbsoluteAction('xyz'), 'abs/xyz');
+            assert.equal(res.toAbsoluteAction('/xyz'), '/xyz');
+
+            res.setPath('/abs');
+
+            assert.equal(res.toAbsoluteAction('xyz'), '/abs/xyz');
+            assert.equal(res.toAbsoluteAction('/xyz'), '/xyz');
+
+        });
+
+    });
+
     describe('#genericTemplate()', function () {
 
         it('should send message with generic template', function () {

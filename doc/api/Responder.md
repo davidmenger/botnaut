@@ -8,6 +8,7 @@
     * [.text(text, [quickReplys])](#Responder_text) ⇒ <code>this</code>
     * [.setState(object)](#Responder_setState) ⇒ <code>this</code>
     * [.expected(action)](#Responder_expected) ⇒ <code>this</code>
+    * [.toAbsoluteAction(action)](#Responder_toAbsoluteAction) ⇒ <code>string</code>
     * [.image(imageUrl)](#Responder_image) ⇒ <code>this</code>
     * [.wait([ms])](#Responder_wait) ⇒ <code>this</code>
     * [.typingOn()](#Responder_typingOn) ⇒ <code>this</code>
@@ -71,6 +72,18 @@ When user writes some text as reply, it will be processed as action
 | Param | Type | Description |
 | --- | --- | --- |
 | action | <code>string</code> | desired action |
+
+{% raw %}<div id="Responder_toAbsoluteAction">&nbsp;</div>{% endraw %}
+
+### responder.toAbsoluteAction(action) ⇒ <code>string</code>
+Converts relative action to absolute action path
+
+**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Returns**: <code>string</code> - absolute action path  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| action | <code>string</code> | relative action to covert to absolute |
 
 {% raw %}<div id="Responder_image">&nbsp;</div>{% endraw %}
 
