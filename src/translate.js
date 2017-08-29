@@ -30,6 +30,11 @@ module.exports = (languageResolver, options) => {
 
     const promisedTranslators = {};
     const getTranslator = (lang) => {
+
+        if (lang === null) {
+            return Promise.resolve(w => w);
+        }
+
         if (!promisedTranslators[lang]) {
             promisedTranslators[lang] = new Promise(
                 (resolve, reject) => {
