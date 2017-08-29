@@ -14,7 +14,7 @@ const docs = [
     ['src/Settings.js', 'src/MenuComposer.js'],
     ['src/bufferloader.js', 'src/MemoryStateStorage.js', 'src/translate.js'],
     ['express.js', 'src/MongoState.js', 'src/MongoChatLog.js'],
-    'src/ai.js'
+    'src/Ai.js'
 ];
 
 let srcFile;
