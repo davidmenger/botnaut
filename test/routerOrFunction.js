@@ -53,6 +53,45 @@ describe('Router extended functions', function () {
         });
     });
 
+    it('should proceed deep link into the nested router', function () {
+        const nested = new Router();
+
+        nested.use('/', (req, res) => delay(() => {
+            res.text('FIRST');
+        }));
+
+        nested.use('deep', (req, res) => delay(() => {
+            res.text('DEEP');
+        }));
+
+        const r = new Router();
+
+        r.use('/start', (req, res) => {
+            res.text('START', {
+                'nested/deep': 'Test'
+            });
+        });
+
+        r.use('nested', nested);
+
+
+        const t = new Tester(r);
+
+        return co(function* () {
+            yield t.postBack('/start');
+
+            t.any()
+                .contains('START');
+
+            yield t.quickReply('nested/deep');
+
+            t.passedAction('deep');
+
+            t.res(0).contains('DEEP');
+
+        });
+    });
+
     it('should be able to use array as OR condition', function () {
 
         const nested = new Router();

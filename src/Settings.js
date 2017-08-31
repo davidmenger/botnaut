@@ -158,19 +158,28 @@ class Settings {
         return new MenuComposer((actions) => {
             this._get(['persistent_menu'])
                 .then((result) => {
-
-                    const existingMenu = result.data[0].persistent_menu;
                     const newMenu = [{
                         locale,
                         composer_input_disabled: inputDisabled,
                         call_to_actions: actions
                     }];
 
-                    if (!deepEqual(newMenu, existingMenu)) {
-                        this._post({
-                            persistent_menu: newMenu
-                        });
+                    let updateMenu;
+
+                    if (result.data.length === 0) {
+                        updateMenu = true;
+                    } else {
+                        const existingMenu = result.data[0].persistent_menu;
+                        updateMenu = !deepEqual(newMenu, existingMenu);
                     }
+
+                    if (!updateMenu) {
+                        return Promise.resolve();
+                    }
+
+                    return this._post({
+                        persistent_menu: newMenu
+                    });
                 }).catch(e => this.log.error('Bot settings failed', e));
             return this;
         });

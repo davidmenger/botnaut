@@ -1,6 +1,6 @@
 {
   "name": "botnaut",
-  "version": "0.23.3",
+  "version": "0.23.4",
   "description": "Facebook Messenger Chatbot Framework",
   "main": "index.js",
   "scripts": {
