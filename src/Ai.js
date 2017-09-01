@@ -38,6 +38,14 @@ class Ai {
          * @type {Object}
          */
         this.logger = console;
+
+        /**
+         * The prefix translator - for request-specific prefixes
+         *
+         * @param {string} prefix
+         * @param {Request} req
+         */
+        this.prefixTranslator = (prefix, req) => prefix; // eslint-disable-line
     }
 
     /**
@@ -170,7 +178,8 @@ class Ai {
                 return Router.BREAK;
             }
 
-            const model = this._keyworders.get(prefix);
+            const prefixForRequest = this.prefixTranslator(prefix, req);
+            const model = this._keyworders.get(prefixForRequest);
             assert.ok(!!model, 'The model should be registered!');
 
             return model.resolve(req.text(true).replace(/-/g, ' '))
