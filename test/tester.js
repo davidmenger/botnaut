@@ -168,6 +168,31 @@ describe('Tester', function () {
         });
     });
 
+    it('should match path only when the end matches', () => {
+        const nested = new Router();
+
+        nested.use('in', (req, res) => {
+            res.text('INNER');
+        });
+
+        const r = new Router();
+
+        r.use('inner', nested);
+
+
+        const t = new Tester(r);
+
+        return co(function* () {
+
+            yield t.postBack('/inner/in');
+
+            t.any()
+                .contains('INNER');
+
+            t.passedAction('in');
+        });
+    });
+
     it('should work with optins', function () {
 
         const r = new Router();

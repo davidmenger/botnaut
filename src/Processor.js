@@ -153,7 +153,7 @@ class Processor {
             return false;
         }
         if (err.code !== 403) {
-            return false;
+            this.options.log.error(err, message);
         }
         const senderId = message.sender.id;
         this._loadState(false, senderId)
@@ -161,12 +161,13 @@ class Processor {
                 Object.assign(state, {
                     lastSendError: new Date(),
                     lastErrorMessage: err.message,
+                    lastErrorCode: err.code,
                     lock: 0
                 });
                 return this.stateStorage.saveState(state);
             })
             .catch((e) => {
-                this.options.log(e);
+                this.options.log.error(e);
             });
 
         return true;

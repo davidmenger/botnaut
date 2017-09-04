@@ -480,6 +480,19 @@
             
         </li>
     
+        <li class="chapter " data-level="1.9" data-path="../tutorial/analytics.html">
+            
+                <a href="../tutorial/analytics.html">
+            
+                    
+                    Analytics
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
         
@@ -694,7 +707,20 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <div id="Ai">&#xA0;</div>
+                                <h2 id="classes"><a name="classes" class="plugin-anchor" href="#classes"><i class="fa fa-link" aria-hidden="true"></i></a>Classes</h2>
+<dl>
+<dt><a href="#Ai">Ai</a></dt>
+<dd></dd>
+</dl>
+
+<h2 id="functions"><a name="functions" class="plugin-anchor" href="#functions"><i class="fa fa-link" aria-hidden="true"></i></a>Functions</h2>
+<dl>
+<dt><a href="#markAsHandled">markAsHandled([aiHandled])</a> &#x21D2; <code>Request</code></dt>
+<dd><p>Mark request as handled - usefull for AI analytics</p>
+</dd>
+</dl>
+
+<div id="Ai">&#xA0;</div>
 
 <h2 id="ai"><a name="ai" class="plugin-anchor" href="#ai"><i class="fa fa-link" aria-hidden="true"></i></a>Ai</h2>
 <p><strong>Kind</strong>: global class  </p>
@@ -703,6 +729,9 @@
 <li><a href="#Ai_confidence">.confidence</a> : <code>number</code></li>
 <li><a href="#Ai_threshold">.threshold</a> : <code>number</code></li>
 <li><a href="#Ai_logger">.logger</a> : <code>Object</code></li>
+<li><a href="#Ai_prefixTranslator">.prefixTranslator(prefix, req)</a></li>
+<li><a href="#Ai_mockIntent">.mockIntent([intent], [confidence])</a> &#x21D2; <code>this</code></li>
+<li><a href="#Ai_onConfirmMiddleware">.onConfirmMiddleware(onIntentConfirmed)</a> &#x21D2; <code>function</code></li>
 <li><a href="#Ai_register">.register(model, options, prefix)</a></li>
 <li><a href="#Ai_match">.match(intent, [confidence], [prefix])</a> &#x21D2; <code>function</code></li>
 <li><a href="#Ai_navigate">.navigate(knownIntents, [threshold], [confidence], [prefix])</a> &#x21D2; <code>function</code></li>
@@ -725,6 +754,122 @@
 <h3 id="ailogger--object"><a name="ailogger--object" class="plugin-anchor" href="#ailogger--object"><i class="fa fa-link" aria-hidden="true"></i></a>ai.logger : <code>Object</code></h3>
 <p>The logger (console by default)</p>
 <p><strong>Kind</strong>: instance property of <code>Ai</code>  </p>
+<div id="Ai_prefixTranslator">&#xA0;</div>
+
+<h3 id="aiprefixtranslatorprefix-req"><a name="aiprefixtranslatorprefix-req" class="plugin-anchor" href="#aiprefixtranslatorprefix-req"><i class="fa fa-link" aria-hidden="true"></i></a>ai.prefixTranslator(prefix, req)</h3>
+<p>The prefix translator - for request-specific prefixes</p>
+<p><strong>Kind</strong>: instance method of <code>Ai</code>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prefix</td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td>req</td>
+<td><code>Request</code></td>
+</tr>
+</tbody>
+</table>
+<div id="Ai_mockIntent">&#xA0;</div>
+
+<h3 id="aimockintentintent-confidence-&#x21D2;-this"><a name="aimockintentintent-confidence-&#x21D2;-this" class="plugin-anchor" href="#aimockintentintent-confidence-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ai.mockIntent([intent], [confidence]) &#x21D2; <code>this</code></h3>
+<p>Usefull method for testing AI routes</p>
+<p><strong>Kind</strong>: instance method of <code>Ai</code>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[intent]</td>
+<td><code>string</code></td>
+<td><code>null</code></td>
+<td>intent name</td>
+</tr>
+<tr>
+<td>[confidence]</td>
+<td><code>number</code></td>
+<td><code></code></td>
+<td>the confidence of the top intent</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Tester, ai, Route } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;bontaut&apos;</span>);
+
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Route();
+
+bot.use([<span class="hljs-string">&apos;intentAction&apos;</span>, ai.match(<span class="hljs-string">&apos;intentName&apos;</span>)], (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;PASSED&apos;</span>);
+});
+
+describe(<span class="hljs-string">&apos;bot&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">&apos;should work&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+        ai.mockIntent(<span class="hljs-string">&apos;intentName&apos;</span>);
+
+        <span class="hljs-keyword">const</span> t = <span class="hljs-keyword">new</span> Tester(bot);
+
+        <span class="hljs-keyword">return</span> t.text(<span class="hljs-string">&apos;Any text&apos;</span>)
+            .then(() =&gt; {
+                t.actionPassed(<span class="hljs-string">&apos;intentAction&apos;</span>);
+
+            t.any()
+                .contains(<span class="hljs-string">&apos;PASSED&apos;</span>);
+        })
+    });
+});
+</code></pre>
+<div id="Ai_onConfirmMiddleware">&#xA0;</div>
+
+<h3 id="aionconfirmmiddlewareonintentconfirmed-&#x21D2;-function"><a name="aionconfirmmiddlewareonintentconfirmed-&#x21D2;-function" class="plugin-anchor" href="#aionconfirmmiddlewareonintentconfirmed-&#x21D2;-function"><i class="fa fa-link" aria-hidden="true"></i></a>ai.onConfirmMiddleware(onIntentConfirmed) &#x21D2; <code>function</code></h3>
+<p>When user confirms their intent, this handler will be called
+Its useful for updating training data for AI</p>
+<p><strong>Kind</strong>: instance method of <code>Ai</code>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>onIntentConfirmed</td>
+<td><code>function</code></td>
+<td>handler, which will be called when intent is confirmed</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router, ai } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+
+bot.use(ai.onConfirmMiddleware((senderId, intent, text, timestamp) =&gt; {
+    <span class="hljs-comment">// log this information</span>
+}));
+
+bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span class="hljs-string">&apos;intent2&apos;</span>]), (req, res) =&gt; {
+    <span class="hljs-built_in">console</span>.log(req.confidences); <span class="hljs-comment">// { intent1: 0.8604, intent2: undefined }</span>
+
+    res.text(<span class="hljs-string">&apos;What you mean?&apos;</span>, res.ensures({
+        intent1: <span class="hljs-string">&apos;Intent one?&apos;</span>,
+        intent2: <span class="hljs-string">&apos;Intent two?&apos;</span>,
+        anyOther: <span class="hljs-string">&apos;Niether&apos;</span>
+    }));
+});
+</code></pre>
 <div id="Ai_register">&#xA0;</div>
 
 <h3 id="airegistermodel-options-prefix"><a name="airegistermodel-options-prefix" class="plugin-anchor" href="#airegistermodel-options-prefix"><i class="fa fa-link" aria-hidden="true"></i></a>ai.register(model, options, prefix)</h3>
@@ -776,16 +921,19 @@
 <tr>
 <th>Param</th>
 <th>Type</th>
+<th>Default</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>intent</td>
 <td><code>string</code> | <code>Array</code></td>
+<td></td>
 </tr>
 <tr>
 <td>[confidence]</td>
 <td><code>number</code></td>
+<td><code></code></td>
 </tr>
 <tr>
 <td>[prefix]</td>
@@ -817,6 +965,7 @@ to next resolver</p>
 <tr>
 <th>Param</th>
 <th>Type</th>
+<th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -824,21 +973,25 @@ to next resolver</p>
 <tr>
 <td>knownIntents</td>
 <td><code>Array</code> | <code>Object</code></td>
+<td></td>
 <td>list or map of accepted intents</td>
 </tr>
 <tr>
 <td>[threshold]</td>
 <td><code>number</code></td>
+<td><code></code></td>
 <td>lower threshold</td>
 </tr>
 <tr>
 <td>[confidence]</td>
 <td><code>number</code></td>
+<td><code></code></td>
 <td>upper threshold for confidence</td>
 </tr>
 <tr>
 <td>[prefix]</td>
 <td><code>string</code></td>
+<td></td>
 <td>model name</td>
 </tr>
 </tbody>
@@ -868,6 +1021,7 @@ to next resolver</p>
 <tr>
 <th>Param</th>
 <th>Type</th>
+<th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -875,21 +1029,25 @@ to next resolver</p>
 <tr>
 <td>knownIntents</td>
 <td><code>Array</code> | <code>Object</code></td>
+<td></td>
 <td>list or map of accepted intents</td>
 </tr>
 <tr>
 <td>[threshold]</td>
 <td><code>number</code></td>
+<td><code></code></td>
 <td>lower threshold</td>
 </tr>
 <tr>
 <td>[confidence]</td>
 <td><code>number</code></td>
+<td><code></code></td>
 <td>upper threshold for confidence</td>
 </tr>
 <tr>
 <td>prefix</td>
 <td><code>string</code></td>
+<td></td>
 <td>model name</td>
 </tr>
 </tbody>
@@ -905,6 +1063,34 @@ bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span
         intent2: <span class="hljs-string">&apos;Intent two?&apos;</span>,
         anyOther: <span class="hljs-string">&apos;Niether&apos;</span>
     }));
+});
+</code></pre>
+<div id="markAsHandled">&#xA0;</div>
+
+<h2 id="markashandledaihandled-&#x21D2;-request"><a name="markashandledaihandled-&#x21D2;-request" class="plugin-anchor" href="#markashandledaihandled-&#x21D2;-request"><i class="fa fa-link" aria-hidden="true"></i></a>markAsHandled([aiHandled]) &#x21D2; <code>Request</code></h2>
+<p>Mark request as handled - usefull for AI analytics</p>
+<p><strong>Kind</strong>: global function  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[aiHandled]</td>
+<td><code>boolean</code></td>
+<td><code>true</code></td>
+<td>true by default</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript">bot.use(<span class="hljs-string">&apos;some other query&apos;</span>, (req, res) =&gt; {
+    req.markAsHandled();
 });
 </code></pre>
 
@@ -946,7 +1132,7 @@ bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Ai","level":"2.9","depth":1,"previous":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Ai.md","mtime":"2017-08-29T10:44:46.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-29T10:44:50.300Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Ai","level":"2.9","depth":1,"previous":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Ai.md","mtime":"2017-09-04T13:51:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-04T13:51:30.981Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

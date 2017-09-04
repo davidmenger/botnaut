@@ -29,6 +29,7 @@
     * [Receipt Template](tutorial/templates.md#receipt-template)
     * [Webviews](tutorial/templates.md#working-with-webviews)
 * [Testing](tutorial/testing.md)
+* [Analytics](tutorial/analytics.md)
 
 ## API
 

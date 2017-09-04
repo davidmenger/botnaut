@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Conversation State · Botnaut</title>
+        <title>Analytics · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="conversationState.html" />
+    <link rel="next" href="../api/Request.html" />
     
     
-    <link rel="prev" href="buildingConversation.html" />
+    <link rel="prev" href="testing.html" />
     
 
     </head>
@@ -166,7 +166,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.3" data-path="conversationState.html">
+        <li class="chapter " data-level="1.3" data-path="conversationState.html">
             
                 <a href="conversationState.html">
             
@@ -482,7 +482,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.9" data-path="analytics.html">
+        <li class="chapter active" data-level="1.9" data-path="analytics.html">
             
                 <a href="analytics.html">
             
@@ -694,7 +694,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Conversation State</a>
+        <a href=".." >Analytics</a>
     </h1>
 </div>
 
@@ -709,92 +709,57 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="working-with-conversation-state"><a name="working-with-conversation-state" class="plugin-anchor" href="#working-with-conversation-state"><i class="fa fa-link" aria-hidden="true"></i></a>Working with conversation state</h1>
-<p>Stateless conversation is annoying. Noone wants to repeat, what was said. So <strong>each user has own state object</strong>.</p>
-<h2 id="accessing-user-profile"><a name="accessing-user-profile" class="plugin-anchor" href="#accessing-user-profile"><i class="fa fa-link" aria-hidden="true"></i></a>Accessing user profile</h2>
-<p>Yes, you already have user profile in state.</p>
+                                <h1 id="analyzing-the-bot"><a name="analyzing-the-bot" class="plugin-anchor" href="#analyzing-the-bot"><i class="fa fa-link" aria-hidden="true"></i></a>Analyzing the Bot</h1>
+<h2 id="listening-to-action-event"><a name="listening-to-action-event" class="plugin-anchor" href="#listening-to-action-event"><i class="fa fa-link" aria-hidden="true"></i></a>Listening to action event</h2>
+<p>to track chat events simply use</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
-<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+<span class="hljs-keyword">const</span> botRoot = <span class="hljs-keyword">new</span> Router();
 
-bot.use((req, res) =&gt; {
-    <span class="hljs-keyword">const</span> { gender, locale, profilePic, lastName, firstName } = req.state.user;
-    res.text(<span class="hljs-string">`Hello <span class="hljs-subst">${firstName || &apos;you!&apos;}</span>`</span>);
-});
+botRoot.on(<span class="hljs-string">&apos;action&apos;</span>, (senderId, action, text, req) =&gt; {
 
-<span class="hljs-built_in">module</span>.exports = bot;
-</code></pre>
-<h2 id="using-the-state-in-navigation"><a name="using-the-state-in-navigation" class="plugin-anchor" href="#using-the-state-in-navigation"><i class="fa fa-link" aria-hidden="true"></i></a>Using the state in navigation</h2>
-<p>Request object contains <code>.state</code> attribute, which represents state before the event, Responder updates new state with <code>Object.assign()</code> approach.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
-<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
-
-bot.use(<span class="hljs-string">&apos;/rename&apos;</span>, (req, res) =&gt; {
-    res.text(<span class="hljs-string">&apos;So, how will you call me?&apos;</span>)
-        .expected(<span class="hljs-string">&apos;setName&apos;</span>);
-});
-
-bot.use(<span class="hljs-string">&apos;/setName&apos;</span>, (req, res) =&gt; {
-    <span class="hljs-keyword">const</span> name = req.text();
-
-    res.text(<span class="hljs-string">`Now, I&apos;am <span class="hljs-subst">${name}</span>.`</span>)
-        .setState({ name });
-});
-
-bot.use((req, res) =&gt; {
-    <span class="hljs-keyword">const</span> { name } = req.state;
-    <span class="hljs-keyword">if</span> (name) {
-        res.text(<span class="hljs-string">`Call me <span class="hljs-subst">${name}</span>, ok?`</span>, {
-            rename: <span class="hljs-string">&apos;It\&apos;s not ok&apos;</span>
-        });
-    } <span class="hljs-keyword">else</span> {
-        res.text(<span class="hljs-string">&apos;I have no name, give me one!&apos;</span>)
-            .expected(<span class="hljs-string">&apos;setName&apos;</span>);
+    <span class="hljs-keyword">if</span> (action) {
+        <span class="hljs-comment">// send info that `action` was passed</span>
     }
-});
 
-<span class="hljs-built_in">module</span>.exports = bot;
-</code></pre>
-<p>This example makes conversation flow like this:</p>
-<pre><code>*-----------------------------------*
-|                             Hello |
-| I have no name, give me one!      |
-|                                   |
-|                            Albert |
-| Now, I&apos;am Albert.                 |
-|                                   |
-|                             Hello |
-| Call me Albert, ok?               |
-|                                   |
-|                       It&apos;s not ok |
-| So, how will you call me?         |
-|                                   |
-|                            Alfred |
-| Now, I&apos;am Alfred.                 |
-*-----------------------------------*
-</code></pre><h2 id="reading-and-modifiing-user-state"><a name="reading-and-modifiing-user-state" class="plugin-anchor" href="#reading-and-modifiing-user-state"><i class="fa fa-link" aria-hidden="true"></i></a>Reading and modifiing user state</h2>
-<p>It&apos;s good to know, that request state is not modified, when <code>res.setState()</code> is called. It will be modified after dispatching process.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
-<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
-
-bot.use((req, res) =&gt; {
-    <span class="hljs-comment">// let&apos;s give two options to user</span>
-    <span class="hljs-keyword">if</span> (req.state.odd) {
-        res.setState({ odd: <span class="hljs-literal">false</span> });
-        <span class="hljs-comment">// still req.state.odd === true</span>
-        <span class="hljs-keyword">this</span>.text(<span class="hljs-string">&apos;Odd&apos;</span>);
-    } <span class="hljs-keyword">else</span> {
-        res.setState({ odd: <span class="hljs-literal">true</span> });
-        <span class="hljs-comment">// still req.state.odd === false || req.state.odd === undefined</span>
-        <span class="hljs-keyword">this</span>.text(<span class="hljs-string">&apos;Even&apos;</span>);
+    <span class="hljs-keyword">if</span> (req.isText()) {
+        <span class="hljs-comment">// was pure test</span>
     }
-});
 
-<span class="hljs-built_in">module</span>.exports = bot;
+    <span class="hljs-comment">// or use whole request event</span>
+    myMagicTracker(req.data);
+});
 </code></pre>
+<h2 id="logging-ai-success-rate"><a name="logging-ai-success-rate" class="plugin-anchor" href="#logging-ai-success-rate"><i class="fa fa-link" aria-hidden="true"></i></a>Logging AI success rate</h2>
+<p><code>aiHandled</code> property is set to true, when intent was matched (using <code>ai.match()</code> method or <code>ai.navigate()</code>). Otherwise it is set to false.</p>
 <blockquote>
-<p>It&apos;s better to avoid using &quot;default state&quot;, because when you need to change default state in future updates,
-you should also migrate current users states to new structure.</p>
+<p>You can set <code>req.aiHandled</code> to true with method <code>req.markAsHandled()</code></p>
 </blockquote>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router, ai } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> botRoot = <span class="hljs-keyword">new</span> Router();
+
+botRoot.use(ai.match(<span class="hljs-string">&apos;intent&apos;</span>), ...);
+
+botRoot.on(<span class="hljs-string">&apos;action&apos;</span>, (senderId, action, text, req) =&gt; {
+
+    <span class="hljs-comment">// logging winning intent</span>
+    <span class="hljs-keyword">if</span> (req.aiIntent) {
+        <span class="hljs-keyword">const</span> { aiIntent, aiIntentScore, aiHandled } = req;
+
+        <span class="hljs-comment">// intent = intent name</span>
+        <span class="hljs-comment">// aiIntentScore = score 0.0 - 1.0</span>
+        <span class="hljs-comment">// aiHandled = whether the intent was handled or not</span>
+    }
+
+    <span class="hljs-comment">// logging all intent scores</span>
+    <span class="hljs-keyword">if</span> (req.confidences) {
+        <span class="hljs-built_in">Object</span>.keys(req.confidences)
+            .forEach((intent) =&gt; {
+                <span class="hljs-keyword">const</span> score = req.confidences[intent];
+            });
+    }
+});
+</code></pre>
+<p>When you need to collect AI feedback from <code>navigator/makeSure</code> matchers use <code>ai.onConfirmMiddleware(&lt;handler&gt;)</code> middleware.</p>
 
                                 
                                 </section>
@@ -822,12 +787,12 @@ you should also migrate current users states to new structure.</p>
 
             
                 
-                <a href="buildingConversation.html#post-back-is-also-an-action" class="navigation navigation-prev " aria-label="Previous page: Postbacks">
+                <a href="testing.html" class="navigation navigation-prev " aria-label="Previous page: Testing">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="conversationState.html#accessing-user-profile" class="navigation navigation-next " aria-label="Next page: User profile">
+                <a href="../api/Request.html" class="navigation navigation-next " aria-label="Next page: Request">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -838,7 +803,7 @@ you should also migrate current users states to new structure.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Conversation State","level":"1.3","depth":1,"next":{"title":"User profile","level":"1.3.1","depth":2,"anchor":"#accessing-user-profile","path":"tutorial/conversationState.md","ref":"tutorial/conversationState.md#accessing-user-profile","articles":[]},"previous":{"title":"Postbacks","level":"1.2.3","depth":2,"anchor":"#post-back-is-also-an-action","path":"tutorial/buildingConversation.md","ref":"tutorial/buildingConversation.md#post-back-is-also-an-action","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/conversationState.md","mtime":"2017-08-29T10:36:23.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-04T13:51:30.981Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Analytics","level":"1.9","depth":1,"next":{"title":"Request","level":"2.1","depth":1,"path":"api/Request.md","ref":"api/Request.md","articles":[]},"previous":{"title":"Testing","level":"1.8","depth":1,"path":"tutorial/testing.md","ref":"tutorial/testing.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/analytics.md","mtime":"2017-09-04T13:47:10.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-04T13:51:30.981Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

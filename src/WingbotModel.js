@@ -75,7 +75,8 @@ class WingbotModel {
         return this._request({
             uri: `${this._options.serviceUrl}/${this._options.model}`,
             qs,
-            json: true
+            json: true,
+            timeout: 20000
         }).then((response) => {
 
             if (response.error || !Array.isArray(response.tags)) {

@@ -1,4 +1,4 @@
-# Testing The Bot
+# Testing the Bot
 
 ## It's simple
 

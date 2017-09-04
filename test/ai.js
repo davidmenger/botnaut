@@ -7,6 +7,7 @@ const assert = require('assert');
 const sinon = require('sinon');
 const co = require('co');
 const Ai = require('../src/Ai');
+const Tester = require('../src/Tester');
 const Router = require('../src/Router');
 
 const DEFAULT_SCORE = 0.96;
@@ -18,6 +19,7 @@ function createResponse (tag = 'hello', score = 0.96) {
 function fakeReq (text = 'text') {
     return [
         {
+            data: { timestamp: Date.now() },
             text () { return text; },
             isText () { return !!text; }
         },
@@ -116,6 +118,30 @@ describe('<Ai>', function () {
 
     });
 
+    describe('mockIntent', function () {
+
+        it('should mock all intents', () => {
+            const testAi = new Ai();
+
+            testAi.mockIntent('testIntent');
+
+            const match = testAi.match('testIntent');
+
+            const req = { isText: () => true, data: { timestamp: Date.now() } };
+
+            return match(req, {})
+                .then((res) => {
+                    assert.strictEqual(res, Router.CONTINUE);
+                    const { aiIntent, aiIntentScore, aiHandled } = req;
+
+                    assert.strictEqual(aiIntent, 'testIntent');
+                    assert.strictEqual(aiIntentScore, ai.confidence);
+                    assert.strictEqual(aiHandled, true);
+                });
+        });
+
+    });
+
     ['makeSure', 'navigate'].forEach((method) => {
 
         describe(`${method}()`, function () {
@@ -134,7 +160,12 @@ describe('<Ai>', function () {
                     drop: 'No',
                     leave: 'Yes'
                 }), {
-                    helloAction: 'Yes',
+                    helloAction: {
+                        title: 'Yes',
+                        _aiIntentMatched: 'hello',
+                        _aiFromText: 'text',
+                        _aiTs: args[0].data.timestamp
+                    },
                     leave: 'Yes'
                 });
             }));
@@ -185,6 +216,54 @@ describe('<Ai>', function () {
                 }));
             }
 
+        });
+
+    });
+
+    describe('#onConfirmMiddleware()', function () {
+
+        it('should be trigged, when user confirms an intent', function () {
+            const r = new Router();
+            const onConfirmSpy = sinon.spy();
+
+            r.use(ai.onConfirmMiddleware(onConfirmSpy));
+
+            r.use(ai.makeSure(['testIntent']), (req, res) => {
+                res.text('NAVI', res.ensures({
+                    testIntent: 'quick reply'
+                }));
+            });
+
+            r.use('testIntent', (req, res) => {
+                res.text('RESPONSE');
+            });
+
+            const t = new Tester(r);
+
+            return co(function* () {
+                ai.mockIntent('testIntent', 0.7);
+                yield t.text('Any text');
+
+                t.any()
+                    .quickReplyAction('testIntent')
+                    .contains('NAVI');
+
+                assert.strictEqual(onConfirmSpy.callCount, 0);
+
+                yield t.quickReply('testIntent');
+
+                t.any()
+                    .contains('RESPONSE');
+
+                assert.strictEqual(onConfirmSpy.callCount, 1);
+                assert.deepEqual(onConfirmSpy.firstCall.args, [
+                    t.senderId,
+                    'testIntent',
+                    'Any text',
+                    null // test messages has no timestamp
+                ]);
+
+            });
         });
 
     });
