@@ -91,7 +91,11 @@ class Responder {
         const translatedText = this._t(text);
 
         if (args.length > 0) {
-            messageData.message.text = util.format(translatedText, ...args);
+            messageData.message.text = util.format(
+                translatedText,
+                // filter undefined and null values
+                ...args.map(a => (a !== null && typeof a !== 'undefined' ? a : ''))
+            );
         } else {
             messageData.message.text = translatedText;
         }
