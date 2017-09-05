@@ -68,10 +68,13 @@ function senderFactory (token, logger = console, onSenderError = () => {}, sende
 
     const factoryFn = function factory (incommingMessage, pageId, handler = RES_HANDLER) {
         const queue = [];
-        let promise;
+        let promise = null;
         let working = false;
 
-        return function send (payload) {
+        return function send (payload = null) {
+            if (payload === null) {
+                return promise;
+            }
             if (working) {
                 // store in queue
                 queue.push(payload);

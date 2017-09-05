@@ -16,7 +16,7 @@ function processValidationEvent (event, verifyToken, callback) {
     }
 }
 
-function serverlessHook (processor, verifyToken, log = console) {
+function serverlessHook (processor, verifyToken, log = console, onDispatch = () => {}) {
 
     const hook = new Hook(processor);
 
@@ -36,6 +36,8 @@ function serverlessHook (processor, verifyToken, log = console) {
             }
 
             hook.onRequest(JSON.parse(event.body))
+                .catch(e => log.error(e))
+                .then(() => onDispatch())
                 .catch(e => log.error(e));
 
             callback(null, {

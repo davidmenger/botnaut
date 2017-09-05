@@ -293,6 +293,7 @@ class Processor {
             })
             .then(() => messageProcessed())
             .then(() => Promise.all(postbacks))
+            .then(() => senderFn())
             .catch((e) => {
                 this.options.log.error(e);
             });
