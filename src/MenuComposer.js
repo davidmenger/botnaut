@@ -5,9 +5,11 @@
 
 class MenuComposer {
 
-    constructor (onDone) {
+    constructor (onDone, isTopLevel = true) {
         this.onDone = onDone;
-        this.callToActions = [];
+        this.menus = [];
+        this.callToActions = null;
+        this.isTopLevel = isTopLevel;
     }
 
     /**
@@ -57,14 +59,15 @@ class MenuComposer {
      * @returns {MenuComposer}
      */
     addNested (title) {
-        return new MenuComposer((actions) => {
+        const nested = new MenuComposer(([{ call_to_actions }]) => {
             this.callToActions.push({
                 type: 'nested',
                 title,
-                call_to_actions: actions
+                call_to_actions
             });
             return this;
-        });
+        }, false);
+        return nested.menu();
     }
 
     /**
@@ -73,7 +76,29 @@ class MenuComposer {
      * @returns {this}
      */
     done () {
-        return this.onDone(this.callToActions);
+        return this.onDone(this.menus);
+    }
+
+    /**
+     * Finish the menu for the locale and starts a new menu
+     *
+     * @param {string} [locale]
+     * @param {boolean} [inputDisabled]
+     * @returns {MenuComposer}
+     */
+    menu (locale = 'default', inputDisabled = false) {
+
+        if (!this.isTopLevel && this.menus.length !== 0) {
+            throw new Error('Call the .done() on nested menu before new menu creation');
+        }
+
+        this.callToActions = [];
+        this.menus.push({
+            locale,
+            composer_input_disabled: inputDisabled,
+            call_to_actions: this.callToActions
+        });
+        return this;
     }
 
 }
