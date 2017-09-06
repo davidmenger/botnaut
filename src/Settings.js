@@ -138,8 +138,8 @@ class Settings {
     /**
      * Sets up the persistent menu
      *
-     * @param {string} [locale]
-     * @param {boolean} [inputDisabled]
+     * @param {string} [locale=default]
+     * @param {boolean} [inputDisabled=false]
      * @returns {MenuComposer}
      * @example
      *
@@ -147,43 +147,46 @@ class Settings {
      *
      * const settings = new Settings('page-token-string');
      *
-     * settings.menu()
-     *     .addNested('Nested Menu')
-     *         .addUrl('Go to google', 'https://google.com')
-     *         .done()
-     *     .addPostBack('Do something', '/the/action')
-     *     .done();
+     * settings
+     *      .menu('fr_FR')
+     *          .addNested('Nested Menu')
+     *              .addUrl('Aller à google', 'https://google.com')
+     *              .done()
+     *          .addPostBack('Faire quelque chose', '/the/action')
+     *      .menu() // the default menu
+     *          .addNested('Nested Menu')
+     *              .addUrl('Go to google', 'https://google.com')
+     *              .done()
+     *          .addPostBack('Do something', '/the/action')
+     *      .done();
      */
     menu (locale = 'default', inputDisabled = false) {
-        return new MenuComposer((actions) => {
-            this._get(['persistent_menu'])
-                .then((result) => {
-                    const newMenu = [{
-                        locale,
-                        composer_input_disabled: inputDisabled,
-                        call_to_actions: actions
-                    }];
+        const composer = new MenuComposer((newMenu) => {
+            this._get(['persistent_menu']).then((result) => {
 
-                    let updateMenu;
+                let updateMenu;
 
-                    if (result.data.length === 0) {
-                        updateMenu = true;
-                    } else {
-                        const existingMenu = result.data[0].persistent_menu;
-                        updateMenu = !deepEqual(newMenu, existingMenu);
-                    }
+                if (result.data.length === 0) {
+                    updateMenu = true;
+                } else {
+                    const existingMenu = result.data[0].persistent_menu;
+                    updateMenu = !deepEqual(newMenu, existingMenu);
+                }
 
-                    if (!updateMenu) {
-                        return Promise.resolve();
-                    }
+                if (!updateMenu) {
+                    return Promise.resolve();
+                }
 
-                    return this._post({
-                        persistent_menu: newMenu
-                    });
-                }).catch(e => this.log.error('Bot settings failed', e));
+                return this._post({
+                    persistent_menu: newMenu
+                });
+            }).catch(e => this.log.error('Bot settings failed', e));
             return this;
         });
+
+        return composer.menu(locale, inputDisabled);
     }
+
 }
 
 module.exports = Settings;
