@@ -4,7 +4,7 @@
 'use strict';
 
 const { marshalItem } = require('dynamodb-marshaler');
-const uuidV1 = require('uuid/v1');
+const uuidV1 = require('uuid').v1;
 
 
 /**
