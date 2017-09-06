@@ -183,4 +183,52 @@ describe('Router extended functions', function () {
         });
     });
 
+    it('should match the text from quick reply', () => {
+        const r = new Router();
+
+        r.use('/start', (req, res) => {
+            res.text('START', {
+                rt: 'Test'
+            });
+            res.expected('fallback');
+        });
+
+        r.use('rt', (req, res) => {
+            res.text('DEEP');
+            res.expected('fallback');
+        });
+
+        r.use('fallback', (req, res) => {
+            res.text('FB');
+        });
+
+        const t = new Tester(r);
+
+        return co(function* () {
+            yield t.postBack('/start');
+
+            t.any()
+                .contains('START');
+
+            yield t.text('test');
+
+            t.passedAction('rt');
+
+            t.res(0).contains('DEEP');
+
+            yield t.text('test');
+
+            t.passedAction('fallback');
+
+            yield t.postBack('/start');
+
+            t.any()
+                .contains('START');
+
+            yield t.text('test test');
+
+            t.passedAction('fallback');
+        });
+    });
+
 });
