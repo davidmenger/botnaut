@@ -66,17 +66,12 @@ class DynamoStateStorage {
             .promise()
             .then((data) => {
 
-                // eslint-disable-next-line no-console
-                console.log('LOADED STATE', data);
-
                 let state = data.Attributes;
                 if (!state.state) {
                     state.state = defaultState;
                 }
 
                 state = this._decodeState(state);
-                // eslint-disable-next-line no-console
-                console.log('DECODED STATE', state);
 
                 return state;
             })
