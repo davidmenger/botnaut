@@ -3,17 +3,20 @@
  */
 'use strict';
 
-const { marshalItem, unmarshalItem } = require('dynamodb-marshaler');
 const transform = require('lodash.transform');
+const AWS = require('aws-sdk');
 
 const ISODatePattern = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d:\d\d)|Z)?$/i;
 
-function deepMap (obj, iterator, context) {
+function deepMap (obj, iterator) {
     return transform(obj, (result, val, key) => {
+        const goDeeper = typeof val === 'object'
+            && !(val instanceof Date)
+            && (val !== null)
+            && (val !== undefined);
+
         // eslint-disable-next-line no-param-reassign
-        result[key] = typeof val === 'object' && !(val instanceof Date) && val !== null ?
-            deepMap(val, iterator, context) :
-            iterator.call(context, val, key, obj);
+        result[key] = goDeeper ? deepMap(val, iterator) : iterator(val, key, obj);
     });
 }
 
@@ -24,12 +27,14 @@ function deepMap (obj, iterator, context) {
 class DynamoStateStorage {
 
     /**
-     * @param {AWS.DynamoDB} dynamoDb
+     * @param {AWS.DynamoDB.DocumentClient} dynamoDb
      * @param {string} tableName
      */
     constructor (dynamoDb, tableName) {
 
-        this._dynamodb = dynamoDb;
+        this._documentClient = new AWS.DynamoDB.DocumentClient({
+            service: dynamoDb
+        });
 
         this._tableName = tableName;
     }
@@ -44,34 +49,34 @@ class DynamoStateStorage {
     getOrCreateAndLock (senderId, defaultState = {}, timeout = 300) {
         const now = Date.now();
 
-        return this._dynamodb.updateItem({
+        return this._documentClient.update({
             TableName: this._tableName,
-            Key: marshalItem({ senderId }),
+            Key: { senderId },
             ExpressionAttributeNames: {
                 '#LOCK': 'lock'
             },
             UpdateExpression: 'SET #LOCK = :now',
             ConditionExpression: 'attribute_not_exists(senderId) OR (#LOCK < :lockTime)',
-            ExpressionAttributeValues: marshalItem({
+            ExpressionAttributeValues: {
                 ':now': now,
                 ':lockTime': now - timeout
-            }),
+            },
             ReturnValues: 'ALL_NEW'
         })
             .promise()
             .then((data) => {
 
-                let state = unmarshalItem(data.Attributes);
+                // eslint-disable-next-line no-console
+                console.log('LOADED STATE', data);
+
+                let state = data.Attributes;
                 if (!state.state) {
                     state.state = defaultState;
                 }
 
-                state = deepMap(state, (value) => {
-                    if (typeof value === 'string' && ISODatePattern.test(value)) {
-                        return new Date(value);
-                    }
-                    return value;
-                });
+                state = this._decodeState(state);
+                // eslint-disable-next-line no-console
+                console.log('DECODED STATE', state);
 
                 return state;
             })
@@ -81,6 +86,24 @@ class DynamoStateStorage {
                 }
                 throw e;
             });
+    }
+
+    _decodeState (state) {
+        return deepMap(state, (value) => {
+            if (typeof value === 'string' && ISODatePattern.test(value)) {
+                return new Date(value);
+            }
+            return value;
+        });
+    }
+
+    _encodeState (state) {
+        return deepMap(state, (value) => {
+            if (value instanceof Date) {
+                return value.toISOString();
+            }
+            return value;
+        });
     }
 
     /**
@@ -100,16 +123,11 @@ class DynamoStateStorage {
      */
     saveState (state) {
 
-        const stateToSave = deepMap(state, (value) => {
-            if (value instanceof Date) {
-                return value.toISOString();
-            }
-            return value;
-        });
+        const stateToSave = this._encodeState(state);
 
-        return this._dynamodb.putItem({
+        return this._documentClient.put({
             TableName: this._tableName,
-            Item: marshalItem(stateToSave)
+            Item: stateToSave
         })
             .promise()
             .then(() => state);

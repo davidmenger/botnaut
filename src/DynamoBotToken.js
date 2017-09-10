@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const { marshalItem, unmarshalItem } = require('dynamodb-marshaler');
+const AWS = require('aws-sdk');
 const generateToken = require('./generateToken');
 
 /**
@@ -17,7 +17,9 @@ class DynamoBotToken {
      */
     constructor (dynamoDb, tableName) {
 
-        this._dynamodb = dynamoDb;
+        this._documentClient = new AWS.DynamoDB.DocumentClient({
+            service: dynamoDb
+        });
 
         this._tableName = tableName;
     }
@@ -37,9 +39,9 @@ class DynamoBotToken {
     }
 
     _getToken (senderId) {
-        return this._dynamodb.getItem({
+        return this._documentClient.get({
             TableName: this._tableName,
-            Key: marshalItem({ senderId })
+            Key: { senderId }
         })
             .promise()
             .then((data) => {
@@ -47,7 +49,7 @@ class DynamoBotToken {
                     return null;
                 }
 
-                return unmarshalItem(data.Item);
+                return data.Item;
             });
     }
 
@@ -58,9 +60,9 @@ class DynamoBotToken {
 
                 tokenObject = { senderId, token };
 
-                return this._dynamodb.putItem({
+                return this._documentClient.put({
                     TableName: this._tableName,
-                    Item: marshalItem(tokenObject),
+                    Item: tokenObject,
                     ConditionExpression: 'attribute_not_exists(senderId)'
                 }).promise();
             })

@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const { marshalItem } = require('dynamodb-marshaler');
+const AWS = require('aws-sdk');
 const uuidV1 = require('uuid').v1;
 
 
@@ -18,7 +18,9 @@ class DynamoChatLog {
      */
     constructor (dynamoDb, tableName) {
 
-        this._dynamodb = dynamoDb;
+        this._documentClient = new AWS.DynamoDB.DocumentClient({
+            service: dynamoDb
+        });
 
         this._tableName = tableName;
     }
@@ -33,13 +35,13 @@ class DynamoChatLog {
      * @param {Object} request - event request
      */
     log (responses, request) {
-        this._dynamodb.putItem({
+        this._documentClient.put({
             TableName: this._tableName,
-            Item: marshalItem({
+            Item: {
                 id: uuidV1(),
                 request,
                 responses
-            })
+            }
         }).send();
     }
 
@@ -53,14 +55,14 @@ class DynamoChatLog {
      * @param {Object} [request] - event request
      */
     error (err, responses = [], request = {}) {
-        this._dynamodb.putItem({
+        this._documentClient.put({
             TableName: this._tableName,
-            Item: marshalItem({
+            Item: {
                 id: uuidV1(),
                 request,
                 responses,
                 err: `${err}`
-            })
+            }
         }).send();
         // @todo add additional handler
     }
