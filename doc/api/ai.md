@@ -143,8 +143,8 @@ Registers Wingbot AI model
 | --- | --- | --- |
 | model | <code>string</code> | model name |
 | options | <code>Object</code> | the configuration |
-| options.cacheSize | <code>number</code> | remember number of caches |
-| options.matches | <code>number</code> | ask AI for number of matches |
+| [options.cacheSize] | <code>number</code> | remember number of caches |
+| [options.matches] | <code>number</code> | ask AI for number of matches |
 | prefix | <code>string</code> | model prefix |
 
 {% raw %}<div id="Ai_match">&nbsp;</div>{% endraw %}

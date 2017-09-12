@@ -24,7 +24,7 @@
     * [.logger](#Ai_logger) : <code>Object</code>
     * [.prefixTranslator(prefix, req)](#Ai_prefixTranslator)
     * [.mockIntent([intent], [confidence])](#Ai_mockIntent) ⇒ <code>this</code>
-    * [.onConfirmMiddleware(onIntentConfirmed)](#Ai_onConfirmMiddleware) ⇒ <code>function</code>
+    * [.onConfirmMiddleware(onIntentConfirmed, getMeta)](#Ai_onConfirmMiddleware) ⇒ <code>function</code>
     * [.register(model, options, prefix)](#Ai_register)
     * [.match(intent, [confidence], [prefix])](#Ai_match) ⇒ <code>function</code>
     * [.navigate(knownIntents, [threshold], [confidence], [prefix])](#Ai_navigate) ⇒ <code>function</code>
@@ -100,22 +100,26 @@ describe('bot', function () {
 ```
 {% raw %}<div id="Ai_onConfirmMiddleware">&nbsp;</div>{% endraw %}
 
-### ai.onConfirmMiddleware(onIntentConfirmed) ⇒ <code>function</code>
-When user confirms their intent, this handler will be called
+### ai.onConfirmMiddleware(onIntentConfirmed, getMeta) ⇒ <code>function</code>
+When user confirms their intent, onIntentConfirmed handler will be called.
+To create meta data from recognized request use getMeta handler.
 Its useful for updating training data for AI
 
 **Kind**: instance method of <code>[Ai](#Ai)</code>  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| onIntentConfirmed | <code>function</code> | handler, which will be called when intent is confirmed |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| onIntentConfirmed | <code>function</code> |  | handler, which will be called when intent is confirmed |
+| getMeta | <code>function</code> | <code></code> | handler, which will be called when intent is confirmed |
 
 **Example**  
 ```javascript
 const { Router, ai } = require('botnaut');
 
-bot.use(ai.onConfirmMiddleware((senderId, intent, text, timestamp) => {
+bot.use(ai.onConfirmMiddleware((senderId, intent, text, timestamp, meta) => {
     // log this information
+}, (req) => {
+    // create and return meta data object
 }));
 
 bot.use(ai.makeSure(['intent1', 'intent2']), (req, res) => {
@@ -139,8 +143,8 @@ Registers Wingbot AI model
 | --- | --- | --- |
 | model | <code>string</code> | model name |
 | options | <code>Object</code> | the configuration |
-| options.cacheSize | <code>number</code> | remember number of caches |
-| options.matches | <code>number</code> | ask AI for number of matches |
+| [options.cacheSize] | <code>number</code> | remember number of caches |
+| [options.matches] | <code>number</code> | ask AI for number of matches |
 | prefix | <code>string</code> | model prefix |
 
 {% raw %}<div id="Ai_match">&nbsp;</div>{% endraw %}

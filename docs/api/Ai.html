@@ -731,7 +731,7 @@
 <li><a href="#Ai_logger">.logger</a> : <code>Object</code></li>
 <li><a href="#Ai_prefixTranslator">.prefixTranslator(prefix, req)</a></li>
 <li><a href="#Ai_mockIntent">.mockIntent([intent], [confidence])</a> &#x21D2; <code>this</code></li>
-<li><a href="#Ai_onConfirmMiddleware">.onConfirmMiddleware(onIntentConfirmed)</a> &#x21D2; <code>function</code></li>
+<li><a href="#Ai_onConfirmMiddleware">.onConfirmMiddleware(onIntentConfirmed, getMeta)</a> &#x21D2; <code>function</code></li>
 <li><a href="#Ai_register">.register(model, options, prefix)</a></li>
 <li><a href="#Ai_match">.match(intent, [confidence], [prefix])</a> &#x21D2; <code>function</code></li>
 <li><a href="#Ai_navigate">.navigate(knownIntents, [threshold], [confidence], [prefix])</a> &#x21D2; <code>function</code></li>
@@ -833,8 +833,9 @@ describe(<span class="hljs-string">&apos;bot&apos;</span>, <span class="hljs-fun
 </code></pre>
 <div id="Ai_onConfirmMiddleware">&#xA0;</div>
 
-<h3 id="aionconfirmmiddlewareonintentconfirmed-&#x21D2;-function"><a name="aionconfirmmiddlewareonintentconfirmed-&#x21D2;-function" class="plugin-anchor" href="#aionconfirmmiddlewareonintentconfirmed-&#x21D2;-function"><i class="fa fa-link" aria-hidden="true"></i></a>ai.onConfirmMiddleware(onIntentConfirmed) &#x21D2; <code>function</code></h3>
-<p>When user confirms their intent, this handler will be called
+<h3 id="aionconfirmmiddlewareonintentconfirmed-getmeta-&#x21D2;-function"><a name="aionconfirmmiddlewareonintentconfirmed-getmeta-&#x21D2;-function" class="plugin-anchor" href="#aionconfirmmiddlewareonintentconfirmed-getmeta-&#x21D2;-function"><i class="fa fa-link" aria-hidden="true"></i></a>ai.onConfirmMiddleware(onIntentConfirmed, getMeta) &#x21D2; <code>function</code></h3>
+<p>When user confirms their intent, onIntentConfirmed handler will be called.
+To create meta data from recognized request use getMeta handler.
 Its useful for updating training data for AI</p>
 <p><strong>Kind</strong>: instance method of <code>Ai</code>  </p>
 <table>
@@ -842,6 +843,7 @@ Its useful for updating training data for AI</p>
 <tr>
 <th>Param</th>
 <th>Type</th>
+<th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -849,6 +851,13 @@ Its useful for updating training data for AI</p>
 <tr>
 <td>onIntentConfirmed</td>
 <td><code>function</code></td>
+<td></td>
+<td>handler, which will be called when intent is confirmed</td>
+</tr>
+<tr>
+<td>getMeta</td>
+<td><code>function</code></td>
+<td><code></code></td>
 <td>handler, which will be called when intent is confirmed</td>
 </tr>
 </tbody>
@@ -856,8 +865,10 @@ Its useful for updating training data for AI</p>
 <p><strong>Example</strong>  </p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router, ai } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
 
-bot.use(ai.onConfirmMiddleware((senderId, intent, text, timestamp) =&gt; {
+bot.use(ai.onConfirmMiddleware((senderId, intent, text, timestamp, meta) =&gt; {
     <span class="hljs-comment">// log this information</span>
+}, (req) =&gt; {
+    <span class="hljs-comment">// create and return meta data object</span>
 }));
 
 bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span class="hljs-string">&apos;intent2&apos;</span>]), (req, res) =&gt; {
@@ -895,12 +906,12 @@ bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span
 <td>the configuration</td>
 </tr>
 <tr>
-<td>options.cacheSize</td>
+<td>[options.cacheSize]</td>
 <td><code>number</code></td>
 <td>remember number of caches</td>
 </tr>
 <tr>
-<td>options.matches</td>
+<td>[options.matches]</td>
 <td><code>number</code></td>
 <td>ask AI for number of matches</td>
 </tr>
@@ -1132,7 +1143,7 @@ bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Ai","level":"2.9","depth":1,"previous":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Ai.md","mtime":"2017-09-10T20:56:27.890Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-10T20:56:48.921Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Ai","level":"2.9","depth":1,"previous":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Ai.md","mtime":"2017-09-12T10:20:33.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-12T10:20:36.809Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

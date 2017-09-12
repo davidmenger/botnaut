@@ -102,7 +102,7 @@ class Ai {
         } else {
             this._mockIntent = { intent, confidence };
         }
-        return true;
+        return this;
     }
 
     /**
@@ -134,8 +134,8 @@ class Ai {
      */
     onConfirmMiddleware (onIntentConfirmed, getMeta = null) {
         return (req) => {
-            if (getMeta) {
-                Object.assign(req, { getMeta });
+            if (getMeta !== null) {
+                Object.assign(req, { _aiGetMetaFn: getMeta });
             }
 
             if (!req.isQuickReply()) {
@@ -162,8 +162,8 @@ class Ai {
      *
      * @param {string} model - model name
      * @param {Object} options - the configuration
-     * @param {number} options.cacheSize - remember number of caches
-     * @param {number} options.matches - ask AI for number of matches
+     * @param {number} [options.cacheSize] - remember number of caches
+     * @param {number} [options.matches] - ask AI for number of matches
      * @param {string} prefix - model prefix
      * @memberOf Ai
      */
@@ -417,8 +417,8 @@ class Ai {
                 }
                 if (assign !== null) {
                     let _aiMeta = null;
-                    if (req.getMeta) {
-                        _aiMeta = req.getMeta(req);
+                    if (req._aiGetMetaFn) {
+                        _aiMeta = req._aiGetMetaFn(req);
                     }
                     Object.assign(assign, {
                         _aiIntentMatched: intent.tag,
