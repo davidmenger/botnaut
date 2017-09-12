@@ -19,7 +19,8 @@ class DynamoChatLog {
     constructor (dynamoDb, tableName) {
 
         this._documentClient = new AWS.DynamoDB.DocumentClient({
-            service: dynamoDb
+            service: dynamoDb,
+            convertEmptyValues: true
         });
 
         this._tableName = tableName;
