@@ -128,16 +128,25 @@ class Ai {
      *     }));
      * });
      */
-    onConfirmMiddleware (onIntentConfirmed) {
+    onConfirmMiddleware (onIntentConfirmed, getMeta = null) {
         return (req) => {
+            if (getMeta) {
+                Object.assign(req, { getMeta });
+            }
+
             if (!req.isQuickReply()) {
                 return Router.CONTINUE;
             }
 
-            const { _aiIntentMatched, _aiFromText, _aiTs } = req.action(true);
+            const { _aiIntentMatched, _aiFromText, _aiTs, _aiMeta } = req.action(true);
 
             if (_aiIntentMatched) {
-                onIntentConfirmed(req.senderId, _aiIntentMatched, _aiFromText, _aiTs);
+                onIntentConfirmed(req.senderId,
+                    _aiIntentMatched,
+                    _aiFromText,
+                    _aiTs,
+                    _aiMeta
+                );
             }
 
             return Router.CONTINUE;
@@ -406,7 +415,8 @@ class Ai {
                     Object.assign(assign, {
                         _aiIntentMatched: intent.tag,
                         _aiTs: req.data.timestamp,
-                        _aiFromText: req.text()
+                        _aiFromText: req.text(),
+                        _aiMeta: req.getMeta(req)
                     });
                     Object.assign(ret, { [action]: assign });
                 }
