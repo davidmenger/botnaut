@@ -164,7 +164,8 @@ describe('<Ai>', function () {
                         title: 'Yes',
                         _aiIntentMatched: 'hello',
                         _aiFromText: 'text',
-                        _aiTs: args[0].data.timestamp
+                        _aiTs: args[0].data.timestamp,
+                        _aiMeta: null
                     },
                     leave: 'Yes'
                 });
@@ -222,16 +223,13 @@ describe('<Ai>', function () {
 
     describe('#onConfirmMiddleware()', function () {
 
-        it.only('should be trigged, when user confirms an intent', function () {
+        it('should be trigged, when user confirms an intent', function () {
             const r = new Router();
             const onConfirmSpy = sinon.spy();
 
-            r.use(ai.onConfirmMiddleware(onConfirmSpy, (req) => {
-                console.log('confirm');
-                return { lang: req.lang,
-                    aiIntentScore: req.aiIntentScore
-                };
-            }));
+            r.use(ai.onConfirmMiddleware(onConfirmSpy, req => ({
+                aiIntentScore: req.aiIntentScore
+            })));
 
             r.use(ai.makeSure(['testIntent']), (req, res) => {
                 res.text('NAVI', res.ensures({
