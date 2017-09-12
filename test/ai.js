@@ -164,7 +164,8 @@ describe('<Ai>', function () {
                         title: 'Yes',
                         _aiIntentMatched: 'hello',
                         _aiFromText: 'text',
-                        _aiTs: args[0].data.timestamp
+                        _aiTs: args[0].data.timestamp,
+                        _aiMeta: null
                     },
                     leave: 'Yes'
                 });
@@ -226,7 +227,9 @@ describe('<Ai>', function () {
             const r = new Router();
             const onConfirmSpy = sinon.spy();
 
-            r.use(ai.onConfirmMiddleware(onConfirmSpy));
+            r.use(ai.onConfirmMiddleware(onConfirmSpy, req => ({
+                aiIntentScore: req.aiIntentScore
+            })));
 
             r.use(ai.makeSure(['testIntent']), (req, res) => {
                 res.text('NAVI', res.ensures({
@@ -260,7 +263,8 @@ describe('<Ai>', function () {
                     t.senderId,
                     'testIntent',
                     'Any text',
-                    null // test messages has no timestamp
+                    null, // test messages has no timestamp
+                    { aiIntentScore: '0.7' }
                 ]);
 
             });

@@ -106,16 +106,20 @@ class Ai {
     }
 
     /**
-     * When user confirms their intent, this handler will be called
+     * When user confirms their intent, onIntentConfirmed handler will be called.
+     * To create meta data from recognized request use getMeta handler.
      * Its useful for updating training data for AI
      *
      * @param {function} onIntentConfirmed - handler, which will be called when intent is confirmed
+     * @param {function} getMeta - handler, which will be called when intent is confirmed
      * @returns {function}
      * @example
      * const { Router, ai } = require('botnaut');
      *
-     * bot.use(ai.onConfirmMiddleware((senderId, intent, text, timestamp) => {
+     * bot.use(ai.onConfirmMiddleware((senderId, intent, text, timestamp, meta) => {
      *     // log this information
+     * }, (req) => {
+     *     // create and return meta data object
      * }));
      *
      * bot.use(ai.makeSure(['intent1', 'intent2']), (req, res) => {
@@ -128,16 +132,25 @@ class Ai {
      *     }));
      * });
      */
-    onConfirmMiddleware (onIntentConfirmed) {
+    onConfirmMiddleware (onIntentConfirmed, getMeta = null) {
         return (req) => {
+            if (getMeta) {
+                Object.assign(req, { getMeta });
+            }
+
             if (!req.isQuickReply()) {
                 return Router.CONTINUE;
             }
 
-            const { _aiIntentMatched, _aiFromText, _aiTs } = req.action(true);
+            const { _aiIntentMatched, _aiFromText, _aiTs, _aiMeta } = req.action(true);
 
             if (_aiIntentMatched) {
-                onIntentConfirmed(req.senderId, _aiIntentMatched, _aiFromText, _aiTs);
+                onIntentConfirmed(req.senderId,
+                    _aiIntentMatched,
+                    _aiFromText,
+                    _aiTs,
+                    _aiMeta
+                );
             }
 
             return Router.CONTINUE;
@@ -403,10 +416,15 @@ class Ai {
                     assign = ret[action];
                 }
                 if (assign !== null) {
+                    let _aiMeta = null;
+                    if (req.getMeta) {
+                        _aiMeta = req.getMeta(req);
+                    }
                     Object.assign(assign, {
                         _aiIntentMatched: intent.tag,
                         _aiTs: req.data.timestamp,
-                        _aiFromText: req.text()
+                        _aiFromText: req.text(),
+                        _aiMeta
                     });
                     Object.assign(ret, { [action]: assign });
                 }
