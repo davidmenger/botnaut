@@ -30,12 +30,15 @@ const schema = new Schema({
  *
  * @method
  * @name ChatLog#log
+ * @param {string} userId
  * @param {Object[]} responses - list of sent responses
  * @param {Object} request - event request
  */
 
-schema.statics.log = function (responses, request) {
+schema.statics.log = function (userId, responses, request) {
     this.insertMany([{
+        userId,
+        time: new Date(request.timestamp),
         request,
         responses
     }]);
@@ -47,12 +50,15 @@ schema.statics.log = function (responses, request) {
  * @method
  * @name ChatLog#error
  * @param {any} err - error
+ * @param {string} userId
  * @param {Object[]} [responses] - list of sent responses
  * @param {Object} [request] - event request
  */
 
-schema.statics.error = function (err, responses = [], request = {}) {
+schema.statics.error = function (err, userId, responses = [], request = {}) {
     this.insertMany([{
+        userId,
+        time: new Date(request.timestamp || Date.now()),
         request,
         responses,
         err: `${err}`

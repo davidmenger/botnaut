@@ -4,7 +4,6 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-const uuidV1 = require('uuid').v1;
 
 
 /**
@@ -32,14 +31,16 @@ class DynamoChatLog {
      *
      * @method
      * @name ChatLog#log
+     * @param {string} userId
      * @param {Object[]} responses - list of sent responses
      * @param {Object} request - event request
      */
-    log (responses, request) {
+    log (userId, responses, request) {
         this._documentClient.put({
             TableName: this._tableName,
             Item: {
-                id: uuidV1(),
+                userId,
+                time: new Date(request.timestamp).toISOString(),
                 request,
                 responses
             }
@@ -52,14 +53,16 @@ class DynamoChatLog {
      * @method
      * @name ChatLog#error
      * @param {any} err - error
+     * @param {string} userId
      * @param {Object[]} [responses] - list of sent responses
      * @param {Object} [request] - event request
      */
-    error (err, responses = [], request = {}) {
+    error (err, userId, responses = [], request = {}) {
         this._documentClient.put({
             TableName: this._tableName,
             Item: {
-                id: uuidV1(),
+                userId,
+                time: new Date(request.timestamp || Date.now()).toISOString(),
                 request,
                 responses,
                 err: `${err}`

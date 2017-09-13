@@ -195,7 +195,7 @@ class Processor {
         const postbacks = [];
         const isRef = !!refHandler;
         const senderHandler = refHandler && refHandler.handler;
-        const senderFn = sender || this.senderFnFactory(message, pageId, senderHandler);
+        const senderFn = sender || this.senderFnFactory(senderId, message, pageId, senderHandler);
         let req;
         let state;
 

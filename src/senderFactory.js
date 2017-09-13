@@ -66,7 +66,7 @@ function senderFactory (token, logger = console, onSenderError = () => {}, sende
         senderFn = createDefaultSender();
     }
 
-    const factoryFn = function factory (incommingMessage, pageId, handler = RES_HANDLER) {
+    const factoryFn = function factory (userId, incommingMessage, pageId, handler = RES_HANDLER) {
         const queue = [];
         let promise = null;
         let working = false;
@@ -85,14 +85,14 @@ function senderFactory (token, logger = console, onSenderError = () => {}, sende
             promise = sendData(senderFn, token, payload, queue, sent, handler)
                 .then(() => {
                     working = false;
-                    logger.log(sent, incommingMessage);
+                    logger.log(userId, sent, incommingMessage);
                 })
                 .catch((e) => {
                     // detect disconnected users
                     const err = getDisconnectedError(e);
 
                     if (onSenderError(err || e, incommingMessage) !== true) {
-                        logger.error(e, sent, incommingMessage);
+                        logger.error(e, userId, sent, incommingMessage);
                     }
                 });
             return promise;

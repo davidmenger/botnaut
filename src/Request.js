@@ -30,6 +30,11 @@ class Request {
         this.attachments = (data.message && data.message.attachments) || [];
 
         /**
+         * @prop {number|null}
+         */
+        this.timestamp = data.timestamp || Date.now();
+
+        /**
          * @prop {string} senderId sender.id from the event
          */
         this.senderId = (data.sender && data.sender.id) || null;
