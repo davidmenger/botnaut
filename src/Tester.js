@@ -44,16 +44,17 @@ class Tester {
         this.senderId = senderId || `${Math.random() * 1000}${Date.now()}`;
 
         // replace sender
-        const senderFnFactory = (received, pageId, handler = (res, d) => d) => (data = null) => {
-            // on send
-            // @todo validate length of quick_responses to 20!!
-            // @todo validate length of texts to 255!!
-            if (data === null) {
-                return;
-            }
-            this._responsesCollector.push(data);
-            handler({ recipient_id: this.senderId }, data);
-        };
+        const senderFnFactory = (userId, received, pageId, handler = (res, d) => d) =>
+            (data = null) => {
+                // on send
+                // @todo validate length of quick_responses to 20!!
+                // @todo validate length of texts to 255!!
+                if (data === null) {
+                    return;
+                }
+                this._responsesCollector.push(data);
+                handler({ recipient_id: this.senderId }, data);
+            };
 
         // replace logger (throw instead of log)
         const log = {
