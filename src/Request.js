@@ -356,29 +356,34 @@ class Request {
 
 }
 
-function createReferral (action = null, data = {}) {
-    return action ? {
+function createReferral (action, data = {}) {
+    return {
         ref: JSON.stringify({
             action,
             data
         }),
         source: 'SHORTLINK',
         type: 'OPEN_THREAD'
-    } : null;
+    };
 }
 
-Request.createPostBack = function (senderId, action, data = {}, refAction, refData) {
+Request.createPostBack = function (senderId, action, data = {}, refAction = null, refData = {}) {
+    const postback = {
+        payload: {
+            action,
+            data
+        }
+    };
+    if (refAction) {
+        Object.assign(postback, {
+            referral: createReferral(refAction, refData)
+        });
+    }
     return {
         sender: {
             id: senderId
         },
-        postback: {
-            payload: {
-                action,
-                data
-            },
-            referral: createReferral(refAction, refData)
-        }
+        postback
     };
 };
 
@@ -415,14 +420,7 @@ Request.referral = function (senderId, action, data = {}) {
         sender: {
             id: senderId
         },
-        referral: {
-            ref: JSON.stringify({
-                action,
-                data
-            }),
-            source: 'SHORTLINK',
-            type: 'OPEN_THREAD'
-        }
+        referral: createReferral(action, data)
     };
 };
 
