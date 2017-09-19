@@ -356,7 +356,18 @@ class Request {
 
 }
 
-Request.createPostBack = function (senderId, action, data = {}) {
+function createReferral (action = null, data = {}) {
+    return action ? {
+        ref: JSON.stringify({
+            action,
+            data
+        }),
+        source: 'SHORTLINK',
+        type: 'OPEN_THREAD'
+    } : null;
+}
+
+Request.createPostBack = function (senderId, action, data = {}, refAction, refData) {
     return {
         sender: {
             id: senderId
@@ -365,7 +376,8 @@ Request.createPostBack = function (senderId, action, data = {}) {
             payload: {
                 action,
                 data
-            }
+            },
+            referral: createReferral(refAction, refData)
         }
     };
 };
