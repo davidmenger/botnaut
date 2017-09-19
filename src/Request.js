@@ -23,7 +23,7 @@ class Request {
 
         this._postback = data.postback || null;
 
-        this._referral = data.referral || null;
+        this._referral = (this._postback ? this._postback.referral : data.referral) || null;
 
         this._optin = data.optin || null;
 
@@ -275,12 +275,12 @@ class Request {
     action (getData = false) {
         let res = null;
 
-        if (this._postback !== null) {
-            res = this._processPayload(this._postback, getData);
+        if (this._referral !== null && this._referral.ref) {
+            res = this._processPayload({ payload: this._referral.ref }, getData);
         }
 
-        if (!res && this._referral !== null && this._referral.ref) {
-            res = this._processPayload({ payload: this._referral.ref }, getData);
+        if (!res && this._postback !== null) {
+            res = this._processPayload(this._postback, getData);
         }
 
         if (!res && this._optin !== null && this._optin.ref) {
