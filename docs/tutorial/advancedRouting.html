@@ -7,7 +7,7 @@
         <title>Advanced Routing · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="generator" content="GitBook 3.2.3">
         <meta name="author" content="Pragonauts.com">
         
         
@@ -482,6 +482,19 @@
             
         </li>
     
+        <li class="chapter " data-level="1.9" data-path="analytics.html">
+            
+                <a href="analytics.html">
+            
+                    
+                    Analytics
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
         
@@ -638,6 +651,19 @@
             
         </li>
     
+        <li class="chapter " data-level="2.9" data-path="../api/Ai.html">
+            
+                <a href="../api/Ai.html">
+            
+                    
+                    Ai
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -777,6 +803,53 @@ bot.use((req, res, postBack) =&gt; {
 | hello                             |
 | world                             |
 *-----------------------------------*
+</code></pre><h2 id="or-conditions---addressable-text-microiteractions"><a name="or-conditions---addressable-text-microiteractions" class="plugin-anchor" href="#or-conditions---addressable-text-microiteractions"><i class="fa fa-link" aria-hidden="true"></i></a>Or conditions - addressable text microiteractions</h2>
+<p>Some microinteractions can be triggered by text and also by action, so why to separate them.</p>
+<p><strong>!addressable microiteractions has global scope</strong></p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+bot.use([<span class="hljs-string">&apos;world&apos;</span>, <span class="hljs-regexp">/^world-text$/</span>], (req, res) =&gt; {
+    res.text(<span class="hljs-string">&apos;world&apos;</span>);
+});
+
+bot.use((req, res, postBack) =&gt; {
+    res.text(<span class="hljs-string">&apos;Hello&apos;</span>, {
+        world: <span class="hljs-string">&apos;quick reply&apos;</span>
+    }).expected(<span class="hljs-string">&apos;./&apos;</span>);
+});
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
+<p>The result looks like this:</p>
+<pre><code>*-----------------------------------*
+|                       Let&apos;s start |
+| Hello                             |
+|                             world |
+| world                             |
+*-----------------------------------*
+</code></pre><h2 id="expected-cases"><a name="expected-cases" class="plugin-anchor" href="#expected-cases"><i class="fa fa-link" aria-hidden="true"></i></a>Expected cases</h2>
+<p>For clean code it&apos;s good to handle text for quick replies separately.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+bot.use((req, res, postBack) =&gt; {
+    res.text(<span class="hljs-string">&apos;Hello&apos;</span>, {
+        world: <span class="hljs-string">&apos;quick reply&apos;</span>
+    }).expected(<span class="hljs-string">&apos;expectedRoute&apos;</span>);
+});
+
+bot.use(<span class="hljs-string">&apos;expectedRoute&apos;</span>, <span class="hljs-regexp">/^foo$/</span>, (req, res) =&gt; res.text(<span class="hljs-string">&apos;foooooo&apos;</span>));
+
+bot.use(<span class="hljs-string">&apos;expectedRoute&apos;</span>, <span class="hljs-regexp">/^bar$/</span>, (req, res) =&gt; res.text(<span class="hljs-string">&apos;barrrrr&apos;</span>));
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
+<p>The result looks like this:</p>
+<pre><code>*-----------------------------------*
+|                       Let&apos;s start |
+| Hello                             |
+|                               bar |
+| bar                               |
+*-----------------------------------*
 </code></pre>
                                 
                                 </section>
@@ -820,7 +893,7 @@ bot.use((req, res, postBack) =&gt; {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Advanced Routing","level":"1.5","depth":1,"next":{"title":"Resolving Actions","level":"1.5.1","depth":2,"anchor":"#resolving-actions","path":"tutorial/advancedRouting.md","ref":"tutorial/advancedRouting.md#resolving-actions","articles":[]},"previous":{"title":"Loading Attachments","level":"1.4.3","depth":2,"anchor":"#loading-attachments-to-buffer","path":"tutorial/asyncActions.md","ref":"tutorial/asyncActions.md#loading-attachments-to-buffer","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/advancedRouting.md","mtime":"2017-06-15T15:16:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-19T13:03:24.361Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Advanced Routing","level":"1.5","depth":1,"next":{"title":"Resolving Actions","level":"1.5.1","depth":2,"anchor":"#resolving-actions","path":"tutorial/advancedRouting.md","ref":"tutorial/advancedRouting.md#resolving-actions","articles":[]},"previous":{"title":"Loading Attachments","level":"1.4.3","depth":2,"anchor":"#loading-attachments-to-buffer","path":"tutorial/asyncActions.md","ref":"tutorial/asyncActions.md#loading-attachments-to-buffer","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/advancedRouting.md","mtime":"2017-09-13T10:22:22.367Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-13T11:48:37.704Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

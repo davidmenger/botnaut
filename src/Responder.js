@@ -6,6 +6,7 @@
 const ReceiptTemplate = require('./ReceiptTemplate');
 const ButtonTemplate = require('./ButtonTemplate');
 const GenericTemplate = require('./GenericTemplate');
+const ListTemplate = require('./ListTemplate');
 const { makeAbsolute } = require('./pathUtils');
 const { makeQuickReplies } = require('./quickReplies');
 const util = require('util');
@@ -26,6 +27,7 @@ class Responder {
         this.newState = {};
 
         this.path = '';
+        this.routePath = '';
 
         this.options = {
             translator: w => w,
@@ -35,18 +37,19 @@ class Responder {
         Object.assign(this.options, options);
         if (this.options.autoTyping) {
             this.options.autoTyping = Object.assign({
-                time: 600,
+                time: 450,
                 perCharacters: 'Sample text Sample texts'.length,
-                minTime: 500,
-                maxTime: 2700
+                minTime: 400,
+                maxTime: 1400
             }, this.options.autoTyping);
         }
 
         this._t = this.options.translator;
     }
 
-    setPath (currentContext) {
-        this.path = currentContext;
+    setPath (absolutePath, routePath = '') {
+        this.path = absolutePath;
+        this.routePath = routePath;
     }
 
     /**
@@ -90,7 +93,11 @@ class Responder {
         const translatedText = this._t(text);
 
         if (args.length > 0) {
-            messageData.message.text = util.format(translatedText, ...args);
+            messageData.message.text = util.format(
+                translatedText,
+                // filter undefined and null values
+                ...args.map(a => (a !== null && typeof a !== 'undefined' ? a : ''))
+            );
         } else {
             messageData.message.text = translatedText;
         }
@@ -142,6 +149,16 @@ class Responder {
                 data
             }
         });
+    }
+
+    /**
+     * Converts relative action to absolute action path
+     *
+     * @param {string} action relative action to covert to absolute
+     * @returns {string} absolute action path
+     */
+    toAbsoluteAction (action) {
+        return makeAbsolute(action, this.path);
     }
 
     /**
@@ -314,6 +331,8 @@ class Responder {
     /**
      * Creates a generic template
      *
+     * @param {boolean} [shareable] - ability to share template
+     * @param {boolean} [isSquare] - use square aspect ratio for images
      * @example
      * res.genericTemplate()
      *     .addElement('title', 'subtitle')
@@ -330,8 +349,39 @@ class Responder {
      *
      * @memberOf Responder
      */
-    genericTemplate () {
+    genericTemplate (shareable = false, isSquare = false) {
         return new GenericTemplate(
+            payload => this.template(payload),
+            this._createContext(),
+            shareable,
+            isSquare
+        );
+    }
+
+    /**
+     * Creates a generic template
+     *
+     * @example
+     * res.list('compact')
+     *     .postBackButton('Main button', 'action', { actionData: 1 })
+     *     .addElement('title', 'subtitle')
+     *         .setElementImage('/local.png')
+     *         .setElementUrl('https://www.seznam.cz')
+     *         .postBackButton('Button title', 'action', { actionData: 1 })
+     *     .addElement('another', 'subtitle')
+     *         .setElementImage('https://goo.gl/image.png')
+     *         .setElementAction('action', { actionData: 1 })
+     *         .urlButton('Local link with extension', '/local/path', true, 'compact')
+     *     .send();
+     *
+     * @param {'large'|'compact'} [topElementStyle='large']
+     * @returns {ListTemplate}
+     *
+     * @memberOf Responder
+     */
+    list (topElementStyle = 'large') {
+        return new ListTemplate(
+            topElementStyle,
             payload => this.template(payload),
             this._createContext()
         );

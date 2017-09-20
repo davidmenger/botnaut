@@ -3,8 +3,7 @@
  */
 'use strict';
 
-const { marshalItem } = require('dynamodb-marshaler');
-const uuidV1 = require('uuid/v1');
+const AWS = require('aws-sdk');
 
 
 /**
@@ -18,7 +17,10 @@ class DynamoChatLog {
      */
     constructor (dynamoDb, tableName) {
 
-        this._dynamodb = dynamoDb;
+        this._documentClient = new AWS.DynamoDB.DocumentClient({
+            service: dynamoDb,
+            convertEmptyValues: true
+        });
 
         this._tableName = tableName;
     }
@@ -29,17 +31,19 @@ class DynamoChatLog {
      *
      * @method
      * @name ChatLog#log
+     * @param {string} userId
      * @param {Object[]} responses - list of sent responses
      * @param {Object} request - event request
      */
-    log (responses, request) {
-        this._dynamodb.putItem({
+    log (userId, responses, request) {
+        this._documentClient.put({
             TableName: this._tableName,
-            Item: marshalItem({
-                id: uuidV1(),
+            Item: {
+                userId,
+                time: new Date(request.timestamp).toISOString(),
                 request,
                 responses
-            })
+            }
         }).send();
     }
 
@@ -49,18 +53,20 @@ class DynamoChatLog {
      * @method
      * @name ChatLog#error
      * @param {any} err - error
+     * @param {string} userId
      * @param {Object[]} [responses] - list of sent responses
      * @param {Object} [request] - event request
      */
-    error (err, responses = [], request = {}) {
-        this._dynamodb.putItem({
+    error (err, userId, responses = [], request = {}) {
+        this._documentClient.put({
             TableName: this._tableName,
-            Item: marshalItem({
-                id: uuidV1(),
+            Item: {
+                userId,
+                time: new Date(request.timestamp || Date.now()).toISOString(),
                 request,
                 responses,
                 err: `${err}`
-            })
+            }
         }).send();
         // @todo add additional handler
     }

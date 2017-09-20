@@ -17,6 +17,8 @@ const asserts = require('./src/asserts');
 const UserLoader = require('./src/UserLoader');
 const MemoryStateStorage = require('./src/MemoryStateStorage');
 const responderFactory = require('./src/responderFactory');
+const translate = require('./src/translate');
+const Ai = require('./src/Ai');
 
 module.exports = {
     // basic functionality
@@ -35,6 +37,10 @@ module.exports = {
     bufferloader,
     asserts,
     MemoryStateStorage,
+    translate,
+
+    // Wingbot
+    ai: new Ai(),
 
     // setup tools
     SecurityMiddleware,

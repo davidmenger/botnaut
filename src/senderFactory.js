@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const request = require('request-promise');
+const request = require('request-promise-native');
 
 const RES_HANDLER = (res, nextData) => nextData;
 const DEFAULT_URI = 'https://graph.facebook.com/v2.8/me/messages';
@@ -66,31 +66,36 @@ function senderFactory (token, logger = console, onSenderError = () => {}, sende
         senderFn = createDefaultSender();
     }
 
-    const factoryFn = function factory (incommingMessage, pageId, handler = RES_HANDLER) {
+    const factoryFn = function factory (userId, incommingMessage, pageId, handler = RES_HANDLER) {
         const queue = [];
+        let promise = null;
         let working = false;
 
-        return function send (payload) {
+        return function send (payload = null) {
+            if (payload === null) {
+                return promise;
+            }
             if (working) {
                 // store in queue
                 queue.push(payload);
-            } else {
-                working = true;
-                const sent = [];
-                sendData(senderFn, token, payload, queue, sent, handler)
-                    .then(() => {
-                        working = false;
-                        logger.log(sent, incommingMessage);
-                    })
-                    .catch((e) => {
-                        // detect disconnected users
-                        const err = getDisconnectedError(e);
-
-                        if (onSenderError(err || e, incommingMessage) !== true) {
-                            logger.error(e, sent, incommingMessage);
-                        }
-                    });
+                return promise;
             }
+            working = true;
+            const sent = [];
+            promise = sendData(senderFn, token, payload, queue, sent, handler)
+                .then(() => {
+                    working = false;
+                    logger.log(userId, sent, incommingMessage);
+                })
+                .catch((e) => {
+                    // detect disconnected users
+                    const err = getDisconnectedError(e);
+
+                    if (onSenderError(err || e, incommingMessage) !== true) {
+                        logger.error(e, userId, sent, incommingMessage);
+                    }
+                });
+            return promise;
         };
     };
 

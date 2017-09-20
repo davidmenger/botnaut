@@ -4,6 +4,7 @@
 'use strict';
 
 const sinon = require('sinon');
+const assert = require('assert');
 const { senderFactory } = require('../src/senderFactory');
 
 const TOKEN = 'a';
@@ -18,27 +19,25 @@ function createLogger () {
 
 describe('senderFactory()', function () {
 
-    it('should work siply', function (done) {
+    it('should work siply', function () {
         const logger = createLogger();
         const factory = senderFactory(TOKEN, logger);
         const sender = factory(INPUT_MESSAGE);
 
-        sender({ wait: 100 });
-        sender({ wait: 100 });
+        sender({ wait: 50 });
+        sender({ wait: 50 });
 
-        setTimeout(() => {
-            if (logger.log.called) {
-                done('should not be called before action has finnished!');
-            }
-        }, 150);
+        const start = Date.now();
 
-        setTimeout(() => {
-            if (!logger.log.called) {
-                done('should be called after action has finnished!');
-            } else {
-                done();
-            }
-        }, 250);
+        const promise = sender();
+
+        assert(promise instanceof Promise);
+
+        return promise
+            .then(() => {
+                assert(logger.log.called, 'should be called before promise is resolved');
+                assert((start + 90) < Date.now());
+            });
 
     });
 

@@ -11,6 +11,8 @@ const ACTION = 'action ACTION';
 const FILE_URL = 'http://goo.gl';
 const DATA = { a: 1 };
 const STATE = {};
+const REF_ACTION = 'action REF_ACTION';
+const REF_DATA = { b: 2 };
 
 describe('Request', function () {
 
@@ -36,12 +38,28 @@ describe('Request', function () {
             assert.strictEqual(req.isPostBack(), true);
         });
 
+        it('should know, whats referral postback', function () {
+            const req = new Request(
+                Request.createPostBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
+                STATE
+            );
+            assert.strictEqual(req.isPostBack(), true);
+        });
+
     });
 
     describe('#isReferral()', function () {
 
         it('should know, whats referral', function () {
             const req = new Request(Request.referral(SENDER_ID, ACTION, DATA), STATE);
+            assert.strictEqual(req.isReferral(), true);
+        });
+
+        it('should know, whats referral', function () {
+            const req = new Request(
+                Request.createPostBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
+                STATE
+            );
             assert.strictEqual(req.isReferral(), true);
         });
 
@@ -75,6 +93,22 @@ describe('Request', function () {
         it('should return action data from postback', function () {
             const req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
             assert.deepEqual(req.action(true), DATA);
+        });
+
+        it('should return referral action name from postback', function () {
+            const req = new Request(
+                Request.createPostBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
+                STATE
+            );
+            assert.strictEqual(req.action(), REF_ACTION);
+        });
+
+        it('should return referral action data from postback', function () {
+            const req = new Request(
+                Request.createPostBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
+                STATE
+            );
+            assert.deepEqual(req.action(true), REF_DATA);
         });
 
         it('should return action name from referral', function () {
@@ -132,7 +166,7 @@ describe('Request', function () {
     describe('#postBack()', function () {
 
         it('should return action name', function () {
-            const req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
+            const req = new Request(Request.createPostBack(SENDER_ID, ACTION), STATE);
             assert.strictEqual(req.postBack(), ACTION);
         });
 
@@ -141,12 +175,33 @@ describe('Request', function () {
             assert.deepEqual(req.postBack(true), DATA);
         });
 
+        it('should return referral action name', function () {
+            const req = new Request(
+                Request.createPostBack(SENDER_ID, ACTION, REF_ACTION, REF_DATA),
+                STATE
+            );
+            assert.strictEqual(req.postBack(), ACTION);
+        });
+
+        it('should return referral action data', function () {
+            const req = new Request(
+                Request.createPostBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
+                STATE
+            );
+            assert.deepEqual(req.postBack(true), DATA);
+        });
+
+        it('should return null, when the message is not a postback', function () {
+            const req = new Request(Request.quickReply(SENDER_ID, ACTION, DATA), STATE);
+            assert.strictEqual(req.postBack(), null);
+        });
+
     });
 
     describe('#quickReply()', function () {
 
         it('should return action name', function () {
-            const req = new Request(Request.quickReply(SENDER_ID, ACTION, DATA), STATE);
+            const req = new Request(Request.quickReply(SENDER_ID, ACTION), STATE);
             assert.strictEqual(req.quickReply(), ACTION);
         });
 
@@ -155,6 +210,10 @@ describe('Request', function () {
             assert.deepEqual(req.quickReply(true), DATA);
         });
 
+        it('should return null, when the message is not a quick reply', function () {
+            const req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
+            assert.strictEqual(req.quickReply(), null);
+        });
     });
 
     describe('#text() / #isMessage()', function () {
@@ -214,6 +273,7 @@ describe('Request', function () {
             const req = new Request(Request.fileAttachment(SENDER_ID, FILE_URL), STATE);
 
             assert.strictEqual(req.attachmentUrl(), FILE_URL);
+            assert.strictEqual(req.attachmentUrl(2), null);
             assert.strictEqual(typeof req.attachment(), 'object');
         });
 

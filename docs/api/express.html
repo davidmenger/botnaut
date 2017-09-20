@@ -7,7 +7,7 @@
         <title>Express/MongoDb tools · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="generator" content="GitBook 3.2.3">
         <meta name="author" content="Pragonauts.com">
         
         
@@ -482,6 +482,19 @@
             
         </li>
     
+        <li class="chapter " data-level="1.9" data-path="../tutorial/analytics.html">
+            
+                <a href="../tutorial/analytics.html">
+            
+                    
+                    Analytics
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
         
@@ -638,6 +651,19 @@
             
         </li>
     
+        <li class="chapter " data-level="2.9" data-path="Ai.html">
+            
+                <a href="Ai.html">
+            
+                    
+                    Ai
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -754,7 +780,7 @@
 <div id="State_onAfterStateLoad">&#xA0;</div>
 
 <h3 id="stateonafterstateloadreq-state-&#x21D2;-promiseobject"><a name="stateonafterstateloadreq-state-&#x21D2;-promiseobject" class="plugin-anchor" href="#stateonafterstateloadreq-state-&#x21D2;-promiseobject"><i class="fa fa-link" aria-hidden="true"></i></a>state.onAfterStateLoad(req, state) &#x21D2; <code>Promise.&lt;Object&gt;</code></h3>
-<p>Called afer load for postprocessing purposes</p>
+<p>Called after load for postprocessing purposes</p>
 <p><strong>Kind</strong>: instance method of <code>State</code>  </p>
 <table>
 <thead>
@@ -805,14 +831,14 @@
 <p><strong>Kind</strong>: global class  </p>
 <ul>
 <li><a href="#ChatLog">ChatLog</a><ul>
-<li><a href="#ChatLog_log">.log(responses, request)</a></li>
-<li><a href="#ChatLog_error">.error(err, [responses], [request])</a></li>
+<li><a href="#ChatLog_log">.log(userId, responses, request)</a></li>
+<li><a href="#ChatLog_error">.error(err, userId, [responses], [request])</a></li>
 </ul>
 </li>
 </ul>
 <div id="ChatLog_log">&#xA0;</div>
 
-<h3 id="chatloglogresponses-request"><a name="chatloglogresponses-request" class="plugin-anchor" href="#chatloglogresponses-request"><i class="fa fa-link" aria-hidden="true"></i></a>chatLog.log(responses, request)</h3>
+<h3 id="chatlogloguserid-responses-request"><a name="chatlogloguserid-responses-request" class="plugin-anchor" href="#chatlogloguserid-responses-request"><i class="fa fa-link" aria-hidden="true"></i></a>chatLog.log(userId, responses, request)</h3>
 <p>Log single event</p>
 <p><strong>Kind</strong>: instance method of <code>ChatLog</code>  </p>
 <table>
@@ -824,6 +850,11 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>userId</td>
+<td><code>string</code></td>
+<td></td>
+</tr>
 <tr>
 <td>responses</td>
 <td><code>Array.&lt;Object&gt;</code></td>
@@ -838,7 +869,7 @@
 </table>
 <div id="ChatLog_error">&#xA0;</div>
 
-<h3 id="chatlogerrorerr-responses-request"><a name="chatlogerrorerr-responses-request" class="plugin-anchor" href="#chatlogerrorerr-responses-request"><i class="fa fa-link" aria-hidden="true"></i></a>chatLog.error(err, [responses], [request])</h3>
+<h3 id="chatlogerrorerr-userid-responses-request"><a name="chatlogerrorerr-userid-responses-request" class="plugin-anchor" href="#chatlogerrorerr-userid-responses-request"><i class="fa fa-link" aria-hidden="true"></i></a>chatLog.error(err, userId, [responses], [request])</h3>
 <p>Log single event</p>
 <p><strong>Kind</strong>: instance method of <code>ChatLog</code>  </p>
 <table>
@@ -854,6 +885,11 @@
 <td>err</td>
 <td><code>any</code></td>
 <td>error</td>
+</tr>
+<tr>
+<td>userId</td>
+<td><code>string</code></td>
+<td></td>
 </tr>
 <tr>
 <td>[responses]</td>
@@ -923,12 +959,12 @@
 </tr>
 <tr>
 <td>[processorOptions.chatLog]</td>
-<td><code>ChatLog</code></td>
+<td><code>MongoChatLog</code></td>
 <td>discussion logger</td>
 </tr>
 <tr>
 <td>[processorOptions.tokenStorage]</td>
-<td><code>BotToken</code></td>
+<td><code>MongoBotToken</code></td>
 <td>storage for chabot tokens</td>
 </tr>
 <tr>
@@ -988,7 +1024,7 @@
 </tr>
 <tr>
 <td>[stateStorage]</td>
-<td><code>State</code></td>
+<td><code>MongoState</code></td>
 <td>storage for states</td>
 </tr>
 </tbody>
@@ -1099,7 +1135,7 @@ app.listen(<span class="hljs-number">3000</span>);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Express/MongoDb tools","level":"2.7","depth":1,"next":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"previous":{"title":"Bot Settings","level":"2.6","depth":1,"path":"api/Settings.md","ref":"api/Settings.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/express.md","mtime":"2017-06-19T13:03:16.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-19T13:03:24.361Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Express/MongoDb tools","level":"2.7","depth":1,"next":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"previous":{"title":"Bot Settings","level":"2.6","depth":1,"path":"api/Settings.md","ref":"api/Settings.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/express.md","mtime":"2017-09-13T11:48:17.672Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-13T11:48:37.704Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

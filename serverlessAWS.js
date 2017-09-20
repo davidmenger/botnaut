@@ -96,9 +96,10 @@ function createProcessor (reducer, processorOptions, stateStorage = null) {
  * @param {function|Router} processor - Root router object or processor function
  * @param {string} verifyToken - chatbot application token
  * @param {Object} [log] - console.* like logger object
+ * @param {function} [onDispatch] - will be called after dispatch of all events
  */
-function createHandler (processor, verifyToken, log = console) {
-    return serverlessHook(processor, verifyToken, log);
+function createHandler (processor, verifyToken, log = console, onDispatch = () => {}) {
+    return serverlessHook(processor, verifyToken, log, onDispatch);
 }
 
 module.exports = {

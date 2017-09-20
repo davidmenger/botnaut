@@ -153,7 +153,7 @@ class Processor {
             return false;
         }
         if (err.code !== 403) {
-            return false;
+            this.options.log.error(err, message);
         }
         const senderId = message.sender.id;
         this._loadState(false, senderId)
@@ -161,12 +161,13 @@ class Processor {
                 Object.assign(state, {
                     lastSendError: new Date(),
                     lastErrorMessage: err.message,
+                    lastErrorCode: err.code,
                     lock: 0
                 });
                 return this.stateStorage.saveState(state);
             })
             .catch((e) => {
-                this.options.log(e);
+                this.options.log.error(e);
             });
 
         return true;
@@ -194,7 +195,7 @@ class Processor {
         const postbacks = [];
         const isRef = !!refHandler;
         const senderHandler = refHandler && refHandler.handler;
-        const senderFn = sender || this.senderFnFactory(message, pageId, senderHandler);
+        const senderFn = sender || this.senderFnFactory(senderId, message, pageId, senderHandler);
         let req;
         let state;
 
@@ -211,6 +212,12 @@ class Processor {
             })
             .then(stateObject => this._getOrCreateToken(isRef, senderId, stateObject))
             .then(co.wrap(function* ({ token, stateObject }) {
+
+                // ensure the request was not processed
+                if (stateObject.lastTimestamps && message.timestamp
+                        && stateObject.lastTimestamps.indexOf(message.timestamp) !== -1) {
+                    return null;
+                }
 
                 // update the state of request
                 state = stateObject.state;
@@ -263,9 +270,21 @@ class Processor {
                 if (!stateObject) {
                     return null;
                 }
+
+                // store the message timestamp to prevent event rotating
+                let lastTimestamps = stateObject.lastTimestamps || [];
+                if (message.timestamp) {
+                    lastTimestamps = lastTimestamps.slice();
+                    lastTimestamps.push(message.timestamp);
+                    if (lastTimestamps.length > 10) {
+                        lastTimestamps.shift();
+                    }
+                }
+
                 Object.assign(stateObject, {
                     state,
                     lock: 0,
+                    lastTimestamps,
                     lastInteraction: new Date(),
                     off: false
                 });
@@ -274,6 +293,7 @@ class Processor {
             })
             .then(() => messageProcessed())
             .then(() => Promise.all(postbacks))
+            .then(() => senderFn())
             .catch((e) => {
                 this.options.log.error(e);
             });

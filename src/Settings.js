@@ -3,8 +3,9 @@
  */
 'use strict';
 
-const request = require('request-promise');
+const request = require('request-promise-native');
 const MenuComposer = require('./MenuComposer');
+const deepEqual = require('deep-equal');
 
 /**
  * Utility, which helps us to set up chatbot behavior
@@ -33,6 +34,22 @@ class Settings {
             method: 'POST',
             json: data
         }).catch(e => this.log.error('Bot settings failed', e));
+    }
+
+    _get (fields = null) {
+        const queryString = { access_token: this.token };
+        if (fields) {
+            queryString.fields = fields.join(',');
+        }
+        return request({
+            uri: 'https://graph.facebook.com/v2.8/me/messenger_profile',
+            qs: queryString,
+            method: 'GET',
+            json: true
+        }).catch((e) => {
+            this.log.error('Bot settings failed', e);
+            return Promise.reject(e);
+        });
     }
 
     _delete (data) {
@@ -121,8 +138,8 @@ class Settings {
     /**
      * Sets up the persistent menu
      *
-     * @param {string} [locale]
-     * @param {boolean} [inputDisabled]
+     * @param {string} [locale=default]
+     * @param {boolean} [inputDisabled=false]
      * @returns {MenuComposer}
      * @example
      *
@@ -130,27 +147,46 @@ class Settings {
      *
      * const settings = new Settings('page-token-string');
      *
-     * settings.menu()
-     *     .addNested('Nested Menu')
-     *         .addUrl('Go to google', 'https://google.com')
-     *         .done()
-     *     .addPostBack('Do something', '/the/action')
-     *     .done();
+     * settings
+     *      .menu('fr_FR')
+     *          .addNested('Nested Menu')
+     *              .addUrl('Aller à google', 'https://google.com')
+     *              .done()
+     *          .addPostBack('Faire quelque chose', '/the/action')
+     *      .menu() // the default menu
+     *          .addNested('Nested Menu')
+     *              .addUrl('Go to google', 'https://google.com')
+     *              .done()
+     *          .addPostBack('Do something', '/the/action')
+     *      .done();
      */
     menu (locale = 'default', inputDisabled = false) {
-        return new MenuComposer((actions) => {
-            this._post({
-                persistent_menu: [
-                    {
-                        locale,
-                        composer_input_disabled: inputDisabled,
-                        call_to_actions: actions
-                    }
-                ]
-            });
+        const composer = new MenuComposer((newMenu) => {
+            this._get(['persistent_menu']).then((result) => {
+
+                let updateMenu;
+
+                if (result.data.length === 0) {
+                    updateMenu = true;
+                } else {
+                    const existingMenu = result.data[0].persistent_menu;
+                    updateMenu = !deepEqual(newMenu, existingMenu);
+                }
+
+                if (!updateMenu) {
+                    return Promise.resolve();
+                }
+
+                return this._post({
+                    persistent_menu: newMenu
+                });
+            }).catch(e => this.log.error('Bot settings failed', e));
             return this;
         });
+
+        return composer.menu(locale, inputDisabled);
     }
+
 }
 
 module.exports = Settings;

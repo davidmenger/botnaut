@@ -23,11 +23,16 @@ class Request {
 
         this._postback = data.postback || null;
 
-        this._referral = data.referral || null;
+        this._referral = (this._postback ? this._postback.referral : data.referral) || null;
 
         this._optin = data.optin || null;
 
         this.attachments = (data.message && data.message.attachments) || [];
+
+        /**
+         * @prop {number|null}
+         */
+        this.timestamp = data.timestamp || Date.now();
 
         /**
          * @prop {string} senderId sender.id from the event
@@ -138,6 +143,28 @@ class Request {
     }
 
     /**
+     * Check, that message is a quick reply
+     *
+     * @returns {boolean}
+     *
+     * @memberOf Request
+     */
+    isQuickReply () {
+        return this.message !== null && this.message.quick_reply;
+    }
+
+    /**
+     * Check, that message is PURE text
+     *
+     * @returns {boolean}
+     */
+    isText () {
+        return this.message !== null
+            && !this.message.quick_reply
+            && !!this.message.text;
+    }
+
+    /**
      * Returns text of the message
      *
      * @param {boolean} [tokenized=false] when true, message is normalized to lowercase with `-`
@@ -158,6 +185,17 @@ class Request {
         }
 
         return this.message.text || '';
+    }
+
+    /**
+     * Returns the request expected handler in case have been set last response
+     *
+     * @returns {string|null}
+     *
+     * @memberOf Request
+     */
+    expected () {
+        return this.state._expected || null;
     }
 
     /**
@@ -237,12 +275,12 @@ class Request {
     action (getData = false) {
         let res = null;
 
-        if (this._postback !== null) {
-            res = this._processPayload(this._postback, getData);
+        if (this._referral !== null && this._referral.ref) {
+            res = this._processPayload({ payload: this._referral.ref }, getData);
         }
 
-        if (!res && this._referral !== null && this._referral.ref) {
-            res = this._processPayload({ payload: this._referral.ref }, getData);
+        if (!res && this._postback !== null) {
+            res = this._processPayload(this._postback, getData);
         }
 
         if (!res && this._optin !== null && this._optin.ref) {
@@ -253,15 +291,15 @@ class Request {
             res = this._processPayload(this.message.quick_reply, getData);
         }
 
-        if (!res && this.state._expected) {
-            res = this._processPayload(this.state._expected, getData);
-        }
-
         if (!res && this.state._expectedKeywords) {
             const payload = quickReplyAction(this.state._expectedKeywords, this.text(true));
             if (payload) {
                 res = this._processPayload(payload, getData);
             }
+        }
+
+        if (!res && this.state._expected) {
+            res = this._processPayload(this.state._expected, getData);
         }
 
         if (getData) {
@@ -318,17 +356,34 @@ class Request {
 
 }
 
-Request.createPostBack = function (senderId, action, data = {}) {
+function createReferral (action, data = {}) {
+    return {
+        ref: JSON.stringify({
+            action,
+            data
+        }),
+        source: 'SHORTLINK',
+        type: 'OPEN_THREAD'
+    };
+}
+
+Request.createPostBack = function (senderId, action, data = {}, refAction = null, refData = {}) {
+    const postback = {
+        payload: {
+            action,
+            data
+        }
+    };
+    if (refAction) {
+        Object.assign(postback, {
+            referral: createReferral(refAction, refData)
+        });
+    }
     return {
         sender: {
             id: senderId
         },
-        postback: {
-            payload: {
-                action,
-                data
-            }
-        }
+        postback
     };
 };
 
@@ -365,14 +420,7 @@ Request.referral = function (senderId, action, data = {}) {
         sender: {
             id: senderId
         },
-        referral: {
-            ref: JSON.stringify({
-                action,
-                data
-            }),
-            source: 'SHORTLINK',
-            type: 'OPEN_THREAD'
-        }
+        referral: createReferral(action, data)
     };
 };
 

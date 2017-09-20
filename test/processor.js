@@ -50,11 +50,11 @@ function createSenderFnFactory () {
     return factory;
 }
 
-function createLogger () {
+function createLogger (errFn = (m, e) => { throw e; }) {
     return {
         log: sinon.spy(),
         warn: sinon.spy(),
-        error: sinon.spy((m, e) => { throw e; })
+        error: sinon.spy(errFn)
     };
 }
 
@@ -127,6 +127,75 @@ describe('Processor', function () {
                     {},
                     100
                 ]);
+            });
+        });
+
+        it('should pass error to default error handler', function () {
+            let responder;
+
+            const reducer = sinon.spy((req, res) => {
+                responder = res;
+                res.setState({ final: 1 });
+                res.text('Hello');
+                assert.strictEqual(req.pageId, 10);
+            });
+
+            const stateStorage = createStateStorage();
+            const opts = makeOptions();
+            opts.senderFnFactory = undefined;
+            opts.log = createLogger(() => {});
+            const proc = new Processor(reducer, opts, stateStorage);
+
+            const message = {
+                timestamp: 1,
+                sender: {
+                    id: 1
+                },
+                message: {
+                    text: 'ahoj'
+                }
+            };
+
+            return proc.processMessage(message, 10)
+                .then(() => responder._send({ wait: 1 }))
+                .then(() => {
+                    const { error } = opts.log;
+                    assert(error.calledOnce);
+                    assert(error.firstCall.args[0] instanceof Error);
+                    assert.equal(error.firstCall.args[0].statusCode, 400);
+                    assert(typeof error.firstCall.args[1] === 'object');
+                });
+        });
+
+        it('should not process one message twice', function () {
+
+            const reducer = sinon.spy((req, res) => {
+                res.setState({ final: 1 });
+                res.text('Hello');
+                assert.strictEqual(req.pageId, 10);
+            });
+
+            const stateStorage = createStateStorage();
+            const opts = makeOptions();
+            const proc = new Processor(reducer, opts, stateStorage);
+
+            const message = {
+                timestamp: 1,
+                sender: {
+                    id: 1
+                },
+                message: {
+                    text: 'ahoj'
+                }
+            };
+
+            return proc.processMessage(message, 10).then(() => {
+                assert(reducer.calledOnce);
+
+                return proc.processMessage(message, 10).then(() => {
+                    assert(reducer.calledOnce);
+
+                });
             });
         });
 
@@ -225,6 +294,20 @@ describe('Processor', function () {
 
                 assert(actionSpy.calledOnce);
             });
+        });
+
+        it('throws error, when the token is missing', function () {
+            assert.throws(() => new Processor(state => state, {}));
+        });
+
+        it('throws error, when the app secret is missing', function () {
+            assert.throws(() => new Processor(state => state, { pageToken: 'a' }));
+        });
+
+        it('should accept custom user loader', () => {
+            const userLoader = {};
+            const u = new Processor(s => s, { pageToken: 'a', appSecret: 'b', userLoader });
+            assert.strictEqual(u.userLoader, userLoader);
         });
 
         it('should accept optins and save them in state', function () {

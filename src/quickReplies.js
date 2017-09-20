@@ -31,7 +31,7 @@ function makeExpectedKeyword (action, title, matcher = null, payloadData = {}) {
  * @param {string[]|object[]} replies
  * @param {string} [path]
  * @param {function} [translate=w => w]
- * @returns { quickReplies: object[], expectedKeywords: object[] }
+ * @returns {{ quickReplies: object[], expectedKeywords: object[] }}
  */
 function makeQuickReplies (replies, path = '', translate = w => w) {
 
@@ -61,7 +61,6 @@ function makeQuickReplies (replies, path = '', translate = w => w) {
 
             title = translate(title);
 
-            // add expectations
             expectedKeywords.push(makeExpectedKeyword(action, title, match, payloadData));
 
             return {

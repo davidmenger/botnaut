@@ -17,7 +17,7 @@ function actionMatches (route, requestedPath) {
         return pathToRegexp(route).exec(requestedPath);
     }
     const expectedPos = route.length - requestedPath.length;
-    return route.indexOf(requestedPath) === expectedPos && expectedPos !== -1;
+    return route.lastIndexOf(requestedPath) === expectedPos && expectedPos !== -1;
 }
 
 function parseActionPayload (object) {

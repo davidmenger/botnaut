@@ -168,6 +168,31 @@ describe('Tester', function () {
         });
     });
 
+    it('should match path only when the end matches', () => {
+        const nested = new Router();
+
+        nested.use('in', (req, res) => {
+            res.text('INNER');
+        });
+
+        const r = new Router();
+
+        r.use('inner', nested);
+
+
+        const t = new Tester(r);
+
+        return co(function* () {
+
+            yield t.postBack('/inner/in');
+
+            t.any()
+                .contains('INNER');
+
+            t.passedAction('in');
+        });
+    });
+
     it('should work with optins', function () {
 
         const r = new Router();
@@ -213,6 +238,33 @@ describe('Tester', function () {
 
         });
 
+    });
+
+    it('should match referral path only when is defined', () => {
+        const r = new Router();
+
+        r.use('/start', (req, res) => {
+            res.text('START');
+        });
+
+        r.use('/ref', (req, res) => {
+            res.text('REF');
+        });
+
+        const t = new Tester(r);
+
+        return co(function* () {
+
+            yield t.postBack('/start');
+
+            t.passedAction('start');
+            t.passedAction('/start');
+
+            yield t.postBack('/start', {}, '/ref');
+
+            t.passedAction('ref');
+            t.passedAction('/ref');
+        });
     });
 
 });

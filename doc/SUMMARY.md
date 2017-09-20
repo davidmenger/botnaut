@@ -29,6 +29,7 @@
     * [Receipt Template](tutorial/templates.md#receipt-template)
     * [Webviews](tutorial/templates.md#working-with-webviews)
 * [Testing](tutorial/testing.md)
+* [Analytics](tutorial/analytics.md)
 
 ## API
 
@@ -43,3 +44,4 @@
 * [Bot Settings](api/Settings.md)
 * [Express/MongoDb tools](api/express.md)
 * [Utils](api/bufferloader.md)
+* [Ai](api/Ai.md)

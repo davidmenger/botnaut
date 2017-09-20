@@ -1,13 +1,13 @@
 {
   "name": "botnaut",
-  "version": "0.21.0",
+  "version": "0.26.2",
   "description": "Facebook Messenger Chatbot Framework",
   "main": "index.js",
   "scripts": {
     "doc": "node ./bin/makeApiDoc.js && gitbook install ./doc && gitbook build ./doc && rm -rf ./docs && mv ./doc/_book ./docs && printf botnaut.pragonauts.com >> ./docs/CNAME",
     "test": "npm run test:lint && npm run test:coverage && npm run test:coverage:threshold",
     "test:coverage": "nyc --reporter=html mocha --opts ./mocha.opts ./test && nyc report",
-    "test:coverage:threshold": "nyc check-coverage --lines 80 --functions 80 --branches 78",
+    "test:coverage:threshold": "nyc check-coverage --lines 80 --functions 80 --branches 75",
     "test:backend": "mocha --opts ./mocha.opts ./test ./src",
     "test:lint": "eslint --ext .js src test *.js"
   },
@@ -43,21 +43,21 @@
     "jsdoc-to-markdown": "^2.0.1",
     "mocha": "^3.1.2",
     "nyc": "^11.0.2",
-    "sinon": "^2.3.2"
+    "sinon": "^3.2.1"
   },
   "dependencies": {
     "co": "^4.6.0",
+    "deep-equal": "^1.0.1",
     "lodash.transform": "^4.6.0",
     "path-to-regexp": "^1.7.0",
     "request": "^2.79.0",
-    "request-promise": "^4.1.1"
+    "request-promise-native": "^1.0.4"
   },
   "optionalDependencies": {
     "aws-sdk": "^2.78.0",
     "body-parser": "^1.10.0",
-    "dynamodb-marshaler": "^2.0.0",
     "express": "^4.0.0",
     "mongoose": "^4.0.0",
-    "uuid": "^3.1.0"
+    "po2json": "^0.4.5"
   }
 }

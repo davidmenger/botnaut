@@ -11,6 +11,7 @@
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceRoot}",
             "args": ["-d", "--opts", "./mocha.opts", "./test/"],
+            "protocol": "inspector",
             "env": {
                 "NODE_ENV": "test"
             }
