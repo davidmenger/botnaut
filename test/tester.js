@@ -240,4 +240,31 @@ describe('Tester', function () {
 
     });
 
+    it('should match referral path only when is defined', () => {
+        const r = new Router();
+
+        r.use('/start', (req, res) => {
+            res.text('START');
+        });
+
+        r.use('/ref', (req, res) => {
+            res.text('REF');
+        });
+
+        const t = new Tester(r);
+
+        return co(function* () {
+
+            yield t.postBack('/start');
+
+            t.passedAction('start');
+            t.passedAction('/start');
+
+            yield t.postBack('/start', {}, '/ref');
+
+            t.passedAction('ref');
+            t.passedAction('/ref');
+        });
+    });
+
 });
