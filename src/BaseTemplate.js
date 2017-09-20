@@ -40,8 +40,8 @@ class BaseTemplate {
 
     _imageUrl (image) {
         return image.match(/^https?:/)
-                ? image
-                : `${this.context.appUrl}${image}`;
+            ? image
+            : `${this.context.appUrl}${image}`;
     }
 
 }

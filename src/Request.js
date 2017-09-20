@@ -23,7 +23,9 @@ class Request {
 
         this._postback = data.postback || null;
 
-        this._referral = (this._postback ? this._postback.referral : data.referral) || null;
+        this._referral = (this._postback && this._postback.referral)
+            || data.referral
+            || null;
 
         this._optin = data.optin || null;
 

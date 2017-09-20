@@ -259,13 +259,13 @@ describe('Responder', function () {
 
             res.genericTemplate()
                 .addElement('title', 'subtitle')
-                    .setElementImage('/local.png')
-                    .setElementUrl('https://www.seznam.cz')
-                    .postBackButton('Button title', 'action', { actionData: 1 })
+                .setElementImage('/local.png')
+                .setElementUrl('https://www.seznam.cz')
+                .postBackButton('Button title', 'action', { actionData: 1 })
                 .addElement('another', null, true)
-                    .setElementImage('https://goo.gl/image.png')
-                    .setElementAction('/localUrl', true)
-                    .urlButton('Local link with extension', '/local/path', true, 'compact')
+                .setElementImage('https://goo.gl/image.png')
+                .setElementAction('/localUrl', true)
+                .urlButton('Local link with extension', '/local/path', true, 'compact')
                 .send();
 
             assert(sendFn.calledOnce);
@@ -312,13 +312,13 @@ describe('Responder', function () {
 
             res.list()
                 .addElement('title', 'subtitle')
-                    .setElementImage('/local.png')
-                    .setElementUrl('https://www.seznam.cz')
-                    .postBackButton('Button title', 'action', { actionData: 1 })
+                .setElementImage('/local.png')
+                .setElementUrl('https://www.seznam.cz')
+                .postBackButton('Button title', 'action', { actionData: 1 })
                 .addElement('another', null, true)
-                    .setElementImage('https://goo.gl/image.png')
-                    .setElementAction('/localUrl', true)
-                    .urlButton('Local link with extension', '/local/path', true, 'compact')
+                .setElementImage('https://goo.gl/image.png')
+                .setElementAction('/localUrl', true)
+                .urlButton('Local link with extension', '/local/path', true, 'compact')
                 .send();
 
             assert(sendFn.calledOnce);

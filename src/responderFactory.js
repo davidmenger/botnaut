@@ -15,10 +15,12 @@ function responderFactory (options = { token: null }, senderLogger = console, se
         sender
     );
 
-    const factoryFn = function factory (senderId,
-                                        senderFn = null,
-                                        pageId = undefined,
-                                        senderHandler = undefined) {
+    const factoryFn = function factory (
+        senderId,
+        senderFn = null,
+        pageId = undefined,
+        senderHandler = undefined) {
+
         const sendFn = senderFn || senderFnFactory(null, pageId, senderHandler);
         return new Responder(false, senderId, sendFn, options.token, options);
     };

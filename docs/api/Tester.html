@@ -736,7 +736,7 @@
 <li><a href="#Tester_text">.text(text)</a> &#x21D2; <code>Promise</code></li>
 <li><a href="#Tester_optin">.optin(action, [data])</a> &#x21D2; <code>Promise</code></li>
 <li><a href="#Tester_quickReply">.quickReply(action, [data])</a> &#x21D2; <code>Promise</code></li>
-<li><a href="#Tester_postBack">.postBack(action, [data])</a> &#x21D2; <code>Promise</code></li>
+<li><a href="#Tester_postBack">.postBack(action, [data], [refAction], [refData])</a> &#x21D2; <code>Promise</code></li>
 </ul>
 </li>
 <li><em>static</em><ul>
@@ -904,8 +904,8 @@
 </table>
 <div id="Tester_postBack">&#xA0;</div>
 
-<h3 id="testerpostbackaction-data-&#x21D2;-promise"><a name="testerpostbackaction-data-&#x21D2;-promise" class="plugin-anchor" href="#testerpostbackaction-data-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.postBack(action, [data]) &#x21D2; <code>Promise</code></h3>
-<p>Sends postback</p>
+<h3 id="testerpostbackaction-data-refaction-refdata-&#x21D2;-promise"><a name="testerpostbackaction-data-refaction-refdata-&#x21D2;-promise" class="plugin-anchor" href="#testerpostbackaction-data-refaction-refdata-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.postBack(action, [data], [refAction], [refData]) &#x21D2; <code>Promise</code></h3>
+<p>Sends postback, optionally with referrer action</p>
 <p><strong>Kind</strong>: instance method of <code>Tester</code>  </p>
 <table>
 <thead>
@@ -913,6 +913,7 @@
 <th>Param</th>
 <th>Type</th>
 <th>Default</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
@@ -920,11 +921,25 @@
 <td>action</td>
 <td><code>string</code></td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>[data]</td>
 <td><code>object</code></td>
 <td><code>{}</code></td>
+<td></td>
+</tr>
+<tr>
+<td>[refAction]</td>
+<td><code>string</code></td>
+<td><code>null</code></td>
+<td>referred action</td>
+</tr>
+<tr>
+<td>[refData]</td>
+<td><code>object</code></td>
+<td><code>{}</code></td>
+<td>referred action data</td>
 </tr>
 </tbody>
 </table>
@@ -1203,7 +1218,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tester","level":"2.4","depth":1,"next":{"title":"Template Builders","level":"2.5","depth":1,"path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md","articles":[{"title":"ButtonTemplate","level":"2.5.1","depth":2,"anchor":"#ButtonTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ButtonTemplate","articles":[]},{"title":"GenericTemplate","level":"2.5.2","depth":2,"anchor":"#GenericTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#GenericTemplate","articles":[]},{"title":"ReceiptTemplate","level":"2.5.3","depth":2,"anchor":"#ReceiptTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ReceiptTemplate","articles":[]}]},"previous":{"title":"Router","level":"2.3","depth":1,"path":"api/Router.md","ref":"api/Router.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Tester.md","mtime":"2017-09-13T11:48:17.610Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-13T11:48:37.704Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tester","level":"2.4","depth":1,"next":{"title":"Template Builders","level":"2.5","depth":1,"path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md","articles":[{"title":"ButtonTemplate","level":"2.5.1","depth":2,"anchor":"#ButtonTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ButtonTemplate","articles":[]},{"title":"GenericTemplate","level":"2.5.2","depth":2,"anchor":"#GenericTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#GenericTemplate","articles":[]},{"title":"ReceiptTemplate","level":"2.5.3","depth":2,"anchor":"#ReceiptTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ReceiptTemplate","articles":[]}]},"previous":{"title":"Router","level":"2.3","depth":1,"path":"api/Router.md","ref":"api/Router.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Tester.md","mtime":"2017-09-20T09:06:29.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-20T09:06:36.639Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

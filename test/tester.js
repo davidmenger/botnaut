@@ -126,8 +126,8 @@ describe('Tester', function () {
 
             t.passedAction('/music')
                 .any()
-                    .contains('Listen')
-                    .quickReplyAction('play');
+                .contains('Listen')
+                .quickReplyAction('play');
 
             yield t.text('plej');
 
@@ -258,12 +258,13 @@ describe('Tester', function () {
             yield t.postBack('/start');
 
             t.passedAction('start');
-            t.passedAction('/start');
 
             yield t.postBack('/start', {}, '/ref');
 
             t.passedAction('ref');
-            t.passedAction('/ref');
+            assert.throws(() => {
+                t.passedAction('start');
+            }, 'should not pass through start action');
         });
     });
 

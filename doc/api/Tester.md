@@ -26,7 +26,7 @@
         * [.text(text)](#Tester_text) ⇒ <code>Promise</code>
         * [.optin(action, [data])](#Tester_optin) ⇒ <code>Promise</code>
         * [.quickReply(action, [data])](#Tester_quickReply) ⇒ <code>Promise</code>
-        * [.postBack(action, [data])](#Tester_postBack) ⇒ <code>Promise</code>
+        * [.postBack(action, [data], [refAction], [refData])](#Tester_postBack) ⇒ <code>Promise</code>
     * _static_
         * [.Tester](#Tester_Tester)
             * [new Tester(reducer, [senderId], [processorOptions], [storage])](#new_Tester_Tester_new)
@@ -124,15 +124,17 @@ Send quick reply
 
 {% raw %}<div id="Tester_postBack">&nbsp;</div>{% endraw %}
 
-### tester.postBack(action, [data]) ⇒ <code>Promise</code>
-Sends postback
+### tester.postBack(action, [data], [refAction], [refData]) ⇒ <code>Promise</code>
+Sends postback, optionally with referrer action
 
 **Kind**: instance method of <code>[Tester](#Tester)</code>  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| action | <code>string</code> |  | 
-| [data] | <code>object</code> | <code>{}</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| action | <code>string</code> |  |  |
+| [data] | <code>object</code> | <code>{}</code> |  |
+| [refAction] | <code>string</code> | <code>null</code> | referred action |
+| [refData] | <code>object</code> | <code>{}</code> | referred action data |
 
 {% raw %}<div id="Tester_Tester">&nbsp;</div>{% endraw %}
 

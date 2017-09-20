@@ -30,7 +30,7 @@ function wait (ms) {
 
 schema.statics.findByToken = function (token, senderId) {
     return this.findOne({ token, senderId })
-                .exec();
+        .exec();
 };
 
 schema.statics.getOrCreateToken = function (senderId) {

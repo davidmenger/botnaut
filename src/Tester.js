@@ -30,11 +30,12 @@ class Tester {
      *
      * @memberOf Tester
      */
-    constructor (reducer,
-            senderId = null,
-            processorOptions = {},
-            storage = new MemoryStateStorage()
-        ) {
+    constructor (
+        reducer,
+        senderId = null,
+        processorOptions = {},
+        storage = new MemoryStateStorage()
+    ) {
 
         this._responsesCollector = [];
         this._actionsCollector = [];
@@ -234,15 +235,17 @@ class Tester {
     }
 
     /**
-     * Sends postback
+     * Sends postback, optionally with referrer action
      *
      * @param {string} action
      * @param {object} [data={}]
+     * @param {string} [refAction=null] - referred action
+     * @param {object} [refData={}] - referred action data
      * @returns {Promise}
      *
      * @memberOf Tester
      */
-    postBack (action, data = {}, refAction, refData) {
+    postBack (action, data = {}, refAction = null, refData = {}) {
         return this._request(
             Request.createPostBack(this.senderId, action, data, refAction, refData)
         );

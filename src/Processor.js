@@ -84,10 +84,10 @@ class Processor {
 
     _createPostBack (senderId, pageId, postbackAcumulator, senderFn, waitAfter) {
         const makePostBack = (action, data = {}) => waitAfter()
-                .then((newSenderId) => {
-                    const request = Request.createPostBack(newSenderId || senderId, action, data);
-                    return this.processMessage(request, pageId, senderFn);
-                });
+            .then((newSenderId) => {
+                const request = Request.createPostBack(newSenderId || senderId, action, data);
+                return this.processMessage(request, pageId, senderFn);
+            });
 
         const wait = () => {
             let res;
@@ -324,7 +324,7 @@ class Processor {
         }
 
         return this.secure.getOrCreateToken(senderId)
-                    .then(token => ({ token, stateObject }));
+            .then(token => ({ token, stateObject }));
     }
 
     _ensureUserBound (stateObject, senderId, pageId) {

@@ -85,8 +85,7 @@ class WingbotModel {
             }
 
             return response.tags;
-        })
-        .catch((err) => {
+        }).catch((err) => {
             this._log.warn(err);
             return [];
         });

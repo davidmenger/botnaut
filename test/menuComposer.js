@@ -17,13 +17,13 @@ describe('MenuComposer', function () {
 
         const ret = composer
             .menu('en_GB', true)
-                .addPostBack('Postback Title', '/someAction')
-                .addUrl('Second Url', 'https://tw.to', true)
-                .addNested('Nested Title')
-                    .addUrl('Url Title', 'https://goo.gl')
-                    .done()
+            .addPostBack('Postback Title', '/someAction')
+            .addUrl('Second Url', 'https://tw.to', true)
+            .addNested('Nested Title')
+            .addUrl('Url Title', 'https://goo.gl')
+            .done()
             .menu()
-                .addPostBack('Some default lang menu', '/someAction')
+            .addPostBack('Some default lang menu', '/someAction')
             .done();
 
         assert.strictEqual(ret, TESTCONST, 'Return value should match done function return');

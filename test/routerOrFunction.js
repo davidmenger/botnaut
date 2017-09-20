@@ -109,8 +109,7 @@ describe('Router extended functions', function () {
             res.text('Listen to the music!', {
                 back: 'Go back',
                 play: 'Play'
-            })
-            .expected('./'); // stay in this router
+            }).expected('./'); // stay in this router
         });
 
         music.use('expectedTest', /^start$/, (req, res) => {
@@ -159,8 +158,8 @@ describe('Router extended functions', function () {
 
             t.passedAction('/music')
                 .any()
-                    .contains('Listen')
-                    .quickReplyAction('play');
+                .contains('Listen')
+                .quickReplyAction('play');
 
             yield t.text('play');
 

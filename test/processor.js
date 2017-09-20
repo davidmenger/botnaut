@@ -278,22 +278,23 @@ describe('Processor', function () {
                     text: 'ahoj'
                 }
             })
-            .then(() => new Promise(r => process.nextTick(r))) // events are processed as next tick
-            .then(() => {
-                assert(reducer.calledOnce);
+                // events are processed as next tick
+                .then(() => new Promise(r => process.nextTick(r)))
+                .then(() => {
+                    assert(reducer.calledOnce);
 
-                assert.deepEqual(stateStorage.model.state, {
-                    final: 1,
-                    user: {},
-                    _expected: null,
-                    _expectedKeywords: null
+                    assert.deepEqual(stateStorage.model.state, {
+                        final: 1,
+                        user: {},
+                        _expected: null,
+                        _expectedKeywords: null
+                    });
+
+                    assert(stateStorage.saveState.called);
+                    assert(opts.senderFnFactory.sender.called);
+
+                    assert(actionSpy.calledOnce);
                 });
-
-                assert(stateStorage.saveState.called);
-                assert(opts.senderFnFactory.sender.called);
-
-                assert(actionSpy.calledOnce);
-            });
         });
 
         it('throws error, when the token is missing', function () {
