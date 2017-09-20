@@ -73,35 +73,16 @@ class Router extends ReducerWrapper {
      */
     use (...resolvers) {
 
-        let path = '/*';
+        const pathContext = { path: '/*' };
 
-        const reducers = resolvers.map((reducer) => {
-
-            // or condition
-            if (Array.isArray(reducer)) {
-                let isAnyReducer = false;
-
-                const reducersArray = reducer.map((re) => {
-                    const { resolverPath, reduce, isReducer } = this._createReducer(re, path);
-                    path = resolverPath;
-                    isAnyReducer = isAnyReducer || isReducer;
-                    return { reduce, isReducer };
-                });
-
-                return { reducers: reducersArray, isReducer: isAnyReducer, isOr: true };
-            }
-
-            const { resolverPath, reduce, isReducer } = this._createReducer(reducer, path);
-            path = resolverPath;
-            return { reduce, isReducer };
-        });
+        const reducers = this.createReducersArray(resolvers, pathContext);
 
         const exitPoints = new Map();
 
         this._routes.push({
             exitPoints,
             reducers,
-            path
+            path: pathContext.path
         });
 
         return {
@@ -113,6 +94,36 @@ class Router extends ReducerWrapper {
                 return this;
             }
         };
+    }
+
+    // protected method for bot
+    createReducersArray (resolvers, pathContext = { path: '/*' }) {
+        return resolvers.map((reducer) => {
+
+            // or condition
+            if (Array.isArray(reducer)) {
+                let isAnyReducer = false;
+
+                const reducersArray = reducer.map((re) => {
+                    const { resolverPath, reduce, isReducer } = this._createReducer(
+                        re,
+                        pathContext.path
+                    );
+                    Object.assign(pathContext, { path: resolverPath });
+                    isAnyReducer = isAnyReducer || isReducer;
+                    return { reduce, isReducer };
+                });
+
+                return { reducers: reducersArray, isReducer: isAnyReducer, isOr: true };
+            }
+
+            const { resolverPath, reduce, isReducer } = this._createReducer(
+                reducer,
+                pathContext.path
+            );
+            Object.assign(pathContext, { path: resolverPath });
+            return { reduce, isReducer };
+        });
     }
 
     _createReducer (reducer, thePath) {
@@ -145,6 +156,8 @@ class Router extends ReducerWrapper {
 
             const reduceFn = reduce.reduce.bind(reduce);
             reduce = (...args) => reduceFn(...args);
+        } else {
+            reduce = co.wrap(reducer);
         }
 
         return { resolverPath, isReducer, reduce };
@@ -202,6 +215,27 @@ class Router extends ReducerWrapper {
         }.bind(this));
     }
 
+    // used as protected method
+    processReducers (reducers, req, res, postBack, path, action) {
+        const routeToReduce = {
+            reducers,
+            path: res.routePath,
+            exitPoints: new Map()
+        };
+
+        return co(function* () {
+            yield* this._reduceTheArray(
+                routeToReduce,
+                routeToReduce,
+                action,
+                req,
+                res,
+                postBack,
+                res.path
+            );
+        }.bind(this));
+    }
+
     * _reduceTheArray (route, reducerContainer, action, req, res, relativePostBack, path = '/') {
         let breakOn = Router.BREAK;
         let continueOn = Router.CONTINUE;
@@ -214,7 +248,7 @@ class Router extends ReducerWrapper {
         for (const reducer of reducerContainer.reducers) {
 
             let pathContext = `${path === '/' ? '' : path}${route.path.replace(/\/\*/, '')}`;
-            res.setPath(path);
+            res.setPath(path, route.path);
 
             let result;
 

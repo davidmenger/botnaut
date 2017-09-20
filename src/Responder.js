@@ -27,6 +27,7 @@ class Responder {
         this.newState = {};
 
         this.path = '';
+        this.routePath = '';
 
         this.options = {
             translator: w => w,
@@ -46,8 +47,9 @@ class Responder {
         this._t = this.options.translator;
     }
 
-    setPath (currentContext) {
-        this.path = currentContext;
+    setPath (absolutePath, routePath = '') {
+        this.path = absolutePath;
+        this.routePath = routePath;
     }
 
     /**

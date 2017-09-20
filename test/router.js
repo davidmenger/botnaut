@@ -22,8 +22,10 @@ function createMockReq (text = '', action = 'action') {
 function createMockRes () {
     const ret = {
         path: '',
-        setPath (path) {
+        routePath: '',
+        setPath (path, routePath) {
             this.path = path;
+            this.routePath = routePath;
         }
     };
     return ret;
@@ -54,6 +56,27 @@ describe('Router', function () {
 
             router.use('/first', noRoute);
             router.use('/*', route);
+
+            yield router.reduce(req, res);
+
+            assert(!noRoute.called, 'route should not be called');
+            shouldBeCalled(route, req, res);
+        }));
+
+        it('should accept generators', co.wrap(function* () {
+            const router = new Router();
+
+            const route = sinon.spy(() => Promise.resolve());
+            const noRoute = sinon.spy();
+            const req = createMockReq();
+            const res = createMockRes();
+
+            router.use('/first', function* (r, s, p) {
+                noRoute(r, s, p);
+            });
+            router.use('/*', function* (r, s, p) {
+                yield route(r, s, p);
+            });
 
             yield router.reduce(req, res);
 
@@ -321,6 +344,33 @@ describe('Router', function () {
             assert.deepEqual(deferredPostBack.firstCall.args, ['/prefix/relative', { data: 1 }]);
         }));
 
+    });
+
+    describe('processReducers()', function () {
+
+        it('should be able to run small list of reducers', co.wrap(function* () {
+            const router = new Router();
+            const wrapRouter = new Router();
+
+            const route = sinon.spy((r, s, pb) => { pb('someAction'); });
+            const postBack = sinon.spy();
+            const req = createMockReq(null, '/inner/theAction');
+            const res = createMockRes();
+
+            const list = router.createReducersArray([route]);
+
+            router.use('/theAction', function* (r, s, pb, path, action) {
+                yield router.processReducers(list, r, s, pb, path, action);
+            });
+
+            wrapRouter.use('/inner', router);
+
+            yield wrapRouter.reduce(req, res, postBack);
+
+            assert(postBack.calledOnce, 'postback should be called');
+            assert.deepEqual(postBack.firstCall.args, ['/inner/someAction', {}]);
+            shouldBeCalled(route, req, res);
+        }));
     });
 
 });
