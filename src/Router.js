@@ -170,7 +170,11 @@ class Router extends ReducerWrapper {
             return [exitPointName, data];
         }
 
-        const result = route.exitPoints.get(exitPointName)(data, req, res, postBack);
+        let result = route.exitPoints.get(exitPointName)(data, req, res, postBack);
+
+        if (result instanceof Promise) {
+            result = yield result;
+        }
 
         if (typeof result === 'string' || Array.isArray(result)) {
             return result;
