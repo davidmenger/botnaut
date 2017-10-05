@@ -4,47 +4,85 @@ const assert = require('assert');
 const co = require('co');
 const sinon = require('sinon');
 const Router = require('../').Router;
-const translate = require('../').translate;
+const Translate = require('../').Translate;
 const Tester = require('../').Tester;
 
 
-describe('translate', function () {
+describe('<Translate>', function () {
 
-    it('should work', co.wrap(function* () {
-        const router = new Router();
+    describe('#middleware()', function () {
 
-        router.use(translate(() => 'cs', { sourcePath: __dirname }));
-        router.use('/test', (req, res) => {
-            const { t } = res;
-            assert.equal(typeof t, 'function');
+        it('should work', co.wrap(function* () {
+            const router = new Router();
 
-            res.text(t('key1'));
-            res.text(t('unknown key'));
+            const t = new Translate({ sourcePath: __dirname });
+
+            router.use(t.middleware(() => 'cs'));
+
+            router.use('/test', (req, res) => {
+                const { t: trans } = res;
+                assert.equal(typeof trans, 'function');
+
+                res.text(trans('key1'));
+                res.text(res.t('unknown key'));
+            });
+
+            const tester = new Tester(router);
+
+            yield tester.postBack('/test');
+
+            tester.passedAction('/test');
+            tester.any()
+                .contains('value1') // translated key1
+                .contains('unknown key');
+        }));
+
+        it('should fail with unknown locale', co.wrap(function* () {
+            const router = new Router();
+
+            const t = new Translate({ sourcePath: __dirname });
+
+            router.use(t.middleware(() => 'pl'));
+
+            const testRoute = sinon.spy();
+            router.use('/test', testRoute);
+
+            const tester = new Tester(router);
+
+            yield tester.postBack('/test').then(() => {
+                throw new Error('This should not happen');
+            }, () => null);
+
+            assert(testRoute.notCalled);
+        }));
+
+    });
+
+    describe('#translator()', function () {
+
+        it('throws error when bad arguments are used', function () {
+            const t = new Translate({ sourcePath: __dirname });
+
+            assert.throws(() => {
+                t.translator(null);
+            });
+
+            assert.throws(() => {
+                t.translator([null]);
+            });
+
         });
 
-        const tester = new Tester(router);
+        it('returns nice translation tool', function () {
+            const t = new Translate({ sourcePath: __dirname });
 
-        yield tester.postBack('/test');
+            return t.translator(['cs'])
+                .then((trans) => {
+                    assert.strictEqual(trans.cs.t('key1'), 'value1');
+                });
 
-        tester.passedAction('/test');
-        tester.any()
-            .contains('value1') // translated key1
-            .contains('unknown key');
-    }));
+        });
 
-    it('should fail with unknown locale', co.wrap(function* () {
-        const router = new Router();
+    });
 
-        router.use(translate(() => 'pl', { sourcePath: __dirname }));
-        const testRoute = sinon.spy();
-        router.use('/test', testRoute);
-
-        const tester = new Tester(router);
-
-        yield tester.postBack('/test').then(() => {
-            throw new Error('This should not happen');
-        }, () => null);
-
-        assert(testRoute.notCalled);
-    }));
 });

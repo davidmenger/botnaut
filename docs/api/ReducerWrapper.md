@@ -2,7 +2,7 @@
 
 ## ReducerWrapper ⇐ <code>EventEmitter</code>
 **Kind**: global class  
-**Extends:** <code>EventEmitter</code>  
+**Extends**: <code>EventEmitter</code>  
 **Emits**: <code>ReducerWrapper#event:action</code>  
 
 * [ReducerWrapper](#ReducerWrapper) ⇐ <code>EventEmitter</code>
@@ -33,7 +33,7 @@ reducer.on('action', (senderId, processedAction, text, req) => {
 ### reducerWrapper.reduce(req, res, postBack)
 Reducer function
 
-**Kind**: instance method of <code>[ReducerWrapper](#ReducerWrapper)</code>  
+**Kind**: instance method of [<code>ReducerWrapper</code>](#ReducerWrapper)  
 
 | Param | Type |
 | --- | --- |
@@ -44,7 +44,7 @@ Reducer function
 {% raw %}<div id="ReducerWrapper_ReducerWrapper">&nbsp;</div>{% endraw %}
 
 ### ReducerWrapper.ReducerWrapper
-**Kind**: static class of <code>[ReducerWrapper](#ReducerWrapper)</code>  
+**Kind**: static class of [<code>ReducerWrapper</code>](#ReducerWrapper)  
 {% raw %}<div id="new_ReducerWrapper_ReducerWrapper_new">&nbsp;</div>{% endraw %}
 
 #### new ReducerWrapper([reduce])

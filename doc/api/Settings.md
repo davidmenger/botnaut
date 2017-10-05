@@ -24,7 +24,7 @@ Utility, which helps us to set up chatbot behavior
 ### settings.greeting([text]) ⇒ <code>this</code>
 Sets or clears bot's greeting
 
-**Kind**: instance method of <code>[Settings](#Settings)</code>  
+**Kind**: instance method of [<code>Settings</code>](#Settings)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -35,11 +35,11 @@ Sets or clears bot's greeting
 ### settings.getStartedButton([payload]) ⇒ <code>this</code>
 Sets up the Get Started Button
 
-**Kind**: instance method of <code>[Settings](#Settings)</code>  
+**Kind**: instance method of [<code>Settings</code>](#Settings)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [payload] | <code>string</code> &#124; <code>object</code> | <code>false</code> | leave blank to remove button, or provide the action |
+| [payload] | <code>string</code> \| <code>object</code> | <code>false</code> | leave blank to remove button, or provide the action |
 
 **Example**  
 ```javascript
@@ -51,18 +51,18 @@ settings.getStartedButton('/start'); // just an action
 ### settings.whitelistDomain(domains) ⇒ <code>this</code>
 Useful for using facebook extension in webviews
 
-**Kind**: instance method of <code>[Settings](#Settings)</code>  
+**Kind**: instance method of [<code>Settings</code>](#Settings)  
 
 | Param | Type |
 | --- | --- |
-| domains | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> | 
+| domains | <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
 
 {% raw %}<div id="Settings_menu">&nbsp;</div>{% endraw %}
 
 ### settings.menu([locale], [inputDisabled]) ⇒ <code>MenuComposer</code>
 Sets up the persistent menu
 
-**Kind**: instance method of <code>[Settings](#Settings)</code>  
+**Kind**: instance method of [<code>Settings</code>](#Settings)  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -91,7 +91,7 @@ settings
 {% raw %}<div id="Settings_Settings">&nbsp;</div>{% endraw %}
 
 ### Settings.Settings
-**Kind**: static class of <code>[Settings](#Settings)</code>  
+**Kind**: static class of [<code>Settings</code>](#Settings)  
 {% raw %}<div id="new_Settings_Settings_new">&nbsp;</div>{% endraw %}
 
 #### new Settings(token, [log])

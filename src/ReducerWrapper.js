@@ -37,6 +37,8 @@ class ReducerWrapper extends EventEmitter {
         this._reduce = reduce;
 
         this.processMessage = null;
+
+        this.setMaxListeners(Infinity);
     }
 
     /**

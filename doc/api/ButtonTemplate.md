@@ -13,7 +13,7 @@
 
 ## ButtonTemplate ⇐ <code>BaseTemplate</code>
 **Kind**: global class  
-**Extends:** <code>BaseTemplate</code>  
+**Extends**: <code>BaseTemplate</code>  
 
 * [ButtonTemplate](#ButtonTemplate) ⇐ <code>BaseTemplate</code>
     * [new ButtonTemplate()](#new_ButtonTemplate_new)
@@ -32,7 +32,7 @@ Instance of button template is returned by {Responder}
 Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 `#token=foo&senderId=23344`
 
-**Kind**: instance method of <code>[ButtonTemplate](#ButtonTemplate)</code>  
+**Kind**: instance method of [<code>ButtonTemplate</code>](#ButtonTemplate)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -46,7 +46,7 @@ Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 ### buttonTemplate.postBackButton(title, action, [data]) ⇒ <code>this</code>
 Adds button, which makes another action
 
-**Kind**: instance method of <code>[ButtonTemplate](#ButtonTemplate)</code>  
+**Kind**: instance method of [<code>ButtonTemplate</code>](#ButtonTemplate)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -56,11 +56,11 @@ Adds button, which makes another action
 
 {% raw %}<div id="GenericTemplate">&nbsp;</div>{% endraw %}
 
-## GenericTemplate ⇐ <code>[ButtonTemplate](#ButtonTemplate)</code>
+## GenericTemplate ⇐ [<code>ButtonTemplate</code>](#ButtonTemplate)
 **Kind**: global class  
-**Extends:** <code>[ButtonTemplate](#ButtonTemplate)</code>  
+**Extends**: [<code>ButtonTemplate</code>](#ButtonTemplate)  
 
-* [GenericTemplate](#GenericTemplate) ⇐ <code>[ButtonTemplate](#ButtonTemplate)</code>
+* [GenericTemplate](#GenericTemplate) ⇐ [<code>ButtonTemplate</code>](#ButtonTemplate)
     * [new GenericTemplate()](#new_GenericTemplate_new)
     * [.addElement(title, [subtitle], [dontTranslate])](#GenericTemplate_addElement) ⇒ <code>this</code>
     * [.setElementUrl(url, [hasExtension])](#GenericTemplate_setElementUrl) ⇒ <code>this</code>
@@ -79,7 +79,7 @@ Generic template utility
 ### genericTemplate.addElement(title, [subtitle], [dontTranslate]) ⇒ <code>this</code>
 Adds element to generic template
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of [<code>GenericTemplate</code>](#GenericTemplate)  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -92,7 +92,7 @@ Adds element to generic template
 ### genericTemplate.setElementUrl(url, [hasExtension]) ⇒ <code>this</code>
 Sets url of recently added element
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of [<code>GenericTemplate</code>](#GenericTemplate)  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -104,7 +104,7 @@ Sets url of recently added element
 ### genericTemplate.setElementImage(image) ⇒ <code>this</code>
 Sets image of recently added element
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of [<code>GenericTemplate</code>](#GenericTemplate)  
 
 | Param | Type |
 | --- | --- |
@@ -115,7 +115,7 @@ Sets image of recently added element
 ### genericTemplate.setElementAction(url, hasExtension, [webviewHeight])
 Sets default action of recently added element
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of [<code>GenericTemplate</code>](#GenericTemplate)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -129,7 +129,7 @@ Sets default action of recently added element
 Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 `#token=foo&senderId=23344`
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of [<code>GenericTemplate</code>](#GenericTemplate)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -143,7 +143,7 @@ Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 ### genericTemplate.postBackButton(title, action, [data]) ⇒ <code>this</code>
 Adds button, which makes another action
 
-**Kind**: instance method of <code>[GenericTemplate](#GenericTemplate)</code>  
+**Kind**: instance method of [<code>GenericTemplate</code>](#GenericTemplate)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -155,7 +155,7 @@ Adds button, which makes another action
 
 ## ReceiptTemplate ⇐ <code>BaseTemplate</code>
 **Kind**: global class  
-**Extends:** <code>BaseTemplate</code>  
+**Extends**: <code>BaseTemplate</code>  
 
 * [ReceiptTemplate](#ReceiptTemplate) ⇐ <code>BaseTemplate</code>
     * [new ReceiptTemplate()](#new_ReceiptTemplate_new)
@@ -172,7 +172,7 @@ Instance of button template is returned by {Responder}
 ### receiptTemplate.addElement(title, [price], [quantity], [image], [subtitle]) ⇒ <code>this</code>
 Adds item to receipt
 
-**Kind**: instance method of <code>[ReceiptTemplate](#ReceiptTemplate)</code>  
+**Kind**: instance method of [<code>ReceiptTemplate</code>](#ReceiptTemplate)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |

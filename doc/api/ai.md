@@ -35,25 +35,25 @@
 ### ai.confidence : <code>number</code>
 Upper threshold - for match method and for navigate method
 
-**Kind**: instance property of <code>[Ai](#Ai)</code>  
+**Kind**: instance property of [<code>Ai</code>](#Ai)  
 {% raw %}<div id="Ai_threshold">&nbsp;</div>{% endraw %}
 
 ### ai.threshold : <code>number</code>
 Lower threshold - for navigate and makeSure methods
 
-**Kind**: instance property of <code>[Ai](#Ai)</code>  
+**Kind**: instance property of [<code>Ai</code>](#Ai)  
 {% raw %}<div id="Ai_logger">&nbsp;</div>{% endraw %}
 
 ### ai.logger : <code>Object</code>
 The logger (console by default)
 
-**Kind**: instance property of <code>[Ai](#Ai)</code>  
+**Kind**: instance property of [<code>Ai</code>](#Ai)  
 {% raw %}<div id="Ai_prefixTranslator">&nbsp;</div>{% endraw %}
 
 ### ai.prefixTranslator(prefix, req)
 The prefix translator - for request-specific prefixes
 
-**Kind**: instance method of <code>[Ai](#Ai)</code>  
+**Kind**: instance method of [<code>Ai</code>](#Ai)  
 
 | Param | Type |
 | --- | --- |
@@ -65,7 +65,7 @@ The prefix translator - for request-specific prefixes
 ### ai.mockIntent([intent], [confidence]) ⇒ <code>this</code>
 Usefull method for testing AI routes
 
-**Kind**: instance method of <code>[Ai](#Ai)</code>  
+**Kind**: instance method of [<code>Ai</code>](#Ai)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -105,7 +105,7 @@ When user confirms their intent, onIntentConfirmed handler will be called.
 To create meta data from recognized request use getMeta handler.
 Its useful for updating training data for AI
 
-**Kind**: instance method of <code>[Ai](#Ai)</code>  
+**Kind**: instance method of [<code>Ai</code>](#Ai)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -137,7 +137,7 @@ bot.use(ai.makeSure(['intent1', 'intent2']), (req, res) => {
 ### ai.register(model, options, prefix)
 Registers Wingbot AI model
 
-**Kind**: instance method of <code>[Ai](#Ai)</code>  
+**Kind**: instance method of [<code>Ai</code>](#Ai)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -152,12 +152,12 @@ Registers Wingbot AI model
 ### ai.match(intent, [confidence], [prefix]) ⇒ <code>function</code>
 Returns matching middleware
 
-**Kind**: instance method of <code>[Ai](#Ai)</code>  
+**Kind**: instance method of [<code>Ai</code>](#Ai)  
 **Returns**: <code>function</code> - - the middleware  
 
 | Param | Type | Default |
 | --- | --- | --- |
-| intent | <code>string</code> &#124; <code>Array</code> |  | 
+| intent | <code>string</code> \| <code>Array</code> |  | 
 | [confidence] | <code>number</code> | <code></code> | 
 | [prefix] | <code>string</code> |  | 
 
@@ -181,12 +181,12 @@ and **makes postback, when it's confident**
 Confidence should be between `threshold` and `confidence` to proceed
 to next resolver
 
-**Kind**: instance method of <code>[Ai](#Ai)</code>  
+**Kind**: instance method of [<code>Ai</code>](#Ai)  
 **Returns**: <code>function</code> - - the middleware  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| knownIntents | <code>Array</code> &#124; <code>Object</code> |  | list or map of accepted intents |
+| knownIntents | <code>Array</code> \| <code>Object</code> |  | list or map of accepted intents |
 | [threshold] | <code>number</code> | <code></code> | lower threshold |
 | [confidence] | <code>number</code> | <code></code> | upper threshold for confidence |
 | [prefix] | <code>string</code> |  | model name |
@@ -212,12 +212,12 @@ Create AI middleware, which resolves multiple replies.
 Confidence should be between `threshold` and `confidence` to proceed
 to next resolver
 
-**Kind**: instance method of <code>[Ai](#Ai)</code>  
+**Kind**: instance method of [<code>Ai</code>](#Ai)  
 **Returns**: <code>function</code> - - the middleware  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| knownIntents | <code>Array</code> &#124; <code>Object</code> |  | list or map of accepted intents |
+| knownIntents | <code>Array</code> \| <code>Object</code> |  | list or map of accepted intents |
 | [threshold] | <code>number</code> | <code></code> | lower threshold |
 | [confidence] | <code>number</code> | <code></code> | upper threshold for confidence |
 | prefix | <code>string</code> |  | model name |

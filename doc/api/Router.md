@@ -2,7 +2,7 @@
 
 ## Router ⇐ <code>ReducerWrapper</code>
 **Kind**: global class  
-**Extends:** <code>ReducerWrapper</code>  
+**Extends**: <code>ReducerWrapper</code>  
 
 * [Router](#Router) ⇐ <code>ReducerWrapper</code>
     * [new Router()](#new_Router_new)
@@ -24,13 +24,13 @@ Cascading router
 ### router.use([action], [matcher], ...reducers) ⇒ <code>Object</code>
 Appends middleware, action handler or another router
 
-**Kind**: instance method of <code>[Router](#Router)</code>  
+**Kind**: instance method of [<code>Router</code>](#Router)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | [action] | <code>string</code> | name of the action |
-| [matcher] | <code>RegExp</code> &#124; <code>string</code> &#124; <code>function</code> | The function can be async |
-| ...reducers | <code>function</code> &#124; <code>[Router](#Router)</code> |  |
+| [matcher] | <code>RegExp</code> \| <code>string</code> \| <code>function</code> | The function can be async |
+| ...reducers | <code>function</code> \| [<code>Router</code>](#Router) |  |
 
 **Example**  
 ```javascript
@@ -66,7 +66,7 @@ router.use('/path', subRouter)
 Return `Router.CONTINUE` when action matches your route
 Its same as returning `true`
 
-**Kind**: static property of <code>[Router](#Router)</code>  
+**Kind**: static property of [<code>Router</code>](#Router)  
 **Properties**
 
 | Type |
@@ -79,7 +79,7 @@ Its same as returning `true`
 Return `Router.BREAK` when action does not match your route
 Its same as returning `false`
 
-**Kind**: static property of <code>[Router](#Router)</code>  
+**Kind**: static property of [<code>Router</code>](#Router)  
 **Properties**
 
 | Type |
@@ -92,7 +92,7 @@ Its same as returning `false`
 Returning `Router.END` constant stops dispatching request
 Its same as returning `undefined`
 
-**Kind**: static property of <code>[Router](#Router)</code>  
+**Kind**: static property of [<code>Router</code>](#Router)  
 **Properties**
 
 | Type |
@@ -105,7 +105,7 @@ Its same as returning `undefined`
 Create the exit point
 Its same as returning `['action', { data }]`
 
-**Kind**: static method of <code>[Router](#Router)</code>  
+**Kind**: static method of [<code>Router</code>](#Router)  
 
 | Param | Type | Description |
 | --- | --- | --- |

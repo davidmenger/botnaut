@@ -29,7 +29,7 @@ Instance of responder is passed as second parameter of handler (res)
 ### responder.text(text, [quickReplys]) ⇒ <code>this</code>
 Send text as a response
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -52,7 +52,7 @@ res.text('Hello %s', name, {
 ### responder.setState(object) ⇒ <code>this</code>
 Sets new attributes to state (with Object.assign())
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 
 | Param | Type |
 | --- | --- |
@@ -67,7 +67,7 @@ res.setState({ visited: true });
 ### responder.expected(action) ⇒ <code>this</code>
 When user writes some text as reply, it will be processed as action
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -78,7 +78,7 @@ When user writes some text as reply, it will be processed as action
 ### responder.toAbsoluteAction(action) ⇒ <code>string</code>
 Converts relative action to absolute action path
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 **Returns**: <code>string</code> - absolute action path  
 
 | Param | Type | Description |
@@ -90,7 +90,7 @@ Converts relative action to absolute action path
 ### responder.image(imageUrl) ⇒ <code>this</code>
 Sends image as response. Requires appUrl option to send images from server
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -109,7 +109,7 @@ res.image('https://google.com/img/foo.png');
 ### responder.wait([ms]) ⇒ <code>this</code>
 Sets delay between two responses
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -120,25 +120,25 @@ Sets delay between two responses
 ### responder.typingOn() ⇒ <code>this</code>
 Sends "typing..." information
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 {% raw %}<div id="Responder_typingOff">&nbsp;</div>{% endraw %}
 
 ### responder.typingOff() ⇒ <code>this</code>
 Stops "typing..." information
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 {% raw %}<div id="Responder_seen">&nbsp;</div>{% endraw %}
 
 ### responder.seen() ⇒ <code>this</code>
 Reports last message from user as seen
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 {% raw %}<div id="Responder_receipt">&nbsp;</div>{% endraw %}
 
 ### responder.receipt(recipientName, [paymentMethod], [currency], [uniqueCode]) ⇒ <code>ReceiptTemplate</code>
 Sends Receipt template
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -158,7 +158,7 @@ res.receipt('Name', 'Cash', 'CZK', '1')
 ### responder.button(text) ⇒ <code>ButtonTemplate</code>
 Sends nice button template. It can redirect user to server with token in url
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 
 | Param | Type |
 | --- | --- |
@@ -177,7 +177,7 @@ res.button('Hello')
 ### responder.genericTemplate([shareable], [isSquare]) ⇒ <code>GenericTemplate</code>
 Creates a generic template
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -202,11 +202,11 @@ res.genericTemplate()
 ### responder.list([topElementStyle]) ⇒ <code>ListTemplate</code>
 Creates a generic template
 
-**Kind**: instance method of <code>[Responder](#Responder)</code>  
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [topElementStyle] | <code>&#x27;large&#x27;</code> &#124; <code>&#x27;compact&#x27;</code> | <code>&#x27;large&#x27;</code> | 
+| [topElementStyle] | <code>&#x27;large&#x27;</code> \| <code>&#x27;compact&#x27;</code> | <code>&#x27;large&#x27;</code> | 
 
 **Example**  
 ```javascript

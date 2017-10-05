@@ -37,7 +37,7 @@ Conversation state storage
 ### state.connectAndSubscribe(senderId, [defaultState], [timeout]) ⇒ <code>Promise.&lt;Object&gt;</code>
 Load state and lock for other requests
 
-**Kind**: instance method of <code>[State](#State)</code>  
+**Kind**: instance method of [<code>State</code>](#State)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -50,7 +50,7 @@ Load state and lock for other requests
 ### state.onAfterStateLoad(req, state) ⇒ <code>Promise.&lt;Object&gt;</code>
 Called after load for postprocessing purposes
 
-**Kind**: instance method of <code>[State](#State)</code>  
+**Kind**: instance method of [<code>State</code>](#State)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -62,7 +62,7 @@ Called after load for postprocessing purposes
 ### state.saveState(state) ⇒ <code>Promise</code>
 Called for saving state
 
-**Kind**: instance method of <code>[State](#State)</code>  
+**Kind**: instance method of [<code>State</code>](#State)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -84,7 +84,7 @@ Chat logs storage
 ### chatLog.log(userId, responses, request)
 Log single event
 
-**Kind**: instance method of <code>[ChatLog](#ChatLog)</code>  
+**Kind**: instance method of [<code>ChatLog</code>](#ChatLog)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -97,7 +97,7 @@ Log single event
 ### chatLog.error(err, userId, [responses], [request])
 Log single event
 
-**Kind**: instance method of <code>[ChatLog](#ChatLog)</code>  
+**Kind**: instance method of [<code>ChatLog</code>](#ChatLog)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -115,7 +115,7 @@ Create a chat event processor
 
 | Param | Type | Description |
 | --- | --- | --- |
-| reducer | <code>function</code> &#124; <code>Router</code> | Root router object or processor function |
+| reducer | <code>function</code> \| <code>Router</code> | Root router object or processor function |
 | processorOptions | <code>Object</code> | settings for message processing |
 | [processorOptions.pageToken] | <code>string</code> | page token |
 | [processorOptions.appSecret] | <code>string</code> | bot application secret |
@@ -131,7 +131,7 @@ Create a chat event processor
 | [processorOptions.loadUsers] | <code>boolean</code> | set false to not load user profiles |
 | [processorOptions.userLoader] | <code>Object</code> | override default user loader |
 | [processorOptions.onSenderError] | <code>function</code> | override default sender error reporter |
-| [processorOptions.autoTyping] | <code>Object</code> &#124; <code>boolean</code> | enable auto typing |
+| [processorOptions.autoTyping] | <code>Object</code> \| <code>boolean</code> | enable auto typing |
 | [processorOptions.autoTyping.time] | <code>number</code> | default typing time |
 | [processorOptions.autoTyping.perCharacters] | <code>number</code> | typing time per character |
 | [processorOptions.autoTyping.minTime] | <code>number</code> | auto typing lower threshold |
@@ -180,7 +180,7 @@ Create an express route for accepting messenger events
 
 | Param | Type | Description |
 | --- | --- | --- |
-| reducer | <code>function</code> &#124; <code>Router</code> | Root router object or processor function |
+| reducer | <code>function</code> \| <code>Router</code> | Root router object or processor function |
 | verifyToken | <code>string</code> | chatbot application token |
 | [log] | <code>Object</code> | console.* like logger object |
 

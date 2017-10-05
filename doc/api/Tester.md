@@ -17,9 +17,9 @@
 * [Tester](#Tester)
     * [new Tester()](#new_Tester_new)
     * _instance_
-        * [.res([index])](#Tester_res) ⇒ <code>[ResponseAssert](#ResponseAssert)</code>
-        * [.any()](#Tester_any) ⇒ <code>[AnyResponseAssert](#AnyResponseAssert)</code>
-        * [.lastRes()](#Tester_lastRes) ⇒ <code>[ResponseAssert](#ResponseAssert)</code>
+        * [.res([index])](#Tester_res) ⇒ [<code>ResponseAssert</code>](#ResponseAssert)
+        * [.any()](#Tester_any) ⇒ [<code>AnyResponseAssert</code>](#AnyResponseAssert)
+        * [.lastRes()](#Tester_lastRes) ⇒ [<code>ResponseAssert</code>](#ResponseAssert)
         * [.passedAction(path)](#Tester_passedAction) ⇒ <code>this</code>
         * [.getState()](#Tester_getState) ⇒ <code>object</code>
         * [.setState([state])](#Tester_setState)
@@ -38,10 +38,10 @@ Utility for testing requests
 
 {% raw %}<div id="Tester_res">&nbsp;</div>{% endraw %}
 
-### tester.res([index]) ⇒ <code>[ResponseAssert](#ResponseAssert)</code>
+### tester.res([index]) ⇒ [<code>ResponseAssert</code>](#ResponseAssert)
 Returns single response asserter
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -49,22 +49,22 @@ Returns single response asserter
 
 {% raw %}<div id="Tester_any">&nbsp;</div>{% endraw %}
 
-### tester.any() ⇒ <code>[AnyResponseAssert](#AnyResponseAssert)</code>
+### tester.any() ⇒ [<code>AnyResponseAssert</code>](#AnyResponseAssert)
 Returns any response asserter
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
 {% raw %}<div id="Tester_lastRes">&nbsp;</div>{% endraw %}
 
-### tester.lastRes() ⇒ <code>[ResponseAssert](#ResponseAssert)</code>
+### tester.lastRes() ⇒ [<code>ResponseAssert</code>](#ResponseAssert)
 Returns last response asserter
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
 {% raw %}<div id="Tester_passedAction">&nbsp;</div>{% endraw %}
 
 ### tester.passedAction(path) ⇒ <code>this</code>
 Checks, that app past the action
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
 
 | Param | Type |
 | --- | --- |
@@ -75,13 +75,13 @@ Checks, that app past the action
 ### tester.getState() ⇒ <code>object</code>
 Returns state
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
 {% raw %}<div id="Tester_setState">&nbsp;</div>{% endraw %}
 
 ### tester.setState([state])
 Sets state with `Object.assign()`
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -92,7 +92,7 @@ Sets state with `Object.assign()`
 ### tester.text(text) ⇒ <code>Promise</code>
 Makes text request
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
 
 | Param | Type |
 | --- | --- |
@@ -103,7 +103,7 @@ Makes text request
 ### tester.optin(action, [data]) ⇒ <code>Promise</code>
 Make optin call
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -115,7 +115,7 @@ Make optin call
 ### tester.quickReply(action, [data]) ⇒ <code>Promise</code>
 Send quick reply
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -127,7 +127,7 @@ Send quick reply
 ### tester.postBack(action, [data], [refAction], [refData]) ⇒ <code>Promise</code>
 Sends postback, optionally with referrer action
 
-**Kind**: instance method of <code>[Tester](#Tester)</code>  
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -139,7 +139,7 @@ Sends postback, optionally with referrer action
 {% raw %}<div id="Tester_Tester">&nbsp;</div>{% endraw %}
 
 ### Tester.Tester
-**Kind**: static class of <code>[Tester](#Tester)</code>  
+**Kind**: static class of [<code>Tester</code>](#Tester)  
 {% raw %}<div id="new_Tester_Tester_new">&nbsp;</div>{% endraw %}
 
 #### new Tester(reducer, [senderId], [processorOptions], [storage])
@@ -148,7 +148,7 @@ Creates an instance of Tester.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| reducer | <code>Router</code> &#124; <code>ReducerWrapper</code> &#124; <code>function</code> |  |  |
+| reducer | <code>Router</code> \| <code>ReducerWrapper</code> \| <code>function</code> |  |  |
 | [senderId] | <code>string</code> | <code>null</code> |  |
 | [processorOptions] | <code>object</code> | <code>{}</code> | options for Processor |
 | [storage] | <code>MemoryStateStorage</code> |  | place to override the storage |
@@ -181,7 +181,7 @@ Utility for asserting single response
 ### responseAssert.contains(search) ⇒ <code>this</code>
 Checks, that response contains text
 
-**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: instance method of [<code>ResponseAssert</code>](#ResponseAssert)  
 
 | Param | Type |
 | --- | --- |
@@ -192,7 +192,7 @@ Checks, that response contains text
 ### responseAssert.quickReplyAction(action) ⇒ <code>this</code>
 Checks quick response action
 
-**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: instance method of [<code>ResponseAssert</code>](#ResponseAssert)  
 
 | Param | Type |
 | --- | --- |
@@ -203,7 +203,7 @@ Checks quick response action
 ### responseAssert.templateType(type) ⇒ <code>this</code>
 Checks template type
 
-**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: instance method of [<code>ResponseAssert</code>](#ResponseAssert)  
 
 | Param | Type |
 | --- | --- |
@@ -214,7 +214,7 @@ Checks template type
 ### responseAssert.attachmentType(type) ⇒ <code>this</code>
 Checks attachment type
 
-**Kind**: instance method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: instance method of [<code>ResponseAssert</code>](#ResponseAssert)  
 
 | Param | Type |
 | --- | --- |
@@ -225,7 +225,7 @@ Checks attachment type
 ### ResponseAssert.AnyResponseAssert#contains(search) ⇒ <code>this</code>
 Checks, that response contains text
 
-**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: static method of [<code>ResponseAssert</code>](#ResponseAssert)  
 
 | Param | Type |
 | --- | --- |
@@ -236,7 +236,7 @@ Checks, that response contains text
 ### ResponseAssert.AnyResponseAssert#quickReplyAction(action) ⇒ <code>this</code>
 Checks quick response action
 
-**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: static method of [<code>ResponseAssert</code>](#ResponseAssert)  
 
 | Param | Type |
 | --- | --- |
@@ -247,7 +247,7 @@ Checks quick response action
 ### ResponseAssert.AnyResponseAssert#templateType(type) ⇒ <code>this</code>
 Checks template type
 
-**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: static method of [<code>ResponseAssert</code>](#ResponseAssert)  
 
 | Param | Type |
 | --- | --- |
@@ -258,7 +258,7 @@ Checks template type
 ### ResponseAssert.AnyResponseAssert#attachmentType(type) ⇒ <code>this</code>
 Checks attachment type
 
-**Kind**: static method of <code>[ResponseAssert](#ResponseAssert)</code>  
+**Kind**: static method of [<code>ResponseAssert</code>](#ResponseAssert)  
 
 | Param | Type |
 | --- | --- |

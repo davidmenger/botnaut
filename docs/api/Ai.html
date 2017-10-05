@@ -743,22 +743,22 @@
 
 <h3 id="aiconfidence--number"><a name="aiconfidence--number" class="plugin-anchor" href="#aiconfidence--number"><i class="fa fa-link" aria-hidden="true"></i></a>ai.confidence : <code>number</code></h3>
 <p>Upper threshold - for match method and for navigate method</p>
-<p><strong>Kind</strong>: instance property of <code>Ai</code>  </p>
+<p><strong>Kind</strong>: instance property of <a href="#Ai"><code>Ai</code></a>  </p>
 <div id="Ai_threshold">&#xA0;</div>
 
 <h3 id="aithreshold--number"><a name="aithreshold--number" class="plugin-anchor" href="#aithreshold--number"><i class="fa fa-link" aria-hidden="true"></i></a>ai.threshold : <code>number</code></h3>
 <p>Lower threshold - for navigate and makeSure methods</p>
-<p><strong>Kind</strong>: instance property of <code>Ai</code>  </p>
+<p><strong>Kind</strong>: instance property of <a href="#Ai"><code>Ai</code></a>  </p>
 <div id="Ai_logger">&#xA0;</div>
 
 <h3 id="ailogger--object"><a name="ailogger--object" class="plugin-anchor" href="#ailogger--object"><i class="fa fa-link" aria-hidden="true"></i></a>ai.logger : <code>Object</code></h3>
 <p>The logger (console by default)</p>
-<p><strong>Kind</strong>: instance property of <code>Ai</code>  </p>
+<p><strong>Kind</strong>: instance property of <a href="#Ai"><code>Ai</code></a>  </p>
 <div id="Ai_prefixTranslator">&#xA0;</div>
 
 <h3 id="aiprefixtranslatorprefix-req"><a name="aiprefixtranslatorprefix-req" class="plugin-anchor" href="#aiprefixtranslatorprefix-req"><i class="fa fa-link" aria-hidden="true"></i></a>ai.prefixTranslator(prefix, req)</h3>
 <p>The prefix translator - for request-specific prefixes</p>
-<p><strong>Kind</strong>: instance method of <code>Ai</code>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#Ai"><code>Ai</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -781,7 +781,7 @@
 
 <h3 id="aimockintentintent-confidence-&#x21D2;-this"><a name="aimockintentintent-confidence-&#x21D2;-this" class="plugin-anchor" href="#aimockintentintent-confidence-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ai.mockIntent([intent], [confidence]) &#x21D2; <code>this</code></h3>
 <p>Usefull method for testing AI routes</p>
-<p><strong>Kind</strong>: instance method of <code>Ai</code>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#Ai"><code>Ai</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -837,7 +837,7 @@ describe(<span class="hljs-string">&apos;bot&apos;</span>, <span class="hljs-fun
 <p>When user confirms their intent, onIntentConfirmed handler will be called.
 To create meta data from recognized request use getMeta handler.
 Its useful for updating training data for AI</p>
-<p><strong>Kind</strong>: instance method of <code>Ai</code>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#Ai"><code>Ai</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -885,7 +885,7 @@ bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span
 
 <h3 id="airegistermodel-options-prefix"><a name="airegistermodel-options-prefix" class="plugin-anchor" href="#airegistermodel-options-prefix"><i class="fa fa-link" aria-hidden="true"></i></a>ai.register(model, options, prefix)</h3>
 <p>Registers Wingbot AI model</p>
-<p><strong>Kind</strong>: instance method of <code>Ai</code>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#Ai"><code>Ai</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -926,7 +926,7 @@ bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span
 
 <h3 id="aimatchintent-confidence-prefix-&#x21D2;-function"><a name="aimatchintent-confidence-prefix-&#x21D2;-function" class="plugin-anchor" href="#aimatchintent-confidence-prefix-&#x21D2;-function"><i class="fa fa-link" aria-hidden="true"></i></a>ai.match(intent, [confidence], [prefix]) &#x21D2; <code>function</code></h3>
 <p>Returns matching middleware</p>
-<p><strong>Kind</strong>: instance method of <code>Ai</code><br><strong>Returns</strong>: <code>function</code> - - the middleware  </p>
+<p><strong>Kind</strong>: instance method of <a href="#Ai"><code>Ai</code></a><br><strong>Returns</strong>: <code>function</code> - - the middleware  </p>
 <table>
 <thead>
 <tr>
@@ -938,7 +938,8 @@ bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span
 <tbody>
 <tr>
 <td>intent</td>
-<td><code>string</code> | <code>Array</code></td>
+<td><code>string</code> \</td>
+<td><code>Array</code></td>
 <td></td>
 </tr>
 <tr>
@@ -970,7 +971,7 @@ bot.use(ai.match(<span class="hljs-string">&apos;intent1&apos;</span>), (req, re
 and <strong>makes postback, when it&apos;s confident</strong>
 Confidence should be between <code>threshold</code> and <code>confidence</code> to proceed
 to next resolver</p>
-<p><strong>Kind</strong>: instance method of <code>Ai</code><br><strong>Returns</strong>: <code>function</code> - - the middleware  </p>
+<p><strong>Kind</strong>: instance method of <a href="#Ai"><code>Ai</code></a><br><strong>Returns</strong>: <code>function</code> - - the middleware  </p>
 <table>
 <thead>
 <tr>
@@ -983,7 +984,8 @@ to next resolver</p>
 <tbody>
 <tr>
 <td>knownIntents</td>
-<td><code>Array</code> | <code>Object</code></td>
+<td><code>Array</code> \</td>
+<td><code>Object</code></td>
 <td></td>
 <td>list or map of accepted intents</td>
 </tr>
@@ -1026,7 +1028,7 @@ bot.use(ai.navigate([<span class="hljs-string">&apos;intent1&apos;</span>, <span
 <p>Create AI middleware, which resolves multiple replies.
 Confidence should be between <code>threshold</code> and <code>confidence</code> to proceed
 to next resolver</p>
-<p><strong>Kind</strong>: instance method of <code>Ai</code><br><strong>Returns</strong>: <code>function</code> - - the middleware  </p>
+<p><strong>Kind</strong>: instance method of <a href="#Ai"><code>Ai</code></a><br><strong>Returns</strong>: <code>function</code> - - the middleware  </p>
 <table>
 <thead>
 <tr>
@@ -1039,7 +1041,8 @@ to next resolver</p>
 <tbody>
 <tr>
 <td>knownIntents</td>
-<td><code>Array</code> | <code>Object</code></td>
+<td><code>Array</code> \</td>
+<td><code>Object</code></td>
 <td></td>
 <td>list or map of accepted intents</td>
 </tr>
@@ -1143,7 +1146,7 @@ bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Ai","level":"2.9","depth":1,"previous":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Ai.md","mtime":"2017-09-20T09:06:30.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-20T09:06:36.639Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Ai","level":"2.9","depth":1,"previous":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Ai.md","mtime":"2017-10-05T12:02:46.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-05T12:02:52.245Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

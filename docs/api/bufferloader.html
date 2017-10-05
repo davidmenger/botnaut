@@ -714,6 +714,10 @@
 <dt><a href="#MemoryStateStorage">MemoryStateStorage</a></dt>
 <dd><p>Memory conversation state storage for testing purposes</p>
 </dd>
+<dt><a href="#Translate">Translate</a></dt>
+<dd></dd>
+<dt><a href="#Translate">Translate</a></dt>
+<dd></dd>
 </dl>
 
 <h2 id="functions"><a name="functions" class="plugin-anchor" href="#functions"><i class="fa fa-link" aria-hidden="true"></i></a>Functions</h2>
@@ -739,7 +743,7 @@
 <div id="MemoryStateStorage_getOrCreateAndLock">&#xA0;</div>
 
 <h3 id="memorystatestoragegetorcreateandlocksenderid-defaultstate-&#x21D2;-promiseobject"><a name="memorystatestoragegetorcreateandlocksenderid-defaultstate-&#x21D2;-promiseobject" class="plugin-anchor" href="#memorystatestoragegetorcreateandlocksenderid-defaultstate-&#x21D2;-promiseobject"><i class="fa fa-link" aria-hidden="true"></i></a>memoryStateStorage.getOrCreateAndLock(senderId, defaultState) &#x21D2; <code>Promise.&lt;Object&gt;</code></h3>
-<p><strong>Kind</strong>: instance method of <code>MemoryStateStorage</code><br><strong>Returns</strong>: <code>Promise.&lt;Object&gt;</code> - - conversation state  </p>
+<p><strong>Kind</strong>: instance method of <a href="#MemoryStateStorage"><code>MemoryStateStorage</code></a><br><strong>Returns</strong>: <code>Promise.&lt;Object&gt;</code> - - conversation state  </p>
 <table>
 <thead>
 <tr>
@@ -764,7 +768,7 @@
 <div id="MemoryStateStorage_onAfterStateLoad">&#xA0;</div>
 
 <h3 id="memorystatestorageonafterstateloadreq-state-&#x21D2;-promiseobject"><a name="memorystatestorageonafterstateloadreq-state-&#x21D2;-promiseobject" class="plugin-anchor" href="#memorystatestorageonafterstateloadreq-state-&#x21D2;-promiseobject"><i class="fa fa-link" aria-hidden="true"></i></a>memoryStateStorage.onAfterStateLoad(req, state) &#x21D2; <code>Promise.&lt;Object&gt;</code></h3>
-<p><strong>Kind</strong>: instance method of <code>MemoryStateStorage</code><br><strong>Returns</strong>: <code>Promise.&lt;Object&gt;</code> - - conversation state  </p>
+<p><strong>Kind</strong>: instance method of <a href="#MemoryStateStorage"><code>MemoryStateStorage</code></a><br><strong>Returns</strong>: <code>Promise.&lt;Object&gt;</code> - - conversation state  </p>
 <table>
 <thead>
 <tr>
@@ -789,7 +793,7 @@
 <div id="MemoryStateStorage_saveState">&#xA0;</div>
 
 <h3 id="memorystatestoragesavestatestate-&#x21D2;-promise"><a name="memorystatestoragesavestatestate-&#x21D2;-promise" class="plugin-anchor" href="#memorystatestoragesavestatestate-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>memoryStateStorage.saveState(state) &#x21D2; <code>Promise</code></h3>
-<p><strong>Kind</strong>: instance method of <code>MemoryStateStorage</code>  </p>
+<p><strong>Kind</strong>: instance method of <a href="#MemoryStateStorage"><code>MemoryStateStorage</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -806,6 +810,232 @@
 </tr>
 </tbody>
 </table>
+<div id="Translate">&#xA0;</div>
+
+<h2 id="translate"><a name="translate" class="plugin-anchor" href="#translate"><i class="fa fa-link" aria-hidden="true"></i></a>Translate</h2>
+<p><strong>Kind</strong>: global class  </p>
+<ul>
+<li><a href="#Translate">Translate</a><ul>
+<li><a href="#new_Translate_new">new Translate()</a></li>
+<li><a href="#new_Translate_new">new Translate(options)</a></li>
+<li><a href="#Translate_translator">.translator(languages)</a> &#x21D2; <code>Promise.&lt;object&gt;</code></li>
+<li><a href="#Translate_middleware">.middleware(languageResolver)</a> &#x21D2; <code>function</code></li>
+</ul>
+</li>
+</ul>
+<div id="new_Translate_new">&#xA0;</div>
+
+<h3 id="new-translate"><a name="new-translate" class="plugin-anchor" href="#new-translate"><i class="fa fa-link" aria-hidden="true"></i></a>new Translate()</h3>
+<p>Tool for text translation</p>
+<div id="new_Translate_new">&#xA0;</div>
+
+<h3 id="new-translateoptions"><a name="new-translateoptions" class="plugin-anchor" href="#new-translateoptions"><i class="fa fa-link" aria-hidden="true"></i></a>new Translate(options)</h3>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>options</td>
+<td><code>object</code></td>
+<td></td>
+</tr>
+<tr>
+<td>[options.sourcePath]</td>
+<td><code>string</code></td>
+<td>optional source path of translation folder</td>
+</tr>
+<tr>
+<td>[options.fileSuffix]</td>
+<td><code>string</code></td>
+<td>by default <code>.locale.po</code></td>
+</tr>
+</tbody>
+</table>
+<div id="Translate_translator">&#xA0;</div>
+
+<h3 id="translatetranslatorlanguages-&#x21D2;-promiseobject"><a name="translatetranslatorlanguages-&#x21D2;-promiseobject" class="plugin-anchor" href="#translatetranslatorlanguages-&#x21D2;-promiseobject"><i class="fa fa-link" aria-hidden="true"></i></a>translate.translator(languages) &#x21D2; <code>Promise.&lt;object&gt;</code></h3>
+<p>Creates static translator for static settings</p>
+<p><strong>Kind</strong>: instance method of <a href="#Translate"><code>Translate</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>languages</td>
+<td><code>Array.&lt;string&gt;</code></td>
+<td>list of required languages</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Translate } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+
+<span class="hljs-keyword">const</span> translate = <span class="hljs-keyword">new</span> Translate({ sourcePath: __dirname });
+
+<span class="hljs-keyword">const</span> t = translate.translator([<span class="hljs-string">&apos;cs&apos;</span>, <span class="hljs-string">&apos;en&apos;</span>]);
+
+<span class="hljs-comment">// czech</span>
+t.cs.t(<span class="hljs-string">&apos;requested text&apos;</span>);
+
+<span class="hljs-comment">// english</span>
+t.en.t(<span class="hljs-string">&apos;requested text&apos;</span>);
+</code></pre>
+<div id="Translate_middleware">&#xA0;</div>
+
+<h3 id="translatemiddlewarelanguageresolver-&#x21D2;-function"><a name="translatemiddlewarelanguageresolver-&#x21D2;-function" class="plugin-anchor" href="#translatemiddlewarelanguageresolver-&#x21D2;-function"><i class="fa fa-link" aria-hidden="true"></i></a>translate.middleware(languageResolver) &#x21D2; <code>function</code></h3>
+<p>Bots middleware for text translations</p>
+<ul>
+<li>will be looking for <code>&lt;lang&gt;.locale.po</code> by default</li>
+</ul>
+<p><strong>Kind</strong>: instance method of <a href="#Translate"><code>Translate</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>languageResolver</td>
+<td><code>function</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Translate } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+
+<span class="hljs-keyword">const</span> translate = <span class="hljs-keyword">new</span> Translate({ sourcePath: __dirname });
+
+bot.use(translate.middleware((req, res) =&gt; <span class="hljs-string">&apos;cs&apos;</span>));
+
+bot.use((req, res) =&gt; {
+   res.text(res.t(<span class="hljs-string">&apos;Translated text&apos;</span>));
+});
+</code></pre>
+<div id="Translate">&#xA0;</div>
+
+<h2 id="translate"><a name="translate" class="plugin-anchor" href="#translate"><i class="fa fa-link" aria-hidden="true"></i></a>Translate</h2>
+<p><strong>Kind</strong>: global class  </p>
+<ul>
+<li><a href="#Translate">Translate</a><ul>
+<li><a href="#new_Translate_new">new Translate()</a></li>
+<li><a href="#new_Translate_new">new Translate(options)</a></li>
+<li><a href="#Translate_translator">.translator(languages)</a> &#x21D2; <code>Promise.&lt;object&gt;</code></li>
+<li><a href="#Translate_middleware">.middleware(languageResolver)</a> &#x21D2; <code>function</code></li>
+</ul>
+</li>
+</ul>
+<div id="new_Translate_new">&#xA0;</div>
+
+<h3 id="new-translate"><a name="new-translate" class="plugin-anchor" href="#new-translate"><i class="fa fa-link" aria-hidden="true"></i></a>new Translate()</h3>
+<p>Tool for text translation</p>
+<div id="new_Translate_new">&#xA0;</div>
+
+<h3 id="new-translateoptions"><a name="new-translateoptions" class="plugin-anchor" href="#new-translateoptions"><i class="fa fa-link" aria-hidden="true"></i></a>new Translate(options)</h3>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>options</td>
+<td><code>object</code></td>
+<td></td>
+</tr>
+<tr>
+<td>[options.sourcePath]</td>
+<td><code>string</code></td>
+<td>optional source path of translation folder</td>
+</tr>
+<tr>
+<td>[options.fileSuffix]</td>
+<td><code>string</code></td>
+<td>by default <code>.locale.po</code></td>
+</tr>
+</tbody>
+</table>
+<div id="Translate_translator">&#xA0;</div>
+
+<h3 id="translatetranslatorlanguages-&#x21D2;-promiseobject"><a name="translatetranslatorlanguages-&#x21D2;-promiseobject" class="plugin-anchor" href="#translatetranslatorlanguages-&#x21D2;-promiseobject"><i class="fa fa-link" aria-hidden="true"></i></a>translate.translator(languages) &#x21D2; <code>Promise.&lt;object&gt;</code></h3>
+<p>Creates static translator for static settings</p>
+<p><strong>Kind</strong>: instance method of <a href="#Translate"><code>Translate</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>languages</td>
+<td><code>Array.&lt;string&gt;</code></td>
+<td>list of required languages</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Translate } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+
+<span class="hljs-keyword">const</span> translate = <span class="hljs-keyword">new</span> Translate({ sourcePath: __dirname });
+
+<span class="hljs-keyword">const</span> t = translate.translator([<span class="hljs-string">&apos;cs&apos;</span>, <span class="hljs-string">&apos;en&apos;</span>]);
+
+<span class="hljs-comment">// czech</span>
+t.cs.t(<span class="hljs-string">&apos;requested text&apos;</span>);
+
+<span class="hljs-comment">// english</span>
+t.en.t(<span class="hljs-string">&apos;requested text&apos;</span>);
+</code></pre>
+<div id="Translate_middleware">&#xA0;</div>
+
+<h3 id="translatemiddlewarelanguageresolver-&#x21D2;-function"><a name="translatemiddlewarelanguageresolver-&#x21D2;-function" class="plugin-anchor" href="#translatemiddlewarelanguageresolver-&#x21D2;-function"><i class="fa fa-link" aria-hidden="true"></i></a>translate.middleware(languageResolver) &#x21D2; <code>function</code></h3>
+<p>Bots middleware for text translations</p>
+<ul>
+<li>will be looking for <code>&lt;lang&gt;.locale.po</code> by default</li>
+</ul>
+<p><strong>Kind</strong>: instance method of <a href="#Translate"><code>Translate</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>languageResolver</td>
+<td><code>function</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Translate } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+
+<span class="hljs-keyword">const</span> translate = <span class="hljs-keyword">new</span> Translate({ sourcePath: __dirname });
+
+bot.use(translate.middleware((req, res) =&gt; <span class="hljs-string">&apos;cs&apos;</span>));
+
+bot.use((req, res) =&gt; {
+   res.text(res.t(<span class="hljs-string">&apos;Translated text&apos;</span>));
+});
+</code></pre>
 <div id="bufferloader">&#xA0;</div>
 
 <h2 id="bufferloaderurl-limit-limitjustbybody-redircount-&#x21D2;"><a name="bufferloaderurl-limit-limitjustbybody-redircount-&#x21D2;" class="plugin-anchor" href="#bufferloaderurl-limit-limitjustbybody-redircount-&#x21D2;"><i class="fa fa-link" aria-hidden="true"></i></a>bufferloader(url, [limit], [limitJustByBody], [redirCount]) &#x21D2;</h2>
@@ -899,7 +1129,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Utils","level":"2.8","depth":1,"next":{"title":"Ai","level":"2.9","depth":1,"path":"api/Ai.md","ref":"api/Ai.md","articles":[]},"previous":{"title":"Express/MongoDb tools","level":"2.7","depth":1,"path":"api/express.md","ref":"api/express.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/bufferloader.md","mtime":"2017-09-20T09:06:29.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-20T09:06:36.639Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Utils","level":"2.8","depth":1,"next":{"title":"Ai","level":"2.9","depth":1,"path":"api/Ai.md","ref":"api/Ai.md","articles":[]},"previous":{"title":"Express/MongoDb tools","level":"2.7","depth":1,"path":"api/express.md","ref":"api/express.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/bufferloader.md","mtime":"2017-10-05T12:02:46.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-05T12:02:52.245Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
