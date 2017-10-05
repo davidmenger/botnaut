@@ -130,6 +130,39 @@ describe('Processor', function () {
             });
         });
 
+        it('postback should reset expectations', function () {
+            const reducer = sinon.spy((req, res) => {
+                res.text('Hello');
+            });
+
+            const stateStorage = createStateStorage({
+                user: {},
+                _expected: { action: 'expect' }
+            });
+
+            const opts = makeOptions();
+            const proc = new Processor(reducer, opts, stateStorage);
+
+            return proc.processMessage({
+                sender: {
+                    id: 1
+                },
+                postback: {
+                    payload: {
+                        action: 'action'
+                    }
+                }
+            }, 10).then(() => {
+                assert(reducer.calledOnce);
+
+                assert.deepEqual(stateStorage.model.state, {
+                    user: {},
+                    _expected: null,
+                    _expectedKeywords: null
+                });
+            });
+        });
+
         it('should pass error to default error handler', function () {
             let responder;
 
@@ -362,7 +395,9 @@ describe('Processor', function () {
                 ]);
 
                 assert.deepEqual(stateStorage.model.state, {
-                    final: 2
+                    final: 2,
+                    _expected: null,
+                    _expectedKeywords: null
                 });
             });
         });

@@ -220,7 +220,12 @@ describe('Tester', function () {
 
             yield t.postBack('/start');
 
-            assert.deepEqual(t.getState().state, { i: 2 });
+            assert.deepEqual(t.getState().state, {
+                i: 2,
+                _expected: null,
+                _expectedKeywords: null
+            });
+
             t.any()
                 .contains('postback')
                 .contains('hasSender')
@@ -229,7 +234,12 @@ describe('Tester', function () {
 
             yield t.optin('/start');
 
-            assert.deepEqual(t.getState().state, { i: 4 });
+            assert.deepEqual(t.getState().state, {
+                i: 4,
+                _expected: null,
+                _expectedKeywords: null
+            });
+
             t.any()
                 .contains('optin')
                 .contains('noSender')

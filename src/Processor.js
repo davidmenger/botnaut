@@ -244,13 +244,16 @@ class Processor {
 
                 state = Object.assign({}, state, res.newState);
 
+                const isUserEvent = req.isMessage() || req.isPostBack()
+                    || req.isReferral() || req.isAttachment();
+
                 // reset expectations
-                if (req.isMessage() && !res.newState._expected) {
+                if (isUserEvent && !res.newState._expected) {
                     state._expected = null;
                 }
 
                 // reset expectations
-                if (req.isMessage() && !res.newState._expectedKeywords) {
+                if (isUserEvent && !res.newState._expectedKeywords) {
                     state._expectedKeywords = null;
                 }
 
