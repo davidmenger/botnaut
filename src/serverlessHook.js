@@ -23,7 +23,7 @@ function serverlessHook (processor, verifyToken, log = console, onDispatch = () 
     return (event, context, callback) => {
         if (event.httpMethod === 'GET') {
             processValidationEvent(event, verifyToken, callback);
-
+            onDispatch();
         } else {
 
             if (processor.secure) {

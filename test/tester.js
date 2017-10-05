@@ -179,7 +179,6 @@ describe('Tester', function () {
 
         r.use('inner', nested);
 
-
         const t = new Tester(r);
 
         return co(function* () {
