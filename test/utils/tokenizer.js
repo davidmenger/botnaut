@@ -4,7 +4,7 @@
 'use strict';
 
 const assert = require('assert');
-const { replaceDiacritics, tokenize } = require('../src/tokenizer');
+const { replaceDiacritics, tokenize } = require('../../src/utils/tokenizer');
 
 
 describe('tokenizer', function () {
@@ -24,8 +24,8 @@ describe('tokenizer', function () {
     describe('#webalize()', function () {
 
         it('should strip diacritics, when true is passed as second param', function () {
-            assert.equal(tokenize('FUNNY text InCamel END', true), 'funny-text-incamel-end');
-            assert.equal(tokenize('-Ňějaký čupr', true), 'nejaky-cupr');
+            assert.equal(tokenize('FUNNY text InCamel END'), 'funny-text-incamel-end');
+            assert.equal(tokenize('-Ňějaký čupr'), 'nejaky-cupr');
         });
 
     });

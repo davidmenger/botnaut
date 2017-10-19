@@ -3,10 +3,10 @@
  */
 'use strict';
 
-const ReducerWrapper = require('./ReducerWrapper');
-const { makeAbsolute } = require('./pathUtils');
-const pathToRegexp = require('path-to-regexp');
 const co = require('co');
+const pathToRegexp = require('path-to-regexp');
+const ReducerWrapper = require('./ReducerWrapper');
+const { makeAbsolute } = require('./utils');
 
 /**
  * Cascading router

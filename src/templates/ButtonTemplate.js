@@ -4,7 +4,7 @@
 'use strict';
 
 const BaseTemplate = require('./BaseTemplate');
-const { makeAbsolute } = require('./pathUtils');
+const { makeAbsolute } = require('../utils');
 
 /**
  * Helps with creating of button template

@@ -1,9 +1,81 @@
 'use strict';
 
+const AWS = require('aws-sdk');
 const Hook = require('./Hook');
+const BuildRouter = require('./BuildRouter');
+const { validate } = require('./wingbot');
+
+const lambda = new AWS.Lambda();
+
+function getLambda (lambdaName) {
+    return new Promise((resolve, reject) => {
+        lambda.getFunctionConfiguration({
+            FunctionName: lambdaName
+        }, (err, res) => {
+            if (!err) {
+                resolve(res);
+            } else {
+                reject(err);
+            }
+        });
+    });
+}
+
+function updateLambda (lambdaName, env) {
+    return new Promise((resolve, reject) => {
+        lambda.updateFunctionConfiguration({
+            FunctionName: lambdaName,
+            Environment: env
+        }, (err, res) => {
+            if (!err) {
+                resolve(res);
+            } else {
+                reject(err);
+            }
+        });
+    });
+}
+
+/**
+ * Create updater handler for wingbot which deploys new lambda version
+ *
+ * listens for POST on `/update`
+ *
+ * @param {string} lambdaName - bot handler name
+ * @param {string} [token] - bot authorization token
+ */
+function createUpdater (lambdaName, token = null) {
+
+    return (event, context, callback) => {
+        const authHeader = event.headers && event.headers.Authorization;
+
+        if (token && token !== authHeader) {
+            callback(null, { statusCode: 403, body: 'Forbidden' });
+            return;
+        }
+
+        getLambda(lambdaName)
+            .then((fn) => {
+                const newEnv = Object.assign({}, fn.Environment, {
+                    Variables: Object.assign({}, fn.Environment.Variables, {
+                        WINGBOT_DEPLOYED_AT: Date.now().toString()
+                    })
+                });
+                return updateLambda(lambdaName, newEnv);
+            })
+            .then(() => {
+                callback(null, { statusCode: 200, body: 'OK' });
+            })
+            .catch((e) => {
+                console.error(e); // eslint-disable-line
+                callback(null, { statusCode: 500, body: `Error: ${e.message}` });
+            });
+    };
+}
 
 function processValidationEvent (event, verifyToken, callback) {
-    if (event.queryStringParameters['hub.verify_token'] === verifyToken) {
+    if (event.queryStringParameters
+            && event.queryStringParameters['hub.verify_token'] === verifyToken) {
         callback(null, {
             statusCode: 200,
             body: event.queryStringParameters['hub.challenge']
@@ -15,8 +87,15 @@ function processValidationEvent (event, verifyToken, callback) {
         });
     }
 }
-
-function serverlessHook (processor, verifyToken, log = console, onDispatch = () => {}) {
+/**
+ * Create an serverless handler for accepting messenger events
+ *
+ * @param {function|Router} processor - Root router object or processor function
+ * @param {string} verifyToken - chatbot application token
+ * @param {object} [log] - console.* like logger object
+ * @param {function} [onDispatch] - will be called after dispatch of all events
+ */
+function createHandler (processor, verifyToken, log = console, onDispatch = () => {}) {
 
     const hook = new Hook(processor);
 
@@ -47,7 +126,61 @@ function serverlessHook (processor, verifyToken, log = console, onDispatch = () 
         }
 
     };
-
 }
 
-module.exports = serverlessHook;
+function error (statusCode, body, callback, onDispatch, log) {
+    log.error(body);
+    callback(null, {
+        statusCode,
+        body
+    });
+    onDispatch();
+}
+
+/**
+ * Create validator handler for wingbot configurations
+ *
+ * listens for POST on `/validate`
+ *
+ * @param {object} config
+ * @param {string} [config.token] - authorization token
+ * @param {Blocks} [config.blocksResource] - authorization token
+ * @param {string} [config.testText] - text for router testing (null to disable)
+ * @param {string} [config.testPostBack] - postback to test the bot (null to disable)
+ * @param {object} [log] - console.* like logger object
+ * @param {function} [onDispatch]
+ */
+function createValidator (config, log = console, onDispatch = () => {}) {
+
+    return (event, context, callback) => {
+        const body = event.body ? JSON.parse(event.body) : null;
+        const authHeader = event.headers && event.headers.Authorization;
+
+        if (config.token && config.token !== authHeader) {
+            error(403, 'Wrong authorization', callback, onDispatch, log);
+            return;
+        }
+
+        if (!Array.isArray(body.blocks)) {
+            error(400, 'Bad input data', callback, onDispatch, log);
+            return;
+        }
+
+        validate(
+            () => BuildRouter.fromData(body.blocks, config.blocksResource),
+            config.testPostBack,
+            config.testText
+        )
+            .then(() => {
+                callback(null, {
+                    statusCode: 200,
+                    body: 'OK'
+                });
+            })
+            .catch(e => error(400, e.message, callback, onDispatch, log))
+            .then(() => onDispatch())
+            .catch(e => log.error(e));
+    };
+}
+
+module.exports = { createValidator, createHandler, createUpdater };

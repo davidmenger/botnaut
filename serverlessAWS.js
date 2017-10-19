@@ -4,11 +4,8 @@
 'use strict';
 
 const Processor = require('./src/Processor');
-const DynamoBotToken = require('./src/DynamoBotToken');
-const DynamoState = require('./src/DynamoState');
-const DynamoChatLog = require('./src/DynamoChatLog');
-const serverlessHook = require('./src/serverlessHook');
-
+const { DynamoBotToken, DynamoState, DynamoChatLog } = require('./src/dynamodb');
+const { createValidator, createHandler, createUpdater } = require('./src/serverlessHook');
 
 /**
  * Create a chat event processor
@@ -34,39 +31,10 @@ const serverlessHook = require('./src/serverlessHook');
  * @param {number} [processorOptions.autoTyping.perCharacters] - typing time per character
  * @param {number} [processorOptions.autoTyping.minTime] - auto typing lower threshold
  * @param {number} [processorOptions.autoTyping.maxTime] - auto typing upper threshold
- * @param {{ tablePrefix?: string }} [processorOptions.dynamo] - dynamo database options
+ * @param {Object} [processorOptions.dynamo] - dynamodb configuration
+ * @param {AWS.DynamoDB} [processorOptions.dynamo.db] - dynamodb db object
+ * @param {string} [processorOptions.dynamo.tablePrefix] - dynamodb table prefix
  * @param {DynamoState} [stateStorage] - storage for states
- * @example
- * const express = require('express');
- * const bodyParser = require('body-parser');
- * const { createRouter, createProcessor } = require('botnaut/express');
- *
- * const handler = (req, res, postBack) => {
- *     res.typingOn()
- *         .wait();
- *
- *     switch (req.action()) {
- *         case 'hello':
- *             res.text('Hello world');
- *             return;
- *         default:
- *             // send one quick reply
- *             res.text('What you want?', {
- *                 hello: 'Say hello world'
- *             })
- *     }
- * };
- *
- * const processor = createProcessor(handler, {
- *     pageToken: 'stringhere',
- *     appSecret: 'botappsecret'
- * });
- *
- * app = express();
- *
- * app.use('/bot', createRouter(processor));
- *
- * app.listen(3000);
  */
 function createProcessor (reducer, processorOptions, stateStorage = null) {
 
@@ -90,21 +58,11 @@ function createProcessor (reducer, processorOptions, stateStorage = null) {
     return new Processor(reducer, processorOptions, state);
 }
 
-/**
- * Create an serverless handler for accepting messenger events
- *
- * @param {function|Router} processor - Root router object or processor function
- * @param {string} verifyToken - chatbot application token
- * @param {Object} [log] - console.* like logger object
- * @param {function} [onDispatch] - will be called after dispatch of all events
- */
-function createHandler (processor, verifyToken, log = console, onDispatch = () => {}) {
-    return serverlessHook(processor, verifyToken, log, onDispatch);
-}
-
 module.exports = {
     createProcessor,
     createHandler,
+    createValidator,
+    createUpdater,
     State: DynamoState,
     BotToken: DynamoBotToken,
     ChatLog: DynamoChatLog

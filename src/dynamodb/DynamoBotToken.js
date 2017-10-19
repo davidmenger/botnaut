@@ -4,7 +4,7 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-const generateToken = require('./generateToken');
+const { generateToken } = require('../utils');
 
 /**
  * Conversation DynamoDB state storage

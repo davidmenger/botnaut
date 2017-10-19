@@ -4,7 +4,7 @@
 'use strict';
 
 const assert = require('assert');
-const { actionMatches, parseActionPayload } = require('./pathUtils');
+const { actionMatches, parseActionPayload } = require('../utils');
 
 /**
  * Format message

@@ -5,7 +5,7 @@
 
 const assert = require('assert');
 const sinon = require('sinon');
-const MenuComposer = require('../src/MenuComposer');
+const MenuComposer = require('../../src/tools/MenuComposer');
 
 const TESTCONST = {};
 

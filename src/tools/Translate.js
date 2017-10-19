@@ -2,8 +2,13 @@
 
 const fs = require('fs');
 const path = require('path');
-const po2json = require('po2json');
-const Router = require('./Router');
+
+let po2json;
+try {
+    po2json = module.require('po2json');
+} catch (er) {
+    po2json = null;
+}
 
 /**
  * Tool for text translation
@@ -14,17 +19,21 @@ class Translate {
 
     /**
      *
-     * @param {object} options
+     * @param {object} [options]
      * @param {string} [options.sourcePath] - optional source path of translation folder
      * @param {string} [options.fileSuffix] - by default `.locale.po`
      */
-    constructor (options) {
+    constructor (options = {}) {
         this._options = Object.assign({
             sourcePath: path.join(process.cwd(), 'locales'),
             fileSuffix: '.locale.po'
         }, options);
 
         this._promisedTranslators = {};
+
+        if (!po2json) {
+            throw new Error('Missing po2json module');
+        }
     }
 
     _getTranslator (lang) {
@@ -113,7 +122,7 @@ class Translate {
                         t: translator,
                         tq: translator
                     });
-                    return Router.CONTINUE;
+                    return true; // continue
                 });
         };
     }

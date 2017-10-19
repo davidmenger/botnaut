@@ -4,7 +4,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const generateToken = require('./generateToken');
+const { generateToken } = require('../utils');
 
 const { Schema } = mongoose;
 

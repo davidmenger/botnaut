@@ -45,3 +45,5 @@
 * [Express/MongoDb tools](api/express.md)
 * [Utils](api/bufferloader.md)
 * [Ai](api/Ai.md)
+* [Serverless](api/serverlessAWS.md)
+* [Wingbot.ai](api/BuildRouter.md)

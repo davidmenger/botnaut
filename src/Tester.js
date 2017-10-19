@@ -4,14 +4,12 @@
 'use strict';
 
 const assert = require('assert');
-const ResponseAssert = require('./ResponseAssert');
 const Processor = require('./Processor');
 const Request = require('./Request');
-const MemoryStateStorage = require('./MemoryStateStorage');
+const { MemoryStateStorage } = require('./tools');
 const ReducerWrapper = require('./ReducerWrapper');
-const { actionMatches, parseActionPayload } = require('./pathUtils');
-const AnyResponseAssert = require('./AnyResponseAssert');
-const asserts = require('./asserts');
+const { actionMatches, parseActionPayload } = require('./utils');
+const { AnyResponseAssert, ResponseAssert, asserts } = require('./testTools');
 
 /**
  * Utility for testing requests

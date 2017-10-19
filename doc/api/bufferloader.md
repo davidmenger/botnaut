@@ -68,7 +68,7 @@ Memory conversation state storage for testing purposes
 
 * [Translate](#Translate)
     * [new Translate()](#new_Translate_new)
-    * [new Translate(options)](#new_Translate_new)
+    * [new Translate([options])](#new_Translate_new)
     * [.translator(languages)](#Translate_translator) ⇒ <code>Promise.&lt;object&gt;</code>
     * [.middleware(languageResolver)](#Translate_middleware) ⇒ <code>function</code>
 
@@ -79,11 +79,11 @@ Tool for text translation
 
 {% raw %}<div id="new_Translate_new">&nbsp;</div>{% endraw %}
 
-### new Translate(options)
+### new Translate([options])
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>object</code> |  |
+| [options] | <code>object</code> |  |
 | [options.sourcePath] | <code>string</code> | optional source path of translation folder |
 | [options.fileSuffix] | <code>string</code> | by default `.locale.po` |
 
@@ -144,7 +144,7 @@ bot.use((req, res) => {
 
 * [Translate](#Translate)
     * [new Translate()](#new_Translate_new)
-    * [new Translate(options)](#new_Translate_new)
+    * [new Translate([options])](#new_Translate_new)
     * [.translator(languages)](#Translate_translator) ⇒ <code>Promise.&lt;object&gt;</code>
     * [.middleware(languageResolver)](#Translate_middleware) ⇒ <code>function</code>
 
@@ -155,11 +155,11 @@ Tool for text translation
 
 {% raw %}<div id="new_Translate_new">&nbsp;</div>{% endraw %}
 
-### new Translate(options)
+### new Translate([options])
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>object</code> |  |
+| [options] | <code>object</code> |  |
 | [options.sourcePath] | <code>string</code> | optional source path of translation folder |
 | [options.fileSuffix] | <code>string</code> | by default `.locale.po` |
 

@@ -3,13 +3,12 @@
  */
 'use strict';
 
-const ReceiptTemplate = require('./ReceiptTemplate');
-const ButtonTemplate = require('./ButtonTemplate');
-const GenericTemplate = require('./GenericTemplate');
-const ListTemplate = require('./ListTemplate');
-const { makeAbsolute } = require('./pathUtils');
-const { makeQuickReplies } = require('./quickReplies');
 const util = require('util');
+const ReceiptTemplate = require('./templates/ReceiptTemplate');
+const ButtonTemplate = require('./templates/ButtonTemplate');
+const GenericTemplate = require('./templates/GenericTemplate');
+const ListTemplate = require('./templates/ListTemplate');
+const { makeAbsolute, makeQuickReplies } = require('./utils');
 
 /**
  * Instance of responder is passed as second parameter of handler (res)

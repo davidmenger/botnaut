@@ -7,14 +7,16 @@ const path = require('path');
 const docs = [
     'src/Request.js',
     'src/Responder.js',
-    ['src/ButtonTemplate.js', 'src/GenericTemplate.js', 'src/ReceiptTemplate.js'],
+    ['src/templates/ButtonTemplate.js', 'src/templates/GenericTemplate.js', 'src/templates/ReceiptTemplate.js'],
     'src/Router.js',
     'src/ReducerWrapper.js',
-    ['src/Tester.js', 'src/ResponseAssert.js', 'src/AnyResponseAssert.js'],
-    ['src/Settings.js', 'src/MenuComposer.js'],
-    ['src/bufferloader.js', 'src/MemoryStateStorage.js', 'src/Translate.js'],
-    ['express.js', 'src/MongoState.js', 'src/MongoChatLog.js'],
-    'src/Ai.js'
+    ['src/Tester.js', 'src/testTools/ResponseAssert.js', 'src/testTools/AnyResponseAssert.js'],
+    ['src/tools/Settings.js', 'src/tools/MenuComposer.js'],
+    ['src/tools/bufferloader.js', 'src/tools/MemoryStateStorage.js', 'src/tools/Translate.js'],
+    ['express.js', 'src/mongodb/MongoState.js', 'src/mongodb/MongoChatLog.js'],
+    'src/Ai.js',
+    ['serverlessAWS.js', 'src/serverlessHook.js'],
+    ['src/BuildRouter.js', 'src/Blocks.js']
 ];
 
 let srcFile;
@@ -33,7 +35,7 @@ docs.forEach((doc) => {
 
     docFile = path.join(process.cwd(), 'doc', 'api', srcFile
         .replace(/jsx?$/, 'md')
-        .replace(/^src\//, ''));
+        .replace(/^src\/(templates\/|mongodb\/|tools\/)?/, ''));
 
     apiDoc = jsdoc2md.renderSync({
         'example-lang': 'javascript',

@@ -4,8 +4,8 @@
 'use strict';
 
 const assert = require('assert');
-const asserts = require('../src/asserts');
-const Request = require('../src/Request');
+const Request = require('../../src/Request');
+const asserts = require('../../src/testTools/asserts');
 
 describe('asserts', function () {
 

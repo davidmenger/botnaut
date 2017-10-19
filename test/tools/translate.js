@@ -3,9 +3,9 @@
 const assert = require('assert');
 const co = require('co');
 const sinon = require('sinon');
-const Router = require('../').Router;
-const Translate = require('../').Translate;
-const Tester = require('../').Tester;
+const Translate = require('../../src/tools/Translate');
+const Router = require('../../src/Router');
+const Tester = require('../../src/Tester');
 
 
 describe('<Translate>', function () {

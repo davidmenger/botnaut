@@ -3,9 +3,9 @@
  */
 'use strict';
 
-const WingbotModel = require('./WingbotModel');
-const Router = require('./Router');
 const assert = require('assert');
+const { WingbotModel } = require('./wingbot');
+const Router = require('./Router');
 
 const SERVICE_URL = 'https://model.wingbot.ai';
 const DEFAULT_PREFIX = 'default';
@@ -435,5 +435,7 @@ class Ai {
     }
 
 }
+
+Ai.ai = new Ai();
 
 module.exports = Ai;

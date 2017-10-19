@@ -3,9 +3,7 @@
  */
 'use strict';
 
-const { tokenize } = require('./tokenizer');
-const { quickReplyAction } = require('./quickReplies');
-const { parseActionPayload } = require('./pathUtils');
+const { tokenize, quickReplyAction, parseActionPayload } = require('./utils');
 
 const BASE64_REGEX = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
 

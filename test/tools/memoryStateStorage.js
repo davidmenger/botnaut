@@ -4,7 +4,7 @@
 'use strict';
 
 const assert = require('assert');
-const MemoryStateStorage = require('../src/MemoryStateStorage');
+const MemoryStateStorage = require('../../src/tools/MemoryStateStorage');
 
 const SENDER_ID = 'a';
 const DEFAULT_STATE = { x: 1 };

@@ -4,12 +4,11 @@
 'use strict';
 
 const co = require('co');
-const UserLoader = require('./UserLoader');
+const { UserLoader, MemoryStateStorage } = require('./tools');
+const { senderFactory } = require('./utils');
 const Responder = require('./Responder');
 const Request = require('./Request');
 const SecurityMiddleware = require('./SecurityMiddleware');
-const { senderFactory } = require('./senderFactory');
-const MemoryStateStorage = require('./MemoryStateStorage');
 
 
 class Processor {

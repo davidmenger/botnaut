@@ -8,9 +8,7 @@ const { Router } = require('express');
 const bodyParser = require('body-parser');
 const { postMiddlewares, getVerifierMiddleware } = require('./src/expressHooks');
 const Processor = require('./src/Processor');
-const MongoBotToken = require('./src/MongoBotToken');
-const MongoState = require('./src/MongoState');
-const MongoChatLog = require('./src/MongoChatLog');
+const { MongoBotToken, MongoState, MongoChatLog } = require('./src/mongodb');
 
 
 /**
