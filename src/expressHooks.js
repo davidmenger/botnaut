@@ -4,9 +4,18 @@
 'use strict';
 
 const Hook = require('./Hook');
+const { eventParser } = require('./connectors/facebook');
 
 function postMiddlewares (bodyParser, processor, log = console) {
-    const hook = new Hook(processor);
+
+    let hook;
+
+    if (processor instanceof Hook) {
+        hook = processor;
+    } else {
+        hook = new Hook(processor, eventParser);
+    }
+
     let bodyParserMiddleware;
     let processMiddleware;
 
@@ -17,20 +26,22 @@ function postMiddlewares (bodyParser, processor, log = console) {
         });
 
         processMiddleware = (req, res) => {
+            let response;
             processor.secure.verifyReq(req)
                 .then(() => hook.onRequest(req.body))
-                .catch(e => log.error(e));
-
-            res.send('OK');
+                .then((r) => { response = r; })
+                .catch(e => log.error(e))
+                .then(() => res.send(response || 'OK'));
         };
     } else {
         bodyParserMiddleware = bodyParser.json();
 
         processMiddleware = (req, res) => {
+            let response;
             hook.onRequest(req.body)
-                .catch(e => log.error(e));
-
-            res.send('OK');
+                .then((r) => { response = r; })
+                .catch(e => log.error(e))
+                .then(() => res.send(response || 'OK'));
         };
     }
 

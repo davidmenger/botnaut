@@ -4,6 +4,7 @@ const AWS = require('aws-sdk');
 const Hook = require('./Hook');
 const BuildRouter = require('./BuildRouter');
 const { validate } = require('./wingbot');
+const { eventParser } = require('./connectors/facebook');
 
 const lambda = new AWS.Lambda();
 
@@ -90,14 +91,20 @@ function processValidationEvent (event, verifyToken, callback) {
 /**
  * Create an serverless handler for accepting messenger events
  *
- * @param {function|Router} processor - Root router object or processor function
+ * @param {Processor|Hook} processor - Root router object or processor function
  * @param {string} verifyToken - chatbot application token
  * @param {object} [log] - console.* like logger object
  * @param {function} [onDispatch] - will be called after dispatch of all events
  */
 function createHandler (processor, verifyToken, log = console, onDispatch = () => {}) {
 
-    const hook = new Hook(processor);
+    let hook;
+
+    if (processor instanceof Hook) {
+        hook = processor;
+    } else {
+        hook = new Hook(processor, eventParser);
+    }
 
     return (event, context, callback) => {
         if (event.httpMethod === 'GET') {
@@ -114,15 +121,38 @@ function createHandler (processor, verifyToken, log = console, onDispatch = () =
                 }
             }
 
-            hook.onRequest(JSON.parse(event.body))
-                .catch(e => log.error(e))
-                .then(() => onDispatch())
-                .catch(e => log.error(e));
+            let res = 'OK';
 
-            callback(null, {
-                statusCode: 200,
-                body: 'OK'
-            });
+            hook.onRequest(JSON.parse(event.body))
+                .then((response) => {
+                    if (response) {
+                        res = response;
+                    }
+                })
+                .catch(e => log.error(e))
+                .then(() => {
+                    onDispatch();
+                    let body = res;
+                    let contentType = 'text/plain';
+
+                    if (typeof res === 'object') {
+                        body = JSON.stringify(res);
+                        contentType = 'application/json';
+                    }
+
+                    const response = {
+                        statusCode: 200,
+                        headers: {
+                            'Content-Type': contentType
+                        },
+                        body
+                    };
+                    process.nextTick(() => {
+                        callback(null, response);
+                    });
+                });
+
+
         }
 
     };

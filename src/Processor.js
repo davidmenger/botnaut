@@ -5,7 +5,7 @@
 
 const co = require('co');
 const { UserLoader, MemoryStateStorage } = require('./tools');
-const { senderFactory } = require('./utils');
+const { senderFactory } = require('./tools');
 const Responder = require('./Responder');
 const Request = require('./Request');
 const SecurityMiddleware = require('./SecurityMiddleware');

@@ -5,7 +5,7 @@
 
 const sinon = require('sinon');
 const assert = require('assert');
-const { senderFactory } = require('../../src/utils/senderFactory');
+const { senderFactory } = require('../../src/tools/senderFactory');
 
 const TOKEN = 'a';
 const INPUT_MESSAGE = { sender: { id: '1' } };

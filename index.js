@@ -15,11 +15,13 @@ const Ai = require('./src/Ai');
 const { asserts } = require('./src/testTools');
 const BuildRouter = require('./src/BuildRouter');
 const Blocks = require('./src/Blocks');
+const facebook = require('./src/connectors/facebook');
 const {
     bufferloader,
     Settings,
     senderFactory,
     sender,
+    returnSenderFactory,
     MemoryStateStorage,
     Translate,
     UserLoader
@@ -43,6 +45,7 @@ module.exports = {
     asserts,
     MemoryStateStorage,
     Translate,
+    returnSenderFactory,
 
     // Wingbot
     ai: Ai.ai,
@@ -51,5 +54,8 @@ module.exports = {
 
     // setup tools
     SecurityMiddleware,
-    Settings
+    Settings,
+
+    // connectors
+    facebook
 };

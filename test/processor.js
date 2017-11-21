@@ -8,7 +8,7 @@ const sinon = require('sinon');
 const Processor = require('../src/Processor');
 const Request = require('../src/Request');
 const ReducerWrapper = require('../src/ReducerWrapper');
-const { senderFactory } = require('../src/utils');
+const { senderFactory } = require('../src/tools');
 
 const EMPTY_STATE = { user: {} };
 

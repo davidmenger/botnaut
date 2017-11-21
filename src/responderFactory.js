@@ -4,7 +4,7 @@
 'use strict';
 
 const Responder = require('./Responder');
-const { senderFactory } = require('./utils');
+const { senderFactory } = require('./tools');
 
 function responderFactory (options = { token: null }, senderLogger = console, sender = undefined) {
 

@@ -3,29 +3,26 @@
  */
 'use strict';
 
+const DEFAULT_RESPONSE = results => 'OK'; // eslint-disable-line no-unused-vars
+
 class Hook {
 
-    constructor (processor) {
+    constructor (processor, eventParser, responseParser = DEFAULT_RESPONSE) {
         this.processor = processor;
+        this.eventParser = eventParser;
+        this.responseParser = responseParser;
     }
 
     onRequest (body = {}) {
-        if (body.object !== 'page') {
-            return Promise.resolve(null);
-        }
         const wait = [];
 
-        body.entry.forEach((event) => {
-            const pageId = event.id;
-            if (Array.isArray(event.messaging)) {
-                event.messaging.forEach((data) => {
-                    const then = this.processor.processMessage(data, pageId);
-                    wait.push(then);
-                });
-            }
+        this.eventParser(body, (data, pageId) => {
+            const then = this.processor.processMessage(data, pageId);
+            wait.push(then);
         });
 
-        return Promise.all(wait);
+        return Promise.all(wait)
+            .then(events => this.responseParser(events));
     }
 
 }
