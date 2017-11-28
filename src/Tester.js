@@ -245,7 +245,7 @@ class Tester {
      */
     postBack (action, data = {}, refAction = null, refData = {}) {
         return this._request(
-            Request.createPostBack(this.senderId, action, data, refAction, refData)
+            Request.postBack(this.senderId, action, data, refAction, refData)
         );
     }
 

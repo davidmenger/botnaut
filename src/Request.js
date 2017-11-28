@@ -382,7 +382,7 @@ Request.timestamp = function () {
     return now;
 };
 
-Request.createPostBack = function (senderId, action, data = {}, refAction = null, refData = {}) {
+Request.postBack = function (senderId, action, data = {}, refAction = null, refData = {}) {
     const postback = {
         payload: {
             action,

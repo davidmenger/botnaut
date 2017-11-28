@@ -18,7 +18,7 @@ describe('Request', function () {
 
     it('should have senderId and recipientId and pageId', function () {
 
-        const postBack = Request.createPostBack(SENDER_ID, ACTION, DATA);
+        const postBack = Request.postBack(SENDER_ID, ACTION, DATA);
 
         postBack.recipient = {
             id: 789
@@ -34,13 +34,13 @@ describe('Request', function () {
     describe('#isPostBack()', function () {
 
         it('should know, whats postback', function () {
-            const req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
+            const req = new Request(Request.postBack(SENDER_ID, ACTION, DATA), STATE);
             assert.strictEqual(req.isPostBack(), true);
         });
 
         it('should know, whats referral postback', function () {
             const req = new Request(
-                Request.createPostBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
+                Request.postBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
                 STATE
             );
             assert.strictEqual(req.isPostBack(), true);
@@ -57,7 +57,7 @@ describe('Request', function () {
 
         it('should know, whats referral', function () {
             const req = new Request(
-                Request.createPostBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
+                Request.postBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
                 STATE
             );
             assert.strictEqual(req.isReferral(), true);
@@ -77,7 +77,7 @@ describe('Request', function () {
     describe('#.state', function () {
 
         it('should have state', function () {
-            const req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
+            const req = new Request(Request.postBack(SENDER_ID, ACTION, DATA), STATE);
             assert.strictEqual(req.state, STATE);
         });
 
@@ -86,18 +86,18 @@ describe('Request', function () {
     describe('#action()', function () {
 
         it('should return action name from postback', function () {
-            const req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
+            const req = new Request(Request.postBack(SENDER_ID, ACTION, DATA), STATE);
             assert.strictEqual(req.action(), ACTION);
         });
 
         it('should return action data from postback', function () {
-            const req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
+            const req = new Request(Request.postBack(SENDER_ID, ACTION, DATA), STATE);
             assert.deepEqual(req.action(true), DATA);
         });
 
         it('should return referral action name from postback', function () {
             const req = new Request(
-                Request.createPostBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
+                Request.postBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
                 STATE
             );
             assert.strictEqual(req.action(), REF_ACTION);
@@ -105,7 +105,7 @@ describe('Request', function () {
 
         it('should return referral action data from postback', function () {
             const req = new Request(
-                Request.createPostBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
+                Request.postBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
                 STATE
             );
             assert.deepEqual(req.action(true), REF_DATA);
@@ -166,18 +166,18 @@ describe('Request', function () {
     describe('#postBack()', function () {
 
         it('should return action name', function () {
-            const req = new Request(Request.createPostBack(SENDER_ID, ACTION), STATE);
+            const req = new Request(Request.postBack(SENDER_ID, ACTION), STATE);
             assert.strictEqual(req.postBack(), ACTION);
         });
 
         it('should return action data', function () {
-            const req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
+            const req = new Request(Request.postBack(SENDER_ID, ACTION, DATA), STATE);
             assert.deepEqual(req.postBack(true), DATA);
         });
 
         it('should return referral action name', function () {
             const req = new Request(
-                Request.createPostBack(SENDER_ID, ACTION, REF_ACTION, REF_DATA),
+                Request.postBack(SENDER_ID, ACTION, REF_ACTION, REF_DATA),
                 STATE
             );
             assert.strictEqual(req.postBack(), ACTION);
@@ -185,7 +185,7 @@ describe('Request', function () {
 
         it('should return referral action data', function () {
             const req = new Request(
-                Request.createPostBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
+                Request.postBack(SENDER_ID, ACTION, DATA, REF_ACTION, REF_DATA),
                 STATE
             );
             assert.deepEqual(req.postBack(true), DATA);
@@ -211,7 +211,7 @@ describe('Request', function () {
         });
 
         it('should return null, when the message is not a quick reply', function () {
-            const req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
+            const req = new Request(Request.postBack(SENDER_ID, ACTION, DATA), STATE);
             assert.strictEqual(req.quickReply(), null);
         });
     });
@@ -223,7 +223,7 @@ describe('Request', function () {
             assert.strictEqual(req.text(), ACTION);
             assert.strictEqual(req.isMessage(), true);
 
-            req = new Request(Request.createPostBack(SENDER_ID, ACTION, DATA), STATE);
+            req = new Request(Request.postBack(SENDER_ID, ACTION, DATA), STATE);
             assert.strictEqual(req.text(), '');
             assert.strictEqual(req.isMessage(), false);
 

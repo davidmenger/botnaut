@@ -84,7 +84,7 @@ class Processor {
     _createPostBack (senderId, pageId, postbackAcumulator, senderFn, waitAfter) {
         const makePostBack = (action, data = {}) => waitAfter()
             .then((newSenderId) => {
-                const request = Request.createPostBack(newSenderId || senderId, action, data);
+                const request = Request.postBack(newSenderId || senderId, action, data);
                 return this.processMessage(request, pageId, senderFn);
             });
 
