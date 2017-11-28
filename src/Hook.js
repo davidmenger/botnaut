@@ -16,12 +16,17 @@ class Hook {
     onRequest (body = {}) {
         const wait = [];
 
-        this.eventParser(body, (data, pageId) => {
+        let waitForParse = this.eventParser(body, (data, pageId) => {
             const then = this.processor.processMessage(data, pageId);
             wait.push(then);
         });
 
-        return Promise.all(wait)
+        if (!(waitForParse instanceof Promise)) {
+            waitForParse = Promise.resolve();
+        }
+
+        return waitForParse
+            .then(() => Promise.all(wait))
             .then(events => this.responseParser(events));
     }
 
