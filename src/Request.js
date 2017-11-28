@@ -243,6 +243,17 @@ class Request {
     }
 
     /**
+     * Returns true, if request pass thread control
+     *
+     * @returns {boolean}
+     *
+     * @memberOf Request
+     */
+    isPassThread () {
+        return this.data.target_app_id || this.data.pass_thread_control;
+    }
+
+    /**
      * Returns true, if request is the optin
      *
      * @returns {boolean}
@@ -289,6 +300,16 @@ class Request {
 
         if (!res && this.message !== null && this.message.quick_reply) {
             res = this._processPayload(this.message.quick_reply, getData);
+        }
+
+        if (!res && this.isPassThread()) {
+            if (this.data.pass_thread_control.metadata) {
+                const payload = this.data.pass_thread_control.metadata;
+                res = this._processPayload({ payload }, getData);
+            }
+            if (!getData && !res) {
+                res = 'pass-thread';
+            }
         }
 
         if (!res && this.state._expectedKeywords) {
@@ -411,6 +432,23 @@ Request.text = function (senderId, text, timestamp = Request.timestamp()) {
         },
         message: {
             text
+        }
+    };
+};
+
+Request.passThread = function (senderId, newAppId, data = null, timestamp = Request.timestamp()) {
+    let metadata = data;
+    if (data !== null && typeof data !== 'string') {
+        metadata = JSON.stringify(data);
+    }
+    return {
+        timestamp,
+        sender: {
+            id: senderId
+        },
+        pass_thread_control: {
+            new_owner_app_id: newAppId,
+            metadata
         }
     };
 };

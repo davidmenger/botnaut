@@ -61,6 +61,19 @@ class ResponseAssert {
     }
 
     /**
+     * Checks pass thread control
+     *
+     * @param {string} [appId]
+     * @returns {this}
+     *
+     * @memberOf ResponseAssert
+     */
+    passThread (appId = null) {
+        asserts.passThread(this.response, appId);
+        return this;
+    }
+
+    /**
      * Checks attachment type
      *
      * @param {string} type

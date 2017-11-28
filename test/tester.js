@@ -277,4 +277,36 @@ describe('Tester', function () {
         });
     });
 
+    it('should recognise pass thread', function () {
+        const r = new Router();
+
+        r.use('/start', (req, res) => {
+            res.passThread('app');
+        });
+
+        r.use('/pass-thread', (req, res) => {
+            const { theData } = req.action(true);
+            res.text(theData);
+        });
+
+        const t = new Tester(r);
+
+        return co(function* () {
+
+            yield t.postBack('start');
+
+            t.passedAction('start');
+            t.any().passThread();
+            t.res(0).passThread();
+
+            yield t.passThread({ theData: 'PASS' });
+
+            t.passedAction('pass-thread');
+
+            assert.throws(() => {
+                t.passedAction('start');
+            }, 'should not pass through start action');
+        });
+    });
+
 });

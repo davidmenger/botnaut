@@ -161,6 +161,28 @@ describe('Request', function () {
             assert.strictEqual(req.action(), ACTION);
         });
 
+        it('should return default action from pass thread event', function () {
+            const req = new Request(Request.passThread(SENDER_ID, 'some-app'), STATE);
+            assert.strictEqual(req.action(), 'pass-thread');
+        });
+
+        it('should return specified action from pass thread event', function () {
+            const req = new Request(Request.passThread(SENDER_ID, 'some-app', ACTION), STATE);
+            assert.strictEqual(req.action(), ACTION);
+        });
+
+        it('should return default action from pass thread event when random data given', function () {
+            const data = { random: 'data' };
+            const req = new Request(Request.passThread(SENDER_ID, 'some-app', data), STATE);
+            assert.strictEqual(req.action(), 'pass-thread');
+        });
+
+        it('should return the data from pass thread event when given', function () {
+            const data = { random: 'data' };
+            const req = new Request(Request.passThread(SENDER_ID, 'some-app', data), STATE);
+            assert.deepStrictEqual(req.action(true), data);
+        });
+
     });
 
     describe('#postBack()', function () {
@@ -235,6 +257,15 @@ describe('Request', function () {
         it('should return tokenized text', function () {
             const req = new Request(Request.quickReply(SENDER_ID, ACTION, DATA), STATE);
             assert.strictEqual(req.text(true), 'action-action');
+        });
+
+    });
+
+    describe('#isPassThread()', function () {
+
+        it('should know, what is pass thread message', function () {
+            const req = new Request(Request.passThread(SENDER_ID, 'app', DATA), STATE);
+            assert.ok(req.isPassThread());
         });
 
     });

@@ -277,6 +277,29 @@ class Responder {
     }
 
     /**
+     * Pass thread to another app
+     *
+     * @param {string} targetAppId
+     * @param {string|object} [data]
+     * @returns {this}
+     */
+    passThread (targetAppId, data = null) {
+        let metadata = data;
+        if (data !== null && typeof data !== 'string') {
+            metadata = JSON.stringify(data);
+        }
+        const messageData = {
+            recipient: {
+                id: this._senderId
+            },
+            target_app_id: targetAppId,
+            metadata
+        };
+        this._send(messageData);
+        return this;
+    }
+
+    /**
      * Sends Receipt template
      *
      * @param {string} recipientName

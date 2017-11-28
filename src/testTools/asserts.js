@@ -170,6 +170,24 @@ function waiting (response, message = 'Should be waiting placeholder') {
     return true;
 }
 
+/**
+ * Looks for pass thread control
+ *
+ * @param {object} response
+ * @param {string} [appId] - look for specific app id
+ * @param {string|false} [message='Should be waiting placeholder'] use false for no asserts
+ * @returns {boolean}
+ */
+function passThread (response, appId = null, message = 'Should pass control') {
+    const is = typeof response === 'object' && response.target_app_id;
+    const appMatches = appId === null || is === appId;
+    if (message === false) {
+        return is && appMatches;
+    }
+    assert.ok(is && appMatches, m(message, 'Not a pass thread response'));
+    return true;
+}
+
 module.exports = {
     contains,
     isText,
@@ -177,5 +195,6 @@ module.exports = {
     templateType,
     attachmentType,
     waiting,
-    getQuickReplies
+    getQuickReplies,
+    passThread
 };

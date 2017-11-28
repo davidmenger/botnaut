@@ -63,6 +63,21 @@ class AnyResponseAssert {
     }
 
     /**
+     * Checks pass thread control
+     *
+     * @param {string} [appId]
+     * @returns {this}
+     *
+     * @memberOf ResponseAssert
+     */
+    passThread (appId = null) {
+        const ok = this.responses
+            .some(res => asserts.passThread(res, appId, false));
+        assert.ok(ok, 'No response contains pass control or pass control app mismatch');
+        return this;
+    }
+
+    /**
      * Checks attachment type
      *
      * @param {string} type

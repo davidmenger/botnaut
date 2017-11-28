@@ -11,6 +11,7 @@ const expected = require('./expected');
 const customCode = require('./customCode');
 const inlineCode = require('./inlineCode');
 const exit = require('./exit');
+const passThread = require('./passThread');
 
 module.exports = {
     path,
@@ -20,5 +21,6 @@ module.exports = {
     expected,
     customCode,
     exit,
-    inlineCode
+    inlineCode,
+    passThread
 };
