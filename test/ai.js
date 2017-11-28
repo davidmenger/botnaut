@@ -9,6 +9,7 @@ const co = require('co');
 const Ai = require('../src/Ai');
 const Tester = require('../src/Tester');
 const Router = require('../src/Router');
+const Request = require('../src/Request');
 
 const DEFAULT_SCORE = 0.96;
 
@@ -128,6 +129,27 @@ describe('<Ai>', function () {
             const match = testAi.match('testIntent');
 
             const req = { isText: () => true, data: { timestamp: Date.now() } };
+
+            return match(req, {})
+                .then((res) => {
+                    assert.strictEqual(res, Router.CONTINUE);
+                    const { aiIntent, aiIntentScore, aiHandled } = req;
+
+                    assert.strictEqual(aiIntent, 'testIntent');
+                    assert.strictEqual(aiIntentScore, ai.confidence);
+                    assert.strictEqual(aiHandled, true);
+                });
+        });
+
+        it('should mock mock intent with request', () => {
+            const testAi = new Ai();
+
+            testAi.mockIntent();
+
+            const match = testAi.match('testIntent');
+
+            const data = Request.intent('any', 'hoho', 'testIntent');
+            const req = { isText: () => true, data };
 
             return match(req, {})
                 .then((res) => {
@@ -263,8 +285,8 @@ describe('<Ai>', function () {
                     t.senderId,
                     'testIntent',
                     'Any text',
-                    null, // test messages has no timestamp
-                    { aiIntentScore: '0.7' }
+                    onConfirmSpy.firstCall.args[3],
+                    { aiIntentScore: 0.7 }
                 ]);
 
             });

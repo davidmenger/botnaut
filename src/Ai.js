@@ -165,6 +165,7 @@ class Ai {
      * @param {number} [options.cacheSize] - remember number of caches
      * @param {number} [options.matches] - ask AI for number of matches
      * @param {string} prefix - model prefix
+     * @returns {WingbotModel}
      * @memberOf Ai
      */
     register (model, options = {}, prefix = 'default', Model = WingbotModel) {
@@ -176,6 +177,8 @@ class Ai {
         const keyworder = new Model(opts, this.logger);
 
         this._keyworders.set(prefix, keyworder);
+
+        return keyworder;
     }
 
     /**
@@ -281,6 +284,11 @@ class Ai {
                 tag: this._mockIntent.intent,
                 score: this._mockIntent.confidence || this.confidence
             }]);
+        } else if (req.data.intent) {
+            return Promise.resolve([{
+                tag: req.data.intent,
+                score: this.confidence
+            }]);
         }
         const prefixForRequest = this.prefixTranslator(prefix, req);
 
@@ -324,6 +332,7 @@ class Ai {
 
         return (req, res, postBack) => {
             this._setAiMetadata(req);
+
             if (!req.isText()) {
                 return Router.BREAK;
             }

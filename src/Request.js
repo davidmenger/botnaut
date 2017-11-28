@@ -358,6 +358,7 @@ class Request {
 
 function createReferral (action, data = {}) {
     return {
+        timestamp: Request.timestamp(),
         ref: JSON.stringify({
             action,
             data
@@ -366,6 +367,20 @@ function createReferral (action, data = {}) {
         type: 'OPEN_THREAD'
     };
 }
+
+Request._t = 0;
+Request._d = 0;
+
+Request.timestamp = function () {
+    let now = Date.now();
+    if (now > Request._d) {
+        Request._t = 0;
+    } else {
+        now += ++Request._t;
+    }
+    Request._d = now;
+    return now;
+};
 
 Request.createPostBack = function (senderId, action, data = {}, refAction = null, refData = {}) {
     const postback = {
@@ -380,6 +395,7 @@ Request.createPostBack = function (senderId, action, data = {}, refAction = null
         });
     }
     return {
+        timestamp: Request.timestamp(),
         sender: {
             id: senderId
         },
@@ -387,8 +403,9 @@ Request.createPostBack = function (senderId, action, data = {}, refAction = null
     };
 };
 
-Request.text = function (senderId, text) {
+Request.text = function (senderId, text, timestamp = Request.timestamp()) {
     return {
+        timestamp,
         sender: {
             id: senderId
         },
@@ -398,8 +415,17 @@ Request.text = function (senderId, text) {
     };
 };
 
+Request.intent = function (senderId, text, intent, timestamp = Request.timestamp()) {
+    const res = Request.text(senderId, text, timestamp);
+
+    Object.assign(res, { intent });
+
+    return res;
+};
+
 Request.quickReply = function (senderId, action, data = {}) {
     return {
+        timestamp: Request.timestamp(),
         sender: {
             id: senderId
         },
@@ -415,8 +441,9 @@ Request.quickReply = function (senderId, action, data = {}) {
     };
 };
 
-Request.referral = function (senderId, action, data = {}) {
+Request.referral = function (senderId, action, data = {}, timestamp = Request.timestamp()) {
     return {
+        timestamp,
         sender: {
             id: senderId
         },
@@ -424,12 +451,13 @@ Request.referral = function (senderId, action, data = {}) {
     };
 };
 
-Request.optin = function (userRef, action, data = {}) {
+Request.optin = function (userRef, action, data = {}, timestamp = Request.timestamp()) {
     const ref = new Buffer(JSON.stringify({
         action,
         data
     }));
     return {
+        timestamp,
         optin: {
             ref: ref.toString('base64'),
             user_ref: userRef
@@ -437,8 +465,9 @@ Request.optin = function (userRef, action, data = {}) {
     };
 };
 
-Request.fileAttachment = function (senderId, url, type = 'file') {
+Request.fileAttachment = function (senderId, url, type = 'file', timestamp = Request.timestamp()) {
     return {
+        timestamp,
         sender: {
             id: senderId
         },
