@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const DEFAULT_RESPONSE = results => 'OK'; // eslint-disable-line no-unused-vars
+const DEFAULT_RESPONSE = results => ({ ok: 1 }); // eslint-disable-line no-unused-vars
 
 class Hook {
 
@@ -13,20 +13,27 @@ class Hook {
         this.responseParser = responseParser;
     }
 
-    onRequest (body = {}) {
-        const wait = [];
-
-        let waitForParse = this.eventParser(body, (data, pageId) => {
-            const then = this.processor.processMessage(data, pageId);
-            wait.push(then);
-        });
-
-        if (!(waitForParse instanceof Promise)) {
-            waitForParse = Promise.resolve();
+    _process (messages, ret = []) {
+        if (messages.length === 0) {
+            return ret;
         }
 
-        return waitForParse
-            .then(() => Promise.all(wait))
+        return this.processor.processMessage(...messages.pop())
+            .then((res) => {
+                ret.push(res);
+                return this._process(messages, ret);
+            });
+    }
+
+    onRequest (body = {}) {
+        const messages = [];
+
+        const waitForParse = this.eventParser(body, (data, pageId) => {
+            messages.push([data, pageId]);
+        });
+
+        return Promise.resolve(waitForParse)
+            .then(() => this._process(messages))
             .then(events => this.responseParser(events));
     }
 
