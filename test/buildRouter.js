@@ -82,4 +82,30 @@ describe('<BuildRouter>', function () {
         });
     });
 
+    it('should return translated messages', function () {
+        const blocks = new Blocks();
+
+        blocks.code('exampleBlock', function* (req, res) {
+            yield res.run('responseBlockName');
+        });
+
+        const bot = BuildRouter.fromData(testbot.data, blocks);
+
+        const t = new Tester(bot);
+
+        t.setState({ lang: 'cz' });
+
+        return co(function* () {
+            yield t.postBack('/start');
+
+            t.passedAction('start');
+
+            t.any()
+                .contains('To je poprvé')
+                .quickReplyAction('subblock-include');
+
+        });
+
+    });
+
 });

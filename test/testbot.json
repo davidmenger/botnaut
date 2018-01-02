@@ -174,7 +174,10 @@
                 "type": "botbuild.message",
                 "params": {
                   "conditionFn": "(req, res) => {\n    return !req.state.a;\n}",
-                  "text": "This is the first time, you're here",
+                  "text": [
+                    { "t": "This is the first time, you're here", "l": "default" },
+                    { "t": "To je poprvé", "l": "cz" }
+                  ],
                   "replies": [],
                   "hasCondition": true
                 },
@@ -203,7 +206,10 @@
                 "params": {
                   "replies": [
                     {
-                      "title": "Go To Subblock",
+                      "title": [
+                        { "t": "Go To Subblock", "l": "default" },
+                        { "t": "Jdi do podbloku", "l": "cz" }
+                      ],
                       "targetRouteId": 1507122998196
                     }
                   ],

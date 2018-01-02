@@ -4,18 +4,18 @@
 'use strict';
 
 const Router = require('../Router');
-const { customFn } = require('./utils');
+const { customFn, getLanguageText } = require('./utils');
 
 let handlebars;
 try {
     handlebars = module.require('handlebars');
 } catch (er) {
-    handlebars = null;
+    handlebars = { compile: text => () => text };
 }
 
 function parseReplies (replies, linksMap) {
-    return replies.reduce((obj, reply) => {
-        let action = reply.action;
+    return replies.map((reply) => {
+        let { action } = reply;
 
         const replyData = Object.assign({}, reply);
 
@@ -26,22 +26,30 @@ function parseReplies (replies, linksMap) {
             delete replyData.targetRouteId;
         }
 
-        Object.assign(obj, {
-            [action]: replyData
-        });
+        return Object.assign(replyData, { action });
+    });
+}
 
-        return obj;
-    }, {});
+function cachedTranslatedCompilator (text) {
+    const cache = new Map();
+
+    return (state) => {
+        const { lang: key = '-', lang } = state;
+        let renderer = cache.get(key);
+        if (!renderer) {
+            renderer = handlebars.compile(getLanguageText(text, lang));
+            cache.set(key, renderer);
+        }
+        return renderer(state);
+    };
 }
 
 function message (params, { isLastIndex, linksMap }) {
-    if (typeof params.text !== 'string') {
+    if (typeof params.text !== 'string' && !Array.isArray(params.text)) {
         throw new Error('Message should be a text!');
     }
 
-    const textTemplate = handlebars
-        ? handlebars.compile(params.text)
-        : () => params.text;
+    const textTemplate = cachedTranslatedCompilator(params.text);
 
     let replies = null;
 
@@ -67,7 +75,9 @@ function message (params, { isLastIndex, linksMap }) {
         const text = textTemplate(req.state);
 
         if (replies) {
-            res.text(text, replies);
+            res.text(text, replies.map(reply => Object.assign({}, reply, {
+                title: getLanguageText(reply.title, req.state.lang)
+            })));
         } else {
             res.text(text);
         }

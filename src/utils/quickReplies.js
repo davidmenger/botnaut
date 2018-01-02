@@ -28,7 +28,7 @@ function makeExpectedKeyword (action, title, matcher = null, payloadData = {}) {
 /**
  *
  *
- * @param {string[]|object[]} replies
+ * @param {object|object[]} replies
  * @param {string} [path]
  * @param {function} [translate=w => w]
  * @returns {{ quickReplies: object[], expectedKeywords: object[] }}
@@ -36,36 +36,49 @@ function makeExpectedKeyword (action, title, matcher = null, payloadData = {}) {
 function makeQuickReplies (replies, path = '', translate = w => w) {
 
     const expectedKeywords = [];
-    const quickReplies = Object.keys(replies)
-        .map((relativeAction) => {
-            const value = replies[relativeAction];
-            let title = value;
-            let payloadData = null;
-            const action = makeAbsolute(relativeAction, path);
-            let payload = action;
-            let match;
 
-            if (typeof value === 'object') {
-                title = value.title;
-                match = value.match;
+    let iterate = replies;
 
+    if (!Array.isArray(iterate)) {
+        iterate = Object.keys(replies)
+            .map((action) => {
+                const value = replies[action];
+
+                if (typeof value === 'object') {
+                    return Object.assign({}, value, { action });
+                }
+
+                return { title: value, action };
+            });
+    }
+
+    const quickReplies = iterate
+        .map((reply) => {
+            const { title, action, match } = reply;
+            const absoluteAction = makeAbsolute(action, path);
+
+            let payload = absoluteAction;
+            const data = Object.assign({}, reply);
+
+            delete data.title;
+            delete data.action;
+            delete data.match;
+
+            if (Object.keys(data).length > 0) {
                 payload = {
-                    action,
-                    data: Object.assign({}, value)
+                    action: absoluteAction,
+                    data
                 };
-                delete payload.data.title;
-                delete payload.data.match;
-                payloadData = payload.data;
                 payload = JSON.stringify(payload);
             }
 
-            title = translate(title);
-
-            expectedKeywords.push(makeExpectedKeyword(action, title, match, payloadData));
+            const translatedTitle = translate(title);
+            const expect = makeExpectedKeyword(absoluteAction, translatedTitle, match, data);
+            expectedKeywords.push(expect);
 
             return {
                 content_type: 'text',
-                title,
+                title: translatedTitle,
                 payload
             };
         });

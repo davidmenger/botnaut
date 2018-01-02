@@ -55,18 +55,26 @@ class Responder {
      * Send text as a response
      *
      * @param {string} text text to send to user, can contain placeholders (%s)
-     * @param {object.<string, string>} [quickReplys]
+     * @param {Object.<string, string>|{title:string,action:string}[]} [quickReplies]
      * @returns {this}
      *
      * @example
+     * // simply
      * res.text('Hello %s', name, {
      *     action: 'Quick reply',
-     *     complexAction: {
+     *     another: 'Another quick reply'
+     * });
+     *
+     * // complex
+     * res.text('Hello %s', name, [
+     *     { action: 'action', title: 'Quick reply' },
+     *     {
+     *         action: 'complexAction', // required
      *         title: 'Another quick reply', // required
      *         match: 'string' || /regexp/, // optional
      *         someData: 'Will be included in payload data' // optional
      *     }
-     * })
+     * ]);
      *
      * @memberOf Responder
      */

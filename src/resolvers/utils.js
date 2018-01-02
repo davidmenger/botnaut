@@ -24,6 +24,29 @@ function customFn (code, description) {
     return resolver;
 }
 
+/**
+ *
+ * @param {{t:string,l:string}[]|string} translations
+ * @param {string} [lang]
+ * @returns {null|string}
+ */
+function getLanguageText (translations, lang = null) {
+    let foundText;
+    if (Array.isArray(translations)) {
+        if (lang) {
+            foundText = translations.find(t => t.l === lang);
+        }
+        if (!foundText) {
+            foundText = translations[0];
+        }
+        foundText = foundText ? foundText.t : null;
+    } else {
+        foundText = translations;
+    }
+    return foundText || '';
+}
+
 module.exports = {
-    customFn
+    customFn,
+    getLanguageText
 };

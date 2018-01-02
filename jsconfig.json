@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2017",
+        "allowSyntheticDefaultImports": true,
+        "checkJs": true
+    },
+    "exclude": [
+        "node_modules",
+        "bin",
+        "coverage",
+        "doc",
+        "docs"
+    ]
+}
