@@ -31,7 +31,7 @@ function customCode (params, context, blocks) {
         });
 
         // assign to res
-        return customFn(req, res, postBack);
+        return customFn(req, res, postBack, context);
     };
 }
 

@@ -24,6 +24,12 @@ function customFn (code, description) {
     return resolver;
 }
 
+function isArrayOfObjects (translations) {
+    return Array.isArray(translations)
+        && typeof translations[0] === 'object'
+        && translations[0] !== null;
+}
+
 /**
  *
  * @param {{t:string,l:string}[]|string} translations
@@ -32,7 +38,7 @@ function customFn (code, description) {
  */
 function getLanguageText (translations, lang = null) {
     let foundText;
-    if (Array.isArray(translations)) {
+    if (isArrayOfObjects(translations)) {
         if (lang) {
             foundText = translations.find(t => t.l === lang);
         }

@@ -24,6 +24,7 @@
         * [.getState()](#Tester_getState) ⇒ <code>object</code>
         * [.setState([state])](#Tester_setState)
         * [.text(text)](#Tester_text) ⇒ <code>Promise</code>
+        * [.intent(intent, text)](#Tester_intent) ⇒ <code>Promise</code>
         * [.passThread([data], [appId])](#Tester_passThread) ⇒ <code>Promise</code>
         * [.optin(action, [data])](#Tester_optin) ⇒ <code>Promise</code>
         * [.quickReply(action, [data])](#Tester_quickReply) ⇒ <code>Promise</code>
@@ -97,6 +98,18 @@ Makes text request
 
 | Param | Type |
 | --- | --- |
+| text | <code>string</code> | 
+
+{% raw %}<div id="Tester_intent">&nbsp;</div>{% endraw %}
+
+### tester.intent(intent, text) ⇒ <code>Promise</code>
+Makes recognised AI intent request
+
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
+
+| Param | Type |
+| --- | --- |
+| intent | <code>string</code> | 
 | text | <code>string</code> | 
 
 {% raw %}<div id="Tester_passThread">&nbsp;</div>{% endraw %}

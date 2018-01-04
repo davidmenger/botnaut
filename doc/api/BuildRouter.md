@@ -52,7 +52,7 @@ const config = require('./config');
 
 const blocks = new Blocks();
 
-blocks.code('exampleBlock', function* (req, res) {
+blocks.code('exampleBlock', function* (req, res, postBack, context) {
     yield res.run('responseBlockName');
 });
 
@@ -127,7 +127,7 @@ const config = require('./config');
 
 const blocks = new Blocks();
 
-blocks.code('exampleBlock', function* (req, res) {
+blocks.code('exampleBlock', function* (req, res, postBack, context) {
     yield res.run('responseBlockName');
 });
 

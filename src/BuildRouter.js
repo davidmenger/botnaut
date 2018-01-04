@@ -37,7 +37,7 @@ class BuildRouter extends Router {
      *
      * const blocks = new Blocks();
      *
-     * blocks.code('exampleBlock', function* (req, res) {
+     * blocks.code('exampleBlock', function* (req, res, postBack, context) {
      *     yield res.run('responseBlockName');
      * });
      *
@@ -137,6 +137,12 @@ class BuildRouter extends Router {
     }
 
     _buildBot (block) {
+        const { blockName, blockType, isRoot, staticBlockId } = block;
+
+        this._context = Object.assign({}, this._context, {
+            blockName, blockType, isRoot, staticBlockId
+        });
+
         this._linksMap = this._createLinksMap(block);
 
         this._setExpectedFromResponderRoutes(block.routes);
@@ -246,7 +252,7 @@ class BuildRouter extends Router {
         routes.forEach((route) => {
             const register = this.use(...[
                 ...this._buildRouteHead(route),
-                ...this.buildResolvers(route.resolvers)
+                ...this.buildResolvers(route.resolvers, route)
             ]);
             this._attachExitPoints(register, route.resolvers);
         });
@@ -276,14 +282,20 @@ class BuildRouter extends Router {
         };
     }
 
-    buildResolvers (resolvers) {
+    buildResolvers (resolvers, route = {}) {
         const lastIndex = resolvers.length - 1;
+
+        const { path, isFallback, isResponder, expectedPath } = route;
 
         return resolvers.map((resolver, i) => {
             const context = Object.assign({}, this._context, {
                 isLastIndex: lastIndex === i,
                 router: this,
-                linksMap: this._linksMap
+                linksMap: this._linksMap,
+                path,
+                isFallback,
+                isResponder,
+                expectedPath
             });
 
             return this._resolverFactory(resolver, context);

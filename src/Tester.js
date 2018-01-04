@@ -186,6 +186,19 @@ class Tester {
     }
 
     /**
+     * Makes recognised AI intent request
+     *
+     * @param {string} intent
+     * @param {string} text
+     * @returns {Promise}
+     *
+     * @memberOf Tester
+     */
+    intent (intent, text = intent) {
+        return this._request(Request.intent(this.senderId, text, intent));
+    }
+
+    /**
      * Makes pass thread control request
      *
      * @param {string|Object} [data] - action

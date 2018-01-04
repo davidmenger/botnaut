@@ -30,6 +30,22 @@ function parseReplies (replies, linksMap) {
     });
 }
 
+function randomizedCompiler (text, lang) {
+    const texts = getLanguageText(text, lang);
+
+    if (!Array.isArray(texts)) {
+        return handlebars.compile(texts);
+    }
+
+    return (...args) => {
+        const index = Math.floor(Math.random() * texts.length);
+        if (typeof texts[index] !== 'function') {
+            texts[index] = handlebars.compile(texts[index]);
+        }
+        return texts[index](...args);
+    };
+}
+
 function cachedTranslatedCompilator (text) {
     const cache = new Map();
 
@@ -37,7 +53,7 @@ function cachedTranslatedCompilator (text) {
         const { lang: key = '-', lang } = state;
         let renderer = cache.get(key);
         if (!renderer) {
-            renderer = handlebars.compile(getLanguageText(text, lang));
+            renderer = randomizedCompiler(text, lang);
             cache.set(key, renderer);
         }
         return renderer(state);
