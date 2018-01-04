@@ -677,6 +677,32 @@
             
         </li>
     
+        <li class="chapter " data-level="2.11" data-path="BuildRouter.html">
+            
+                <a href="BuildRouter.html">
+            
+                    
+                    Wingbot.ai
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="callback.html">
+            
+                <a href="callback.html">
+            
+                    
+                    Middlewares
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -747,7 +773,7 @@
 <li><a href="#Ai_prefixTranslator">.prefixTranslator(prefix, req)</a></li>
 <li><a href="#Ai_mockIntent">.mockIntent([intent], [confidence])</a> &#x21D2; <code>this</code></li>
 <li><a href="#Ai_onConfirmMiddleware">.onConfirmMiddleware(onIntentConfirmed, getMeta)</a> &#x21D2; <code>function</code></li>
-<li><a href="#Ai_register">.register(model, options, prefix)</a></li>
+<li><a href="#Ai_register">.register(model, options, prefix)</a> &#x21D2; <code>WingbotModel</code></li>
 <li><a href="#Ai_match">.match(intent, [confidence], [prefix])</a> &#x21D2; <code>function</code></li>
 <li><a href="#Ai_navigate">.navigate(knownIntents, [threshold], [confidence], [prefix])</a> &#x21D2; <code>function</code></li>
 <li><a href="#Ai_makeSure">.makeSure(knownIntents, [threshold], [confidence], prefix)</a> &#x21D2; <code>function</code></li>
@@ -898,7 +924,7 @@ bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span
 </code></pre>
 <div id="Ai_register">&#xA0;</div>
 
-<h3 id="airegistermodel-options-prefix"><a name="airegistermodel-options-prefix" class="plugin-anchor" href="#airegistermodel-options-prefix"><i class="fa fa-link" aria-hidden="true"></i></a>ai.register(model, options, prefix)</h3>
+<h3 id="airegistermodel-options-prefix-&#x21D2;-wingbotmodel"><a name="airegistermodel-options-prefix-&#x21D2;-wingbotmodel" class="plugin-anchor" href="#airegistermodel-options-prefix-&#x21D2;-wingbotmodel"><i class="fa fa-link" aria-hidden="true"></i></a>ai.register(model, options, prefix) &#x21D2; <code>WingbotModel</code></h3>
 <p>Registers Wingbot AI model</p>
 <p><strong>Kind</strong>: instance method of <a href="#Ai"><code>Ai</code></a>  </p>
 <table>
@@ -1165,7 +1191,7 @@ bot.use(ai.makeSure([<span class="hljs-string">&apos;intent1&apos;</span>, <span
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Ai","level":"2.9","depth":1,"next":{"title":"Serverless","level":"2.10","depth":1,"path":"api/serverlessAWS.md","ref":"api/serverlessAWS.md","articles":[]},"previous":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Ai.md","mtime":"2017-10-11T11:56:37.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-11T11:56:43.029Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Ai","level":"2.9","depth":1,"next":{"title":"Serverless","level":"2.10","depth":1,"path":"api/serverlessAWS.md","ref":"api/serverlessAWS.md","articles":[]},"previous":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Ai.md","mtime":"2018-01-04T13:33:01.817Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-04T13:33:05.621Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

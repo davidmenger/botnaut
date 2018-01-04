@@ -200,7 +200,7 @@ class BuildRouter extends Router {
         const linksMap = new Map();
 
         block.routes
-            .filter(route => !route.isFallback && !route.isResponder)
+            .filter(route => !route.isResponder)
             .forEach(route => linksMap.set(route.id, route.path));
 
         block.routes.forEach((route) => {
@@ -219,23 +219,20 @@ class BuildRouter extends Router {
     _buildRouteHead (route) {
         const resolvers = [];
 
-        if (route.isFallback) {
-            // dont add path or AI
-            return resolvers;
-        }
+        if (!route.isFallback) {
+            let aiResolver = null;
 
-        let aiResolver = null;
+            if (route.aiTags && route.aiTags.length) {
+                aiResolver = Ai.ai.match(route.aiTags);
+            }
 
-        if (route.aiTags && route.aiTags.length) {
-            aiResolver = Ai.ai.match(route.aiTags);
-        }
-
-        if (aiResolver && route.isResponder) {
-            resolvers.push(route.path, aiResolver);
-        } else if (aiResolver) {
-            resolvers.push([route.path, aiResolver]);
-        } else {
-            resolvers.push(route.path);
+            if (aiResolver && route.isResponder) {
+                resolvers.push(route.path, aiResolver);
+            } else if (aiResolver) {
+                resolvers.push([route.path, aiResolver]);
+            } else {
+                resolvers.push(route.path);
+            }
         }
 
         if (route.expectedPath) {

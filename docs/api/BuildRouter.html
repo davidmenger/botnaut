@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Template Builders · Botnaut</title>
+        <title>Wingbot.ai · Botnaut</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="ButtonTemplate.html" />
+    <link rel="next" href="callback.html" />
     
     
-    <link rel="prev" href="Tester.html" />
+    <link rel="prev" href="serverlessAWS.html" />
     
 
     </head>
@@ -554,7 +554,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.5" data-path="ButtonTemplate.html">
+        <li class="chapter " data-level="2.5" data-path="ButtonTemplate.html">
             
                 <a href="ButtonTemplate.html">
             
@@ -677,7 +677,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.11" data-path="BuildRouter.html">
+        <li class="chapter active" data-level="2.11" data-path="BuildRouter.html">
             
                 <a href="BuildRouter.html">
             
@@ -733,7 +733,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Template Builders</a>
+        <a href=".." >Wingbot.ai</a>
     </h1>
 </div>
 
@@ -750,343 +750,276 @@
                                 
                                 <h2 id="classes"><a name="classes" class="plugin-anchor" href="#classes"><i class="fa fa-link" aria-hidden="true"></i></a>Classes</h2>
 <dl>
-<dt><a href="#ButtonTemplate">ButtonTemplate</a> &#x21D0; <code>BaseTemplate</code></dt>
+<dt><a href="#BuildRouter">BuildRouter</a></dt>
 <dd></dd>
-<dt><a href="#GenericTemplate">GenericTemplate</a> &#x21D0; <code>ButtonTemplate</code></dt>
+<dt><a href="#BuildRouter">BuildRouter</a></dt>
 <dd></dd>
-<dt><a href="#ReceiptTemplate">ReceiptTemplate</a> &#x21D0; <code>BaseTemplate</code></dt>
-<dd></dd>
+<dt><a href="#Blocks">Blocks</a></dt>
+<dd><p>Custom code blocks for BuildRouter and wingbot.ai</p>
+</dd>
 </dl>
 
-<div id="ButtonTemplate">&#xA0;</div>
+<div id="BuildRouter">&#xA0;</div>
 
-<h2 id="buttontemplate-&#x21D0;-basetemplate"><a name="buttontemplate-&#x21D0;-basetemplate" class="plugin-anchor" href="#buttontemplate-&#x21D0;-basetemplate"><i class="fa fa-link" aria-hidden="true"></i></a>ButtonTemplate &#x21D0; <code>BaseTemplate</code></h2>
-<p><strong>Kind</strong>: global class<br><strong>Extends</strong>: <code>BaseTemplate</code>  </p>
+<h2 id="buildrouter"><a name="buildrouter" class="plugin-anchor" href="#buildrouter"><i class="fa fa-link" aria-hidden="true"></i></a>BuildRouter</h2>
+<p><strong>Kind</strong>: global class  </p>
 <ul>
-<li><a href="#ButtonTemplate">ButtonTemplate</a> &#x21D0; <code>BaseTemplate</code><ul>
-<li><a href="#new_ButtonTemplate_new">new ButtonTemplate()</a></li>
-<li><a href="#ButtonTemplate_urlButton">.urlButton(title, url, hasExtension, [webviewHeight])</a> &#x21D2; <code>this</code></li>
-<li><a href="#ButtonTemplate_postBackButton">.postBackButton(title, action, [data])</a> &#x21D2; <code>this</code></li>
+<li><a href="#BuildRouter">BuildRouter</a><ul>
+<li><a href="#new_BuildRouter_new">new BuildRouter()</a></li>
+<li><a href="#new_BuildRouter_new">new BuildRouter(block, blocksResource)</a></li>
+<li><a href="#BuildRouter_fromData">.fromData()</a></li>
 </ul>
 </li>
 </ul>
-<div id="new_ButtonTemplate_new">&#xA0;</div>
+<div id="new_BuildRouter_new">&#xA0;</div>
 
-<h3 id="new-buttontemplate"><a name="new-buttontemplate" class="plugin-anchor" href="#new-buttontemplate"><i class="fa fa-link" aria-hidden="true"></i></a>new ButtonTemplate()</h3>
-<p>Helps with creating of button template
-Instance of button template is returned by {Responder}</p>
-<div id="ButtonTemplate_urlButton">&#xA0;</div>
+<h3 id="new-buildrouter"><a name="new-buildrouter" class="plugin-anchor" href="#new-buildrouter"><i class="fa fa-link" aria-hidden="true"></i></a>new BuildRouter()</h3>
+<p>Build bot from Wingbot configuration file or snapshot url</p>
+<div id="new_BuildRouter_new">&#xA0;</div>
 
-<h3 id="buttontemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><a name="buttontemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this" class="plugin-anchor" href="#buttontemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>buttonTemplate.urlButton(title, url, hasExtension, [webviewHeight]) &#x21D2; <code>this</code></h3>
-<p>Adds button. When <code>hasExtension</code> is set to <code>true</code>, url will contain hash like:
-<code>#token=foo&amp;senderId=23344</code></p>
-<p><strong>Kind</strong>: instance method of <a href="#ButtonTemplate"><code>ButtonTemplate</code></a>  </p>
+<h3 id="new-buildrouterblock-blocksresource"><a name="new-buildrouterblock-blocksresource" class="plugin-anchor" href="#new-buildrouterblock-blocksresource"><i class="fa fa-link" aria-hidden="true"></i></a>new BuildRouter(block, blocksResource)</h3>
+<p>Create new router from configuration</p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
-<th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>title</td>
-<td><code>string</code></td>
-<td></td>
-<td>button text</td>
-</tr>
-<tr>
-<td>url</td>
-<td><code>string</code></td>
-<td></td>
-<td>button url</td>
-</tr>
-<tr>
-<td>hasExtension</td>
-<td><code>boolean</code></td>
-<td></td>
-<td>includes token in url</td>
-</tr>
-<tr>
-<td>[webviewHeight]</td>
-<td><code>string</code></td>
-<td><code>null</code></td>
-<td>compact</td>
-<td>tall</td>
-<td>full</td>
-</tr>
-</tbody>
-</table>
-<div id="ButtonTemplate_postBackButton">&#xA0;</div>
-
-<h3 id="buttontemplatepostbackbuttontitle-action-data-&#x21D2;-this"><a name="buttontemplatepostbackbuttontitle-action-data-&#x21D2;-this" class="plugin-anchor" href="#buttontemplatepostbackbuttontitle-action-data-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>buttonTemplate.postBackButton(title, action, [data]) &#x21D2; <code>this</code></h3>
-<p>Adds button, which makes another action</p>
-<p><strong>Kind</strong>: instance method of <a href="#ButtonTemplate"><code>ButtonTemplate</code></a>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td><code>string</code></td>
-<td></td>
-<td>Button title</td>
-</tr>
-<tr>
-<td>action</td>
-<td><code>string</code></td>
-<td></td>
-<td>Button action (can be absolute or relative)</td>
-</tr>
-<tr>
-<td>[data]</td>
+<td>block</td>
 <td><code>object</code></td>
-<td><code>{}</code></td>
-<td>Action data</td>
-</tr>
-</tbody>
-</table>
-<div id="GenericTemplate">&#xA0;</div>
-
-<h2 id="generictemplate-&#x21D0;-buttontemplate"><a name="generictemplate-&#x21D0;-buttontemplate" class="plugin-anchor" href="#generictemplate-&#x21D0;-buttontemplate"><i class="fa fa-link" aria-hidden="true"></i></a>GenericTemplate &#x21D0; <a href="#ButtonTemplate"><code>ButtonTemplate</code></a></h2>
-<p><strong>Kind</strong>: global class<br><strong>Extends</strong>: <a href="#ButtonTemplate"><code>ButtonTemplate</code></a>  </p>
-<ul>
-<li><a href="#GenericTemplate">GenericTemplate</a> &#x21D0; <a href="#ButtonTemplate"><code>ButtonTemplate</code></a><ul>
-<li><a href="#new_GenericTemplate_new">new GenericTemplate()</a></li>
-<li><a href="#GenericTemplate_addElement">.addElement(title, [subtitle], [dontTranslate])</a> &#x21D2; <code>this</code></li>
-<li><a href="#GenericTemplate_setElementUrl">.setElementUrl(url, [hasExtension])</a> &#x21D2; <code>this</code></li>
-<li><a href="#GenericTemplate_setElementImage">.setElementImage(image)</a> &#x21D2; <code>this</code></li>
-<li><a href="#GenericTemplate_setElementAction">.setElementAction(url, hasExtension, [webviewHeight])</a></li>
-<li><a href="#ButtonTemplate_urlButton">.urlButton(title, url, hasExtension, [webviewHeight])</a> &#x21D2; <code>this</code></li>
-<li><a href="#ButtonTemplate_postBackButton">.postBackButton(title, action, [data])</a> &#x21D2; <code>this</code></li>
-</ul>
-</li>
-</ul>
-<div id="new_GenericTemplate_new">&#xA0;</div>
-
-<h3 id="new-generictemplate"><a name="new-generictemplate" class="plugin-anchor" href="#new-generictemplate"><i class="fa fa-link" aria-hidden="true"></i></a>new GenericTemplate()</h3>
-<p>Generic template utility</p>
-<div id="GenericTemplate_addElement">&#xA0;</div>
-
-<h3 id="generictemplateaddelementtitle-subtitle-donttranslate-&#x21D2;-this"><a name="generictemplateaddelementtitle-subtitle-donttranslate-&#x21D2;-this" class="plugin-anchor" href="#generictemplateaddelementtitle-subtitle-donttranslate-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.addElement(title, [subtitle], [dontTranslate]) &#x21D2; <code>this</code></h3>
-<p>Adds element to generic template</p>
-<p><strong>Kind</strong>: instance method of <a href="#GenericTemplate"><code>GenericTemplate</code></a>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td><code>string</code></td>
 <td></td>
 </tr>
 <tr>
-<td>[subtitle]</td>
+<td>[block.botId]</td>
 <td><code>string</code></td>
-<td><code>null</code></td>
+<td>the ID of bot</td>
 </tr>
 <tr>
-<td>[dontTranslate]</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-</tr>
-</tbody>
-</table>
-<div id="GenericTemplate_setElementUrl">&#xA0;</div>
-
-<h3 id="generictemplatesetelementurlurl-hasextension-&#x21D2;-this"><a name="generictemplatesetelementurlurl-hasextension-&#x21D2;-this" class="plugin-anchor" href="#generictemplatesetelementurlurl-hasextension-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.setElementUrl(url, [hasExtension]) &#x21D2; <code>this</code></h3>
-<p>Sets url of recently added element</p>
-<p><strong>Kind</strong>: instance method of <a href="#GenericTemplate"><code>GenericTemplate</code></a>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>url</td>
-<td><code>any</code></td>
-<td></td>
-</tr>
-<tr>
-<td>[hasExtension]</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-</tr>
-</tbody>
-</table>
-<div id="GenericTemplate_setElementImage">&#xA0;</div>
-
-<h3 id="generictemplatesetelementimageimage-&#x21D2;-this"><a name="generictemplatesetelementimageimage-&#x21D2;-this" class="plugin-anchor" href="#generictemplatesetelementimageimage-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.setElementImage(image) &#x21D2; <code>this</code></h3>
-<p>Sets image of recently added element</p>
-<p><strong>Kind</strong>: instance method of <a href="#GenericTemplate"><code>GenericTemplate</code></a>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>image</td>
+<td>[block.snapshot]</td>
 <td><code>string</code></td>
+<td>snapshot stage of bot</td>
 </tr>
-</tbody>
-</table>
-<div id="GenericTemplate_setElementAction">&#xA0;</div>
-
-<h3 id="generictemplatesetelementactionurl-hasextension-webviewheight"><a name="generictemplatesetelementactionurl-hasextension-webviewheight" class="plugin-anchor" href="#generictemplatesetelementactionurl-hasextension-webviewheight"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.setElementAction(url, hasExtension, [webviewHeight])</h3>
-<p>Sets default action of recently added element</p>
-<p><strong>Kind</strong>: instance method of <a href="#GenericTemplate"><code>GenericTemplate</code></a>  </p>
-<table>
-<thead>
 <tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>url</td>
+<td>[block.token]</td>
 <td><code>string</code></td>
-<td></td>
-<td>button url</td>
+<td>authorization token for bot</td>
 </tr>
 <tr>
-<td>hasExtension</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>includes token in url</td>
-</tr>
-<tr>
-<td>[webviewHeight]</td>
-<td><code>string</code></td>
-<td><code>null</code></td>
-<td>compact</td>
-<td>tall</td>
-<td>full</td>
-</tr>
-</tbody>
-</table>
-<div id="ButtonTemplate_urlButton">&#xA0;</div>
-
-<h3 id="generictemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><a name="generictemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this" class="plugin-anchor" href="#generictemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.urlButton(title, url, hasExtension, [webviewHeight]) &#x21D2; <code>this</code></h3>
-<p>Adds button. When <code>hasExtension</code> is set to <code>true</code>, url will contain hash like:
-<code>#token=foo&amp;senderId=23344</code></p>
-<p><strong>Kind</strong>: instance method of <a href="#GenericTemplate"><code>GenericTemplate</code></a>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td><code>string</code></td>
-<td></td>
-<td>button text</td>
-</tr>
-<tr>
-<td>url</td>
-<td><code>string</code></td>
-<td></td>
-<td>button url</td>
-</tr>
-<tr>
-<td>hasExtension</td>
-<td><code>boolean</code></td>
-<td></td>
-<td>includes token in url</td>
-</tr>
-<tr>
-<td>[webviewHeight]</td>
-<td><code>string</code></td>
-<td><code>null</code></td>
-<td>compact</td>
-<td>tall</td>
-<td>full</td>
-</tr>
-</tbody>
-</table>
-<div id="ButtonTemplate_postBackButton">&#xA0;</div>
-
-<h3 id="generictemplatepostbackbuttontitle-action-data-&#x21D2;-this"><a name="generictemplatepostbackbuttontitle-action-data-&#x21D2;-this" class="plugin-anchor" href="#generictemplatepostbackbuttontitle-action-data-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.postBackButton(title, action, [data]) &#x21D2; <code>this</code></h3>
-<p>Adds button, which makes another action</p>
-<p><strong>Kind</strong>: instance method of <a href="#GenericTemplate"><code>GenericTemplate</code></a>  </p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td><code>string</code></td>
-<td></td>
-<td>Button title</td>
-</tr>
-<tr>
-<td>action</td>
-<td><code>string</code></td>
-<td></td>
-<td>Button action (can be absolute or relative)</td>
-</tr>
-<tr>
-<td>[data]</td>
+<td>[block.routes]</td>
 <td><code>object</code></td>
-<td><code>{}</code></td>
-<td>Action data</td>
+<td>list of routes for direct bot build</td>
+</tr>
+<tr>
+<td>[block.url]</td>
+<td><code>string</code></td>
+<td>specify alternative configuration resource</td>
+</tr>
+<tr>
+<td>blocksResource</td>
+<td><a href="#Blocks"><code>Blocks</code></a></td>
+<td>custom code blocks resource</td>
 </tr>
 </tbody>
 </table>
-<div id="ReceiptTemplate">&#xA0;</div>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// usage under serverless environment</span>
 
-<h2 id="receipttemplate-&#x21D0;-basetemplate"><a name="receipttemplate-&#x21D0;-basetemplate" class="plugin-anchor" href="#receipttemplate-&#x21D0;-basetemplate"><i class="fa fa-link" aria-hidden="true"></i></a>ReceiptTemplate &#x21D0; <code>BaseTemplate</code></h2>
-<p><strong>Kind</strong>: global class<br><strong>Extends</strong>: <code>BaseTemplate</code>  </p>
+<span class="hljs-keyword">const</span> { Settings, BuildRouter, Blocks } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> { createHandler, createProcessor } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut/serverlessAWS&apos;</span>);
+<span class="hljs-keyword">const</span> dynamoDb = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;./lib/dynamodb&apos;</span>);
+<span class="hljs-keyword">const</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;./config&apos;</span>);
+
+<span class="hljs-keyword">const</span> blocks = <span class="hljs-keyword">new</span> Blocks();
+
+blocks.code(<span class="hljs-string">&apos;exampleBlock&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>* (<span class="hljs-params">req, res</span>) </span>{
+    <span class="hljs-keyword">yield</span> res.run(<span class="hljs-string">&apos;responseBlockName&apos;</span>);
+});
+
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> BuildRouter({
+    botId: <span class="hljs-string">&apos;b7a71c27-c295-4ab0-b64e-6835b50a0db0&apos;</span>,
+    stage: <span class="hljs-string">&apos;master&apos;</span>
+}, blocks);
+
+<span class="hljs-keyword">const</span> processor = createProcessor(bot, {
+    appUrl: config.pageUrl,
+    pageToken: config.facebook.pageToken,
+    appSecret: config.facebook.appSecret,
+    autoTyping: <span class="hljs-literal">true</span>,
+    dynamo: {
+        db: dynamoDb,
+        tablePrefix: <span class="hljs-string">`<span class="hljs-subst">${config.prefix}</span>-`</span>
+    }
+});
+
+<span class="hljs-keyword">const</span> settings = <span class="hljs-keyword">new</span> Settings(config.facebook.pageToken, log);
+
+<span class="hljs-keyword">if</span> (config.isProduction) {
+    settings.getStartedButton(<span class="hljs-string">&apos;/start&apos;</span>);
+    settings.whitelistDomain(config.pageUrl);
+}
+
+<span class="hljs-built_in">module</span>.exports.handleRequest = createHandler(processor, config.facebook.botToken);
+</code></pre>
+<div id="BuildRouter_fromData">&#xA0;</div>
+
+<h3 id="buildrouterfromdata"><a name="buildrouterfromdata" class="plugin-anchor" href="#buildrouterfromdata"><i class="fa fa-link" aria-hidden="true"></i></a>BuildRouter.fromData()</h3>
+<p><strong>Kind</strong>: static method of <a href="#BuildRouter"><code>BuildRouter</code></a>  </p>
+<div id="BuildRouter">&#xA0;</div>
+
+<h2 id="buildrouter"><a name="buildrouter" class="plugin-anchor" href="#buildrouter"><i class="fa fa-link" aria-hidden="true"></i></a>BuildRouter</h2>
+<p><strong>Kind</strong>: global class  </p>
 <ul>
-<li><a href="#ReceiptTemplate">ReceiptTemplate</a> &#x21D0; <code>BaseTemplate</code><ul>
-<li><a href="#new_ReceiptTemplate_new">new ReceiptTemplate()</a></li>
-<li><a href="#ReceiptTemplate_addElement">.addElement(title, [price], [quantity], [image], [subtitle])</a> &#x21D2; <code>this</code></li>
+<li><a href="#BuildRouter">BuildRouter</a><ul>
+<li><a href="#new_BuildRouter_new">new BuildRouter()</a></li>
+<li><a href="#new_BuildRouter_new">new BuildRouter(block, blocksResource)</a></li>
+<li><a href="#BuildRouter_fromData">.fromData()</a></li>
 </ul>
 </li>
 </ul>
-<div id="new_ReceiptTemplate_new">&#xA0;</div>
+<div id="new_BuildRouter_new">&#xA0;</div>
 
-<h3 id="new-receipttemplate"><a name="new-receipttemplate" class="plugin-anchor" href="#new-receipttemplate"><i class="fa fa-link" aria-hidden="true"></i></a>new ReceiptTemplate()</h3>
-<p>Provides fluent interface to make nice Receipts
-Instance of button template is returned by {Responder}</p>
-<div id="ReceiptTemplate_addElement">&#xA0;</div>
+<h3 id="new-buildrouter"><a name="new-buildrouter" class="plugin-anchor" href="#new-buildrouter"><i class="fa fa-link" aria-hidden="true"></i></a>new BuildRouter()</h3>
+<p>Build bot from Wingbot configuration file or snapshot url</p>
+<div id="new_BuildRouter_new">&#xA0;</div>
 
-<h3 id="receipttemplateaddelementtitle-price-quantity-image-subtitle-&#x21D2;-this"><a name="receipttemplateaddelementtitle-price-quantity-image-subtitle-&#x21D2;-this" class="plugin-anchor" href="#receipttemplateaddelementtitle-price-quantity-image-subtitle-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>receiptTemplate.addElement(title, [price], [quantity], [image], [subtitle]) &#x21D2; <code>this</code></h3>
-<p>Adds item to receipt</p>
-<p><strong>Kind</strong>: instance method of <a href="#ReceiptTemplate"><code>ReceiptTemplate</code></a>  </p>
+<h3 id="new-buildrouterblock-blocksresource"><a name="new-buildrouterblock-blocksresource" class="plugin-anchor" href="#new-buildrouterblock-blocksresource"><i class="fa fa-link" aria-hidden="true"></i></a>new BuildRouter(block, blocksResource)</h3>
+<p>Create new router from configuration</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>block</td>
+<td><code>object</code></td>
+<td></td>
+</tr>
+<tr>
+<td>[block.botId]</td>
+<td><code>string</code></td>
+<td>the ID of bot</td>
+</tr>
+<tr>
+<td>[block.snapshot]</td>
+<td><code>string</code></td>
+<td>snapshot stage of bot</td>
+</tr>
+<tr>
+<td>[block.token]</td>
+<td><code>string</code></td>
+<td>authorization token for bot</td>
+</tr>
+<tr>
+<td>[block.routes]</td>
+<td><code>object</code></td>
+<td>list of routes for direct bot build</td>
+</tr>
+<tr>
+<td>[block.url]</td>
+<td><code>string</code></td>
+<td>specify alternative configuration resource</td>
+</tr>
+<tr>
+<td>blocksResource</td>
+<td><a href="#Blocks"><code>Blocks</code></a></td>
+<td>custom code blocks resource</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// usage under serverless environment</span>
+
+<span class="hljs-keyword">const</span> { Settings, BuildRouter, Blocks } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> { createHandler, createProcessor } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut/serverlessAWS&apos;</span>);
+<span class="hljs-keyword">const</span> dynamoDb = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;./lib/dynamodb&apos;</span>);
+<span class="hljs-keyword">const</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;./config&apos;</span>);
+
+<span class="hljs-keyword">const</span> blocks = <span class="hljs-keyword">new</span> Blocks();
+
+blocks.code(<span class="hljs-string">&apos;exampleBlock&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>* (<span class="hljs-params">req, res</span>) </span>{
+    <span class="hljs-keyword">yield</span> res.run(<span class="hljs-string">&apos;responseBlockName&apos;</span>);
+});
+
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> BuildRouter({
+    botId: <span class="hljs-string">&apos;b7a71c27-c295-4ab0-b64e-6835b50a0db0&apos;</span>,
+    stage: <span class="hljs-string">&apos;master&apos;</span>
+}, blocks);
+
+<span class="hljs-keyword">const</span> processor = createProcessor(bot, {
+    appUrl: config.pageUrl,
+    pageToken: config.facebook.pageToken,
+    appSecret: config.facebook.appSecret,
+    autoTyping: <span class="hljs-literal">true</span>,
+    dynamo: {
+        db: dynamoDb,
+        tablePrefix: <span class="hljs-string">`<span class="hljs-subst">${config.prefix}</span>-`</span>
+    }
+});
+
+<span class="hljs-keyword">const</span> settings = <span class="hljs-keyword">new</span> Settings(config.facebook.pageToken, log);
+
+<span class="hljs-keyword">if</span> (config.isProduction) {
+    settings.getStartedButton(<span class="hljs-string">&apos;/start&apos;</span>);
+    settings.whitelistDomain(config.pageUrl);
+}
+
+<span class="hljs-built_in">module</span>.exports.handleRequest = createHandler(processor, config.facebook.botToken);
+</code></pre>
+<div id="BuildRouter_fromData">&#xA0;</div>
+
+<h3 id="buildrouterfromdata"><a name="buildrouterfromdata" class="plugin-anchor" href="#buildrouterfromdata"><i class="fa fa-link" aria-hidden="true"></i></a>BuildRouter.fromData()</h3>
+<p><strong>Kind</strong>: static method of <a href="#BuildRouter"><code>BuildRouter</code></a>  </p>
+<div id="Blocks">&#xA0;</div>
+
+<h2 id="blocks"><a name="blocks" class="plugin-anchor" href="#blocks"><i class="fa fa-link" aria-hidden="true"></i></a>Blocks</h2>
+<p>Custom code blocks for BuildRouter and wingbot.ai</p>
+<p><strong>Kind</strong>: global class  </p>
+<ul>
+<li><a href="#Blocks">Blocks</a><ul>
+<li><a href="#Blocks_resolver">.resolver(type, factoryFn)</a></li>
+<li><a href="#Blocks_code">.code(name, [factoryFn])</a></li>
+</ul>
+</li>
+</ul>
+<div id="Blocks_resolver">&#xA0;</div>
+
+<h3 id="blocksresolvertype-factoryfn"><a name="blocksresolvertype-factoryfn" class="plugin-anchor" href="#blocksresolvertype-factoryfn"><i class="fa fa-link" aria-hidden="true"></i></a>blocks.resolver(type, factoryFn)</h3>
+<p>Register resolver factory</p>
+<p><strong>Kind</strong>: instance method of <a href="#Blocks"><code>Blocks</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><code>string</code></td>
+<td>resolver type</td>
+</tr>
+<tr>
+<td>factoryFn</td>
+<td><code>function</code></td>
+<td>resolver factory</td>
+</tr>
+</tbody>
+</table>
+<div id="Blocks_code">&#xA0;</div>
+
+<h3 id="blockscodename-factoryfn"><a name="blockscodename-factoryfn" class="plugin-anchor" href="#blockscodename-factoryfn"><i class="fa fa-link" aria-hidden="true"></i></a>blocks.code(name, [factoryFn])</h3>
+<p>Register custom code block</p>
+<p><strong>Kind</strong>: instance method of <a href="#Blocks"><code>Blocks</code></a>  </p>
 <table>
 <thead>
 <tr>
@@ -1098,34 +1031,17 @@ Instance of button template is returned by {Responder}</p>
 </thead>
 <tbody>
 <tr>
-<td>title</td>
-<td><code>string</code></td>
+<td>name</td>
+<td><code>string</code> \</td>
+<td><a href="#Blocks"><code>Blocks</code></a></td>
 <td></td>
-<td></td>
+<td>block name or blocks object to include</td>
 </tr>
 <tr>
-<td>[price]</td>
-<td><code>number</code></td>
-<td><code>0</code></td>
-<td>a item price</td>
-</tr>
-<tr>
-<td>[quantity]</td>
-<td><code>number</code></td>
-<td><code></code></td>
-<td>amount of items</td>
-</tr>
-<tr>
-<td>[image]</td>
+<td>[factoryFn]</td>
 <td><code>string</code></td>
 <td><code>null</code></td>
-<td>image of item</td>
-</tr>
-<tr>
-<td>[subtitle]</td>
-<td><code>string</code></td>
-<td><code>null</code></td>
-<td>optional subtitle</td>
+<td>block factory - optional when including another blocks object</td>
 </tr>
 </tbody>
 </table>
@@ -1156,12 +1072,12 @@ Instance of button template is returned by {Responder}</p>
 
             
                 
-                <a href="Tester.html" class="navigation navigation-prev " aria-label="Previous page: Tester">
+                <a href="serverlessAWS.html" class="navigation navigation-prev " aria-label="Previous page: Serverless">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="ButtonTemplate.html#ButtonTemplate" class="navigation navigation-next " aria-label="Next page: ButtonTemplate">
+                <a href="callback.html" class="navigation navigation-next " aria-label="Next page: Middlewares">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1172,7 +1088,7 @@ Instance of button template is returned by {Responder}</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Template Builders","level":"2.5","depth":1,"next":{"title":"ButtonTemplate","level":"2.5.1","depth":2,"anchor":"#ButtonTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ButtonTemplate","articles":[]},"previous":{"title":"Tester","level":"2.4","depth":1,"path":"api/Tester.md","ref":"api/Tester.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/ButtonTemplate.md","mtime":"2018-01-04T13:33:01.795Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-04T13:33:05.621Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Wingbot.ai","level":"2.11","depth":1,"next":{"title":"Middlewares","level":"2.12","depth":1,"path":"api/callback.md","ref":"api/callback.md","articles":[]},"previous":{"title":"Serverless","level":"2.10","depth":1,"path":"api/serverlessAWS.md","ref":"api/serverlessAWS.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/BuildRouter.md","mtime":"2018-01-04T13:33:01.821Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-04T13:33:05.621Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

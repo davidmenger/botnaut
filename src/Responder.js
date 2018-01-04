@@ -44,6 +44,8 @@ class Responder {
         }
 
         this._t = this.options.translator;
+
+        this._quickReplyCollector = [];
     }
 
     setPath (absolutePath, routePath = '') {
@@ -55,7 +57,7 @@ class Responder {
      * Send text as a response
      *
      * @param {string} text text to send to user, can contain placeholders (%s)
-     * @param {Object.<string, string>|{title:string,action:string}[]} [quickReplies]
+     * @param {Object.<string, string>|Object[]} [quickReplies]
      * @returns {this}
      *
      * @example
@@ -109,9 +111,12 @@ class Responder {
             messageData.message.text = translatedText;
         }
 
-        if (replies) {
+        if (replies || this._quickReplyCollector.length > 0) {
+
             const { quickReplies, expectedKeywords }
-                = makeQuickReplies(replies, this.path, this._t);
+                = makeQuickReplies(replies || [], this.path, this._t, this._quickReplyCollector);
+
+            this._quickReplyCollector = [];
 
             messageData.message.quick_replies = quickReplies;
             this.setState({ _expectedKeywords: expectedKeywords });
@@ -135,6 +140,37 @@ class Responder {
      */
     setState (object) {
         Object.assign(this.newState, object);
+        return this;
+    }
+
+    /**
+     * Appends quick reply, to be sent with following text method
+     *
+     * @param {string} action - relative or absolute action
+     * @param {string} title - quick reply title
+     * @param {Object} [data] - additional data
+     * @param {boolean} [prepend] - set true to add reply at the beginning
+     * @example
+     *
+     * bot.use((req, res) => {
+     *     res.addQuickReply('barAction', 'last action');
+     *
+     *     res.addQuickReply('theAction', 'first action', {}, true);
+     *
+     *     res.text('Text', {
+     *         fooAction: 'goto foo'
+     *     }); // will be merged and sent with previously added quick replies
+     * });
+     */
+    addQuickReply (action, title, data = {}, prepend = false) {
+        let prep = {};
+        if (prepend) {
+            prep = { _prepend: true };
+        }
+        this._quickReplyCollector.push(Object.assign({
+            action: this.toAbsoluteAction(action),
+            title
+        }, data, prep));
         return this;
     }
 

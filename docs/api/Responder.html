@@ -677,6 +677,32 @@
             
         </li>
     
+        <li class="chapter " data-level="2.11" data-path="BuildRouter.html">
+            
+                <a href="BuildRouter.html">
+            
+                    
+                    Wingbot.ai
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="callback.html">
+            
+                <a href="callback.html">
+            
+                    
+                    Middlewares
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -729,8 +755,9 @@
 <ul>
 <li><a href="#Responder">Responder</a><ul>
 <li><a href="#new_Responder_new">new Responder()</a></li>
-<li><a href="#Responder_text">.text(text, [quickReplys])</a> &#x21D2; <code>this</code></li>
+<li><a href="#Responder_text">.text(text, [quickReplies])</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_setState">.setState(object)</a> &#x21D2; <code>this</code></li>
+<li><a href="#Responder_addQuickReply">.addQuickReply(action, title, [data], [prepend])</a></li>
 <li><a href="#Responder_expected">.expected(action)</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_toAbsoluteAction">.toAbsoluteAction(action)</a> &#x21D2; <code>string</code></li>
 <li><a href="#Responder_image">.image(imageUrl)</a> &#x21D2; <code>this</code></li>
@@ -738,6 +765,7 @@
 <li><a href="#Responder_typingOn">.typingOn()</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_typingOff">.typingOff()</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_seen">.seen()</a> &#x21D2; <code>this</code></li>
+<li><a href="#Responder_passThread">.passThread(targetAppId, [data])</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_receipt">.receipt(recipientName, [paymentMethod], [currency], [uniqueCode])</a> &#x21D2; <code>ReceiptTemplate</code></li>
 <li><a href="#Responder_button">.button(text)</a> &#x21D2; <code>ButtonTemplate</code></li>
 <li><a href="#Responder_genericTemplate">.genericTemplate([shareable], [isSquare])</a> &#x21D2; <code>GenericTemplate</code></li>
@@ -751,7 +779,7 @@
 <p>Instance of responder is passed as second parameter of handler (res)</p>
 <div id="Responder_text">&#xA0;</div>
 
-<h3 id="respondertexttext-quickreplys-&#x21D2;-this"><a name="respondertexttext-quickreplys-&#x21D2;-this" class="plugin-anchor" href="#respondertexttext-quickreplys-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.text(text, [quickReplys]) &#x21D2; <code>this</code></h3>
+<h3 id="respondertexttext-quickreplies-&#x21D2;-this"><a name="respondertexttext-quickreplies-&#x21D2;-this" class="plugin-anchor" href="#respondertexttext-quickreplies-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.text(text, [quickReplies]) &#x21D2; <code>this</code></h3>
 <p>Send text as a response</p>
 <p><strong>Kind</strong>: instance method of <a href="#Responder"><code>Responder</code></a>  </p>
 <table>
@@ -769,20 +797,29 @@
 <td>text to send to user, can contain placeholders (%s)</td>
 </tr>
 <tr>
-<td>[quickReplys]</td>
-<td><code>object.&lt;string, string&gt;</code></td>
+<td>[quickReplies]</td>
+<td><code>Object.&lt;string, string&gt;</code> \</td>
+<td><code>Array.&lt;Object&gt;</code></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Example</strong>  </p>
-<pre><code class="lang-javascript">res.text(<span class="hljs-string">&apos;Hello %s&apos;</span>, name, {
+<pre><code class="lang-javascript"><span class="hljs-comment">// simply</span>
+res.text(<span class="hljs-string">&apos;Hello %s&apos;</span>, name, {
     action: <span class="hljs-string">&apos;Quick reply&apos;</span>,
-    complexAction: {
+    another: <span class="hljs-string">&apos;Another quick reply&apos;</span>
+});
+
+<span class="hljs-comment">// complex</span>
+res.text(<span class="hljs-string">&apos;Hello %s&apos;</span>, name, [
+    { action: <span class="hljs-string">&apos;action&apos;</span>, title: <span class="hljs-string">&apos;Quick reply&apos;</span> },
+    {
+        action: <span class="hljs-string">&apos;complexAction&apos;</span>, <span class="hljs-comment">// required</span>
         title: <span class="hljs-string">&apos;Another quick reply&apos;</span>, <span class="hljs-comment">// required</span>
         match: <span class="hljs-string">&apos;string&apos;</span> || <span class="hljs-regexp">/regexp/</span>, <span class="hljs-comment">// optional</span>
         someData: <span class="hljs-string">&apos;Will be included in payload data&apos;</span> <span class="hljs-comment">// optional</span>
     }
-})
+]);
 </code></pre>
 <div id="Responder_setState">&#xA0;</div>
 
@@ -805,6 +842,58 @@
 </table>
 <p><strong>Example</strong>  </p>
 <pre><code class="lang-javascript">res.setState({ visited: <span class="hljs-literal">true</span> });
+</code></pre>
+<div id="Responder_addQuickReply">&#xA0;</div>
+
+<h3 id="responderaddquickreplyaction-title-data-prepend"><a name="responderaddquickreplyaction-title-data-prepend" class="plugin-anchor" href="#responderaddquickreplyaction-title-data-prepend"><i class="fa fa-link" aria-hidden="true"></i></a>responder.addQuickReply(action, title, [data], [prepend])</h3>
+<p>Appends quick reply, to be sent with following text method</p>
+<p><strong>Kind</strong>: instance method of <a href="#Responder"><code>Responder</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>action</td>
+<td><code>string</code></td>
+<td></td>
+<td>relative or absolute action</td>
+</tr>
+<tr>
+<td>title</td>
+<td><code>string</code></td>
+<td></td>
+<td>quick reply title</td>
+</tr>
+<tr>
+<td>[data]</td>
+<td><code>Object</code></td>
+<td></td>
+<td>additional data</td>
+</tr>
+<tr>
+<td>[prepend]</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>set true to add reply at the beginning</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript">bot.use((req, res) =&gt; {
+    res.addQuickReply(<span class="hljs-string">&apos;barAction&apos;</span>, <span class="hljs-string">&apos;last action&apos;</span>);
+
+    res.addQuickReply(<span class="hljs-string">&apos;theAction&apos;</span>, <span class="hljs-string">&apos;first action&apos;</span>, {}, <span class="hljs-literal">true</span>);
+
+    res.text(<span class="hljs-string">&apos;Text&apos;</span>, {
+        fooAction: <span class="hljs-string">&apos;goto foo&apos;</span>
+    }); <span class="hljs-comment">// will be merged and sent with previously added quick replies</span>
+});
 </code></pre>
 <div id="Responder_expected">&#xA0;</div>
 
@@ -912,6 +1001,33 @@ res.image(<span class="hljs-string">&apos;https://google.com/img/foo.png&apos;</
 <h3 id="responderseen-&#x21D2;-this"><a name="responderseen-&#x21D2;-this" class="plugin-anchor" href="#responderseen-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.seen() &#x21D2; <code>this</code></h3>
 <p>Reports last message from user as seen</p>
 <p><strong>Kind</strong>: instance method of <a href="#Responder"><code>Responder</code></a>  </p>
+<div id="Responder_passThread">&#xA0;</div>
+
+<h3 id="responderpassthreadtargetappid-data-&#x21D2;-this"><a name="responderpassthreadtargetappid-data-&#x21D2;-this" class="plugin-anchor" href="#responderpassthreadtargetappid-data-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.passThread(targetAppId, [data]) &#x21D2; <code>this</code></h3>
+<p>Pass thread to another app</p>
+<p><strong>Kind</strong>: instance method of <a href="#Responder"><code>Responder</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>targetAppId</td>
+<td><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td>[data]</td>
+<td><code>string</code> \</td>
+<td><code>object</code></td>
+<td><code>null</code></td>
+</tr>
+</tbody>
+</table>
 <div id="Responder_receipt">&#xA0;</div>
 
 <h3 id="responderreceiptrecipientname-paymentmethod-currency-uniquecode-&#x21D2;-receipttemplate"><a name="responderreceiptrecipientname-paymentmethod-currency-uniquecode-&#x21D2;-receipttemplate" class="plugin-anchor" href="#responderreceiptrecipientname-paymentmethod-currency-uniquecode-&#x21D2;-receipttemplate"><i class="fa fa-link" aria-hidden="true"></i></a>responder.receipt(recipientName, [paymentMethod], [currency], [uniqueCode]) &#x21D2; <code>ReceiptTemplate</code></h3>
@@ -1103,7 +1219,7 @@ res.image(<span class="hljs-string">&apos;https://google.com/img/foo.png&apos;</
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Responder","level":"2.2","depth":1,"next":{"title":"Router","level":"2.3","depth":1,"path":"api/Router.md","ref":"api/Router.md","articles":[]},"previous":{"title":"Request","level":"2.1","depth":1,"path":"api/Request.md","ref":"api/Request.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Responder.md","mtime":"2017-10-11T11:56:33.684Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-11T11:56:43.029Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Responder","level":"2.2","depth":1,"next":{"title":"Router","level":"2.3","depth":1,"path":"api/Router.md","ref":"api/Router.md","articles":[]},"previous":{"title":"Request","level":"2.1","depth":1,"path":"api/Request.md","ref":"api/Request.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Responder.md","mtime":"2018-01-04T13:33:01.791Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-04T13:33:05.621Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -677,6 +677,32 @@
             
         </li>
     
+        <li class="chapter " data-level="2.11" data-path="BuildRouter.html">
+            
+                <a href="BuildRouter.html">
+            
+                    
+                    Wingbot.ai
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="callback.html">
+            
+                <a href="callback.html">
+            
+                    
+                    Middlewares
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -747,6 +773,7 @@
 <li><a href="#Request_quickReply">.quickReply([getData])</a> &#x21D2; <code>null</code> | <code>string</code> | <code>object</code></li>
 <li><a href="#Request_isPostBack">.isPostBack()</a> &#x21D2; <code>boolean</code></li>
 <li><a href="#Request_isReferral">.isReferral()</a> &#x21D2; <code>boolean</code></li>
+<li><a href="#Request_isPassThread">.isPassThread()</a> &#x21D2; <code>boolean</code></li>
 <li><a href="#Request_isOptin">.isOptin()</a> &#x21D2; <code>boolean</code></li>
 <li><a href="#Request_action">.action([getData])</a> &#x21D2; <code>null</code> | <code>string</code> | <code>object</code></li>
 <li><a href="#Request_postBack">.postBack([getData])</a> &#x21D2; <code>null</code> | <code>string</code> | <code>object</code></li>
@@ -1033,6 +1060,11 @@ When <code>getData</code> is <code>true</code>, object will be returned. Otherwi
 <h3 id="requestisreferral-&#x21D2;-boolean"><a name="requestisreferral-&#x21D2;-boolean" class="plugin-anchor" href="#requestisreferral-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isReferral() &#x21D2; <code>boolean</code></h3>
 <p>Returns true, if request is the referral</p>
 <p><strong>Kind</strong>: instance method of <a href="#Request"><code>Request</code></a>  </p>
+<div id="Request_isPassThread">&#xA0;</div>
+
+<h3 id="requestispassthread-&#x21D2;-boolean"><a name="requestispassthread-&#x21D2;-boolean" class="plugin-anchor" href="#requestispassthread-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isPassThread() &#x21D2; <code>boolean</code></h3>
+<p>Returns true, if request pass thread control</p>
+<p><strong>Kind</strong>: instance method of <a href="#Request"><code>Request</code></a>  </p>
 <div id="Request_isOptin">&#xA0;</div>
 
 <h3 id="requestisoptin-&#x21D2;-boolean"><a name="requestisoptin-&#x21D2;-boolean" class="plugin-anchor" href="#requestisoptin-&#x21D2;-boolean"><i class="fa fa-link" aria-hidden="true"></i></a>request.isOptin() &#x21D2; <code>boolean</code></h3>
@@ -1140,7 +1172,7 @@ When <code>getData</code> is <code>true</code>, object will be returned. Otherwi
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Request","level":"2.1","depth":1,"next":{"title":"Responder","level":"2.2","depth":1,"path":"api/Responder.md","ref":"api/Responder.md","articles":[]},"previous":{"title":"Analytics","level":"1.9","depth":1,"path":"tutorial/analytics.md","ref":"tutorial/analytics.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Request.md","mtime":"2017-10-11T11:56:33.678Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-11T11:56:43.029Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Request","level":"2.1","depth":1,"next":{"title":"Responder","level":"2.2","depth":1,"path":"api/Responder.md","ref":"api/Responder.md","articles":[]},"previous":{"title":"Analytics","level":"1.9","depth":1,"path":"tutorial/analytics.md","ref":"tutorial/analytics.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Request.md","mtime":"2018-01-04T13:33:01.786Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-04T13:33:05.621Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

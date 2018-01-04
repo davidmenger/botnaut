@@ -52,39 +52,6 @@ Create a chat event processor
 | [processorOptions.dynamo.tablePrefix] | <code>string</code> | dynamodb table prefix |
 | [stateStorage] | <code>DynamoState</code> | storage for states |
 
-**Example**  
-```javascript
-const express = require('express');
-const bodyParser = require('body-parser');
-const { createRouter, createProcessor } = require('botnaut/express');
-
-const handler = (req, res, postBack) => {
-    res.typingOn()
-        .wait();
-
-    switch (req.action()) {
-        case 'hello':
-            res.text('Hello world');
-            return;
-        default:
-            // send one quick reply
-            res.text('What you want?', {
-                hello: 'Say hello world'
-            })
-    }
-};
-
-const processor = createProcessor(handler, {
-    pageToken: 'stringhere',
-    appSecret: 'botappsecret'
-});
-
-app = express();
-
-app.use('/bot', createRouter(processor));
-
-app.listen(3000);
-```
 {% raw %}<div id="createUpdater">&nbsp;</div>{% endraw %}
 
 ## createUpdater(lambdaName, [token])
@@ -108,7 +75,7 @@ Create an serverless handler for accepting messenger events
 
 | Param | Type | Description |
 | --- | --- | --- |
-| processor | <code>function</code> \| <code>Router</code> | Root router object or processor function |
+| processor | <code>Processor</code> \| <code>Hook</code> | Root router object or processor function |
 | verifyToken | <code>string</code> | chatbot application token |
 | [log] | <code>object</code> | console.* like logger object |
 | [onDispatch] | <code>function</code> | will be called after dispatch of all events |

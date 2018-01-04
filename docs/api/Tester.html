@@ -677,6 +677,32 @@
             
         </li>
     
+        <li class="chapter " data-level="2.11" data-path="BuildRouter.html">
+            
+                <a href="BuildRouter.html">
+            
+                    
+                    Wingbot.ai
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="callback.html">
+            
+                <a href="callback.html">
+            
+                    
+                    Middlewares
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -747,6 +773,7 @@
 <li><a href="#Tester_getState">.getState()</a> &#x21D2; <code>object</code></li>
 <li><a href="#Tester_setState">.setState([state])</a></li>
 <li><a href="#Tester_text">.text(text)</a> &#x21D2; <code>Promise</code></li>
+<li><a href="#Tester_passThread">.passThread([data], [appId])</a> &#x21D2; <code>Promise</code></li>
 <li><a href="#Tester_optin">.optin(action, [data])</a> &#x21D2; <code>Promise</code></li>
 <li><a href="#Tester_quickReply">.quickReply(action, [data])</a> &#x21D2; <code>Promise</code></li>
 <li><a href="#Tester_postBack">.postBack(action, [data], [refAction], [refData])</a> &#x21D2; <code>Promise</code></li>
@@ -860,6 +887,36 @@
 <tr>
 <td>text</td>
 <td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="Tester_passThread">&#xA0;</div>
+
+<h3 id="testerpassthreaddata-appid-&#x21D2;-promise"><a name="testerpassthreaddata-appid-&#x21D2;-promise" class="plugin-anchor" href="#testerpassthreaddata-appid-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.passThread([data], [appId]) &#x21D2; <code>Promise</code></h3>
+<p>Makes pass thread control request</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[data]</td>
+<td><code>string</code> \</td>
+<td><code>Object</code></td>
+<td><code>null</code></td>
+<td>action</td>
+</tr>
+<tr>
+<td>[appId]</td>
+<td><code>string</code></td>
+<td><code>&quot;random-app&quot;</code></td>
+<td>specific app id</td>
 </tr>
 </tbody>
 </table>
@@ -1013,6 +1070,7 @@
 <li><a href="#ResponseAssert_contains">.contains(search)</a> &#x21D2; <code>this</code></li>
 <li><a href="#ResponseAssert_quickReplyAction">.quickReplyAction(action)</a> &#x21D2; <code>this</code></li>
 <li><a href="#ResponseAssert_templateType">.templateType(type)</a> &#x21D2; <code>this</code></li>
+<li><a href="#ResponseAssert_passThread">.passThread([appId])</a> &#x21D2; <code>this</code></li>
 <li><a href="#ResponseAssert_attachmentType">.attachmentType(type)</a> &#x21D2; <code>this</code></li>
 </ul>
 </li>
@@ -1020,6 +1078,7 @@
 <li><a href="#ResponseAssert_AnyResponseAssert_contains">.AnyResponseAssert#contains(search)</a> &#x21D2; <code>this</code></li>
 <li><a href="#ResponseAssert_AnyResponseAssert_quickReplyAction">.AnyResponseAssert#quickReplyAction(action)</a> &#x21D2; <code>this</code></li>
 <li><a href="#ResponseAssert_AnyResponseAssert_templateType">.AnyResponseAssert#templateType(type)</a> &#x21D2; <code>this</code></li>
+<li><a href="#ResponseAssert_AnyResponseAssert_passThread">.AnyResponseAssert#passThread([appId])</a> &#x21D2; <code>this</code></li>
 <li><a href="#ResponseAssert_AnyResponseAssert_attachmentType">.AnyResponseAssert#attachmentType(type)</a> &#x21D2; <code>this</code></li>
 </ul>
 </li>
@@ -1084,6 +1143,27 @@
 <tr>
 <td>type</td>
 <td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_passThread">&#xA0;</div>
+
+<h3 id="responseassertpassthreadappid-&#x21D2;-this"><a name="responseassertpassthreadappid-&#x21D2;-this" class="plugin-anchor" href="#responseassertpassthreadappid-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responseAssert.passThread([appId]) &#x21D2; <code>this</code></h3>
+<p>Checks pass thread control</p>
+<p><strong>Kind</strong>: instance method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[appId]</td>
+<td><code>string</code></td>
+<td><code>null</code></td>
 </tr>
 </tbody>
 </table>
@@ -1163,6 +1243,27 @@
 </tr>
 </tbody>
 </table>
+<div id="ResponseAssert_AnyResponseAssert_passThread">&#xA0;</div>
+
+<h3 id="responseassertanyresponseassertpassthreadappid-&#x21D2;-this"><a name="responseassertanyresponseassertpassthreadappid-&#x21D2;-this" class="plugin-anchor" href="#responseassertanyresponseassertpassthreadappid-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#passThread([appId]) &#x21D2; <code>this</code></h3>
+<p>Checks pass thread control</p>
+<p><strong>Kind</strong>: static method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[appId]</td>
+<td><code>string</code></td>
+<td><code>null</code></td>
+</tr>
+</tbody>
+</table>
 <div id="ResponseAssert_AnyResponseAssert_attachmentType">&#xA0;</div>
 
 <h3 id="responseassertanyresponseassertattachmenttypetype-&#x21D2;-this"><a name="responseassertanyresponseassertattachmenttypetype-&#x21D2;-this" class="plugin-anchor" href="#responseassertanyresponseassertattachmenttypetype-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#attachmentType(type) &#x21D2; <code>this</code></h3>
@@ -1233,7 +1334,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tester","level":"2.4","depth":1,"next":{"title":"Template Builders","level":"2.5","depth":1,"path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md","articles":[{"title":"ButtonTemplate","level":"2.5.1","depth":2,"anchor":"#ButtonTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ButtonTemplate","articles":[]},{"title":"GenericTemplate","level":"2.5.2","depth":2,"anchor":"#GenericTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#GenericTemplate","articles":[]},{"title":"ReceiptTemplate","level":"2.5.3","depth":2,"anchor":"#ReceiptTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ReceiptTemplate","articles":[]}]},"previous":{"title":"Router","level":"2.3","depth":1,"path":"api/Router.md","ref":"api/Router.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Tester.md","mtime":"2017-10-11T11:56:35.242Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-11T11:56:43.029Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tester","level":"2.4","depth":1,"next":{"title":"Template Builders","level":"2.5","depth":1,"path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md","articles":[{"title":"ButtonTemplate","level":"2.5.1","depth":2,"anchor":"#ButtonTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ButtonTemplate","articles":[]},{"title":"GenericTemplate","level":"2.5.2","depth":2,"anchor":"#GenericTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#GenericTemplate","articles":[]},{"title":"ReceiptTemplate","level":"2.5.3","depth":2,"anchor":"#ReceiptTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ReceiptTemplate","articles":[]}]},"previous":{"title":"Router","level":"2.3","depth":1,"path":"api/Router.md","ref":"api/Router.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Tester.md","mtime":"2018-01-04T13:33:01.805Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-04T13:33:05.621Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

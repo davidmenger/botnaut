@@ -53,5 +53,5 @@ Creates an instance of ReducerWrapper.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [reduce] | <code>function</code> | <code>o =&gt; o</code> | the handler function |
+| [reduce] | <code>function</code> | <code>o &#x3D;&gt; o</code> | the handler function |
 

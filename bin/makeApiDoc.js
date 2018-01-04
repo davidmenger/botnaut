@@ -16,7 +16,8 @@ const docs = [
     ['express.js', 'src/mongodb/MongoState.js', 'src/mongodb/MongoChatLog.js'],
     'src/Ai.js',
     ['serverlessAWS.js', 'src/serverlessHook.js'],
-    ['src/BuildRouter.js', 'src/Blocks.js']
+    ['src/BuildRouter.js', 'src/Blocks.js'],
+    ['src/middlewares/callback.js']
 ];
 
 let srcFile;
@@ -35,7 +36,7 @@ docs.forEach((doc) => {
 
     docFile = path.join(process.cwd(), 'doc', 'api', srcFile
         .replace(/jsx?$/, 'md')
-        .replace(/^src\/(templates\/|mongodb\/|tools\/)?/, ''));
+        .replace(/^src\/(templates\/|mongodb\/|tools\/|middlewares\/)?/, ''));
 
     apiDoc = jsdoc2md.renderSync({
         'example-lang': 'javascript',

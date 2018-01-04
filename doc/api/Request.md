@@ -23,6 +23,7 @@
     * [.quickReply([getData])](#Request_quickReply) ⇒ <code>null</code> \| <code>string</code> \| <code>object</code>
     * [.isPostBack()](#Request_isPostBack) ⇒ <code>boolean</code>
     * [.isReferral()](#Request_isReferral) ⇒ <code>boolean</code>
+    * [.isPassThread()](#Request_isPassThread) ⇒ <code>boolean</code>
     * [.isOptin()](#Request_isOptin) ⇒ <code>boolean</code>
     * [.action([getData])](#Request_action) ⇒ <code>null</code> \| <code>string</code> \| <code>object</code>
     * [.postBack([getData])](#Request_postBack) ⇒ <code>null</code> \| <code>string</code> \| <code>object</code>
@@ -198,6 +199,12 @@ Returns true, if request is the postback
 
 ### request.isReferral() ⇒ <code>boolean</code>
 Returns true, if request is the referral
+
+**Kind**: instance method of [<code>Request</code>](#Request)  
+{% raw %}<div id="Request_isPassThread">&nbsp;</div>{% endraw %}
+
+### request.isPassThread() ⇒ <code>boolean</code>
+Returns true, if request pass thread control
 
 **Kind**: instance method of [<code>Request</code>](#Request)  
 {% raw %}<div id="Request_isOptin">&nbsp;</div>{% endraw %}

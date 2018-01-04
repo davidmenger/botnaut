@@ -31,9 +31,10 @@ function makeExpectedKeyword (action, title, matcher = null, payloadData = {}) {
  * @param {object|object[]} replies
  * @param {string} [path]
  * @param {function} [translate=w => w]
+ * @param {Object[]} [quickReplyCollector]
  * @returns {{ quickReplies: object[], expectedKeywords: object[] }}
  */
-function makeQuickReplies (replies, path = '', translate = w => w) {
+function makeQuickReplies (replies, path = '', translate = w => w, quickReplyCollector = []) {
 
     const expectedKeywords = [];
 
@@ -51,6 +52,16 @@ function makeQuickReplies (replies, path = '', translate = w => w) {
                 return { title: value, action };
             });
     }
+
+    let unshift = 0;
+    quickReplyCollector.forEach((reply) => {
+        if (reply._prepend) {
+            delete reply._prepend; // eslint-disable-line no-param-reassign
+            iterate.splice(unshift++, 0, reply);
+        } else {
+            iterate.push(reply);
+        }
+    });
 
     const quickReplies = iterate
         .map((reply) => {

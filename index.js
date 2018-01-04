@@ -16,6 +16,8 @@ const { asserts } = require('./src/testTools');
 const BuildRouter = require('./src/BuildRouter');
 const Blocks = require('./src/Blocks');
 const facebook = require('./src/connectors/facebook');
+const { callbackMiddleware, sustainCallback } = require('./src/middlewares/callback');
+
 const {
     bufferloader,
     Settings,
@@ -57,5 +59,9 @@ module.exports = {
     Settings,
 
     // connectors
-    facebook
+    facebook,
+
+    // middlewares
+    callbackMiddleware,
+    sustainCallback
 };

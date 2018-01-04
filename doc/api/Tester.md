@@ -24,6 +24,7 @@
         * [.getState()](#Tester_getState) ⇒ <code>object</code>
         * [.setState([state])](#Tester_setState)
         * [.text(text)](#Tester_text) ⇒ <code>Promise</code>
+        * [.passThread([data], [appId])](#Tester_passThread) ⇒ <code>Promise</code>
         * [.optin(action, [data])](#Tester_optin) ⇒ <code>Promise</code>
         * [.quickReply(action, [data])](#Tester_quickReply) ⇒ <code>Promise</code>
         * [.postBack(action, [data], [refAction], [refData])](#Tester_postBack) ⇒ <code>Promise</code>
@@ -98,6 +99,18 @@ Makes text request
 | --- | --- |
 | text | <code>string</code> | 
 
+{% raw %}<div id="Tester_passThread">&nbsp;</div>{% endraw %}
+
+### tester.passThread([data], [appId]) ⇒ <code>Promise</code>
+Makes pass thread control request
+
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [data] | <code>string</code> \| <code>Object</code> | <code>null</code> | action |
+| [appId] | <code>string</code> | <code>&quot;random-app&quot;</code> | specific app id |
+
 {% raw %}<div id="Tester_optin">&nbsp;</div>{% endraw %}
 
 ### tester.optin(action, [data]) ⇒ <code>Promise</code>
@@ -164,11 +177,13 @@ Creates an instance of Tester.
         * [.contains(search)](#ResponseAssert_contains) ⇒ <code>this</code>
         * [.quickReplyAction(action)](#ResponseAssert_quickReplyAction) ⇒ <code>this</code>
         * [.templateType(type)](#ResponseAssert_templateType) ⇒ <code>this</code>
+        * [.passThread([appId])](#ResponseAssert_passThread) ⇒ <code>this</code>
         * [.attachmentType(type)](#ResponseAssert_attachmentType) ⇒ <code>this</code>
     * _static_
         * [.AnyResponseAssert#contains(search)](#ResponseAssert_AnyResponseAssert_contains) ⇒ <code>this</code>
         * [.AnyResponseAssert#quickReplyAction(action)](#ResponseAssert_AnyResponseAssert_quickReplyAction) ⇒ <code>this</code>
         * [.AnyResponseAssert#templateType(type)](#ResponseAssert_AnyResponseAssert_templateType) ⇒ <code>this</code>
+        * [.AnyResponseAssert#passThread([appId])](#ResponseAssert_AnyResponseAssert_passThread) ⇒ <code>this</code>
         * [.AnyResponseAssert#attachmentType(type)](#ResponseAssert_AnyResponseAssert_attachmentType) ⇒ <code>this</code>
 
 {% raw %}<div id="new_ResponseAssert_new">&nbsp;</div>{% endraw %}
@@ -208,6 +223,17 @@ Checks template type
 | Param | Type |
 | --- | --- |
 | type | <code>string</code> | 
+
+{% raw %}<div id="ResponseAssert_passThread">&nbsp;</div>{% endraw %}
+
+### responseAssert.passThread([appId]) ⇒ <code>this</code>
+Checks pass thread control
+
+**Kind**: instance method of [<code>ResponseAssert</code>](#ResponseAssert)  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [appId] | <code>string</code> | <code>null</code> | 
 
 {% raw %}<div id="ResponseAssert_attachmentType">&nbsp;</div>{% endraw %}
 
@@ -252,6 +278,17 @@ Checks template type
 | Param | Type |
 | --- | --- |
 | type | <code>string</code> | 
+
+{% raw %}<div id="ResponseAssert_AnyResponseAssert_passThread">&nbsp;</div>{% endraw %}
+
+### ResponseAssert.AnyResponseAssert#passThread([appId]) ⇒ <code>this</code>
+Checks pass thread control
+
+**Kind**: static method of [<code>ResponseAssert</code>](#ResponseAssert)  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [appId] | <code>string</code> | <code>null</code> | 
 
 {% raw %}<div id="ResponseAssert_AnyResponseAssert_attachmentType">&nbsp;</div>{% endraw %}
 

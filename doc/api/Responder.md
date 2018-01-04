@@ -5,8 +5,9 @@
 
 * [Responder](#Responder)
     * [new Responder()](#new_Responder_new)
-    * [.text(text, [quickReplys])](#Responder_text) ⇒ <code>this</code>
+    * [.text(text, [quickReplies])](#Responder_text) ⇒ <code>this</code>
     * [.setState(object)](#Responder_setState) ⇒ <code>this</code>
+    * [.addQuickReply(action, title, [data], [prepend])](#Responder_addQuickReply)
     * [.expected(action)](#Responder_expected) ⇒ <code>this</code>
     * [.toAbsoluteAction(action)](#Responder_toAbsoluteAction) ⇒ <code>string</code>
     * [.image(imageUrl)](#Responder_image) ⇒ <code>this</code>
@@ -14,6 +15,7 @@
     * [.typingOn()](#Responder_typingOn) ⇒ <code>this</code>
     * [.typingOff()](#Responder_typingOff) ⇒ <code>this</code>
     * [.seen()](#Responder_seen) ⇒ <code>this</code>
+    * [.passThread(targetAppId, [data])](#Responder_passThread) ⇒ <code>this</code>
     * [.receipt(recipientName, [paymentMethod], [currency], [uniqueCode])](#Responder_receipt) ⇒ <code>ReceiptTemplate</code>
     * [.button(text)](#Responder_button) ⇒ <code>ButtonTemplate</code>
     * [.genericTemplate([shareable], [isSquare])](#Responder_genericTemplate) ⇒ <code>GenericTemplate</code>
@@ -26,7 +28,7 @@ Instance of responder is passed as second parameter of handler (res)
 
 {% raw %}<div id="Responder_text">&nbsp;</div>{% endraw %}
 
-### responder.text(text, [quickReplys]) ⇒ <code>this</code>
+### responder.text(text, [quickReplies]) ⇒ <code>this</code>
 Send text as a response
 
 **Kind**: instance method of [<code>Responder</code>](#Responder)  
@@ -34,18 +36,26 @@ Send text as a response
 | Param | Type | Description |
 | --- | --- | --- |
 | text | <code>string</code> | text to send to user, can contain placeholders (%s) |
-| [quickReplys] | <code>object.&lt;string, string&gt;</code> |  |
+| [quickReplies] | <code>Object.&lt;string, string&gt;</code> \| <code>Array.&lt;Object&gt;</code> |  |
 
 **Example**  
 ```javascript
+// simply
 res.text('Hello %s', name, {
     action: 'Quick reply',
-    complexAction: {
+    another: 'Another quick reply'
+});
+
+// complex
+res.text('Hello %s', name, [
+    { action: 'action', title: 'Quick reply' },
+    {
+        action: 'complexAction', // required
         title: 'Another quick reply', // required
         match: 'string' || /regexp/, // optional
         someData: 'Will be included in payload data' // optional
     }
-})
+]);
 ```
 {% raw %}<div id="Responder_setState">&nbsp;</div>{% endraw %}
 
@@ -61,6 +71,32 @@ Sets new attributes to state (with Object.assign())
 **Example**  
 ```javascript
 res.setState({ visited: true });
+```
+{% raw %}<div id="Responder_addQuickReply">&nbsp;</div>{% endraw %}
+
+### responder.addQuickReply(action, title, [data], [prepend])
+Appends quick reply, to be sent with following text method
+
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| action | <code>string</code> |  | relative or absolute action |
+| title | <code>string</code> |  | quick reply title |
+| [data] | <code>Object</code> |  | additional data |
+| [prepend] | <code>boolean</code> | <code>false</code> | set true to add reply at the beginning |
+
+**Example**  
+```javascript
+bot.use((req, res) => {
+    res.addQuickReply('barAction', 'last action');
+
+    res.addQuickReply('theAction', 'first action', {}, true);
+
+    res.text('Text', {
+        fooAction: 'goto foo'
+    }); // will be merged and sent with previously added quick replies
+});
 ```
 {% raw %}<div id="Responder_expected">&nbsp;</div>{% endraw %}
 
@@ -133,6 +169,18 @@ Stops "typing..." information
 Reports last message from user as seen
 
 **Kind**: instance method of [<code>Responder</code>](#Responder)  
+{% raw %}<div id="Responder_passThread">&nbsp;</div>{% endraw %}
+
+### responder.passThread(targetAppId, [data]) ⇒ <code>this</code>
+Pass thread to another app
+
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| targetAppId | <code>string</code> |  | 
+| [data] | <code>string</code> \| <code>object</code> | <code>null</code> | 
+
 {% raw %}<div id="Responder_receipt">&nbsp;</div>{% endraw %}
 
 ### responder.receipt(recipientName, [paymentMethod], [currency], [uniqueCode]) ⇒ <code>ReceiptTemplate</code>
