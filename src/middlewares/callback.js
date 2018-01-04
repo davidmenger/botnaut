@@ -61,7 +61,7 @@ function sustainCallback () {
  *         res.setCallback('barRoute');
  *     }
  *
- *     if (!req.proceedCallback()) {
+ *     if (!res.proceedCallback()) {
  *         res.text('So, what\'s next?', {
  *             fooRoute: 'Go to foo'
  *         });
@@ -124,7 +124,7 @@ function callbackMiddleware () {
 
     /**
      * Returns true, when user is comming back from callback
-     * Comeback is initialised with `req.proceedCallback()` or quick reply
+     * Comeback is initialised with `res.proceedCallback()` or quick reply
      * Usefull for hidding the text, user has already seen
      *
      * @param {string} [callbackContext]
@@ -165,14 +165,17 @@ function callbackMiddleware () {
      *     }
      * });
      */
-    function proceedCallback (rootPostBack) {
+    function proceedCallback (state, rootPostBack) {
 
         return function (callbackContext = null) {
-            if (!this.hasCallback(callbackContext)) {
+            if (!state[ACTION]
+                || callbackContext === state[CONTEXT]
+                || state[ACTION] === `${this.path === '/' ? '' : this.path}${this.routePath}`) {
+
                 return false;
             }
-            rootPostBack(this.state[ACTION], {
-                _isFromCallback: this.state[CONTEXT]
+            rootPostBack(state[ACTION], {
+                _isFromCallback: state[CONTEXT]
             });
             return true;
         };
@@ -197,7 +200,8 @@ function callbackMiddleware () {
      */
     function addCallbackQuickReply (state) {
         return function (replyText) {
-            if (!state[ACTION]) {
+            if (!state[ACTION]
+                    || state[ACTION] === `${this.path === '/' ? '' : this.path}${this.routePath}`) {
                 return this;
             }
 
@@ -218,12 +222,12 @@ function callbackMiddleware () {
 
         Object.assign(res, {
             addCallbackQuickReply: addCallbackQuickReply(req.state),
+            proceedCallback: proceedCallback(req.state, postBack),
             setCallback
         });
 
         Object.assign(req, {
             isFromCallback,
-            proceedCallback: proceedCallback(postBack),
             hasCallback
         });
 

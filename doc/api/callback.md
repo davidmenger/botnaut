@@ -36,7 +36,7 @@ bot.use(['fooRoute', /^foo$/], (req, res) => {
         res.setCallback('barRoute');
     }
 
-    if (!req.proceedCallback()) {
+    if (!res.proceedCallback()) {
         res.text('So, what\'s next?', {
             fooRoute: 'Go to foo'
         });
@@ -95,7 +95,7 @@ bot.use(['fooRoute', /^foo$/], (req, res) => {
 
 ### isFromCallback([callbackContext]) ⇒ <code>boolean</code> ⏏
 Returns true, when user is comming back from callback
-Comeback is initialised with `req.proceedCallback()` or quick reply
+Comeback is initialised with `res.proceedCallback()` or quick reply
 Usefull for hidding the text, user has already seen
 
 **Kind**: Exported function  

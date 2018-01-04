@@ -22,7 +22,7 @@ function customCode (params, context, blocks) {
         Object.assign(res, {
             run (codeBlockName) {
                 if (typeof items[codeBlockName] === 'undefined') {
-                    throw new Error(`Code block '${codeBlockName}' does not exits`);
+                    return Promise.resolve();
                 }
 
                 const reducers = items[codeBlockName];

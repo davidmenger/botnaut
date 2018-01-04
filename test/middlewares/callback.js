@@ -45,7 +45,7 @@ describe('callback middeware', function () {
             }
 
             // callbacks within same block will not be proceeded
-            if (!req.proceedCallback(DEFAULT_CALLBACK_BLOCK)) {
+            if (!res.proceedCallback(DEFAULT_CALLBACK_BLOCK)) {
                 res.text('So, in context?', {
                     barRoute: 'Go to bar'
                 });
@@ -60,7 +60,7 @@ describe('callback middeware', function () {
                 res.setCallback('barRoute');
             }
 
-            if (!req.proceedCallback()) {
+            if (!res.proceedCallback()) {
                 res.text('So, what\'s next?', {
                     fooRoute: 'Go to foo'
                 });
@@ -68,6 +68,37 @@ describe('callback middeware', function () {
         });
 
         this.t = new Tester(bot);
+    });
+
+    it('should not show backlink to self', function () {
+        const t = this.t;
+
+        return co(function* () {
+            yield t.text('foo');
+
+            yield t.text('foo');
+
+            assert.deepEqual(t.responses[1].message, {
+                text: 'So, what you want?',
+                quick_replies: [
+                    { content_type: 'text', payload: '/barRoute', title: 'Go to bar' }
+                ]
+            });
+
+        });
+    });
+
+    it('should not fail in circle', function () {
+        const t = this.t;
+
+        return co(function* () {
+            yield t.text('bar');
+
+            yield t.text('bar');
+
+            assert.strictEqual(t.actions.length, 1);
+
+        });
     });
 
     it('should return user back', function () {
