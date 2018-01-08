@@ -9,6 +9,7 @@ const Settings = require('./Settings');
 const Translate = require('./Translate');
 const UserLoader = require('./UserLoader');
 const { senderFactory, sender } = require('./senderFactory');
+const { azureSenderFactory, azureSender } = require('./azureSenderFactory');
 const { returnSenderFactory } = require('./returnSenderFactory');
 
 module.exports = {
@@ -18,6 +19,8 @@ module.exports = {
     Settings,
     MemoryStateStorage,
     senderFactory,
+    azureSenderFactory,
     sender,
+    azureSender,
     returnSenderFactory
 };

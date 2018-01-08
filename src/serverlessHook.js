@@ -147,6 +147,7 @@ function createHandler (processor, verifyToken, log = console, onDispatch = () =
                         },
                         body
                     };
+
                     process.nextTick(() => {
                         callback(null, response);
                     });

@@ -5,7 +5,7 @@
 
 const co = require('co');
 const { UserLoader, MemoryStateStorage } = require('./tools');
-const { senderFactory } = require('./tools');
+const { senderFactory, azureSenderFactory } = require('./tools');
 const Responder = require('./Responder');
 const Request = require('./Request');
 const SecurityMiddleware = require('./SecurityMiddleware');
@@ -29,6 +29,7 @@ class Processor {
     constructor (reducer, options, stateStorage = new MemoryStateStorage()) {
         this.options = {
             appUrl: '',
+            azureConfig: null,
             translator: w => w,
             timeout: 100,
             log: console,
@@ -49,12 +50,18 @@ class Processor {
         this.reducer = reducer;
         this.stateStorage = stateStorage;
 
-        if (!this.options.pageToken) {
+        if (!this.options.pageToken && !this.options.azureConfig) {
             throw new Error('Missing pageToken in options');
         }
 
         if (this.options.senderFnFactory) {
             this.senderFnFactory = this.options.senderFnFactory;
+        } else if (this.options.azureConfig) {
+            this.senderFnFactory = azureSenderFactory(
+                this.options.pageToken,
+                this.options.chatLog,
+                this.options.onSenderError
+            );
         } else {
             this.senderFnFactory = senderFactory(
                 this.options.pageToken,
