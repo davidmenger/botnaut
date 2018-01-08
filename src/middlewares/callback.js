@@ -165,10 +165,11 @@ function callbackMiddleware () {
      *     }
      * });
      */
-    function proceedCallback (state, rootPostBack) {
+    function proceedCallback (state, isText, rootPostBack) {
 
         return function (callbackContext = null) {
             if (!state[ACTION]
+                || !isText
                 || callbackContext === state[CONTEXT]
                 || state[ACTION] === `${this.path === '/' ? '' : this.path}${this.routePath}`) {
 
@@ -198,9 +199,10 @@ function callbackMiddleware () {
      *     });
      * });
      */
-    function addCallbackQuickReply (state) {
+    function addCallbackQuickReply (state, isText) {
         return function (replyText) {
             if (!state[ACTION]
+                    || !isText
                     || state[ACTION] === `${this.path === '/' ? '' : this.path}${this.routePath}`) {
                 return this;
             }
@@ -220,9 +222,11 @@ function callbackMiddleware () {
 
     return (req, res, postBack) => {
 
+        const isText = req.isText();
+
         Object.assign(res, {
-            addCallbackQuickReply: addCallbackQuickReply(req.state),
-            proceedCallback: proceedCallback(req.state, postBack),
+            addCallbackQuickReply: addCallbackQuickReply(req.state, isText),
+            proceedCallback: proceedCallback(req.state, isText, postBack),
             setCallback
         });
 
