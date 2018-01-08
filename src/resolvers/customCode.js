@@ -17,6 +17,8 @@ function customCode (params, context, blocks) {
             return Object.assign(obj, { [itemName]: reducers });
         }, {});
 
+    const paramsData = typeof params.params === 'object' ? params.params : {};
+
     return (req, res, postBack, path, action) => {
 
         Object.assign(res, {
@@ -31,7 +33,7 @@ function customCode (params, context, blocks) {
         });
 
         // assign to res
-        return customFn(req, res, postBack, context);
+        return customFn(req, res, postBack, context, paramsData);
     };
 }
 
