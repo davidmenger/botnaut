@@ -167,8 +167,6 @@ describe('Responder', function () {
 
     });
 
-
-
     describe('#button()', function () {
 
         it('should send message with url', function () {
