@@ -6,7 +6,12 @@
 const mongoose = require('mongoose');
 const { Router } = require('express');
 const bodyParser = require('body-parser');
-const { postMiddlewares, getVerifierMiddleware } = require('./src/expressHooks');
+const {
+    postMiddlewares,
+    getVerifierMiddleware,
+    createValidator,
+    createUpdater
+} = require('./src/expressHooks');
 const Processor = require('./src/Processor');
 const { MongoBotToken, MongoState, MongoChatLog } = require('./src/mongodb');
 
@@ -39,6 +44,7 @@ const { MongoBotToken, MongoState, MongoChatLog } = require('./src/mongodb');
  * @example
  * const express = require('express');
  * const bodyParser = require('body-parser');
+ * const mongoose = require('mongoose');
  * const { createRouter, createProcessor } = require('botnaut/express');
  *
  * const handler = (req, res, postBack) => {
@@ -66,7 +72,8 @@ const { MongoBotToken, MongoState, MongoChatLog } = require('./src/mongodb');
  *
  * app.use('/bot', createRouter(processor));
  *
- * app.listen(3000);
+ * mongoose.connect('mongodb://localhost/myapp')
+ *     .then(() => app.listen(3000));
  */
 function createProcessor (reducer, processorOptions, stateStorage = null) {
     let state = stateStorage;
@@ -110,5 +117,7 @@ module.exports = {
     createRouter,
     State: MongoState,
     BotToken: MongoBotToken,
-    ChatLog: MongoChatLog
+    ChatLog: MongoChatLog,
+    createValidator,
+    createUpdater
 };

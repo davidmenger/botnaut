@@ -52,13 +52,14 @@ const config = require('./config');
 
 const blocks = new Blocks();
 
-blocks.code('exampleBlock', function* (req, res, postBack, context) {
+blocks.code('exampleBlock', function* (req, res, postBack, context, params) {
     yield res.run('responseBlockName');
 });
 
 const bot = new BuildRouter({
     botId: 'b7a71c27-c295-4ab0-b64e-6835b50a0db0',
-    stage: 'master'
+    snapshot: 'master',
+    token: 'adjsadlkadjj92n9u9'
 }, blocks);
 
 const processor = createProcessor(bot, {
@@ -127,13 +128,14 @@ const config = require('./config');
 
 const blocks = new Blocks();
 
-blocks.code('exampleBlock', function* (req, res, postBack, context) {
+blocks.code('exampleBlock', function* (req, res, postBack, context, params) {
     yield res.run('responseBlockName');
 });
 
 const bot = new BuildRouter({
     botId: 'b7a71c27-c295-4ab0-b64e-6835b50a0db0',
-    stage: 'master'
+    snapshot: 'master',
+    token: 'adjsadlkadjj92n9u9'
 }, blocks);
 
 const processor = createProcessor(bot, {

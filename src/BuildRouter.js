@@ -43,7 +43,8 @@ class BuildRouter extends Router {
      *
      * const bot = new BuildRouter({
      *     botId: 'b7a71c27-c295-4ab0-b64e-6835b50a0db0',
-     *     stage: 'master'
+     *     snapshot: 'master',
+     *     token: 'adjsadlkadjj92n9u9'
      * }, blocks);
      *
      * const processor = createProcessor(bot, {
@@ -86,6 +87,8 @@ class BuildRouter extends Router {
         this._botLoaded = null;
 
         this._request = request;
+
+        this._prebuiltRoutesCount = null;
 
         if (typeof block.routes === 'object') {
             this._buildBot(block);
@@ -136,7 +139,29 @@ class BuildRouter extends Router {
             });
     }
 
+    buildWithSnapshot (blocks) {
+        this._context = {
+            blocks
+        };
+
+        const rootBlock = blocks.find(block => block.isRoot);
+
+        this._buildBot(rootBlock);
+    }
+
+    resetRouter () {
+        if (this._prebuiltRoutesCount !== null) {
+            this._routes = this._routes.slice(0, this._prebuiltRoutesCount - 1);
+        }
+    }
+
     _buildBot (block) {
+        if (this._prebuiltRoutesCount === null) {
+            this._prebuiltRoutesCount = this._routes.length;
+        } else {
+            this._routes = this._routes.slice(0, this._prebuiltRoutesCount - 1);
+        }
+
         const { blockName, blockType, isRoot, staticBlockId } = block;
 
         this._context = Object.assign({}, this._context, {

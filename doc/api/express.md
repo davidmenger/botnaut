@@ -142,6 +142,7 @@ Create a chat event processor
 ```javascript
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const { createRouter, createProcessor } = require('botnaut/express');
 
 const handler = (req, res, postBack) => {
@@ -169,7 +170,8 @@ app = express();
 
 app.use('/bot', createRouter(processor));
 
-app.listen(3000);
+mongoose.connect('mongodb://localhost/myapp')
+    .then(() => app.listen(3000));
 ```
 {% raw %}<div id="createRouter">&nbsp;</div>{% endraw %}
 

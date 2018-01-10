@@ -44,13 +44,15 @@ function updateLambda (lambdaName, env) {
  *
  * @param {string} lambdaName - bot handler name
  * @param {string} [token] - bot authorization token
+ * @param {object} [log] - console.* like logger object
  */
-function createUpdater (lambdaName, token = null) {
+function createUpdater (lambdaName, token = null, log = console) {
 
     return (event, context, callback) => {
         const authHeader = event.headers && event.headers.Authorization;
 
         if (token && token !== authHeader) {
+            log.error('Update Forbidden');
             callback(null, { statusCode: 403, body: 'Forbidden' });
             return;
         }
@@ -68,7 +70,7 @@ function createUpdater (lambdaName, token = null) {
                 callback(null, { statusCode: 200, body: 'OK' });
             })
             .catch((e) => {
-                console.error(e); // eslint-disable-line
+                log.error(e);
                 callback(null, { statusCode: 500, body: `Error: ${e.message}` });
             });
     };
@@ -175,12 +177,17 @@ function error (statusCode, body, callback, onDispatch, log) {
  * @param {object} config
  * @param {string} [config.token] - authorization token
  * @param {Blocks} [config.blocksResource] - authorization token
+ * @param {function} [config.routerFactory] - creates blank router for testing purposes
  * @param {string} [config.testText] - text for router testing (null to disable)
  * @param {string} [config.testPostBack] - postback to test the bot (null to disable)
  * @param {object} [log] - console.* like logger object
  * @param {function} [onDispatch]
  */
 function createValidator (config, log = console, onDispatch = () => {}) {
+
+    if (!config.blocksResource && !config.routerFactory) {
+        throw new Error('routerFactory or blocksResource is required');
+    }
 
     return (event, context, callback) => {
         const body = event.body ? JSON.parse(event.body) : null;
@@ -197,7 +204,14 @@ function createValidator (config, log = console, onDispatch = () => {}) {
         }
 
         validate(
-            () => BuildRouter.fromData(body.blocks, config.blocksResource),
+            () => {
+                if (config.routerFactory) {
+                    const router = config.routerFactory();
+                    router.buildWithSnapshot(body.blocks);
+                    return router;
+                }
+                return BuildRouter.fromData(body.blocks, config.blocksResource);
+            },
             config.testPostBack,
             config.testText
         )

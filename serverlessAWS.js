@@ -5,7 +5,11 @@
 
 const Processor = require('./src/Processor');
 const { DynamoBotToken, DynamoState, DynamoChatLog } = require('./src/dynamodb');
-const { createValidator, createHandler, createUpdater } = require('./src/serverlessHook');
+const {
+    createValidator,
+    createHandler,
+    createUpdater
+} = require('./src/serverlessHook');
 
 /**
  * Create a chat event processor

@@ -4,7 +4,7 @@
 <dt><a href="#createProcessor">createProcessor(reducer, processorOptions, [stateStorage])</a></dt>
 <dd><p>Create a chat event processor</p>
 </dd>
-<dt><a href="#createUpdater">createUpdater(lambdaName, [token])</a></dt>
+<dt><a href="#createUpdater">createUpdater(lambdaName, [token], [log])</a></dt>
 <dd><p>Create updater handler for wingbot which deploys new lambda version</p>
 <p>listens for POST on <code>/update</code></p>
 </dd>
@@ -54,7 +54,7 @@ Create a chat event processor
 
 {% raw %}<div id="createUpdater">&nbsp;</div>{% endraw %}
 
-## createUpdater(lambdaName, [token])
+## createUpdater(lambdaName, [token], [log])
 Create updater handler for wingbot which deploys new lambda version
 
 listens for POST on `/update`
@@ -65,6 +65,7 @@ listens for POST on `/update`
 | --- | --- | --- | --- |
 | lambdaName | <code>string</code> |  | bot handler name |
 | [token] | <code>string</code> | <code>null</code> | bot authorization token |
+| [log] | <code>object</code> |  | console.* like logger object |
 
 {% raw %}<div id="createHandler">&nbsp;</div>{% endraw %}
 
@@ -94,6 +95,7 @@ listens for POST on `/validate`
 | config | <code>object</code> |  |
 | [config.token] | <code>string</code> | authorization token |
 | [config.blocksResource] | <code>Blocks</code> | authorization token |
+| [config.routerFactory] | <code>function</code> | creates blank router for testing purposes |
 | [config.testText] | <code>string</code> | text for router testing (null to disable) |
 | [config.testPostBack] | <code>string</code> | postback to test the bot (null to disable) |
 | [log] | <code>object</code> | console.* like logger object |

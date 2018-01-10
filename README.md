@@ -26,6 +26,7 @@ It's easy. This basic example can handle everything.
 ```javascript
 const express = require('express');
 const { Router } = require('botnaut');
+const mongoose = require('mongoose');
 const { createRouter, createProcessor } = require('botnaut/express');
 
 const bot = new Router();
@@ -50,5 +51,6 @@ const app = express();
 
 app.use('/bot', createRouter(processor, 'verifyTokenHere'));
 
-app.listen(3000);
+mongoose.connect('mongodb://localhost/myapp')
+    .then(() => app.listen(3000));
 ```

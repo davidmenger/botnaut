@@ -30,6 +30,10 @@
     * [Webviews](tutorial/templates.md#working-with-webviews)
 * [Testing](tutorial/testing.md)
 * [Analytics](tutorial/analytics.md)
+* [Using with Wingbot.ai](tutorial/usingWithWingbot.md)
+    * [Bot configuration](tutorial/usingWithWingbot.md#bot-configuration)
+    * [Express Mongodb](tutorial/usingWithWingbot.md#express-mongodb)
+    * [Serverless AWS Lambda](tutorial/usingWithWingbot.md#serverless-aws-lambda)
 
 ## API
 
