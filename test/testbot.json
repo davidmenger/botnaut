@@ -184,6 +184,14 @@
                 "id": 1507631727807
               },
               {
+                "type": "botbuild.media",
+                "params": {
+                  "url": "/theHref.jpg",
+                  "type": "image"
+                },
+                "id": 1507631727809
+              },
+              {
                 "type": "botbuild.message",
                 "params": {
                   "conditionFn": "(req, res) => {\n    return req.state.a > 0;\n}",

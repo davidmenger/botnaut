@@ -28,7 +28,8 @@ describe('<BuildRouter>', function () {
             t.passedAction('start');
 
             t.any()
-                .contains('This is the first time, you\'re here');
+                .contains('This is the first time, you\'re here')
+                .attachmentType('image');
 
             yield t.postBack('/start');
 

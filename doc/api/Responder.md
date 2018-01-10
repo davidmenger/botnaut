@@ -10,7 +10,9 @@
     * [.addQuickReply(action, title, [data], [prepend])](#Responder_addQuickReply)
     * [.expected(action)](#Responder_expected) ⇒ <code>this</code>
     * [.toAbsoluteAction(action)](#Responder_toAbsoluteAction) ⇒ <code>string</code>
-    * [.image(imageUrl)](#Responder_image) ⇒ <code>this</code>
+    * [.image(imageUrl, [reusable])](#Responder_image) ⇒ <code>this</code>
+    * [.video(videoUrl, [reusable])](#Responder_video) ⇒ <code>this</code>
+    * [.file(fileUrl, [reusable])](#Responder_file) ⇒ <code>this</code>
     * [.wait([ms])](#Responder_wait) ⇒ <code>this</code>
     * [.typingOn()](#Responder_typingOn) ⇒ <code>this</code>
     * [.typingOff()](#Responder_typingOff) ⇒ <code>this</code>
@@ -123,14 +125,15 @@ Converts relative action to absolute action path
 
 {% raw %}<div id="Responder_image">&nbsp;</div>{% endraw %}
 
-### responder.image(imageUrl) ⇒ <code>this</code>
+### responder.image(imageUrl, [reusable]) ⇒ <code>this</code>
 Sends image as response. Requires appUrl option to send images from server
 
 **Kind**: instance method of [<code>Responder</code>](#Responder)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| imageUrl | <code>string</code> | relative or absolute url |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| imageUrl | <code>string</code> |  | relative or absolute url |
+| [reusable] | <code>boolean</code> | <code>false</code> | force facebook to cache image |
 
 **Example**  
 ```javascript
@@ -139,6 +142,46 @@ res.image('/img/foo.png');
 
 // image at url
 res.image('https://google.com/img/foo.png');
+```
+{% raw %}<div id="Responder_video">&nbsp;</div>{% endraw %}
+
+### responder.video(videoUrl, [reusable]) ⇒ <code>this</code>
+Sends video as response. Requires appUrl option to send videos from server
+
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| videoUrl | <code>string</code> |  | relative or absolute url |
+| [reusable] | <code>boolean</code> | <code>false</code> | force facebook to cache asset |
+
+**Example**  
+```javascript
+// file on same server (appUrl option)
+res.video('/img/foo.mp4');
+
+// file at url
+res.video('https://google.com/img/foo.mp4');
+```
+{% raw %}<div id="Responder_file">&nbsp;</div>{% endraw %}
+
+### responder.file(fileUrl, [reusable]) ⇒ <code>this</code>
+Sends file as response. Requires appUrl option to send files from server
+
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| fileUrl | <code>string</code> |  | relative or absolute url |
+| [reusable] | <code>boolean</code> | <code>false</code> | force facebook to cache asset |
+
+**Example**  
+```javascript
+// file on same server (appUrl option)
+res.file('/img/foo.pdf');
+
+// file at url
+res.file('https://google.com/img/foo.pdf');
 ```
 {% raw %}<div id="Responder_wait">&nbsp;</div>{% endraw %}
 

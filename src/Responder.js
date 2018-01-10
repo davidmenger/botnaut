@@ -208,6 +208,7 @@ class Responder {
      * Sends image as response. Requires appUrl option to send images from server
      *
      * @param {string} imageUrl relative or absolute url
+     * @param {boolean} [reusable] force facebook to cache image
      * @returns {this}
      *
      * @example
@@ -219,11 +220,58 @@ class Responder {
      *
      * @memberOf Responder
      */
-    image (imageUrl) {
-        let url = imageUrl;
+    image (imageUrl, reusable = false) {
+        this._attachment(imageUrl, 'image', reusable);
+        return this;
+    }
 
-        if (!imageUrl.match(/^https?:\/\//)) {
-            url = `${this.options.appUrl}${imageUrl}`;
+    /**
+     * Sends video as response. Requires appUrl option to send videos from server
+     *
+     * @param {string} videoUrl relative or absolute url
+     * @param {boolean} [reusable] force facebook to cache asset
+     * @returns {this}
+     *
+     * @example
+     * // file on same server (appUrl option)
+     * res.video('/img/foo.mp4');
+     *
+     * // file at url
+     * res.video('https://google.com/img/foo.mp4');
+     *
+     * @memberOf Responder
+     */
+    video (videoUrl, reusable = false) {
+        this._attachment(videoUrl, 'video', reusable);
+        return this;
+    }
+
+    /**
+     * Sends file as response. Requires appUrl option to send files from server
+     *
+     * @param {string} fileUrl relative or absolute url
+     * @param {boolean} [reusable] force facebook to cache asset
+     * @returns {this}
+     *
+     * @example
+     * // file on same server (appUrl option)
+     * res.file('/img/foo.pdf');
+     *
+     * // file at url
+     * res.file('https://google.com/img/foo.pdf');
+     *
+     * @memberOf Responder
+     */
+    file (fileUrl, reusable = false) {
+        this._attachment(fileUrl, 'file', reusable);
+        return this;
+    }
+
+    _attachment (attachmentUrl, type, reusable = false) {
+        let url = attachmentUrl;
+
+        if (!url.match(/^https?:\/\//)) {
+            url = `${this.options.appUrl}${url}`;
         }
 
         const messageData = {
@@ -232,16 +280,19 @@ class Responder {
             },
             message: {
                 attachment: {
-                    type: 'image',
+                    type,
                     payload: {
-                        url
+                        url,
+                        is_reusable: reusable
                     }
                 }
             }
         };
 
         if (this._isRef) {
-            messageData.recipient = { user_ref: this._senderId };
+            Object.assign(messageData, {
+                recipient: { user_ref: this._senderId }
+            });
         }
 
         this._autoTypingIfEnabled(null);
@@ -263,7 +314,9 @@ class Responder {
         };
 
         if (this._isRef) {
-            messageData.recipient = { user_ref: this._senderId };
+            Object.assign(messageData, {
+                recipient: { user_ref: this._senderId }
+            });
         }
 
         this._autoTypingIfEnabled(null);
