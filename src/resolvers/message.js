@@ -95,7 +95,8 @@ function message (params, { isLastIndex, linksMap }) {
             return ret;
         }
 
-        const text = textTemplate(req.state);
+        const stateData = Object.assign({}, req.state, res.state, res.data);
+        const text = textTemplate(stateData);
 
         if (replies) {
             res.text(text, replies

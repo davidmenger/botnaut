@@ -17,7 +17,7 @@ const { makeAbsolute, makeQuickReplies } = require('./utils');
  */
 class Responder {
 
-    constructor (isRef, senderId, sendFn, token = null, options = {}) {
+    constructor (isRef, senderId, sendFn, token = null, options = {}, data = {}) {
         this._send = sendFn;
         this._senderId = senderId;
         this._isRef = isRef;
@@ -46,6 +46,36 @@ class Responder {
         this._t = this.options.translator;
 
         this._quickReplyCollector = [];
+
+        this._data = data;
+    }
+
+    /**
+     * @type {object}
+     */
+    get data () {
+        return this._data;
+    }
+
+    /**
+     * Set temporary data to responder, which are persisted through single event
+     *
+     * @param {object} data
+     * @returns {this}
+     * @example
+     *
+     * bot.use('foo', (req, res, postBack) => {
+     *     res.setData({ a: 1 });
+     *     postBack('bar');
+     * });
+     *
+     * bot.use('bar', (req, res) => {
+     *     res.data.a; // === 1 from postback
+     * });
+     */
+    setData (data) {
+        Object.assign(this._data, data);
+        return this;
     }
 
     setPath (absolutePath, routePath = '') {

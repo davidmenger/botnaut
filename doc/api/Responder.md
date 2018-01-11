@@ -5,6 +5,8 @@
 
 * [Responder](#Responder)
     * [new Responder()](#new_Responder_new)
+    * [.data](#Responder_data) : <code>object</code>
+    * [.setData(data)](#Responder_setData) ⇒ <code>this</code>
     * [.text(text, [quickReplies])](#Responder_text) ⇒ <code>this</code>
     * [.setState(object)](#Responder_setState) ⇒ <code>this</code>
     * [.addQuickReply(action, title, [data], [prepend])](#Responder_addQuickReply)
@@ -28,6 +30,32 @@
 ### new Responder()
 Instance of responder is passed as second parameter of handler (res)
 
+{% raw %}<div id="Responder_data">&nbsp;</div>{% endraw %}
+
+### responder.data : <code>object</code>
+**Kind**: instance property of [<code>Responder</code>](#Responder)  
+{% raw %}<div id="Responder_setData">&nbsp;</div>{% endraw %}
+
+### responder.setData(data) ⇒ <code>this</code>
+Set temporary data to responder, which are persisted through single event
+
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
+
+| Param | Type |
+| --- | --- |
+| data | <code>object</code> | 
+
+**Example**  
+```javascript
+bot.use('foo', (req, res, postBack) => {
+    res.setData({ a: 1 });
+    postBack('bar');
+});
+
+bot.use('bar', (req, res) => {
+    res.data.a; // === 1 from postback
+});
+```
 {% raw %}<div id="Responder_text">&nbsp;</div>{% endraw %}
 
 ### responder.text(text, [quickReplies]) ⇒ <code>this</code>

@@ -25,7 +25,8 @@ function media ({ type, url }, { isLastIndex }) {
     }
 
     return (req, res) => {
-        const sendUrl = urlTemplate(req.state);
+        const stateData = Object.assign({}, req.state, res.state, res.data);
+        const sendUrl = urlTemplate(stateData);
 
         res[type](sendUrl, true);
 

@@ -76,6 +76,9 @@ describe('Tester', function () {
         r.use(goThru);
 
         r.use('/start', (req, res) => {
+            if (res.data.x === 1) {
+                res.text('Data was passed');
+            }
             res.text('Hello!', {
                 music: {
                     title: 'Listen music'
@@ -86,6 +89,7 @@ describe('Tester', function () {
 
         r.use('/music', music)
             .onExit('exit', (data, req, res, postBack) => {
+                res.setData({ x: 1 });
                 postBack('/start');
             });
 
@@ -145,6 +149,7 @@ describe('Tester', function () {
 
             t.passedAction('/music/back');
             t.passedAction('/start');
+            t.any().contains('Data was passed');
 
             yield t.quickReply('read');
 
