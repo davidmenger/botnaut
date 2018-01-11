@@ -102,8 +102,7 @@ describe('<BuildRouter>', function () {
             t.passedAction('start');
 
             t.any()
-                .contains('To je poprvé')
-                .quickReplyAction('subblock-include');
+                .contains('To je poprvé');
 
         });
 

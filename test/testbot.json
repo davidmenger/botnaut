@@ -218,7 +218,9 @@
                         { "t": "Go To Subblock", "l": "default" },
                         { "t": "Jdi do podbloku", "l": "cz" }
                       ],
-                      "targetRouteId": 1507122998196
+                      "targetRouteId": 1507122998196,
+                      "hasCondition": true,
+                      "conditionFn": "(req, res) => req.state.a > 0"
                     }
                   ],
                   "text": "Welcome in the bot"
