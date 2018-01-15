@@ -141,7 +141,7 @@ class Responder {
             messageData.message.text = translatedText;
         }
 
-        if (replies || this._quickReplyCollector.length > 0) {
+        if (replies) {
 
             const { quickReplies, expectedKeywords }
                 = makeQuickReplies(replies || [], this.path, this._t, this._quickReplyCollector);

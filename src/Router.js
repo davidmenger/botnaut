@@ -228,7 +228,7 @@ class Router extends ReducerWrapper {
         };
 
         return co(function* () {
-            yield* this._reduceTheArray(
+            return yield* this._reduceTheArray(
                 routeToReduce,
                 routeToReduce,
                 action,
