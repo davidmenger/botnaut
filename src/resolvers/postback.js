@@ -8,6 +8,10 @@ function postback (params, { linksMap }) {
 
     if (!action && params.routeId) {
         action = linksMap.get(params.routeId);
+
+        if (action === '/') {
+            action = './';
+        }
     }
 
     return (req, res, postBack) => {
