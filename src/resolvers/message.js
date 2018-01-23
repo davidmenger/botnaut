@@ -26,7 +26,14 @@ function parseReplies (replies, linksMap) {
             delete replyData.targetRouteId;
         }
 
-        return Object.assign(replyData, { action });
+        const condition = reply.hasCondition
+            ? eval(reply.conditionFn) // eslint-disable-line no-eval
+            : () => true;
+
+        return Object.assign(replyData, {
+            action,
+            condition
+        });
     });
 }
 
@@ -88,12 +95,15 @@ function message (params, { isLastIndex, linksMap }) {
             return ret;
         }
 
-        const text = textTemplate(req.state);
+        const stateData = Object.assign({}, req.state, res.state, res.data);
+        const text = textTemplate(stateData);
 
         if (replies) {
-            res.text(text, replies.map(reply => Object.assign({}, reply, {
-                title: getLanguageText(reply.title, req.state.lang)
-            })));
+            res.text(text, replies
+                .filter(reply => reply.condition(req, res))
+                .map(reply => Object.assign({}, reply, {
+                    title: getLanguageText(reply.title, req.state.lang)
+                })));
         } else {
             res.text(text);
         }

@@ -495,6 +495,64 @@
             
         </li>
     
+        <li class="chapter " data-level="1.10" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html">
+            
+                    
+                    Using with Wingbot.ai
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html#bot-configuration">
+            
+                    
+                    Bot configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html#express-mongodb">
+            
+                    
+                    Express Mongodb
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.3" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html#serverless-aws-lambda">
+            
+                    
+                    Serverless AWS Lambda
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
 
     
         
@@ -755,12 +813,16 @@
 <ul>
 <li><a href="#Responder">Responder</a><ul>
 <li><a href="#new_Responder_new">new Responder()</a></li>
+<li><a href="#Responder_data">.data</a> : <code>object</code></li>
+<li><a href="#Responder_setData">.setData(data)</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_text">.text(text, [quickReplies])</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_setState">.setState(object)</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_addQuickReply">.addQuickReply(action, title, [data], [prepend])</a></li>
 <li><a href="#Responder_expected">.expected(action)</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_toAbsoluteAction">.toAbsoluteAction(action)</a> &#x21D2; <code>string</code></li>
-<li><a href="#Responder_image">.image(imageUrl)</a> &#x21D2; <code>this</code></li>
+<li><a href="#Responder_image">.image(imageUrl, [reusable])</a> &#x21D2; <code>this</code></li>
+<li><a href="#Responder_video">.video(videoUrl, [reusable])</a> &#x21D2; <code>this</code></li>
+<li><a href="#Responder_file">.file(fileUrl, [reusable])</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_wait">.wait([ms])</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_typingOn">.typingOn()</a> &#x21D2; <code>this</code></li>
 <li><a href="#Responder_typingOff">.typingOff()</a> &#x21D2; <code>this</code></li>
@@ -777,6 +839,39 @@
 
 <h3 id="new-responder"><a name="new-responder" class="plugin-anchor" href="#new-responder"><i class="fa fa-link" aria-hidden="true"></i></a>new Responder()</h3>
 <p>Instance of responder is passed as second parameter of handler (res)</p>
+<div id="Responder_data">&#xA0;</div>
+
+<h3 id="responderdata--object"><a name="responderdata--object" class="plugin-anchor" href="#responderdata--object"><i class="fa fa-link" aria-hidden="true"></i></a>responder.data : <code>object</code></h3>
+<p><strong>Kind</strong>: instance property of <a href="#Responder"><code>Responder</code></a>  </p>
+<div id="Responder_setData">&#xA0;</div>
+
+<h3 id="respondersetdatadata-&#x21D2;-this"><a name="respondersetdatadata-&#x21D2;-this" class="plugin-anchor" href="#respondersetdatadata-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.setData(data) &#x21D2; <code>this</code></h3>
+<p>Set temporary data to responder, which are persisted through single event</p>
+<p><strong>Kind</strong>: instance method of <a href="#Responder"><code>Responder</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td><code>object</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript">bot.use(<span class="hljs-string">&apos;foo&apos;</span>, (req, res, postBack) =&gt; {
+    res.setData({ a: <span class="hljs-number">1</span> });
+    postBack(<span class="hljs-string">&apos;bar&apos;</span>);
+});
+
+bot.use(<span class="hljs-string">&apos;bar&apos;</span>, (req, res) =&gt; {
+    res.data.a; <span class="hljs-comment">// === 1 from postback</span>
+});
+</code></pre>
 <div id="Responder_text">&#xA0;</div>
 
 <h3 id="respondertexttext-quickreplies-&#x21D2;-this"><a name="respondertexttext-quickreplies-&#x21D2;-this" class="plugin-anchor" href="#respondertexttext-quickreplies-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.text(text, [quickReplies]) &#x21D2; <code>this</code></h3>
@@ -939,7 +1034,7 @@ res.text(<span class="hljs-string">&apos;Hello %s&apos;</span>, name, [
 </table>
 <div id="Responder_image">&#xA0;</div>
 
-<h3 id="responderimageimageurl-&#x21D2;-this"><a name="responderimageimageurl-&#x21D2;-this" class="plugin-anchor" href="#responderimageimageurl-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.image(imageUrl) &#x21D2; <code>this</code></h3>
+<h3 id="responderimageimageurl-reusable-&#x21D2;-this"><a name="responderimageimageurl-reusable-&#x21D2;-this" class="plugin-anchor" href="#responderimageimageurl-reusable-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.image(imageUrl, [reusable]) &#x21D2; <code>this</code></h3>
 <p>Sends image as response. Requires appUrl option to send images from server</p>
 <p><strong>Kind</strong>: instance method of <a href="#Responder"><code>Responder</code></a>  </p>
 <table>
@@ -947,6 +1042,7 @@ res.text(<span class="hljs-string">&apos;Hello %s&apos;</span>, name, [
 <tr>
 <th>Param</th>
 <th>Type</th>
+<th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -954,7 +1050,14 @@ res.text(<span class="hljs-string">&apos;Hello %s&apos;</span>, name, [
 <tr>
 <td>imageUrl</td>
 <td><code>string</code></td>
+<td></td>
 <td>relative or absolute url</td>
+</tr>
+<tr>
+<td>[reusable]</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>force facebook to cache image</td>
 </tr>
 </tbody>
 </table>
@@ -964,6 +1067,78 @@ res.image(<span class="hljs-string">&apos;/img/foo.png&apos;</span>);
 
 <span class="hljs-comment">// image at url</span>
 res.image(<span class="hljs-string">&apos;https://google.com/img/foo.png&apos;</span>);
+</code></pre>
+<div id="Responder_video">&#xA0;</div>
+
+<h3 id="respondervideovideourl-reusable-&#x21D2;-this"><a name="respondervideovideourl-reusable-&#x21D2;-this" class="plugin-anchor" href="#respondervideovideourl-reusable-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.video(videoUrl, [reusable]) &#x21D2; <code>this</code></h3>
+<p>Sends video as response. Requires appUrl option to send videos from server</p>
+<p><strong>Kind</strong>: instance method of <a href="#Responder"><code>Responder</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>videoUrl</td>
+<td><code>string</code></td>
+<td></td>
+<td>relative or absolute url</td>
+</tr>
+<tr>
+<td>[reusable]</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>force facebook to cache asset</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// file on same server (appUrl option)</span>
+res.video(<span class="hljs-string">&apos;/img/foo.mp4&apos;</span>);
+
+<span class="hljs-comment">// file at url</span>
+res.video(<span class="hljs-string">&apos;https://google.com/img/foo.mp4&apos;</span>);
+</code></pre>
+<div id="Responder_file">&#xA0;</div>
+
+<h3 id="responderfilefileurl-reusable-&#x21D2;-this"><a name="responderfilefileurl-reusable-&#x21D2;-this" class="plugin-anchor" href="#responderfilefileurl-reusable-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responder.file(fileUrl, [reusable]) &#x21D2; <code>this</code></h3>
+<p>Sends file as response. Requires appUrl option to send files from server</p>
+<p><strong>Kind</strong>: instance method of <a href="#Responder"><code>Responder</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fileUrl</td>
+<td><code>string</code></td>
+<td></td>
+<td>relative or absolute url</td>
+</tr>
+<tr>
+<td>[reusable]</td>
+<td><code>boolean</code></td>
+<td><code>false</code></td>
+<td>force facebook to cache asset</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// file on same server (appUrl option)</span>
+res.file(<span class="hljs-string">&apos;/img/foo.pdf&apos;</span>);
+
+<span class="hljs-comment">// file at url</span>
+res.file(<span class="hljs-string">&apos;https://google.com/img/foo.pdf&apos;</span>);
 </code></pre>
 <div id="Responder_wait">&#xA0;</div>
 
@@ -1219,7 +1394,7 @@ res.image(<span class="hljs-string">&apos;https://google.com/img/foo.png&apos;</
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Responder","level":"2.2","depth":1,"next":{"title":"Router","level":"2.3","depth":1,"path":"api/Router.md","ref":"api/Router.md","articles":[]},"previous":{"title":"Request","level":"2.1","depth":1,"path":"api/Request.md","ref":"api/Request.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Responder.md","mtime":"2018-01-04T18:54:34.483Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-04T18:54:42.543Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Responder","level":"2.2","depth":1,"next":{"title":"Router","level":"2.3","depth":1,"path":"api/Router.md","ref":"api/Router.md","articles":[]},"previous":{"title":"Request","level":"2.1","depth":1,"path":"api/Request.md","ref":"api/Request.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Responder.md","mtime":"2018-01-11T14:50:20.191Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-11T14:50:24.805Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -127,34 +127,42 @@ describe('Responder', function () {
 
     });
 
-    describe('#image()', function () {
+    [
+        { media: 'image' },
+        { media: 'video' },
+        { media: 'file' }
+    ].forEach(({ media }) => {
 
-        it('should send image url with base path', function () {
-            const { sendFn, opts } = createAssets();
-            const res = new Responder(true, SENDER_ID, sendFn, TOKEN, opts);
+        describe(`#${media}()`, function () {
 
-            assert.strictEqual(res.image('/img.png'), res, 'should return self');
+            it(`should send ${media} url with base path`, function () {
+                const { sendFn, opts } = createAssets();
+                const res = new Responder(true, SENDER_ID, sendFn, TOKEN, opts);
 
-            assert(sendFn.calledOnce);
-            assert.equal(sendFn.firstCall.args[0].recipient.user_ref, SENDER_ID);
+                assert.strictEqual(res[media]('/img.png'), res, 'should return self');
 
-            const attachment = sendFn.firstCall.args[0].message.attachment;
-            assert.equal(attachment.type, 'image');
-            assert.equal(attachment.payload.url, `${APP_URL}/img.png`);
-        });
+                assert(sendFn.calledOnce);
+                assert.equal(sendFn.firstCall.args[0].recipient.user_ref, SENDER_ID);
 
-        it('should send image url without base path', function () {
-            const { sendFn, opts } = createAssets();
-            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
+                const attachment = sendFn.firstCall.args[0].message.attachment;
+                assert.equal(attachment.type, media);
+                assert.equal(attachment.payload.url, `${APP_URL}/img.png`);
+            });
 
-            assert.strictEqual(res.image('http://goo.gl/img.png'), res, 'should return self');
+            it(`should send ${media} url without base path`, function () {
+                const { sendFn, opts } = createAssets();
+                const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
 
-            assert(sendFn.calledOnce);
-            assert.equal(sendFn.firstCall.args[0].recipient.id, SENDER_ID);
+                assert.strictEqual(res[media]('http://goo.gl/img.png'), res, 'should return self');
 
-            const attachment = sendFn.firstCall.args[0].message.attachment;
-            assert.equal(attachment.type, 'image');
-            assert.equal(attachment.payload.url, 'http://goo.gl/img.png');
+                assert(sendFn.calledOnce);
+                assert.equal(sendFn.firstCall.args[0].recipient.id, SENDER_ID);
+
+                const attachment = sendFn.firstCall.args[0].message.attachment;
+                assert.equal(attachment.type, media);
+                assert.equal(attachment.payload.url, 'http://goo.gl/img.png');
+            });
+
         });
 
     });

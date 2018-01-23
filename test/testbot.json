@@ -184,6 +184,14 @@
                 "id": 1507631727807
               },
               {
+                "type": "botbuild.media",
+                "params": {
+                  "url": "/theHref.jpg",
+                  "type": "image"
+                },
+                "id": 1507631727809
+              },
+              {
                 "type": "botbuild.message",
                 "params": {
                   "conditionFn": "(req, res) => {\n    return req.state.a > 0;\n}",
@@ -210,7 +218,9 @@
                         { "t": "Go To Subblock", "l": "default" },
                         { "t": "Jdi do podbloku", "l": "cz" }
                       ],
-                      "targetRouteId": 1507122998196
+                      "targetRouteId": 1507122998196,
+                      "hasCondition": true,
+                      "conditionFn": "(req, res) => req.state.a > 0"
                     }
                   ],
                   "text": "Welcome in the bot"

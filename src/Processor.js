@@ -88,11 +88,11 @@ class Processor {
         }
     }
 
-    _createPostBack (senderId, pageId, postbackAcumulator, senderFn, waitAfter) {
-        const makePostBack = (action, data = {}) => waitAfter()
+    _createPostBack (senderId, pageId, postbackAcumulator, senderFn, waitAfter, data) {
+        const makePostBack = (action, actionData = {}) => waitAfter()
             .then((newSenderId) => {
-                const request = Request.postBack(newSenderId || senderId, action, data);
-                return this.processMessage(request, pageId, senderFn);
+                const request = Request.postBack(newSenderId || senderId, action, actionData);
+                return this.processMessage(request, pageId, senderFn, data);
             });
 
         const wait = () => {
@@ -179,7 +179,7 @@ class Processor {
         return true;
     }
 
-    processMessage (message, pageId, sender = null) {
+    processMessage (message, pageId, sender = null, data = {}) {
         let senderId;
         let refHandler;
 
@@ -230,13 +230,14 @@ class Processor {
                 req.state = state;
 
                 // prepare responder
-                const res = new Responder(isRef, senderId, senderFn, token, this.options);
+                const res = new Responder(isRef, senderId, senderFn, token, this.options, data);
 
                 // create postBack handler
                 const wait = () =>
                     messageProcessPromise.then(() => refHandler && refHandler.getPromise());
 
-                const postBack = this._createPostBack(senderId, pageId, postbacks, senderFn, wait);
+                const postBack = this
+                    ._createPostBack(senderId, pageId, postbacks, senderFn, wait, data);
 
                 let reduceResult;
                 if (typeof this.reducer === 'function') {

@@ -6,7 +6,7 @@
 function customCode (params, context, blocks) {
     const customFn = blocks.getCustomCodeFactory(params.codeBlockId);
 
-    const { router } = context;
+    const { router, isLastIndex } = context;
 
     const items = Object.keys(params.items)
         .reduce((obj, itemName) => {
@@ -17,7 +17,9 @@ function customCode (params, context, blocks) {
             return Object.assign(obj, { [itemName]: reducers });
         }, {});
 
-    return (req, res, postBack, path, action) => {
+    const paramsData = typeof params.params === 'object' ? params.params : {};
+
+    return function* (req, res, postBack, path, action) {
 
         Object.assign(res, {
             run (codeBlockName) {
@@ -31,7 +33,16 @@ function customCode (params, context, blocks) {
         });
 
         // assign to res
-        return customFn(req, res, postBack, context);
+        let ret = customFn(req, res, postBack, context, paramsData);
+
+        if (typeof ret === 'object' && ret !== null) {
+            ret = yield ret;
+        }
+
+        if (typeof ret !== 'undefined') {
+            return ret;
+        }
+        return isLastIndex ? null : true;
     };
 }
 

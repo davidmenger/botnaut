@@ -12,6 +12,7 @@ const customCode = require('./customCode');
 const inlineCode = require('./inlineCode');
 const exit = require('./exit');
 const passThread = require('./passThread');
+const media = require('./media');
 
 module.exports = {
     path,
@@ -22,5 +23,6 @@ module.exports = {
     customCode,
     exit,
     inlineCode,
-    passThread
+    passThread,
+    media
 };
