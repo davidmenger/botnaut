@@ -196,6 +196,8 @@ Creates an instance of Tester.
         * [.AnyResponseAssert#contains(search)](#ResponseAssert_AnyResponseAssert_contains) ⇒ <code>this</code>
         * [.AnyResponseAssert#quickReplyAction(action)](#ResponseAssert_AnyResponseAssert_quickReplyAction) ⇒ <code>this</code>
         * [.AnyResponseAssert#templateType(type)](#ResponseAssert_AnyResponseAssert_templateType) ⇒ <code>this</code>
+        * [.AnyResponseAssert#genericTemplate(itemCount)](#ResponseAssert_AnyResponseAssert_genericTemplate)
+        * [.AnyResponseAssert#buttonTemplate(search, buttonCount)](#ResponseAssert_AnyResponseAssert_buttonTemplate)
         * [.AnyResponseAssert#passThread([appId])](#ResponseAssert_AnyResponseAssert_passThread) ⇒ <code>this</code>
         * [.AnyResponseAssert#attachmentType(type)](#ResponseAssert_AnyResponseAssert_attachmentType) ⇒ <code>this</code>
 
@@ -291,6 +293,29 @@ Checks template type
 | Param | Type |
 | --- | --- |
 | type | <code>string</code> | 
+
+{% raw %}<div id="ResponseAssert_AnyResponseAssert_genericTemplate">&nbsp;</div>{% endraw %}
+
+### ResponseAssert.AnyResponseAssert#genericTemplate(itemCount)
+Checks for generic template
+
+**Kind**: static method of [<code>ResponseAssert</code>](#ResponseAssert)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| itemCount | <code>number</code> | <code></code> | specified item count |
+
+{% raw %}<div id="ResponseAssert_AnyResponseAssert_buttonTemplate">&nbsp;</div>{% endraw %}
+
+### ResponseAssert.AnyResponseAssert#buttonTemplate(search, buttonCount)
+Checks for button template
+
+**Kind**: static method of [<code>ResponseAssert</code>](#ResponseAssert)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| search | <code>string</code> |  |  |
+| buttonCount | <code>number</code> | <code></code> | specified button count |
 
 {% raw %}<div id="ResponseAssert_AnyResponseAssert_passThread">&nbsp;</div>{% endraw %}
 

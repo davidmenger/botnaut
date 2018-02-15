@@ -4,14 +4,7 @@
 'use strict';
 
 const Router = require('../Router');
-const { customFn, getLanguageText } = require('./utils');
-
-let handlebars;
-try {
-    handlebars = module.require('handlebars');
-} catch (er) {
-    handlebars = { compile: text => () => text };
-}
+const { customFn, getLanguageText, cachedTranslatedCompilator } = require('./utils');
 
 function parseReplies (replies, linksMap) {
     return replies.map((reply) => {
@@ -37,35 +30,6 @@ function parseReplies (replies, linksMap) {
     });
 }
 
-function randomizedCompiler (text, lang) {
-    const texts = getLanguageText(text, lang);
-
-    if (!Array.isArray(texts)) {
-        return handlebars.compile(texts);
-    }
-
-    return (...args) => {
-        const index = Math.floor(Math.random() * texts.length);
-        if (typeof texts[index] !== 'function') {
-            texts[index] = handlebars.compile(texts[index]);
-        }
-        return texts[index](...args);
-    };
-}
-
-function cachedTranslatedCompilator (text) {
-    const cache = new Map();
-
-    return (state) => {
-        const { lang: key = '-', lang } = state;
-        let renderer = cache.get(key);
-        if (!renderer) {
-            renderer = randomizedCompiler(text, lang);
-            cache.set(key, renderer);
-        }
-        return renderer(state);
-    };
-}
 
 function message (params, { isLastIndex, linksMap }) {
     if (typeof params.text !== 'string' && !Array.isArray(params.text)) {

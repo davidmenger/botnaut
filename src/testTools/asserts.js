@@ -78,6 +78,16 @@ function isText (response, message = 'Should be a text') {
     return true;
 }
 
+function searchMatchesText (search, text) {
+    let match = false;
+    if (search instanceof RegExp) {
+        match = text.match(search);
+    } else {
+        match = text.toLowerCase().match(search.toLowerCase());
+    }
+    return match;
+}
+
 /**
  * Checks, that text contain a message
  *
@@ -93,12 +103,7 @@ function contains (response, search, message = 'Should contain a text') {
         return false;
     }
     assert.ok(typeIsText, m(message, search, 'not a message'));
-    let match = false;
-    if (search instanceof RegExp) {
-        match = text.match(search);
-    } else {
-        match = text.toLowerCase().match(search.toLowerCase());
-    }
+    const match = searchMatchesText(search, text);
     if (message === false) {
         return match;
     }
@@ -188,6 +193,111 @@ function passThread (response, appId = null, message = 'Should pass control') {
     return true;
 }
 
+/**
+ *
+ * @param {object} response
+ * @param {string|false} message
+ * @returns {false|Object[]}
+ */
+function buttonTemplateButtons (response, message = 'Button template should contain buttons') {
+    const buttons = response.message.attachment
+        && response.message.attachment.payload
+        && response.message.attachment.payload.buttons;
+
+    const hasItems = Array.isArray(buttons);
+
+    if (!hasItems && message === false) {
+        return false;
+    }
+    assert.ok(hasItems, m(message, 'Is not an array of buttons'));
+    return buttons;
+}
+
+/**
+ * Validates generic template
+ *
+ * @param {object} response
+ * @param {number} [count]
+ * @param {string|false} message
+ * @returns {boolean}
+ */
+function buttonTemplate (response, search, count = null, message = 'Should contain button template') {
+    const isGeneric = templateType(response, 'button', message);
+    if (!isGeneric) {
+        return false;
+    }
+
+    const buttons = buttonTemplateButtons(response, message);
+
+    if (!buttons) {
+        return false;
+    }
+
+    const { text } = response.message.attachment.payload;
+
+    const countMatches = count === null || buttons.length === count;
+    const textMatches = searchMatchesText(search, text);
+
+    if ((!countMatches || !textMatches) && message === false) {
+        return false;
+    }
+
+    assert.ok(countMatches, m(message, buttons.length, count));
+    assert.ok(textMatches, m(message, text, search));
+
+    return true;
+}
+
+/**
+ *
+ * @param {object} response
+ * @param {string|false} message
+ * @returns {false|Object[]}
+ */
+function genericTemplateItems (response, message = 'Generic template should contain items') {
+    const elements = response.message.attachment
+        && response.message.attachment.payload
+        && response.message.attachment.payload.elements;
+
+    const hasItems = Array.isArray(elements);
+
+    if (!hasItems && message === false) {
+        return false;
+    }
+    assert.ok(hasItems, m(message, 'Is not an array of items'));
+    return elements;
+}
+
+/**
+ * Validates generic template
+ *
+ * @param {object} response
+ * @param {number} [count]
+ * @param {string|false} message
+ * @returns {boolean}
+ */
+function genericTemplate (response, count = null, message = 'Should contain generic template') {
+    const isGeneric = templateType(response, 'generic', message);
+    if (!isGeneric) {
+        return false;
+    } else if (count === null) {
+        return true;
+    }
+    const elements = genericTemplateItems(response, message);
+
+    if (!elements) {
+        return false;
+    }
+
+    const countMatches = elements.length === count;
+
+    if (!countMatches && message === false) {
+        return false;
+    }
+    assert.ok(countMatches, m(message, elements.length, count));
+    return true;
+}
+
 module.exports = {
     contains,
     isText,
@@ -196,5 +306,8 @@ module.exports = {
     attachmentType,
     waiting,
     getQuickReplies,
-    passThread
+    passThread,
+    genericTemplateItems,
+    genericTemplate,
+    buttonTemplate
 };

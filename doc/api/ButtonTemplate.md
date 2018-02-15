@@ -17,8 +17,9 @@
 
 * [ButtonTemplate](#ButtonTemplate) ⇐ <code>BaseTemplate</code>
     * [new ButtonTemplate()](#new_ButtonTemplate_new)
-    * [.urlButton(title, url, hasExtension, [webviewHeight])](#ButtonTemplate_urlButton) ⇒ <code>this</code>
+    * [.urlButton(title, linkUrl, hasExtension, [webviewHeight])](#ButtonTemplate_urlButton) ⇒ <code>this</code>
     * [.postBackButton(title, action, [data])](#ButtonTemplate_postBackButton) ⇒ <code>this</code>
+    * [.shareButton()](#ButtonTemplate_shareButton) ⇒ <code>this</code>
 
 {% raw %}<div id="new_ButtonTemplate_new">&nbsp;</div>{% endraw %}
 
@@ -28,7 +29,7 @@ Instance of button template is returned by {Responder}
 
 {% raw %}<div id="ButtonTemplate_urlButton">&nbsp;</div>{% endraw %}
 
-### buttonTemplate.urlButton(title, url, hasExtension, [webviewHeight]) ⇒ <code>this</code>
+### buttonTemplate.urlButton(title, linkUrl, hasExtension, [webviewHeight]) ⇒ <code>this</code>
 Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 `#token=foo&senderId=23344`
 
@@ -37,8 +38,8 @@ Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | title | <code>string</code> |  | button text |
-| url | <code>string</code> |  | button url |
-| hasExtension | <code>boolean</code> |  | includes token in url |
+| linkUrl | <code>string</code> |  | button url |
+| hasExtension | <code>boolean</code> | <code>false</code> | includes token in url |
 | [webviewHeight] | <code>string</code> | <code>null</code> | compact|tall|full |
 
 {% raw %}<div id="ButtonTemplate_postBackButton">&nbsp;</div>{% endraw %}
@@ -54,6 +55,10 @@ Adds button, which makes another action
 | action | <code>string</code> |  | Button action (can be absolute or relative) |
 | [data] | <code>object</code> | <code>{}</code> | Action data |
 
+{% raw %}<div id="ButtonTemplate_shareButton">&nbsp;</div>{% endraw %}
+
+### buttonTemplate.shareButton() ⇒ <code>this</code>
+**Kind**: instance method of [<code>ButtonTemplate</code>](#ButtonTemplate)  
 {% raw %}<div id="GenericTemplate">&nbsp;</div>{% endraw %}
 
 ## GenericTemplate ⇐ [<code>ButtonTemplate</code>](#ButtonTemplate)
@@ -63,11 +68,13 @@ Adds button, which makes another action
 * [GenericTemplate](#GenericTemplate) ⇐ [<code>ButtonTemplate</code>](#ButtonTemplate)
     * [new GenericTemplate()](#new_GenericTemplate_new)
     * [.addElement(title, [subtitle], [dontTranslate])](#GenericTemplate_addElement) ⇒ <code>this</code>
-    * [.setElementUrl(url, [hasExtension])](#GenericTemplate_setElementUrl) ⇒ <code>this</code>
+    * [.setElementActionShare()](#GenericTemplate_setElementActionShare) ⇒ <code>this</code>
+    * [.setElementActionPostback(action, [data])](#GenericTemplate_setElementActionPostback) ⇒ <code>this</code>
     * [.setElementImage(image)](#GenericTemplate_setElementImage) ⇒ <code>this</code>
     * [.setElementAction(url, hasExtension, [webviewHeight])](#GenericTemplate_setElementAction)
-    * [.urlButton(title, url, hasExtension, [webviewHeight])](#ButtonTemplate_urlButton) ⇒ <code>this</code>
+    * [.urlButton(title, linkUrl, hasExtension, [webviewHeight])](#ButtonTemplate_urlButton) ⇒ <code>this</code>
     * [.postBackButton(title, action, [data])](#ButtonTemplate_postBackButton) ⇒ <code>this</code>
+    * [.shareButton()](#ButtonTemplate_shareButton) ⇒ <code>this</code>
 
 {% raw %}<div id="new_GenericTemplate_new">&nbsp;</div>{% endraw %}
 
@@ -87,17 +94,23 @@ Adds element to generic template
 | [subtitle] | <code>string</code> | <code>null</code> | 
 | [dontTranslate] | <code>boolean</code> | <code>false</code> | 
 
-{% raw %}<div id="GenericTemplate_setElementUrl">&nbsp;</div>{% endraw %}
+{% raw %}<div id="GenericTemplate_setElementActionShare">&nbsp;</div>{% endraw %}
 
-### genericTemplate.setElementUrl(url, [hasExtension]) ⇒ <code>this</code>
+### genericTemplate.setElementActionShare() ⇒ <code>this</code>
+Sets url of recently added element
+
+**Kind**: instance method of [<code>GenericTemplate</code>](#GenericTemplate)  
+{% raw %}<div id="GenericTemplate_setElementActionPostback">&nbsp;</div>{% endraw %}
+
+### genericTemplate.setElementActionPostback(action, [data]) ⇒ <code>this</code>
 Sets url of recently added element
 
 **Kind**: instance method of [<code>GenericTemplate</code>](#GenericTemplate)  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| url | <code>any</code> |  | 
-| [hasExtension] | <code>boolean</code> | <code>false</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| action | <code>string</code> |  | Button action (can be absolute or relative) |
+| [data] | <code>object</code> | <code>{}</code> | Action data |
 
 {% raw %}<div id="GenericTemplate_setElementImage">&nbsp;</div>{% endraw %}
 
@@ -125,7 +138,7 @@ Sets default action of recently added element
 
 {% raw %}<div id="ButtonTemplate_urlButton">&nbsp;</div>{% endraw %}
 
-### genericTemplate.urlButton(title, url, hasExtension, [webviewHeight]) ⇒ <code>this</code>
+### genericTemplate.urlButton(title, linkUrl, hasExtension, [webviewHeight]) ⇒ <code>this</code>
 Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 `#token=foo&senderId=23344`
 
@@ -134,8 +147,8 @@ Adds button. When `hasExtension` is set to `true`, url will contain hash like:
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | title | <code>string</code> |  | button text |
-| url | <code>string</code> |  | button url |
-| hasExtension | <code>boolean</code> |  | includes token in url |
+| linkUrl | <code>string</code> |  | button url |
+| hasExtension | <code>boolean</code> | <code>false</code> | includes token in url |
 | [webviewHeight] | <code>string</code> | <code>null</code> | compact|tall|full |
 
 {% raw %}<div id="ButtonTemplate_postBackButton">&nbsp;</div>{% endraw %}
@@ -151,6 +164,10 @@ Adds button, which makes another action
 | action | <code>string</code> |  | Button action (can be absolute or relative) |
 | [data] | <code>object</code> | <code>{}</code> | Action data |
 
+{% raw %}<div id="ButtonTemplate_shareButton">&nbsp;</div>{% endraw %}
+
+### genericTemplate.shareButton() ⇒ <code>this</code>
+**Kind**: instance method of [<code>GenericTemplate</code>](#GenericTemplate)  
 {% raw %}<div id="ReceiptTemplate">&nbsp;</div>{% endraw %}
 
 ## ReceiptTemplate ⇐ <code>BaseTemplate</code>

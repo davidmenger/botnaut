@@ -42,6 +42,45 @@
             "path": "/",
             "resolvers": [
               {
+                "type": "botbuild.button",
+                "params": {
+                  "text": "text",
+                  "buttons": [
+                    {
+                      "title": "akce",
+                      "action": {
+                        "webviewHeight": "full",
+                        "targetRouteId": null,
+                        "type": "web_url",
+                        "url": "http://goo.gl"
+                      },
+                      "id": 1518712255669
+                    },
+                    {
+                      "title": "druha",
+                      "action": {
+                        "webviewHeight": "full",
+                        "targetRouteId": 1507123084071,
+                        "type": "postback",
+                        "url": null
+                      },
+                      "id": 1518717995318
+                    },
+                    {
+                      "title": "share",
+                      "action": {
+                        "webviewHeight": "full",
+                        "targetRouteId": null,
+                        "type": "element_share",
+                        "url": null
+                      },
+                      "id": 1518718007290
+                    }
+                  ]
+                },
+                "id": 1518711576384
+              },
+              {
                 "type": "botbuild.message",
                 "params": {
                   "replies": [
@@ -208,6 +247,74 @@
                   "code": "(req, res) => {\n    res.setState({ a: (req.state.a || 0) + 1 });\n    return Router.CONTINUE;\n}"
                 },
                 "id": 1507627874459
+              },
+              {
+                "type": "botbuild.carousel",
+                "params": {
+                  "shareable": false,
+                  "items": [
+                    {
+                      "image": null,
+                      "imageAspect": "horizontal",
+                      "id": 1518676730865,
+                      "buttons": [
+                        {
+                          "title": "to the web",
+                          "action": {
+                            "webviewHeight": "full",
+                            "targetRouteId": null,
+                            "type": "web_url",
+                            "url": "https://goo.gl"
+                          },
+                          "id": 1518676742443
+                        },
+                        {
+                          "title": "as a postback",
+                          "action": {
+                            "webviewHeight": "full",
+                            "targetRouteId": 1516214359209,
+                            "type": "postback",
+                            "url": null
+                          },
+                          "id": 1518676823494
+                        }
+                      ],
+                      "title": "First title",
+                      "subtitle": null
+                    },
+                    {
+                      "image": "http://www.catster.com/wp-content/uploads/2015/06/20140118-cat-music-videos-christopher-cross-sailing.png",
+                      "imageAspect": "horizontal",
+                      "id": 1518676737681,
+                      "buttons": [
+                        {
+                          "title": "another web",
+                          "action": {
+                            "webviewHeight": "full",
+                            "targetRouteId": null,
+                            "type": "web_url_extension",
+                            "url": "/local/link"
+                          },
+                          "id": 1518676845738
+                        },
+                        {
+                          "title": "share",
+                          "action": {
+                            "webviewHeight": "full",
+                            "targetRouteId": null,
+                            "type": "element_share",
+                            "url": null
+                          },
+                          "id": 1518676876137
+                        }
+                      ],
+                      "title": "Second title",
+                      "subtitle": "subtitle"
+                    }
+                  ],
+                  "imageAspect": "square"
+                },
+                "id": 1518627281574
               },
               {
                 "type": "botbuild.message",

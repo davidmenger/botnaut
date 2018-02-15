@@ -4,6 +4,7 @@
 'use strict';
 
 const ButtonTemplate = require('./ButtonTemplate');
+const { makeAbsolute } = require('../utils');
 
 /**
  * Generic template utility
@@ -62,15 +63,37 @@ class GenericTemplate extends ButtonTemplate {
     /**
      * Sets url of recently added element
      *
-     * @param {any} url
-     * @param {boolean} [hasExtension=false]
      * @returns {this}
      *
      * @memberOf GenericTemplate
      */
-    setElementUrl (url, hasExtension = false) {
+    setElementActionShare () {
         Object.assign(this._element, {
-            item_url: this._makeExtensionUrl(url, hasExtension)
+            default_action: {
+                type: 'element_share'
+            }
+        });
+        return this;
+    }
+
+    /**
+     * Sets url of recently added element
+     *
+     * @param {string} action Button action (can be absolute or relative)
+     * @param {object} [data={}] Action data
+     * @returns {this}
+     *
+     * @memberOf GenericTemplate
+     */
+    setElementActionPostback (action, data = {}) {
+        Object.assign(this._element, {
+            default_action: {
+                type: 'postback',
+                payload: JSON.stringify({
+                    action: makeAbsolute(action, this.context.path),
+                    data
+                })
+            }
         });
         return this;
     }

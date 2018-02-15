@@ -4,21 +4,13 @@
 'use strict';
 
 const Router = require('../Router');
-
-let handlebars;
-try {
-    handlebars = module.require('handlebars');
-} catch (er) {
-    handlebars = null;
-}
+const hbs = require('./hbs');
 
 function media ({ type, url }, { isLastIndex }) {
 
     const urlString = url || '';
 
-    const urlTemplate = handlebars
-        ? handlebars.compile(urlString)
-        : () => urlString;
+    const urlTemplate = hbs.compile(urlString);
 
     if (['image', 'file', 'video'].indexOf(type) === -1) {
         throw new Error(`Unsupported media type: ${type}`);

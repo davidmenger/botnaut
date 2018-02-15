@@ -10,6 +10,11 @@ const GenericTemplate = require('./templates/GenericTemplate');
 const ListTemplate = require('./templates/ListTemplate');
 const { makeAbsolute, makeQuickReplies } = require('./utils');
 
+const TYPE_RESPONSE = 'RESPONSE';
+const TYPE_UPDATE = 'UPDATE';
+const TYPE_MESSAGE_TAG = 'MESSAGE_TAG';
+const TYPE_NON_PROMOTIONAL_SUBSCRIPTION = 'NON_PROMOTIONAL_SUBSCRIPTION';
+
 /**
  * Instance of responder is passed as second parameter of handler (res)
  *
@@ -18,7 +23,7 @@ const { makeAbsolute, makeQuickReplies } = require('./utils');
 class Responder {
 
     constructor (isRef, senderId, sendFn, token = null, options = {}, data = {}) {
-        this._send = sendFn;
+        this._sendFn = sendFn;
         this._senderId = senderId;
         this._isRef = isRef;
         this.token = token;
@@ -48,6 +53,40 @@ class Responder {
         this._quickReplyCollector = [];
 
         this._data = data;
+
+        this._messagingType = TYPE_RESPONSE;
+
+        this._tag = null;
+    }
+
+    _send (data) {
+        if (!data.messagingType) {
+            Object.assign(data, {
+                messaging_type: this._messagingType
+            });
+        }
+
+        if (!data.tag && this._tag) {
+            Object.assign(data, {
+                tag: this._tag
+            });
+        }
+
+        this._sendFn(data);
+    }
+
+    /**
+     *
+     * @param {string} messagingType
+     * @param {string} [tag]
+     * @returns {this}
+     *
+     * @memberOf Responder
+     */
+    setMessgingType (messagingType, tag = null) {
+        this._messagingType = messagingType;
+        this._tag = tag;
+        return this;
     }
 
     /**
@@ -590,5 +629,10 @@ class Responder {
     }
 
 }
+
+Responder.TYPE_MESSAGE_TAG = TYPE_MESSAGE_TAG;
+Responder.TYPE_UPDATE = TYPE_UPDATE;
+Responder.TYPE_NON_PROMOTIONAL_SUBSCRIPTION = TYPE_NON_PROMOTIONAL_SUBSCRIPTION;
+Responder.TYPE_RESPONSE = TYPE_RESPONSE;
 
 module.exports = Responder;

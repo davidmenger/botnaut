@@ -38,7 +38,7 @@ class ButtonTemplate extends BaseTemplate {
      * `#token=foo&senderId=23344`
      *
      * @param {string} title button text
-     * @param {string} url button url
+     * @param {string} linkUrl button url
      * @param {boolean} hasExtension includes token in url
      * @param {string} [webviewHeight=null] compact|tall|full
      * @returns {this}
@@ -74,6 +74,19 @@ class ButtonTemplate extends BaseTemplate {
                 action: makeAbsolute(action, this.context.path),
                 data
             })
+        });
+        return this;
+    }
+
+    /**
+     *
+     * @returns {this}
+     *
+     * @memberOf ButtonTemplate
+     */
+    shareButton () {
+        this.buttons.push({
+            type: 'element_share'
         });
         return this;
     }

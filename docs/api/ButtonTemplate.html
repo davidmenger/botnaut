@@ -823,8 +823,9 @@
 <ul>
 <li><a href="#ButtonTemplate">ButtonTemplate</a> &#x21D0; <code>BaseTemplate</code><ul>
 <li><a href="#new_ButtonTemplate_new">new ButtonTemplate()</a></li>
-<li><a href="#ButtonTemplate_urlButton">.urlButton(title, url, hasExtension, [webviewHeight])</a> &#x21D2; <code>this</code></li>
+<li><a href="#ButtonTemplate_urlButton">.urlButton(title, linkUrl, hasExtension, [webviewHeight])</a> &#x21D2; <code>this</code></li>
 <li><a href="#ButtonTemplate_postBackButton">.postBackButton(title, action, [data])</a> &#x21D2; <code>this</code></li>
+<li><a href="#ButtonTemplate_shareButton">.shareButton()</a> &#x21D2; <code>this</code></li>
 </ul>
 </li>
 </ul>
@@ -835,7 +836,7 @@
 Instance of button template is returned by {Responder}</p>
 <div id="ButtonTemplate_urlButton">&#xA0;</div>
 
-<h3 id="buttontemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><a name="buttontemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this" class="plugin-anchor" href="#buttontemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>buttonTemplate.urlButton(title, url, hasExtension, [webviewHeight]) &#x21D2; <code>this</code></h3>
+<h3 id="buttontemplateurlbuttontitle-linkurl-hasextension-webviewheight-&#x21D2;-this"><a name="buttontemplateurlbuttontitle-linkurl-hasextension-webviewheight-&#x21D2;-this" class="plugin-anchor" href="#buttontemplateurlbuttontitle-linkurl-hasextension-webviewheight-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>buttonTemplate.urlButton(title, linkUrl, hasExtension, [webviewHeight]) &#x21D2; <code>this</code></h3>
 <p>Adds button. When <code>hasExtension</code> is set to <code>true</code>, url will contain hash like:
 <code>#token=foo&amp;senderId=23344</code></p>
 <p><strong>Kind</strong>: instance method of <a href="#ButtonTemplate"><code>ButtonTemplate</code></a>  </p>
@@ -856,7 +857,7 @@ Instance of button template is returned by {Responder}</p>
 <td>button text</td>
 </tr>
 <tr>
-<td>url</td>
+<td>linkUrl</td>
 <td><code>string</code></td>
 <td></td>
 <td>button url</td>
@@ -864,7 +865,7 @@ Instance of button template is returned by {Responder}</p>
 <tr>
 <td>hasExtension</td>
 <td><code>boolean</code></td>
-<td></td>
+<td><code>false</code></td>
 <td>includes token in url</td>
 </tr>
 <tr>
@@ -912,6 +913,10 @@ Instance of button template is returned by {Responder}</p>
 </tr>
 </tbody>
 </table>
+<div id="ButtonTemplate_shareButton">&#xA0;</div>
+
+<h3 id="buttontemplatesharebutton-&#x21D2;-this"><a name="buttontemplatesharebutton-&#x21D2;-this" class="plugin-anchor" href="#buttontemplatesharebutton-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>buttonTemplate.shareButton() &#x21D2; <code>this</code></h3>
+<p><strong>Kind</strong>: instance method of <a href="#ButtonTemplate"><code>ButtonTemplate</code></a>  </p>
 <div id="GenericTemplate">&#xA0;</div>
 
 <h2 id="generictemplate-&#x21D0;-buttontemplate"><a name="generictemplate-&#x21D0;-buttontemplate" class="plugin-anchor" href="#generictemplate-&#x21D0;-buttontemplate"><i class="fa fa-link" aria-hidden="true"></i></a>GenericTemplate &#x21D0; <a href="#ButtonTemplate"><code>ButtonTemplate</code></a></h2>
@@ -920,11 +925,13 @@ Instance of button template is returned by {Responder}</p>
 <li><a href="#GenericTemplate">GenericTemplate</a> &#x21D0; <a href="#ButtonTemplate"><code>ButtonTemplate</code></a><ul>
 <li><a href="#new_GenericTemplate_new">new GenericTemplate()</a></li>
 <li><a href="#GenericTemplate_addElement">.addElement(title, [subtitle], [dontTranslate])</a> &#x21D2; <code>this</code></li>
-<li><a href="#GenericTemplate_setElementUrl">.setElementUrl(url, [hasExtension])</a> &#x21D2; <code>this</code></li>
+<li><a href="#GenericTemplate_setElementActionShare">.setElementActionShare()</a> &#x21D2; <code>this</code></li>
+<li><a href="#GenericTemplate_setElementActionPostback">.setElementActionPostback(action, [data])</a> &#x21D2; <code>this</code></li>
 <li><a href="#GenericTemplate_setElementImage">.setElementImage(image)</a> &#x21D2; <code>this</code></li>
 <li><a href="#GenericTemplate_setElementAction">.setElementAction(url, hasExtension, [webviewHeight])</a></li>
-<li><a href="#ButtonTemplate_urlButton">.urlButton(title, url, hasExtension, [webviewHeight])</a> &#x21D2; <code>this</code></li>
+<li><a href="#ButtonTemplate_urlButton">.urlButton(title, linkUrl, hasExtension, [webviewHeight])</a> &#x21D2; <code>this</code></li>
 <li><a href="#ButtonTemplate_postBackButton">.postBackButton(title, action, [data])</a> &#x21D2; <code>this</code></li>
+<li><a href="#ButtonTemplate_shareButton">.shareButton()</a> &#x21D2; <code>this</code></li>
 </ul>
 </li>
 </ul>
@@ -963,9 +970,14 @@ Instance of button template is returned by {Responder}</p>
 </tr>
 </tbody>
 </table>
-<div id="GenericTemplate_setElementUrl">&#xA0;</div>
+<div id="GenericTemplate_setElementActionShare">&#xA0;</div>
 
-<h3 id="generictemplatesetelementurlurl-hasextension-&#x21D2;-this"><a name="generictemplatesetelementurlurl-hasextension-&#x21D2;-this" class="plugin-anchor" href="#generictemplatesetelementurlurl-hasextension-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.setElementUrl(url, [hasExtension]) &#x21D2; <code>this</code></h3>
+<h3 id="generictemplatesetelementactionshare-&#x21D2;-this"><a name="generictemplatesetelementactionshare-&#x21D2;-this" class="plugin-anchor" href="#generictemplatesetelementactionshare-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.setElementActionShare() &#x21D2; <code>this</code></h3>
+<p>Sets url of recently added element</p>
+<p><strong>Kind</strong>: instance method of <a href="#GenericTemplate"><code>GenericTemplate</code></a>  </p>
+<div id="GenericTemplate_setElementActionPostback">&#xA0;</div>
+
+<h3 id="generictemplatesetelementactionpostbackaction-data-&#x21D2;-this"><a name="generictemplatesetelementactionpostbackaction-data-&#x21D2;-this" class="plugin-anchor" href="#generictemplatesetelementactionpostbackaction-data-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.setElementActionPostback(action, [data]) &#x21D2; <code>this</code></h3>
 <p>Sets url of recently added element</p>
 <p><strong>Kind</strong>: instance method of <a href="#GenericTemplate"><code>GenericTemplate</code></a>  </p>
 <table>
@@ -974,18 +986,21 @@ Instance of button template is returned by {Responder}</p>
 <th>Param</th>
 <th>Type</th>
 <th>Default</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>url</td>
-<td><code>any</code></td>
+<td>action</td>
+<td><code>string</code></td>
 <td></td>
+<td>Button action (can be absolute or relative)</td>
 </tr>
 <tr>
-<td>[hasExtension]</td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
+<td>[data]</td>
+<td><code>object</code></td>
+<td><code>{}</code></td>
+<td>Action data</td>
 </tr>
 </tbody>
 </table>
@@ -1047,7 +1062,7 @@ Instance of button template is returned by {Responder}</p>
 </table>
 <div id="ButtonTemplate_urlButton">&#xA0;</div>
 
-<h3 id="generictemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><a name="generictemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this" class="plugin-anchor" href="#generictemplateurlbuttontitle-url-hasextension-webviewheight-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.urlButton(title, url, hasExtension, [webviewHeight]) &#x21D2; <code>this</code></h3>
+<h3 id="generictemplateurlbuttontitle-linkurl-hasextension-webviewheight-&#x21D2;-this"><a name="generictemplateurlbuttontitle-linkurl-hasextension-webviewheight-&#x21D2;-this" class="plugin-anchor" href="#generictemplateurlbuttontitle-linkurl-hasextension-webviewheight-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.urlButton(title, linkUrl, hasExtension, [webviewHeight]) &#x21D2; <code>this</code></h3>
 <p>Adds button. When <code>hasExtension</code> is set to <code>true</code>, url will contain hash like:
 <code>#token=foo&amp;senderId=23344</code></p>
 <p><strong>Kind</strong>: instance method of <a href="#GenericTemplate"><code>GenericTemplate</code></a>  </p>
@@ -1068,7 +1083,7 @@ Instance of button template is returned by {Responder}</p>
 <td>button text</td>
 </tr>
 <tr>
-<td>url</td>
+<td>linkUrl</td>
 <td><code>string</code></td>
 <td></td>
 <td>button url</td>
@@ -1076,7 +1091,7 @@ Instance of button template is returned by {Responder}</p>
 <tr>
 <td>hasExtension</td>
 <td><code>boolean</code></td>
-<td></td>
+<td><code>false</code></td>
 <td>includes token in url</td>
 </tr>
 <tr>
@@ -1124,6 +1139,10 @@ Instance of button template is returned by {Responder}</p>
 </tr>
 </tbody>
 </table>
+<div id="ButtonTemplate_shareButton">&#xA0;</div>
+
+<h3 id="generictemplatesharebutton-&#x21D2;-this"><a name="generictemplatesharebutton-&#x21D2;-this" class="plugin-anchor" href="#generictemplatesharebutton-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>genericTemplate.shareButton() &#x21D2; <code>this</code></h3>
+<p><strong>Kind</strong>: instance method of <a href="#GenericTemplate"><code>GenericTemplate</code></a>  </p>
 <div id="ReceiptTemplate">&#xA0;</div>
 
 <h2 id="receipttemplate-&#x21D0;-basetemplate"><a name="receipttemplate-&#x21D0;-basetemplate" class="plugin-anchor" href="#receipttemplate-&#x21D0;-basetemplate"><i class="fa fa-link" aria-hidden="true"></i></a>ReceiptTemplate &#x21D0; <code>BaseTemplate</code></h2>
@@ -1230,7 +1249,7 @@ Instance of button template is returned by {Responder}</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Template Builders","level":"2.5","depth":1,"next":{"title":"ButtonTemplate","level":"2.5.1","depth":2,"anchor":"#ButtonTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ButtonTemplate","articles":[]},"previous":{"title":"Tester","level":"2.4","depth":1,"path":"api/Tester.md","ref":"api/Tester.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/ButtonTemplate.md","mtime":"2018-01-11T14:50:20.194Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-11T14:50:24.805Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Template Builders","level":"2.5","depth":1,"next":{"title":"ButtonTemplate","level":"2.5.1","depth":2,"anchor":"#ButtonTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ButtonTemplate","articles":[]},"previous":{"title":"Tester","level":"2.4","depth":1,"path":"api/Tester.md","ref":"api/Tester.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/ButtonTemplate.md","mtime":"2018-02-15T18:59:02.731Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-02-15T18:59:12.564Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

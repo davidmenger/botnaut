@@ -28,6 +28,7 @@ describe('<BuildRouter>', function () {
             t.passedAction('start');
 
             t.any()
+                .genericTemplate(2)
                 .contains('This is the first time, you\'re here')
                 .attachmentType('image');
 
@@ -45,6 +46,7 @@ describe('<BuildRouter>', function () {
             t.passedAction('subblock-include');
 
             t.any()
+                .buttonTemplate('text', 3)
                 .contains('Want continue?')
                 .quickReplyAction('back');
 

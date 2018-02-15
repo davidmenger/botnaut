@@ -6,6 +6,7 @@
 * [Responder](#Responder)
     * [new Responder()](#new_Responder_new)
     * [.data](#Responder_data) : <code>object</code>
+    * [.setMessgingType(messagingType, [tag])](#Responder_setMessgingType) ⇒ <code>this</code>
     * [.setData(data)](#Responder_setData) ⇒ <code>this</code>
     * [.text(text, [quickReplies])](#Responder_text) ⇒ <code>this</code>
     * [.setState(object)](#Responder_setState) ⇒ <code>this</code>
@@ -34,6 +35,16 @@ Instance of responder is passed as second parameter of handler (res)
 
 ### responder.data : <code>object</code>
 **Kind**: instance property of [<code>Responder</code>](#Responder)  
+{% raw %}<div id="Responder_setMessgingType">&nbsp;</div>{% endraw %}
+
+### responder.setMessgingType(messagingType, [tag]) ⇒ <code>this</code>
+**Kind**: instance method of [<code>Responder</code>](#Responder)  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| messagingType | <code>string</code> |  | 
+| [tag] | <code>string</code> | <code>null</code> | 
+
 {% raw %}<div id="Responder_setData">&nbsp;</div>{% endraw %}
 
 ### responder.setData(data) ⇒ <code>this</code>

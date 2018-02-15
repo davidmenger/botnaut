@@ -10,9 +10,11 @@ const postback = require('./postback');
 const expected = require('./expected');
 const customCode = require('./customCode');
 const inlineCode = require('./inlineCode');
+const carousel = require('./carousel');
 const exit = require('./exit');
 const passThread = require('./passThread');
 const media = require('./media');
+const button = require('./button');
 
 module.exports = {
     path,
@@ -24,5 +26,7 @@ module.exports = {
     exit,
     inlineCode,
     passThread,
-    media
+    media,
+    carousel,
+    button
 };

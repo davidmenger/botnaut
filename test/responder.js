@@ -257,6 +257,60 @@ describe('Responder', function () {
 
     });
 
+    describe('#setMessgingType()', function () {
+
+        it('sends default message type', function () {
+            const { sendFn, opts } = createAssets();
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
+
+            assert.strictEqual(res.text('Hello'), res, 'should return self');
+
+            assert(sendFn.calledOnce);
+            assert.equal(sendFn.firstCall.args[0].messaging_type, 'RESPONSE');
+
+            assert(opts.translator.calledOnce);
+        });
+
+        it('sets message type to message', function () {
+            const { sendFn, opts } = createAssets();
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
+
+            res.setMessgingType(Responder.TYPE_NON_PROMOTIONAL_SUBSCRIPTION);
+
+            assert.strictEqual(res.text('Hello'), res, 'should return self');
+
+            assert(sendFn.calledOnce);
+            assert.equal(
+                sendFn.firstCall.args[0].messaging_type,
+                Responder.TYPE_NON_PROMOTIONAL_SUBSCRIPTION
+            );
+
+            assert(opts.translator.calledOnce);
+        });
+
+        it('sets message tag to message', function () {
+            const { sendFn, opts } = createAssets();
+            const res = new Responder(false, SENDER_ID, sendFn, TOKEN, opts);
+
+            res.setMessgingType(Responder.TYPE_MESSAGE_TAG, 'TAG');
+
+            assert.strictEqual(res.text('Hello'), res, 'should return self');
+
+            assert(sendFn.calledOnce);
+            assert.equal(
+                sendFn.firstCall.args[0].messaging_type,
+                Responder.TYPE_MESSAGE_TAG
+            );
+            assert.equal(
+                sendFn.firstCall.args[0].tag,
+                'TAG'
+            );
+
+            assert(opts.translator.calledOnce);
+        });
+
+    });
+
     describe('#genericTemplate()', function () {
 
         it('should send message with generic template', function () {
@@ -268,7 +322,6 @@ describe('Responder', function () {
             res.genericTemplate()
                 .addElement('title', 'subtitle')
                 .setElementImage('/local.png')
-                .setElementUrl('https://www.seznam.cz')
                 .postBackButton('Button title', 'action', { actionData: 1 })
                 .addElement('another', null, true)
                 .setElementImage('https://goo.gl/image.png')
@@ -289,7 +342,6 @@ describe('Responder', function () {
             assert.equal(payload.elements[0].title, '-title');
             assert.equal(payload.elements[0].subtitle, '-subtitle');
             assert.equal(payload.elements[0].image_url, `${APP_URL}/local.png`);
-            assert.equal(payload.elements[0].item_url, 'https://www.seznam.cz');
             assert.equal(payload.elements[0].buttons.length, 1);
 
             assert.equal(payload.elements[1].title, 'another');
@@ -411,7 +463,7 @@ describe('Responder', function () {
 
             assert(sendFn.calledOnce);
             const object = sendFn.firstCall.args[0];
-            assert.deepStrictEqual(object, { wait: 100 });
+            assert.deepStrictEqual(object, { wait: 100, messaging_type: 'RESPONSE' });
         });
 
     });

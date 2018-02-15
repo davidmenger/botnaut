@@ -63,6 +63,35 @@ class AnyResponseAssert {
     }
 
     /**
+     * Checks for generic template
+     *
+     * @param {number} itemCount - specified item count
+     *
+     * @memberOf ResponseAssert
+     */
+    genericTemplate (itemCount = null) {
+        const ok = this.responses
+            .some(res => asserts.genericTemplate(res, itemCount, false));
+        assert.ok(ok, 'No response contains valid generic template');
+        return this;
+    }
+
+    /**
+     * Checks for button template
+     *
+     * @param {string} search
+     * @param {number} buttonCount - specified button count
+     *
+     * @memberOf ResponseAssert
+     */
+    buttonTemplate (search, buttonCount = null) {
+        const ok = this.responses
+            .some(res => asserts.buttonTemplate(res, search, buttonCount, false));
+        assert.ok(ok, 'No response contains valid button template');
+        return this;
+    }
+
+    /**
      * Checks pass thread control
      *
      * @param {string} [appId]
