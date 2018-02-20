@@ -299,6 +299,7 @@ class Processor {
             .then(() => senderFn())
             .catch((e) => {
                 this.options.log.error(e);
+                return { status: 500 };
             });
     }
 

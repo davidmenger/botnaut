@@ -86,6 +86,7 @@ function senderFactory (token, logger = console, onSenderError = () => {}, sende
                 .then(() => {
                     working = false;
                     logger.log(userId, sent, incommingMessage);
+                    return { status: 200 };
                 })
                 .catch((e) => {
                     // detect disconnected users
@@ -94,6 +95,8 @@ function senderFactory (token, logger = console, onSenderError = () => {}, sende
                     if (onSenderError(err || e, incommingMessage) !== true) {
                         logger.error(e, userId, sent, incommingMessage);
                     }
+
+                    return { status: err ? 403 : 500 };
                 });
             return promise;
         };
