@@ -87,12 +87,19 @@ class Tester {
 
     _request (data) {
         return this.processor.processMessage(data)
-            .then(() => {
-                this.responses = this._responsesCollector;
-                this.actions = this._actionsCollector;
-                this._responsesCollector = [];
-                this._actionsCollector = [];
-            });
+            .then(() => this.acquireResponseActions());
+    }
+
+    /**
+     * Resets action collector and fetches new actions, when there are some
+     *
+     * @memberOf Tester
+     */
+    acquireResponseActions () {
+        this.responses = this._responsesCollector;
+        this.actions = this._actionsCollector;
+        this._responsesCollector = [];
+        this._actionsCollector = [];
     }
 
     /**
