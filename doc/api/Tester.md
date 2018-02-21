@@ -17,6 +17,7 @@
 * [Tester](#Tester)
     * [new Tester()](#new_Tester_new)
     * _instance_
+        * [.acquireResponseActions()](#Tester_acquireResponseActions)
         * [.res([index])](#Tester_res) ⇒ [<code>ResponseAssert</code>](#ResponseAssert)
         * [.any()](#Tester_any) ⇒ [<code>AnyResponseAssert</code>](#AnyResponseAssert)
         * [.lastRes()](#Tester_lastRes) ⇒ [<code>ResponseAssert</code>](#ResponseAssert)
@@ -38,6 +39,12 @@
 ### new Tester()
 Utility for testing requests
 
+{% raw %}<div id="Tester_acquireResponseActions">&nbsp;</div>{% endraw %}
+
+### tester.acquireResponseActions()
+Resets action collector and fetches new actions, when there are some
+
+**Kind**: instance method of [<code>Tester</code>](#Tester)  
 {% raw %}<div id="Tester_res">&nbsp;</div>{% endraw %}
 
 ### tester.res([index]) ⇒ [<code>ResponseAssert</code>](#ResponseAssert)
