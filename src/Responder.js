@@ -13,7 +13,6 @@ const { makeAbsolute, makeQuickReplies } = require('./utils');
 const TYPE_RESPONSE = 'RESPONSE';
 const TYPE_UPDATE = 'UPDATE';
 const TYPE_MESSAGE_TAG = 'MESSAGE_TAG';
-const TYPE_NON_PROMOTIONAL_SUBSCRIPTION = 'NON_PROMOTIONAL_SUBSCRIPTION';
 
 /**
  * Instance of responder is passed as second parameter of handler (res)
@@ -632,7 +631,6 @@ class Responder {
 
 Responder.TYPE_MESSAGE_TAG = TYPE_MESSAGE_TAG;
 Responder.TYPE_UPDATE = TYPE_UPDATE;
-Responder.TYPE_NON_PROMOTIONAL_SUBSCRIPTION = TYPE_NON_PROMOTIONAL_SUBSCRIPTION;
 Responder.TYPE_RESPONSE = TYPE_RESPONSE;
 
 module.exports = Responder;

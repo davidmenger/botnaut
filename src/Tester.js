@@ -49,10 +49,11 @@ class Tester {
                 // @todo validate length of quick_responses to 20!!
                 // @todo validate length of texts to 255!!
                 if (data === null) {
-                    return;
+                    return { status: 200 };
                 }
                 this._responsesCollector.push(data);
                 handler({ recipient_id: this.senderId }, data);
+                return { status: 200 };
             };
 
         // replace logger (throw instead of log)
