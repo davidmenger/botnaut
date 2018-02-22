@@ -28,7 +28,7 @@ class Settings {
     }
 
     _post (data) {
-        request({
+        return request({
             uri: 'https://graph.facebook.com/v2.8/me/messenger_profile',
             qs: { access_token: this.token },
             method: 'POST',
@@ -53,7 +53,7 @@ class Settings {
     }
 
     _delete (data) {
-        request({
+        return request({
             uri: 'https://graph.facebook.com/v2.8/me/messenger_profile',
             qs: { access_token: this.token },
             method: 'DELETE',
@@ -65,13 +65,13 @@ class Settings {
      * Sets or clears bot's greeting
      *
      * @param {string} [text=false] leave empty to clear
-     * @returns {this}
+     * @returns {Promise}
      *
      * @memberOf Settings
      */
     greeting (text = false) {
         if (text) {
-            this._post({
+            return this._post({
                 greeting: [
                     {
                         locale: 'default',
@@ -79,19 +79,17 @@ class Settings {
                     }
                 ]
             });
-        } else {
-            this._delete({
-                fields: ['greeting']
-            });
         }
-        return this;
+        return this._delete({
+            fields: ['greeting']
+        });
     }
 
     /**
      * Sets up the Get Started Button
      *
      * @param {string|object} [payload=false] leave blank to remove button, or provide the action
-     * @returns {this}
+     * @returns {Promise}
      *
      * @example
      * const settings = new Settings(config.facebook.pageToken);
@@ -101,22 +99,21 @@ class Settings {
      */
     getStartedButton (payload = false) {
         if (payload) {
-            this._post({
+            return this._post({
                 get_started: { payload }
             });
-        } else {
-            this._delete({
-                fields: ['get_started']
-            });
         }
-        return this;
+
+        return this._delete({
+            fields: ['get_started']
+        });
     }
 
     /**
      * Useful for using facebook extension in webviews
      *
      * @param {string|string[]} domains
-     * @returns {this}
+     * @returns {Promise}
      *
      * @memberOf Settings
      */
@@ -129,10 +126,9 @@ class Settings {
 
         list = list.map(dom => dom.replace(/\/$/, ''));
 
-        this._post({
+        return this._post({
             whitelisted_domains: list
         });
-        return this;
     }
 
     /**
@@ -162,7 +158,7 @@ class Settings {
      */
     menu (locale = 'default', inputDisabled = false) {
         const composer = new MenuComposer((newMenu) => {
-            this._get(['persistent_menu']).then((result) => {
+            return this._get(['persistent_menu']).then((result) => {
 
                 let updateMenu;
 
@@ -181,7 +177,6 @@ class Settings {
                     persistent_menu: newMenu
                 });
             }).catch(e => this.log.error('Bot settings failed', e));
-            return this;
         });
 
         return composer.menu(locale, inputDisabled);
