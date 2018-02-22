@@ -34,9 +34,10 @@ class Tester {
         processorOptions = {},
         storage = new MemoryStateStorage()
     ) {
-
+        this._sequence = 0;
         this._responsesCollector = [];
         this._actionsCollector = [];
+        this._responsesMock = [];
 
         this.storage = storage;
 
@@ -46,14 +47,15 @@ class Tester {
         const senderFnFactory = (userId, received, pageId, handler = (res, d) => d) =>
             (data = null) => {
                 // on send
-                // @todo validate length of quick_responses to 20!!
-                // @todo validate length of texts to 255!!
                 if (data === null) {
-                    return { status: 200 };
+                    return { status: 200, responses: this._responsesMock };
                 }
+                this._responsesMock.push({
+                    message_id: `${Date.now()}${Math.random()}.${this._sequence++}`
+                });
                 this._responsesCollector.push(data);
                 handler({ recipient_id: this.senderId }, data);
-                return { status: 200 };
+                return { status: 200, responses: this._responsesMock };
             };
 
         // replace logger (throw instead of log)
@@ -100,6 +102,7 @@ class Tester {
         this.actions = this._actionsCollector;
         this._responsesCollector = [];
         this._actionsCollector = [];
+        this._responsesMock = [];
     }
 
     /**

@@ -82,11 +82,18 @@ function senderFactory (token, logger = console, onSenderError = () => {}, sende
             }
             working = true;
             const sent = [];
-            promise = sendData(senderFn, token, payload, queue, sent, handler)
+            const responses = [];
+
+            const handlerOverride = (res, nextData) => {
+                responses.push(res);
+                return handler(res, nextData);
+            };
+
+            promise = sendData(senderFn, token, payload, queue, sent, handlerOverride)
                 .then(() => {
                     working = false;
                     logger.log(userId, sent, incommingMessage);
-                    return { status: 200 };
+                    return { status: 200, responses };
                 })
                 .catch((e) => {
                     // detect disconnected users
@@ -96,7 +103,7 @@ function senderFactory (token, logger = console, onSenderError = () => {}, sende
                         logger.error(e, userId, sent, incommingMessage);
                     }
 
-                    return { status: err ? 403 : 500 };
+                    return { status: err ? 403 : 500, responses };
                 });
             return promise;
         };
