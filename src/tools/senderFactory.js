@@ -85,7 +85,9 @@ function senderFactory (token, logger = console, onSenderError = () => {}, sende
             const responses = [];
 
             const handlerOverride = (res, nextData) => {
-                responses.push(res);
+                if (res !== null) {
+                    responses.push(res);
+                }
                 return handler(res, nextData);
             };
 
