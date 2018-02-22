@@ -186,6 +186,12 @@ class Processor {
             return Promise.resolve(null);
         }
 
+        // ignore reads and deliveries
+        const isEcho = message.message && message.message.is_echo;
+        if (message.read || message.delivery || isEcho || message.standby) {
+            return Promise.resolve(null);
+        }
+
         // ignore messages from the page
         if (pageId === senderId && senderId) {
             return Promise.resolve(null);
