@@ -73,7 +73,9 @@ class MenuComposer {
     /**
      * Finish the menu
      *
-     * @returns {this}
+     * Last call of "done" returns a promise
+     *
+     * @returns {this|Promise}
      */
     done () {
         return this.onDone(this.menus);

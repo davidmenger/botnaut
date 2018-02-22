@@ -6,9 +6,9 @@
 * [Settings](#Settings)
     * [new Settings()](#new_Settings_new)
     * _instance_
-        * [.greeting([text])](#Settings_greeting) ⇒ <code>this</code>
-        * [.getStartedButton([payload])](#Settings_getStartedButton) ⇒ <code>this</code>
-        * [.whitelistDomain(domains)](#Settings_whitelistDomain) ⇒ <code>this</code>
+        * [.greeting([text])](#Settings_greeting) ⇒ <code>Promise</code>
+        * [.getStartedButton([payload])](#Settings_getStartedButton) ⇒ <code>Promise</code>
+        * [.whitelistDomain(domains)](#Settings_whitelistDomain) ⇒ <code>Promise</code>
         * [.menu([locale], [inputDisabled])](#Settings_menu) ⇒ <code>MenuComposer</code>
     * _static_
         * [.Settings](#Settings_Settings)
@@ -21,7 +21,7 @@ Utility, which helps us to set up chatbot behavior
 
 {% raw %}<div id="Settings_greeting">&nbsp;</div>{% endraw %}
 
-### settings.greeting([text]) ⇒ <code>this</code>
+### settings.greeting([text]) ⇒ <code>Promise</code>
 Sets or clears bot's greeting
 
 **Kind**: instance method of [<code>Settings</code>](#Settings)  
@@ -32,7 +32,7 @@ Sets or clears bot's greeting
 
 {% raw %}<div id="Settings_getStartedButton">&nbsp;</div>{% endraw %}
 
-### settings.getStartedButton([payload]) ⇒ <code>this</code>
+### settings.getStartedButton([payload]) ⇒ <code>Promise</code>
 Sets up the Get Started Button
 
 **Kind**: instance method of [<code>Settings</code>](#Settings)  
@@ -48,7 +48,7 @@ settings.getStartedButton('/start'); // just an action
 ```
 {% raw %}<div id="Settings_whitelistDomain">&nbsp;</div>{% endraw %}
 
-### settings.whitelistDomain(domains) ⇒ <code>this</code>
+### settings.whitelistDomain(domains) ⇒ <code>Promise</code>
 Useful for using facebook extension in webviews
 
 **Kind**: instance method of [<code>Settings</code>](#Settings)  

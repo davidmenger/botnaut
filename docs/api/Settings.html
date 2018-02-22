@@ -814,9 +814,9 @@
 <li><a href="#Settings">Settings</a><ul>
 <li><a href="#new_Settings_new">new Settings()</a></li>
 <li><em>instance</em><ul>
-<li><a href="#Settings_greeting">.greeting([text])</a> &#x21D2; <code>this</code></li>
-<li><a href="#Settings_getStartedButton">.getStartedButton([payload])</a> &#x21D2; <code>this</code></li>
-<li><a href="#Settings_whitelistDomain">.whitelistDomain(domains)</a> &#x21D2; <code>this</code></li>
+<li><a href="#Settings_greeting">.greeting([text])</a> &#x21D2; <code>Promise</code></li>
+<li><a href="#Settings_getStartedButton">.getStartedButton([payload])</a> &#x21D2; <code>Promise</code></li>
+<li><a href="#Settings_whitelistDomain">.whitelistDomain(domains)</a> &#x21D2; <code>Promise</code></li>
 <li><a href="#Settings_menu">.menu([locale], [inputDisabled])</a> &#x21D2; <code>MenuComposer</code></li>
 </ul>
 </li>
@@ -836,7 +836,7 @@
 <p>Utility, which helps us to set up chatbot behavior</p>
 <div id="Settings_greeting">&#xA0;</div>
 
-<h3 id="settingsgreetingtext-&#x21D2;-this"><a name="settingsgreetingtext-&#x21D2;-this" class="plugin-anchor" href="#settingsgreetingtext-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>settings.greeting([text]) &#x21D2; <code>this</code></h3>
+<h3 id="settingsgreetingtext-&#x21D2;-promise"><a name="settingsgreetingtext-&#x21D2;-promise" class="plugin-anchor" href="#settingsgreetingtext-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>settings.greeting([text]) &#x21D2; <code>Promise</code></h3>
 <p>Sets or clears bot&apos;s greeting</p>
 <p><strong>Kind</strong>: instance method of <a href="#Settings"><code>Settings</code></a>  </p>
 <table>
@@ -859,7 +859,7 @@
 </table>
 <div id="Settings_getStartedButton">&#xA0;</div>
 
-<h3 id="settingsgetstartedbuttonpayload-&#x21D2;-this"><a name="settingsgetstartedbuttonpayload-&#x21D2;-this" class="plugin-anchor" href="#settingsgetstartedbuttonpayload-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>settings.getStartedButton([payload]) &#x21D2; <code>this</code></h3>
+<h3 id="settingsgetstartedbuttonpayload-&#x21D2;-promise"><a name="settingsgetstartedbuttonpayload-&#x21D2;-promise" class="plugin-anchor" href="#settingsgetstartedbuttonpayload-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>settings.getStartedButton([payload]) &#x21D2; <code>Promise</code></h3>
 <p>Sets up the Get Started Button</p>
 <p><strong>Kind</strong>: instance method of <a href="#Settings"><code>Settings</code></a>  </p>
 <table>
@@ -887,7 +887,7 @@ settings.getStartedButton(<span class="hljs-string">&apos;/start&apos;</span>); 
 </code></pre>
 <div id="Settings_whitelistDomain">&#xA0;</div>
 
-<h3 id="settingswhitelistdomaindomains-&#x21D2;-this"><a name="settingswhitelistdomaindomains-&#x21D2;-this" class="plugin-anchor" href="#settingswhitelistdomaindomains-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>settings.whitelistDomain(domains) &#x21D2; <code>this</code></h3>
+<h3 id="settingswhitelistdomaindomains-&#x21D2;-promise"><a name="settingswhitelistdomaindomains-&#x21D2;-promise" class="plugin-anchor" href="#settingswhitelistdomaindomains-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>settings.whitelistDomain(domains) &#x21D2; <code>Promise</code></h3>
 <p>Useful for using facebook extension in webviews</p>
 <p><strong>Kind</strong>: instance method of <a href="#Settings"><code>Settings</code></a>  </p>
 <table>
@@ -1018,7 +1018,7 @@ settings
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bot Settings","level":"2.6","depth":1,"next":{"title":"Express/MongoDb tools","level":"2.7","depth":1,"path":"api/express.md","ref":"api/express.md","articles":[]},"previous":{"title":"ReceiptTemplate","level":"2.5.3","depth":2,"anchor":"#ReceiptTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ReceiptTemplate","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Settings.md","mtime":"2018-02-21T14:58:54.534Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-02-21T14:59:03.189Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Bot Settings","level":"2.6","depth":1,"next":{"title":"Express/MongoDb tools","level":"2.7","depth":1,"path":"api/express.md","ref":"api/express.md","articles":[]},"previous":{"title":"ReceiptTemplate","level":"2.5.3","depth":2,"anchor":"#ReceiptTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ReceiptTemplate","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"Pragonauts.com","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/pragonauts"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Settings.md","mtime":"2018-02-22T11:07:41.849Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-02-22T11:07:48.402Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
