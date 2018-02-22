@@ -56,6 +56,8 @@ class Responder {
         this._messagingType = TYPE_RESPONSE;
 
         this._tag = null;
+
+        this._firstTypingSkipped = false;
     }
 
     _send (data) {
@@ -86,6 +88,17 @@ class Responder {
         this._messagingType = messagingType;
         this._tag = tag;
         return this;
+    }
+
+    /**
+     * Returns true, when responder is not sending an update (notification) message
+     *
+     * @returns {boolean}
+     *
+     * @memberOf Responder
+     */
+    isResponseType () {
+        return this._messagingType === TYPE_RESPONSE;
     }
 
     /**
@@ -603,6 +616,10 @@ class Responder {
 
     _autoTypingIfEnabled (text) {
         if (!this.options.autoTyping) {
+            return;
+        }
+        if (this._messagingType !== TYPE_RESPONSE && !this._firstTypingSkipped) {
+            this._firstTypingSkipped = true;
             return;
         }
         const typingTime = this._getTypingTimeForText(text);
