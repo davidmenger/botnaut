@@ -157,8 +157,8 @@ class Settings {
      *      .done();
      */
     menu (locale = 'default', inputDisabled = false) {
-        const composer = new MenuComposer((newMenu) => {
-            return this._get(['persistent_menu']).then((result) => {
+        const composer = new MenuComposer(newMenu =>
+            this._get(['persistent_menu']).then((result) => {
 
                 let updateMenu;
 
@@ -176,8 +176,8 @@ class Settings {
                 return this._post({
                     persistent_menu: newMenu
                 });
-            }).catch(e => this.log.error('Bot settings failed', e));
-        });
+            }).catch(e => this.log.error('Bot settings failed', e))
+        );
 
         return composer.menu(locale, inputDisabled);
     }

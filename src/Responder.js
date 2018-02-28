@@ -376,7 +376,11 @@ class Responder {
             });
         }
 
-        this._autoTypingIfEnabled(null);
+        let autoTypingText = null;
+        if (`${url}`.match(/\.gif$/)) {
+            autoTypingText = 'short';
+        }
+        this._autoTypingIfEnabled(autoTypingText);
         this._send(messageData);
         return this;
     }
