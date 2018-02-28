@@ -376,11 +376,11 @@ class Responder {
             });
         }
 
-        let autoTypingText = null;
-        if (`${url}`.match(/\.gif$/)) {
-            autoTypingText = 'short';
+        let autoTyping = null;
+        if (`${url}`.match(/\.gif$/i)) {
+            autoTyping = false;
         }
-        this._autoTypingIfEnabled(autoTypingText);
+        this._autoTypingIfEnabled(autoTyping);
         this._send(messageData);
         return this;
     }
@@ -631,6 +631,9 @@ class Responder {
     }
 
     _getTypingTimeForText (text) {
+        if (text === false) {
+            return 1;
+        }
 
         const textLength = typeof text === 'string'
             ? text.length
