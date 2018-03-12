@@ -131,7 +131,7 @@ class BuildRouter extends Router {
                 }
                 const { blocks } = snapshot;
 
-                this._context = { blocks };
+                Object.assign(this._context, { blocks });
 
                 const rootBlock = blocks.find(block => block.isRoot);
 
@@ -140,9 +140,7 @@ class BuildRouter extends Router {
     }
 
     buildWithSnapshot (blocks) {
-        this._context = {
-            blocks
-        };
+        Object.assign(this._context, { blocks });
 
         const rootBlock = blocks.find(block => block.isRoot);
 

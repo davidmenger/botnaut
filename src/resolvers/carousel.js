@@ -25,7 +25,7 @@ function carousel ({
     items = [],
     shareable = false,
     imageAspect = ASPECT_HORISONTAL
-}, { isLastIndex, linksMap }) {
+}, { isLastIndex, linksMap, linksTranslator }) {
 
     return (req, res) => {
         if (items.length === 0) {
@@ -81,7 +81,7 @@ function carousel ({
                 }
             }
 
-            processButtons(buttons, state, elem, linksMap);
+            processButtons(buttons, state, elem, linksMap, req.senderId, linksTranslator);
         });
 
         tpl.send();

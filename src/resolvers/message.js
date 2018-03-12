@@ -17,6 +17,10 @@ function parseReplies (replies, linksMap) {
         } else {
             action = linksMap.get(reply.targetRouteId);
             delete replyData.targetRouteId;
+
+            if (action === '/') {
+                action = './';
+            }
         }
 
         const condition = reply.hasCondition

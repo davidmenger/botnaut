@@ -17,7 +17,7 @@ function end (isLastIndex) {
 function button ({
     buttons = [],
     text = null
-}, { isLastIndex, linksMap }) {
+}, { isLastIndex, linksMap, linksTranslator }) {
 
     const compiledText = cachedTranslatedCompilator(text);
 
@@ -29,7 +29,7 @@ function button ({
         const state = stateData(req, res);
         const tpl = res.button(compiledText(state));
 
-        processButtons(buttons, state, tpl, linksMap);
+        processButtons(buttons, state, tpl, linksMap, req.senderId, linksTranslator);
 
         tpl.send();
 

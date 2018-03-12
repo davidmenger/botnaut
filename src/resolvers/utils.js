@@ -104,12 +104,20 @@ function getText (text, state) {
     return renderer(state);
 }
 
-function processButtons (buttons, state, elem, linksMap) {
+function processButtons (
+    buttons,
+    state,
+    elem,
+    linksMap,
+    senderId,
+    linksTranslator = (sndr, defaultText, urlText) => urlText
+) {
     buttons.forEach(({
         title: btnTitle,
         action: btnAction
     }) => {
         const btnTitleText = getText(btnTitle, state);
+        const defaultText = getText(btnTitle, { lang: null });
         const {
             type,
             url,
@@ -121,7 +129,8 @@ function processButtons (buttons, state, elem, linksMap) {
             case TYPE_URL:
             case TYPE_URL_WITH_EXT: {
                 const hasExtention = type === TYPE_URL_WITH_EXT;
-                const urlText = getText(url, state);
+                let urlText = getText(url, state);
+                urlText = linksTranslator(senderId, defaultText, urlText);
                 elem.urlButton(btnTitleText, urlText, hasExtention, webviewHeight);
                 break;
             }
