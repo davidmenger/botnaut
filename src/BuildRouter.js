@@ -216,12 +216,18 @@ class BuildRouter extends Router {
             return;
         }
 
+        let basePath = `${route.path}/`;
+
+        if (route.isFallback) {
+            basePath = '';
+        }
+
         includedBlock.routes.forEach((blockRoute) => {
             if (!blockRoute.isEntryPoint || blockRoute.isRoot) {
                 return;
             }
 
-            linksMap.set(`${route.id}/${blockRoute.id}`, `${route.path}/${blockRoute.path}`);
+            linksMap.set(`${route.id}/${blockRoute.id}`, `${basePath}${blockRoute.path}`);
         });
     }
 
