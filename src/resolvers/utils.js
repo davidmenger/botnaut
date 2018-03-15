@@ -18,6 +18,14 @@ const WEBVIEW_FULL = 'full';
 const WEBVIEW_TALL = 'tall';
 const WEBVIEW_COMPACT = 'compact';
 
+let request; // eslint-disable-line
+try {
+    request = module.require('request-promise-native');
+} catch (e) {
+    // do nothing
+    request = () => Promise.reject(new Error('plugin is missing'));
+}
+
 function customFn (code, description) {
     if (typeof code !== 'string') {
         throw new Error(`Inline code '${description}' has empty code`);
