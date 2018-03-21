@@ -36,7 +36,7 @@ class Processor {
             cookieName: 'botToken',
             pageToken: null, // required
             appSecret: null, // required
-            chatLog: null,
+            chatLog: console,
             tokenStorage: null,
             senderFnFactory: null,
             securityMiddleware: null,

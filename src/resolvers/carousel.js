@@ -49,7 +49,8 @@ function carousel ({
             const elem = tpl.addElement(titleText, subtitleText || null, true);
 
             if (image) {
-                elem.setElementImage(image);
+                const imageUrl = getText(image, state);
+                elem.setElementImage(imageUrl);
             }
 
             if (action && typeof action === 'object') {
