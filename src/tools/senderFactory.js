@@ -6,14 +6,22 @@
 const request = require('request-promise-native');
 
 const RES_HANDLER = (res, nextData) => nextData;
-const DEFAULT_URI = 'https://graph.facebook.com/v2.8/me/messages';
+const DEFAULT_URI = 'https://graph.facebook.com/v2.8/me';
 
 function wait (ms) {
     return new Promise(res => setTimeout(res, ms));
 }
 
-function createDefaultSender (uri = DEFAULT_URI) {
+function createDefaultSender (baseUrl = DEFAULT_URI) {
     return function (data, token) {
+        let uri = baseUrl;
+
+        if (data.target_app_id) {
+            uri += '/pass_thread_control';
+        } else {
+            uri += '/messages';
+        }
+
         return request({
             uri,
             qs: { access_token: token },

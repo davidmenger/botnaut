@@ -20,7 +20,14 @@ function passThread ({ appId }, { isLastIndex }) {
 
     return (req, res) => {
         const toAppId = appIdTemplate(req.state);
-        res.passThread(toAppId);
+
+        let data = null;
+
+        if (Object.keys(res.data).length > 0) {
+            data = res.data;
+        }
+
+        res.passThread(toAppId, data);
 
         return isLastIndex ? Router.END : Router.CONTINUE;
     };
