@@ -1,0 +1,1519 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Tester · Botnaut</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="David Menger">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ButtonTemplate.html" />
+    
+    
+    <link rel="prev" href="Router.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Building a chat bot</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../tutorial/buildingConversation.html">
+            
+                <a href="../tutorial/buildingConversation.html">
+            
+                    
+                    Building a Conversation
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../tutorial/buildingConversation.html">
+            
+                <a href="../tutorial/buildingConversation.html#asking-a-question">
+            
+                    
+                    Asking a question
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../tutorial/buildingConversation.html">
+            
+                <a href="../tutorial/buildingConversation.html#using-quick-replies-for-controlling-conversation">
+            
+                    
+                    Using quick replies
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../tutorial/buildingConversation.html">
+            
+                <a href="../tutorial/buildingConversation.html#post-back-is-also-an-action">
+            
+                    
+                    Postbacks
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../tutorial/conversationState.html">
+            
+                <a href="../tutorial/conversationState.html">
+            
+                    
+                    Conversation State
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../tutorial/conversationState.html">
+            
+                <a href="../tutorial/conversationState.html#accessing-user-profile">
+            
+                    
+                    User profile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../tutorial/conversationState.html">
+            
+                <a href="../tutorial/conversationState.html#using-the-state-in-navigation">
+            
+                    
+                    Using state in navigation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../tutorial/conversationState.html">
+            
+                <a href="../tutorial/conversationState.html#reading-and-modifiing-user-state">
+            
+                    
+                    Reading and writing state
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../tutorial/asyncActions.html">
+            
+                <a href="../tutorial/asyncActions.html">
+            
+                    
+                    Asynchronous Actions
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../tutorial/asyncActions.html">
+            
+                <a href="../tutorial/asyncActions.html#blocking-asynchronous-actions">
+            
+                    
+                    Blocking Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../tutorial/asyncActions.html">
+            
+                <a href="../tutorial/asyncActions.html#non-blocking-asynchronous-actions">
+            
+                    
+                    Non Blocking Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../tutorial/asyncActions.html">
+            
+                <a href="../tutorial/asyncActions.html#loading-attachments-to-buffer">
+            
+                    
+                    Loading Attachments
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../tutorial/advancedRouting.html">
+            
+                <a href="../tutorial/advancedRouting.html">
+            
+                    
+                    Advanced Routing
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../tutorial/advancedRouting.html">
+            
+                <a href="../tutorial/advancedRouting.html#resolving-actions">
+            
+                    
+                    Resolving Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../tutorial/advancedRouting.html">
+            
+                <a href="../tutorial/advancedRouting.html#simple-text-actions">
+            
+                    
+                    Text Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../tutorial/advancedRouting.html">
+            
+                <a href="../tutorial/advancedRouting.html#integrating-with-ai-prediction">
+            
+                    
+                    Integrating AI
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../tutorial/advancedRouting.html">
+            
+                <a href="../tutorial/advancedRouting.html#redirecting-flow-with-post-back">
+            
+                    
+                    Redirecting with Postback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../tutorial/nestingRouters.html">
+            
+                <a href="../tutorial/nestingRouters.html">
+            
+                    
+                    Nesting - Reusable Blocks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../tutorial/nestingRouters.html">
+            
+                <a href="../tutorial/nestingRouters.html#basic-concept">
+            
+                    
+                    Concept
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../tutorial/nestingRouters.html">
+            
+                <a href="../tutorial/nestingRouters.html#example">
+            
+                    
+                    Example
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../tutorial/templates.html">
+            
+                <a href="../tutorial/templates.html">
+            
+                    
+                    Sending Templates
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../tutorial/templates.html">
+            
+                <a href="../tutorial/templates.html#button-template">
+            
+                    
+                    Button Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../tutorial/templates.html">
+            
+                <a href="../tutorial/templates.html#generic-template">
+            
+                    
+                    Generic Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="../tutorial/templates.html">
+            
+                <a href="../tutorial/templates.html#receipt-template">
+            
+                    
+                    Receipt Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="../tutorial/templates.html">
+            
+                <a href="../tutorial/templates.html#working-with-webviews">
+            
+                    
+                    Webviews
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../tutorial/testing.html">
+            
+                <a href="../tutorial/testing.html">
+            
+                    
+                    Testing
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../tutorial/analytics.html">
+            
+                <a href="../tutorial/analytics.html">
+            
+                    
+                    Analytics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html">
+            
+                    
+                    Using with Wingbot.ai
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html#bot-configuration">
+            
+                    
+                    Bot configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html#express-mongodb">
+            
+                    
+                    Express Mongodb
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.3" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html#serverless-aws-lambda">
+            
+                    
+                    Serverless AWS Lambda
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Request.html">
+            
+                <a href="Request.html">
+            
+                    
+                    Request
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Responder.html">
+            
+                <a href="Responder.html">
+            
+                    
+                    Responder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Router.html">
+            
+                <a href="Router.html">
+            
+                    
+                    Router
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.4" data-path="Tester.html">
+            
+                <a href="Tester.html">
+            
+                    
+                    Tester
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="ButtonTemplate.html">
+            
+                <a href="ButtonTemplate.html">
+            
+                    
+                    Template Builders
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.5.1" data-path="ButtonTemplate.html">
+            
+                <a href="ButtonTemplate.html#ButtonTemplate">
+            
+                    
+                    ButtonTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.2" data-path="ButtonTemplate.html">
+            
+                <a href="ButtonTemplate.html#GenericTemplate">
+            
+                    
+                    GenericTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.3" data-path="ButtonTemplate.html">
+            
+                <a href="ButtonTemplate.html#ReceiptTemplate">
+            
+                    
+                    ReceiptTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Settings.html">
+            
+                <a href="Settings.html">
+            
+                    
+                    Bot Settings
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="express.html">
+            
+                <a href="express.html">
+            
+                    
+                    Express/MongoDb tools
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="bufferloader.html">
+            
+                <a href="bufferloader.html">
+            
+                    
+                    Utils
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Ai.html">
+            
+                <a href="Ai.html">
+            
+                    
+                    Ai
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="serverlessAWS.html">
+            
+                <a href="serverlessAWS.html">
+            
+                    
+                    Serverless
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="BuildRouter.html">
+            
+                <a href="BuildRouter.html">
+            
+                    
+                    Wingbot.ai
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="callback.html">
+            
+                <a href="callback.html">
+            
+                    
+                    Middlewares
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Tester</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="classes"><a name="classes" class="plugin-anchor" href="#classes"><i class="fa fa-link" aria-hidden="true"></i></a>Classes</h2>
+<dl>
+<dt><a href="#Tester">Tester</a></dt>
+<dd></dd>
+<dt><a href="#ResponseAssert">ResponseAssert</a></dt>
+<dd></dd>
+<dt><a href="#AnyResponseAssert">AnyResponseAssert</a></dt>
+<dd></dd>
+</dl>
+
+<div id="Tester">&#xA0;</div>
+
+<h2 id="tester"><a name="tester" class="plugin-anchor" href="#tester"><i class="fa fa-link" aria-hidden="true"></i></a>Tester</h2>
+<p><strong>Kind</strong>: global class  </p>
+<ul>
+<li><a href="#Tester">Tester</a><ul>
+<li><a href="#new_Tester_new">new Tester()</a></li>
+<li><em>instance</em><ul>
+<li><a href="#Tester_acquireResponseActions">.acquireResponseActions()</a></li>
+<li><a href="#Tester_res">.res([index])</a> &#x21D2; <a href="#ResponseAssert"><code>ResponseAssert</code></a></li>
+<li><a href="#Tester_any">.any()</a> &#x21D2; <a href="#AnyResponseAssert"><code>AnyResponseAssert</code></a></li>
+<li><a href="#Tester_lastRes">.lastRes()</a> &#x21D2; <a href="#ResponseAssert"><code>ResponseAssert</code></a></li>
+<li><a href="#Tester_passedAction">.passedAction(path)</a> &#x21D2; <code>this</code></li>
+<li><a href="#Tester_getState">.getState()</a> &#x21D2; <code>object</code></li>
+<li><a href="#Tester_setState">.setState([state])</a></li>
+<li><a href="#Tester_text">.text(text)</a> &#x21D2; <code>Promise</code></li>
+<li><a href="#Tester_intent">.intent(intent, text)</a> &#x21D2; <code>Promise</code></li>
+<li><a href="#Tester_passThread">.passThread([data], [appId])</a> &#x21D2; <code>Promise</code></li>
+<li><a href="#Tester_optin">.optin(action, [data])</a> &#x21D2; <code>Promise</code></li>
+<li><a href="#Tester_quickReply">.quickReply(action, [data])</a> &#x21D2; <code>Promise</code></li>
+<li><a href="#Tester_postBack">.postBack(action, [data], [refAction], [refData])</a> &#x21D2; <code>Promise</code></li>
+</ul>
+</li>
+<li><em>static</em><ul>
+<li><a href="#Tester_Tester">.Tester</a><ul>
+<li><a href="#new_Tester_Tester_new">new Tester(reducer, [senderId], [processorOptions], [storage])</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div id="new_Tester_new">&#xA0;</div>
+
+<h3 id="new-tester"><a name="new-tester" class="plugin-anchor" href="#new-tester"><i class="fa fa-link" aria-hidden="true"></i></a>new Tester()</h3>
+<p>Utility for testing requests</p>
+<div id="Tester_acquireResponseActions">&#xA0;</div>
+
+<h3 id="testeracquireresponseactions"><a name="testeracquireresponseactions" class="plugin-anchor" href="#testeracquireresponseactions"><i class="fa fa-link" aria-hidden="true"></i></a>tester.acquireResponseActions()</h3>
+<p>Resets action collector and fetches new actions, when there are some</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<div id="Tester_res">&#xA0;</div>
+
+<h3 id="testerresindex-&#x21D2;-responseassert"><a name="testerresindex-&#x21D2;-responseassert" class="plugin-anchor" href="#testerresindex-&#x21D2;-responseassert"><i class="fa fa-link" aria-hidden="true"></i></a>tester.res([index]) &#x21D2; <a href="#ResponseAssert"><code>ResponseAssert</code></a></h3>
+<p>Returns single response asserter</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[index]</td>
+<td><code>number</code></td>
+<td><code>0</code></td>
+<td>response index</td>
+</tr>
+</tbody>
+</table>
+<div id="Tester_any">&#xA0;</div>
+
+<h3 id="testerany-&#x21D2;-anyresponseassert"><a name="testerany-&#x21D2;-anyresponseassert" class="plugin-anchor" href="#testerany-&#x21D2;-anyresponseassert"><i class="fa fa-link" aria-hidden="true"></i></a>tester.any() &#x21D2; <a href="#AnyResponseAssert"><code>AnyResponseAssert</code></a></h3>
+<p>Returns any response asserter</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<div id="Tester_lastRes">&#xA0;</div>
+
+<h3 id="testerlastres-&#x21D2;-responseassert"><a name="testerlastres-&#x21D2;-responseassert" class="plugin-anchor" href="#testerlastres-&#x21D2;-responseassert"><i class="fa fa-link" aria-hidden="true"></i></a>tester.lastRes() &#x21D2; <a href="#ResponseAssert"><code>ResponseAssert</code></a></h3>
+<p>Returns last response asserter</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<div id="Tester_passedAction">&#xA0;</div>
+
+<h3 id="testerpassedactionpath-&#x21D2;-this"><a name="testerpassedactionpath-&#x21D2;-this" class="plugin-anchor" href="#testerpassedactionpath-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>tester.passedAction(path) &#x21D2; <code>this</code></h3>
+<p>Checks, that app past the action</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>path</td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="Tester_getState">&#xA0;</div>
+
+<h3 id="testergetstate-&#x21D2;-object"><a name="testergetstate-&#x21D2;-object" class="plugin-anchor" href="#testergetstate-&#x21D2;-object"><i class="fa fa-link" aria-hidden="true"></i></a>tester.getState() &#x21D2; <code>object</code></h3>
+<p>Returns state</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<div id="Tester_setState">&#xA0;</div>
+
+<h3 id="testersetstatestate"><a name="testersetstatestate" class="plugin-anchor" href="#testersetstatestate"><i class="fa fa-link" aria-hidden="true"></i></a>tester.setState([state])</h3>
+<p>Sets state with <code>Object.assign()</code></p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[state]</td>
+<td><code>object</code></td>
+<td><code>{}</code></td>
+</tr>
+</tbody>
+</table>
+<div id="Tester_text">&#xA0;</div>
+
+<h3 id="testertexttext-&#x21D2;-promise"><a name="testertexttext-&#x21D2;-promise" class="plugin-anchor" href="#testertexttext-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.text(text) &#x21D2; <code>Promise</code></h3>
+<p>Makes text request</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="Tester_intent">&#xA0;</div>
+
+<h3 id="testerintentintent-text-&#x21D2;-promise"><a name="testerintentintent-text-&#x21D2;-promise" class="plugin-anchor" href="#testerintentintent-text-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.intent(intent, text) &#x21D2; <code>Promise</code></h3>
+<p>Makes recognised AI intent request</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>intent</td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td>text</td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="Tester_passThread">&#xA0;</div>
+
+<h3 id="testerpassthreaddata-appid-&#x21D2;-promise"><a name="testerpassthreaddata-appid-&#x21D2;-promise" class="plugin-anchor" href="#testerpassthreaddata-appid-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.passThread([data], [appId]) &#x21D2; <code>Promise</code></h3>
+<p>Makes pass thread control request</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[data]</td>
+<td><code>string</code> \</td>
+<td><code>Object</code></td>
+<td><code>null</code></td>
+<td>action</td>
+</tr>
+<tr>
+<td>[appId]</td>
+<td><code>string</code></td>
+<td><code>&quot;random-app&quot;</code></td>
+<td>specific app id</td>
+</tr>
+</tbody>
+</table>
+<div id="Tester_optin">&#xA0;</div>
+
+<h3 id="testeroptinaction-data-&#x21D2;-promise"><a name="testeroptinaction-data-&#x21D2;-promise" class="plugin-anchor" href="#testeroptinaction-data-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.optin(action, [data]) &#x21D2; <code>Promise</code></h3>
+<p>Make optin call</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>action</td>
+<td><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td>[data]</td>
+<td><code>object</code></td>
+<td><code>{}</code></td>
+</tr>
+</tbody>
+</table>
+<div id="Tester_quickReply">&#xA0;</div>
+
+<h3 id="testerquickreplyaction-data-&#x21D2;-promise"><a name="testerquickreplyaction-data-&#x21D2;-promise" class="plugin-anchor" href="#testerquickreplyaction-data-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.quickReply(action, [data]) &#x21D2; <code>Promise</code></h3>
+<p>Send quick reply</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>action</td>
+<td><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td>[data]</td>
+<td><code>object</code></td>
+<td><code>{}</code></td>
+</tr>
+</tbody>
+</table>
+<div id="Tester_postBack">&#xA0;</div>
+
+<h3 id="testerpostbackaction-data-refaction-refdata-&#x21D2;-promise"><a name="testerpostbackaction-data-refaction-refdata-&#x21D2;-promise" class="plugin-anchor" href="#testerpostbackaction-data-refaction-refdata-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>tester.postBack(action, [data], [refAction], [refData]) &#x21D2; <code>Promise</code></h3>
+<p>Sends postback, optionally with referrer action</p>
+<p><strong>Kind</strong>: instance method of <a href="#Tester"><code>Tester</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>action</td>
+<td><code>string</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>[data]</td>
+<td><code>object</code></td>
+<td><code>{}</code></td>
+<td></td>
+</tr>
+<tr>
+<td>[refAction]</td>
+<td><code>string</code></td>
+<td><code>null</code></td>
+<td>referred action</td>
+</tr>
+<tr>
+<td>[refData]</td>
+<td><code>object</code></td>
+<td><code>{}</code></td>
+<td>referred action data</td>
+</tr>
+</tbody>
+</table>
+<div id="Tester_Tester">&#xA0;</div>
+
+<h3 id="testertester"><a name="testertester" class="plugin-anchor" href="#testertester"><i class="fa fa-link" aria-hidden="true"></i></a>Tester.Tester</h3>
+<p><strong>Kind</strong>: static class of <a href="#Tester"><code>Tester</code></a>  </p>
+<div id="new_Tester_Tester_new">&#xA0;</div>
+
+<h4 id="new-testerreducer-senderid-processoroptions-storage"><a name="new-testerreducer-senderid-processoroptions-storage" class="plugin-anchor" href="#new-testerreducer-senderid-processoroptions-storage"><i class="fa fa-link" aria-hidden="true"></i></a>new Tester(reducer, [senderId], [processorOptions], [storage])</h4>
+<p>Creates an instance of Tester.</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>reducer</td>
+<td><code>Router</code> \</td>
+<td><code>ReducerWrapper</code> \</td>
+<td><code>function</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>[senderId]</td>
+<td><code>string</code></td>
+<td><code>null</code></td>
+<td></td>
+</tr>
+<tr>
+<td>[processorOptions]</td>
+<td><code>object</code></td>
+<td><code>{}</code></td>
+<td>options for Processor</td>
+</tr>
+<tr>
+<td>[storage]</td>
+<td><code>MemoryStateStorage</code></td>
+<td></td>
+<td>place to override the storage</td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert">&#xA0;</div>
+
+<h2 id="responseassert"><a name="responseassert" class="plugin-anchor" href="#responseassert"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert</h2>
+<p><strong>Kind</strong>: global class  </p>
+<ul>
+<li><a href="#ResponseAssert">ResponseAssert</a><ul>
+<li><a href="#new_ResponseAssert_new">new ResponseAssert()</a></li>
+<li><em>instance</em><ul>
+<li><a href="#ResponseAssert_contains">.contains(search)</a> &#x21D2; <code>this</code></li>
+<li><a href="#ResponseAssert_quickReplyAction">.quickReplyAction(action)</a> &#x21D2; <code>this</code></li>
+<li><a href="#ResponseAssert_templateType">.templateType(type)</a> &#x21D2; <code>this</code></li>
+<li><a href="#ResponseAssert_passThread">.passThread([appId])</a> &#x21D2; <code>this</code></li>
+<li><a href="#ResponseAssert_attachmentType">.attachmentType(type)</a> &#x21D2; <code>this</code></li>
+</ul>
+</li>
+<li><em>static</em><ul>
+<li><a href="#ResponseAssert_AnyResponseAssert_contains">.AnyResponseAssert#contains(search)</a> &#x21D2; <code>this</code></li>
+<li><a href="#ResponseAssert_AnyResponseAssert_quickReplyAction">.AnyResponseAssert#quickReplyAction(action)</a> &#x21D2; <code>this</code></li>
+<li><a href="#ResponseAssert_AnyResponseAssert_templateType">.AnyResponseAssert#templateType(type)</a> &#x21D2; <code>this</code></li>
+<li><a href="#ResponseAssert_AnyResponseAssert_genericTemplate">.AnyResponseAssert#genericTemplate(itemCount)</a></li>
+<li><a href="#ResponseAssert_AnyResponseAssert_buttonTemplate">.AnyResponseAssert#buttonTemplate(search, buttonCount)</a></li>
+<li><a href="#ResponseAssert_AnyResponseAssert_passThread">.AnyResponseAssert#passThread([appId])</a> &#x21D2; <code>this</code></li>
+<li><a href="#ResponseAssert_AnyResponseAssert_attachmentType">.AnyResponseAssert#attachmentType(type)</a> &#x21D2; <code>this</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div id="new_ResponseAssert_new">&#xA0;</div>
+
+<h3 id="new-responseassert"><a name="new-responseassert" class="plugin-anchor" href="#new-responseassert"><i class="fa fa-link" aria-hidden="true"></i></a>new ResponseAssert()</h3>
+<p>Utility for asserting single response</p>
+<div id="ResponseAssert_contains">&#xA0;</div>
+
+<h3 id="responseassertcontainssearch-&#x21D2;-this"><a name="responseassertcontainssearch-&#x21D2;-this" class="plugin-anchor" href="#responseassertcontainssearch-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responseAssert.contains(search) &#x21D2; <code>this</code></h3>
+<p>Checks, that response contains text</p>
+<p><strong>Kind</strong>: instance method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>search</td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_quickReplyAction">&#xA0;</div>
+
+<h3 id="responseassertquickreplyactionaction-&#x21D2;-this"><a name="responseassertquickreplyactionaction-&#x21D2;-this" class="plugin-anchor" href="#responseassertquickreplyactionaction-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responseAssert.quickReplyAction(action) &#x21D2; <code>this</code></h3>
+<p>Checks quick response action</p>
+<p><strong>Kind</strong>: instance method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>action</td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_templateType">&#xA0;</div>
+
+<h3 id="responseasserttemplatetypetype-&#x21D2;-this"><a name="responseasserttemplatetypetype-&#x21D2;-this" class="plugin-anchor" href="#responseasserttemplatetypetype-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responseAssert.templateType(type) &#x21D2; <code>this</code></h3>
+<p>Checks template type</p>
+<p><strong>Kind</strong>: instance method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_passThread">&#xA0;</div>
+
+<h3 id="responseassertpassthreadappid-&#x21D2;-this"><a name="responseassertpassthreadappid-&#x21D2;-this" class="plugin-anchor" href="#responseassertpassthreadappid-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responseAssert.passThread([appId]) &#x21D2; <code>this</code></h3>
+<p>Checks pass thread control</p>
+<p><strong>Kind</strong>: instance method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[appId]</td>
+<td><code>string</code></td>
+<td><code>null</code></td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_attachmentType">&#xA0;</div>
+
+<h3 id="responseassertattachmenttypetype-&#x21D2;-this"><a name="responseassertattachmenttypetype-&#x21D2;-this" class="plugin-anchor" href="#responseassertattachmenttypetype-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>responseAssert.attachmentType(type) &#x21D2; <code>this</code></h3>
+<p>Checks attachment type</p>
+<p><strong>Kind</strong>: instance method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_AnyResponseAssert_contains">&#xA0;</div>
+
+<h3 id="responseassertanyresponseassertcontainssearch-&#x21D2;-this"><a name="responseassertanyresponseassertcontainssearch-&#x21D2;-this" class="plugin-anchor" href="#responseassertanyresponseassertcontainssearch-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#contains(search) &#x21D2; <code>this</code></h3>
+<p>Checks, that response contains text</p>
+<p><strong>Kind</strong>: static method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>search</td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_AnyResponseAssert_quickReplyAction">&#xA0;</div>
+
+<h3 id="responseassertanyresponseassertquickreplyactionaction-&#x21D2;-this"><a name="responseassertanyresponseassertquickreplyactionaction-&#x21D2;-this" class="plugin-anchor" href="#responseassertanyresponseassertquickreplyactionaction-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#quickReplyAction(action) &#x21D2; <code>this</code></h3>
+<p>Checks quick response action</p>
+<p><strong>Kind</strong>: static method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>action</td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_AnyResponseAssert_templateType">&#xA0;</div>
+
+<h3 id="responseassertanyresponseasserttemplatetypetype-&#x21D2;-this"><a name="responseassertanyresponseasserttemplatetypetype-&#x21D2;-this" class="plugin-anchor" href="#responseassertanyresponseasserttemplatetypetype-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#templateType(type) &#x21D2; <code>this</code></h3>
+<p>Checks template type</p>
+<p><strong>Kind</strong>: static method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_AnyResponseAssert_genericTemplate">&#xA0;</div>
+
+<h3 id="responseassertanyresponseassertgenerictemplateitemcount"><a name="responseassertanyresponseassertgenerictemplateitemcount" class="plugin-anchor" href="#responseassertanyresponseassertgenerictemplateitemcount"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#genericTemplate(itemCount)</h3>
+<p>Checks for generic template</p>
+<p><strong>Kind</strong>: static method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>itemCount</td>
+<td><code>number</code></td>
+<td><code></code></td>
+<td>specified item count</td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_AnyResponseAssert_buttonTemplate">&#xA0;</div>
+
+<h3 id="responseassertanyresponseassertbuttontemplatesearch-buttoncount"><a name="responseassertanyresponseassertbuttontemplatesearch-buttoncount" class="plugin-anchor" href="#responseassertanyresponseassertbuttontemplatesearch-buttoncount"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#buttonTemplate(search, buttonCount)</h3>
+<p>Checks for button template</p>
+<p><strong>Kind</strong>: static method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>search</td>
+<td><code>string</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>buttonCount</td>
+<td><code>number</code></td>
+<td><code></code></td>
+<td>specified button count</td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_AnyResponseAssert_passThread">&#xA0;</div>
+
+<h3 id="responseassertanyresponseassertpassthreadappid-&#x21D2;-this"><a name="responseassertanyresponseassertpassthreadappid-&#x21D2;-this" class="plugin-anchor" href="#responseassertanyresponseassertpassthreadappid-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#passThread([appId]) &#x21D2; <code>this</code></h3>
+<p>Checks pass thread control</p>
+<p><strong>Kind</strong>: static method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[appId]</td>
+<td><code>string</code></td>
+<td><code>null</code></td>
+</tr>
+</tbody>
+</table>
+<div id="ResponseAssert_AnyResponseAssert_attachmentType">&#xA0;</div>
+
+<h3 id="responseassertanyresponseassertattachmenttypetype-&#x21D2;-this"><a name="responseassertanyresponseassertattachmenttypetype-&#x21D2;-this" class="plugin-anchor" href="#responseassertanyresponseassertattachmenttypetype-&#x21D2;-this"><i class="fa fa-link" aria-hidden="true"></i></a>ResponseAssert.AnyResponseAssert#attachmentType(type) &#x21D2; <code>this</code></h3>
+<p>Checks attachment type</p>
+<p><strong>Kind</strong>: static method of <a href="#ResponseAssert"><code>ResponseAssert</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><code>string</code></td>
+</tr>
+</tbody>
+</table>
+<div id="AnyResponseAssert">&#xA0;</div>
+
+<h2 id="anyresponseassert"><a name="anyresponseassert" class="plugin-anchor" href="#anyresponseassert"><i class="fa fa-link" aria-hidden="true"></i></a>AnyResponseAssert</h2>
+<p><strong>Kind</strong>: global class  </p>
+<div id="new_AnyResponseAssert_new">&#xA0;</div>
+
+<h3 id="new-anyresponseassert"><a name="new-anyresponseassert" class="plugin-anchor" href="#new-anyresponseassert"><i class="fa fa-link" aria-hidden="true"></i></a>new AnyResponseAssert()</h3>
+<p>Utility for searching among responses</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Router.html" class="navigation navigation-prev " aria-label="Previous page: Router">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ButtonTemplate.html" class="navigation navigation-next " aria-label="Next page: Template Builders">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Tester","level":"2.4","depth":1,"next":{"title":"Template Builders","level":"2.5","depth":1,"path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md","articles":[{"title":"ButtonTemplate","level":"2.5.1","depth":2,"anchor":"#ButtonTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ButtonTemplate","articles":[]},{"title":"GenericTemplate","level":"2.5.2","depth":2,"anchor":"#GenericTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#GenericTemplate","articles":[]},{"title":"ReceiptTemplate","level":"2.5.3","depth":2,"anchor":"#ReceiptTemplate","path":"api/ButtonTemplate.md","ref":"api/ButtonTemplate.md#ReceiptTemplate","articles":[]}]},"previous":{"title":"Router","level":"2.3","depth":1,"path":"api/Router.md","ref":"api/Router.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"David Menger","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/davidmenger"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/Tester.md","mtime":"2018-05-23T15:31:55.074Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-23T15:31:59.833Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-collapsible-menu/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

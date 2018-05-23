@@ -1,0 +1,991 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Asynchronous Actions · Botnaut</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="David Menger">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="asyncActions.html" />
+    
+    
+    <link rel="prev" href="conversationState.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Building a chat bot</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="buildingConversation.html">
+            
+                <a href="buildingConversation.html">
+            
+                    
+                    Building a Conversation
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="buildingConversation.html">
+            
+                <a href="buildingConversation.html#asking-a-question">
+            
+                    
+                    Asking a question
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="buildingConversation.html">
+            
+                <a href="buildingConversation.html#using-quick-replies-for-controlling-conversation">
+            
+                    
+                    Using quick replies
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="buildingConversation.html">
+            
+                <a href="buildingConversation.html#post-back-is-also-an-action">
+            
+                    
+                    Postbacks
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="conversationState.html">
+            
+                <a href="conversationState.html">
+            
+                    
+                    Conversation State
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="conversationState.html">
+            
+                <a href="conversationState.html#accessing-user-profile">
+            
+                    
+                    User profile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="conversationState.html">
+            
+                <a href="conversationState.html#using-the-state-in-navigation">
+            
+                    
+                    Using state in navigation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="conversationState.html">
+            
+                <a href="conversationState.html#reading-and-modifiing-user-state">
+            
+                    
+                    Reading and writing state
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4" data-path="asyncActions.html">
+            
+                <a href="asyncActions.html">
+            
+                    
+                    Asynchronous Actions
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="asyncActions.html">
+            
+                <a href="asyncActions.html#blocking-asynchronous-actions">
+            
+                    
+                    Blocking Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="asyncActions.html">
+            
+                <a href="asyncActions.html#non-blocking-asynchronous-actions">
+            
+                    
+                    Non Blocking Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="asyncActions.html">
+            
+                <a href="asyncActions.html#loading-attachments-to-buffer">
+            
+                    
+                    Loading Attachments
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="advancedRouting.html">
+            
+                <a href="advancedRouting.html">
+            
+                    
+                    Advanced Routing
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="advancedRouting.html">
+            
+                <a href="advancedRouting.html#resolving-actions">
+            
+                    
+                    Resolving Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="advancedRouting.html">
+            
+                <a href="advancedRouting.html#simple-text-actions">
+            
+                    
+                    Text Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="advancedRouting.html">
+            
+                <a href="advancedRouting.html#integrating-with-ai-prediction">
+            
+                    
+                    Integrating AI
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="advancedRouting.html">
+            
+                <a href="advancedRouting.html#redirecting-flow-with-post-back">
+            
+                    
+                    Redirecting with Postback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="nestingRouters.html">
+            
+                <a href="nestingRouters.html">
+            
+                    
+                    Nesting - Reusable Blocks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="nestingRouters.html">
+            
+                <a href="nestingRouters.html#basic-concept">
+            
+                    
+                    Concept
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="nestingRouters.html">
+            
+                <a href="nestingRouters.html#example">
+            
+                    
+                    Example
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="templates.html">
+            
+                <a href="templates.html">
+            
+                    
+                    Sending Templates
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="templates.html">
+            
+                <a href="templates.html#button-template">
+            
+                    
+                    Button Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="templates.html">
+            
+                <a href="templates.html#generic-template">
+            
+                    
+                    Generic Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="templates.html">
+            
+                <a href="templates.html#receipt-template">
+            
+                    
+                    Receipt Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="templates.html">
+            
+                <a href="templates.html#working-with-webviews">
+            
+                    
+                    Webviews
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="testing.html">
+            
+                <a href="testing.html">
+            
+                    
+                    Testing
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="analytics.html">
+            
+                <a href="analytics.html">
+            
+                    
+                    Analytics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="usingWithWingbot.html">
+            
+                <a href="usingWithWingbot.html">
+            
+                    
+                    Using with Wingbot.ai
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="usingWithWingbot.html">
+            
+                <a href="usingWithWingbot.html#bot-configuration">
+            
+                    
+                    Bot configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="usingWithWingbot.html">
+            
+                <a href="usingWithWingbot.html#express-mongodb">
+            
+                    
+                    Express Mongodb
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.3" data-path="usingWithWingbot.html">
+            
+                <a href="usingWithWingbot.html#serverless-aws-lambda">
+            
+                    
+                    Serverless AWS Lambda
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../api/Request.html">
+            
+                <a href="../api/Request.html">
+            
+                    
+                    Request
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../api/Responder.html">
+            
+                <a href="../api/Responder.html">
+            
+                    
+                    Responder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../api/Router.html">
+            
+                <a href="../api/Router.html">
+            
+                    
+                    Router
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../api/Tester.html">
+            
+                <a href="../api/Tester.html">
+            
+                    
+                    Tester
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../api/ButtonTemplate.html">
+            
+                <a href="../api/ButtonTemplate.html">
+            
+                    
+                    Template Builders
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.5.1" data-path="../api/ButtonTemplate.html">
+            
+                <a href="../api/ButtonTemplate.html#ButtonTemplate">
+            
+                    
+                    ButtonTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.2" data-path="../api/ButtonTemplate.html">
+            
+                <a href="../api/ButtonTemplate.html#GenericTemplate">
+            
+                    
+                    GenericTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.3" data-path="../api/ButtonTemplate.html">
+            
+                <a href="../api/ButtonTemplate.html#ReceiptTemplate">
+            
+                    
+                    ReceiptTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../api/Settings.html">
+            
+                <a href="../api/Settings.html">
+            
+                    
+                    Bot Settings
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../api/express.html">
+            
+                <a href="../api/express.html">
+            
+                    
+                    Express/MongoDb tools
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="../api/bufferloader.html">
+            
+                <a href="../api/bufferloader.html">
+            
+                    
+                    Utils
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="../api/Ai.html">
+            
+                <a href="../api/Ai.html">
+            
+                    
+                    Ai
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="../api/serverlessAWS.html">
+            
+                <a href="../api/serverlessAWS.html">
+            
+                    
+                    Serverless
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="../api/BuildRouter.html">
+            
+                <a href="../api/BuildRouter.html">
+            
+                    
+                    Wingbot.ai
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="../api/callback.html">
+            
+                <a href="../api/callback.html">
+            
+                    
+                    Middlewares
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Asynchronous Actions</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="asynchronous-actions"><a name="asynchronous-actions" class="plugin-anchor" href="#asynchronous-actions"><i class="fa fa-link" aria-hidden="true"></i></a>Asynchronous actions</h1>
+<p>Processing a chat event from user blocks other event from same user until the processing is finnished. It&apos;s very important for choosing right approach.</p>
+<p>There are two approches to drive asynchronous actions:</p>
+<ul>
+<li><strong>blocking</strong>: Other Messenger events are waiting for limited time until the asynchronous operation is completed</li>
+<li><strong>non blocking</strong>: Bot can process other chat events while asynchronous operation is in progress</li>
+</ul>
+<blockquote>
+<p>Blocking is important for keeping conversation state consistent.</p>
+</blockquote>
+<h2 id="blocking-asynchronous-actions"><a name="blocking-asynchronous-actions" class="plugin-anchor" href="#blocking-asynchronous-actions"><i class="fa fa-link" aria-hidden="true"></i></a>Blocking Asynchronous actions</h2>
+<p>For fast async operations you can use blocking approach. You can simply return a Promise.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asyncAction</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(r =&gt; setTimeout(() =&gt; r(<span class="hljs-built_in">Math</span>.rand()), <span class="hljs-number">100</span>));
+}
+
+bot.use((req, res) =&gt; {
+    <span class="hljs-keyword">return</span> asyncAction()
+        .then(result =&gt; {
+            res.text(<span class="hljs-string">&apos;Complete!&apos;</span>)
+                .setState({ result });
+        })
+        .catch((err =&gt; {
+            res.text(<span class="hljs-string">&apos;Async action failed&apos;</span>);
+        });
+});
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
+<h2 id="non-blocking-asynchronous-actions"><a name="non-blocking-asynchronous-actions" class="plugin-anchor" href="#non-blocking-asynchronous-actions"><i class="fa fa-link" aria-hidden="true"></i></a>Non blocking asynchronous actions</h2>
+<p>For non blocking approach is good to know, that <strong>only postBack can be called after an action is resolved</strong>.
+Any other calls, like <code>setState()</code> will have no effect. This is the only right way to make non-blocking asynchronous operations.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asyncAction</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(r =&gt; setTimeout(() =&gt; <span class="hljs-built_in">Math</span>.rand(), <span class="hljs-number">100</span>));
+}
+
+bot.use(<span class="hljs-string">&apos;/asyncComplete&apos;</span>, (req, res) =&gt; {
+    <span class="hljs-keyword">const</span> { result, err } = req.action(<span class="hljs-literal">true</span>);
+    <span class="hljs-keyword">if</span> (err) {
+        res.text(<span class="hljs-string">&apos;Async action failed&apos;</span>);
+    } <span class="hljs-keyword">else</span> {
+        res.text(<span class="hljs-string">&apos;Complete!&apos;</span>)
+                .setState({ result });
+    }
+});
+
+bot.use((req, res, postBack) =&gt; {
+    <span class="hljs-comment">// wait method is usefull for testing</span>
+    <span class="hljs-keyword">const</span> handler = postBack.wait();
+    asyncAction()
+        .then(result =&gt; handler(<span class="hljs-string">&apos;asyncComplete&apos;</span>, { result }))
+        .catch(err =&gt; handler(<span class="hljs-string">&apos;asyncComplete&apos;</span>, { err }));
+});
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
+<blockquote>
+<p><code>postBack.wait()</code> helps you to write sequential tests. Conversation is not blocked, while the action runs, but final Promise is resolved, after the <code>handler()</code> function is called.</p>
+</blockquote>
+<h2 id="loading-attachments-to-buffer"><a name="loading-attachments-to-buffer" class="plugin-anchor" href="#loading-attachments-to-buffer"><i class="fa fa-link" aria-hidden="true"></i></a>Loading Attachments to Buffer</h2>
+<p>Most simpliest way to upload attachments is converting them to base64 buffer:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Router, bufferloader } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut&apos;</span>);
+<span class="hljs-keyword">const</span> bot = <span class="hljs-keyword">new</span> Router();
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asyncAction</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(r =&gt; setTimeout(() =&gt; <span class="hljs-built_in">Math</span>.rand(), <span class="hljs-number">100</span>));
+}
+
+bot.use(<span class="hljs-string">&apos;/uploadComplete&apos;</span>, (req, res) =&gt; {
+    <span class="hljs-keyword">const</span> { result, err } =
+    <span class="hljs-keyword">if</span> (!err) {
+        res.text(<span class="hljs-string">&apos;Complete!&apos;</span>)
+                .setState({ result });
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (err.code === <span class="hljs-number">400</span>) {
+        res.text(<span class="hljs-string">&apos;Upload size exceeded&apos;</span>);
+    } <span class="hljs-keyword">else</span> {
+        res.text(<span class="hljs-string">&apos;Async action failed&apos;</span>);
+    }
+});
+
+bot.use((req, res, postBack) =&gt; {
+    <span class="hljs-comment">// wait method is usefull for testing</span>
+    <span class="hljs-keyword">if</span> (!req.isAttachment()) {
+        <span class="hljs-keyword">return</span> Router.CONTINUE;
+    }
+    <span class="hljs-keyword">const</span> handler = postBack.wait();
+    bufferloader(<span class="hljs-keyword">this</span>.req.attachmentUrl(), <span class="hljs-number">1024</span>)
+        .then(buf =&gt; handler(<span class="hljs-string">&apos;uploadComplete&apos;</span>, { result: buf.toString(<span class="hljs-string">&apos;base64&apos;</span>) }))
+        .catch(err =&gt; handler(<span class="hljs-string">&apos;uploadComplete&apos;</span>, { err }));
+});
+
+<span class="hljs-built_in">module</span>.exports = bot;
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="conversationState.html#reading-and-modifiing-user-state" class="navigation navigation-prev " aria-label="Previous page: Reading and writing state">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="asyncActions.html#blocking-asynchronous-actions" class="navigation navigation-next " aria-label="Next page: Blocking Actions">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Asynchronous Actions","level":"1.4","depth":1,"next":{"title":"Blocking Actions","level":"1.4.1","depth":2,"anchor":"#blocking-asynchronous-actions","path":"tutorial/asyncActions.md","ref":"tutorial/asyncActions.md#blocking-asynchronous-actions","articles":[]},"previous":{"title":"Reading and writing state","level":"1.3.3","depth":2,"anchor":"#reading-and-modifiing-user-state","path":"tutorial/conversationState.md","ref":"tutorial/conversationState.md#reading-and-modifiing-user-state","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"David Menger","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/davidmenger"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"tutorial/asyncActions.md","mtime":"2018-01-09T14:12:22.287Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-23T15:31:59.833Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-collapsible-menu/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

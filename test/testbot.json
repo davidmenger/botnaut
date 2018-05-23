@@ -1,0 +1,431 @@
+{
+    "data": [
+      {
+        "routes": [
+          {
+            "name": "AI Interactions entry point",
+            "path": "/",
+            "resolvers": [],
+            "id": 1507123727796,
+            "isRoot": true
+          },
+          {
+            "name": "Global AI Interaction",
+            "path": "global-ai-interaction",
+            "resolvers": [
+              {
+                "type": "botbuild.message",
+                "params": {
+                  "replies": [],
+                  "text": "This is the global interaction"
+                },
+                "id": 1507123797059
+              }
+            ],
+            "id": 1507123761617,
+            "aiTags": [
+              "globalIntent"
+            ]
+          }
+        ],
+        "isRoot": false,
+        "blockName": "AI Interactions",
+        "botId": "2a781536-40eb-4aa4-95aa-68848e6661a4",
+        "id": "58f62016-3388-478d-a459-36c623c4a875",
+        "staticBlockId": "3c234132-868f-4b01-a0c3-2624d848d4c2",
+        "stageBlock": "HEAD|3c234132-868f-4b01-a0c3-2624d848d4c2"
+      },
+      {
+        "routes": [
+          {
+            "name": "Included block entry point",
+            "path": "/",
+            "resolvers": [
+              {
+                "type": "botbuild.button",
+                "params": {
+                  "text": "text",
+                  "buttons": [
+                    {
+                      "title": "akce",
+                      "action": {
+                        "webviewHeight": "full",
+                        "targetRouteId": null,
+                        "type": "web_url",
+                        "url": "http://goo.gl"
+                      },
+                      "id": 1518712255669
+                    },
+                    {
+                      "title": "druha",
+                      "action": {
+                        "webviewHeight": "full",
+                        "targetRouteId": 1507123084071,
+                        "type": "postback",
+                        "url": null
+                      },
+                      "id": 1518717995318
+                    },
+                    {
+                      "title": "share",
+                      "action": {
+                        "webviewHeight": "full",
+                        "targetRouteId": null,
+                        "type": "element_share",
+                        "url": null
+                      },
+                      "id": 1518718007290
+                    }
+                  ]
+                },
+                "id": 1518711576384
+              },
+              {
+                "type": "botbuild.message",
+                "params": {
+                  "replies": [
+                    {
+                      "title": "go back",
+                      "targetRouteId": 1507123084071
+                    }
+                  ],
+                  "text": "Want continue?"
+                },
+                "id": 1507123071875
+              }
+            ],
+            "id": 1507122731125,
+            "isRoot": true
+          },
+          {
+            "isResponder": true,
+            "path": null,
+            "resolvers": [
+              {
+                "type": "botbuild.message",
+                "params": {
+                  "replies": [],
+                  "text": "This is local AI reaction"
+                },
+                "id": 1507124026698
+              }
+            ],
+            "respondsToRouteId": 1507122731125,
+            "aiTags": [
+              "localIntent"
+            ],
+            "name": null,
+            "id": 1507123922037
+          },
+          {
+            "name": null,
+            "isResponder": true,
+            "resolvers": [
+              {
+                "type": "botbuild.message",
+                "params": {
+                  "replies": [],
+                  "text": "This is fallback reaction"
+                },
+                "id": 1507124046764
+              }
+            ],
+            "respondsToRouteId": 1507122731125,
+            "id": 1507123987802,
+            "isFallback": false
+          },
+          {
+            "name": "Deep entrypoint",
+            "isEntryPoint": true,
+            "path": "deep-entrypoint",
+            "resolvers": [
+              {
+                "type": "botbuild.customCode",
+                "params": {
+                  "items": {
+                    "responseBlockName": {
+                      "resolvers": [
+                        {
+                          "type": "botbuild.message",
+                          "params": {
+                            "replies": [
+                              {
+                                "title": "get back",
+                                "targetRouteId": 1507123084071
+                              }
+                            ],
+                            "text": "Can go outside?"
+                          },
+                          "id": 1507123414443
+                        }
+                      ]
+                    }
+                  },
+                  "codeBlockId": "exampleBlock"
+                },
+                "id": 1507123408256
+              }
+            ],
+            "id": 1507123395255
+          },
+          {
+            "name": "back",
+            "path": "back",
+            "resolvers": [
+              {
+                "type": "botbuild.exit",
+                "params": {
+                  "exitName": "onBack"
+                },
+                "id": 1507123086946
+              }
+            ],
+            "id": 1507123084071
+          }
+        ],
+        "isRoot": false,
+        "blockName": "Included block",
+        "botId": "2a781536-40eb-4aa4-95aa-68848e6661a4",
+        "id": "7da01ee1-ca5c-4b1f-8959-0e0ff2dbbf4e",
+        "staticBlockId": "510219f7-5022-440c-a8c2-387e4978e70f",
+        "stageBlock": "HEAD|510219f7-5022-440c-a8c2-387e4978e70f"
+      },
+      {
+        "codeBlocks": [
+          {
+            "name": "example block name",
+            "description": "example block description text",
+            "id": "exampleBlock",
+            "items": [
+              {
+                "description": "optional description",
+                "id": "responseBlockName"
+              }
+            ]
+          }
+        ],
+        "routes": [
+          {
+            "name": "Root Block entry point",
+            "path": "start",
+            "resolvers": [
+              {
+                "type": "botbuild.message",
+                "params": {
+                  "conditionFn": "(req, res) => {\n    return !req.state.a;\n}",
+                  "text": [
+                    { "t": "This is the first time, you're here", "l": "default" },
+                    { "t": "To je poprvé", "l": "cz" }
+                  ],
+                  "replies": [],
+                  "hasCondition": true
+                },
+                "id": 1507631727807
+              },
+              {
+                "type": "botbuild.media",
+                "params": {
+                  "url": "/theHref.jpg",
+                  "type": "image"
+                },
+                "id": 1507631727809
+              },
+              {
+                "type": "botbuild.message",
+                "params": {
+                  "conditionFn": "(req, res) => {\n    return req.state.a > 0;\n}",
+                  "text": "This is your {{a}} visit",
+                  "replies": [],
+                  "hasCondition": true
+                },
+                "id": 1507634674268
+              },
+              {
+                "type": "botbuild.inlineCode",
+                "params": {
+                  "description": "increment state",
+                  "code": "(req, res) => {\n    res.setState({ a: (req.state.a || 0) + 1 });\n    return Router.CONTINUE;\n}"
+                },
+                "id": 1507627874459
+              },
+              {
+                "type": "botbuild.carousel",
+                "params": {
+                  "shareable": false,
+                  "items": [
+                    {
+                      "image": null,
+                      "imageAspect": "horizontal",
+                      "id": 1518676730865,
+                      "buttons": [
+                        {
+                          "title": "to the web",
+                          "action": {
+                            "webviewHeight": "full",
+                            "targetRouteId": null,
+                            "type": "web_url",
+                            "url": "https://goo.gl"
+                          },
+                          "id": 1518676742443
+                        },
+                        {
+                          "title": "as a postback",
+                          "action": {
+                            "webviewHeight": "full",
+                            "targetRouteId": 1516214359209,
+                            "type": "postback",
+                            "url": null
+                          },
+                          "id": 1518676823494
+                        }
+                      ],
+                      "title": "First title",
+                      "subtitle": null
+                    },
+                    {
+                      "image": "http://www.catster.com/wp-content/uploads/2015/06/20140118-cat-music-videos-christopher-cross-sailing.png",
+                      "imageAspect": "horizontal",
+                      "id": 1518676737681,
+                      "buttons": [
+                        {
+                          "title": "another web",
+                          "action": {
+                            "webviewHeight": "full",
+                            "targetRouteId": null,
+                            "type": "web_url_extension",
+                            "url": "/local/link"
+                          },
+                          "id": 1518676845738
+                        },
+                        {
+                          "title": "share",
+                          "action": {
+                            "webviewHeight": "full",
+                            "targetRouteId": null,
+                            "type": "element_share",
+                            "url": null
+                          },
+                          "id": 1518676876137
+                        }
+                      ],
+                      "title": "Second title",
+                      "subtitle": "subtitle"
+                    }
+                  ],
+                  "imageAspect": "square"
+                },
+                "id": 1518627281574
+              },
+              {
+                "type": "botbuild.message",
+                "params": {
+                  "replies": [
+                    {
+                      "title": [
+                        { "t": "Go To Subblock", "l": "default" },
+                        { "t": "Jdi do podbloku", "l": "cz" }
+                      ],
+                      "targetRouteId": 1507122998196,
+                      "hasCondition": true,
+                      "conditionFn": "(req, res) => req.state.a > 0"
+                    }
+                  ],
+                  "text": "Welcome in the bot"
+                },
+                "id": 1507122775382
+              }
+            ],
+            "id": 1507122718133,
+            "isRoot": true
+          },
+          {
+            "name": "Fallback integration of AI iteractions",
+            "path": "fallback-integration-of-ai-iteractions",
+            "resolvers": [
+              {
+                "type": "botbuild.include",
+                "params": {
+                  "items": {},
+                  "staticBlockId": "3c234132-868f-4b01-a0c3-2624d848d4c2"
+                },
+                "id": 1507123868393
+              }
+            ],
+            "id": 1507123831426,
+            "isFallback": true
+          },
+          {
+            "name": "Subblock include",
+            "path": "subblock-include",
+            "resolvers": [
+              {
+                "type": "botbuild.include",
+                "params": {
+                  "items": {
+                    "onBack": {
+                      "resolvers": [
+                        {
+                          "type": "botbuild.postback",
+                          "params": {
+                            "routeId": 1507123353009
+                          },
+                          "id": 1507123359282
+                        }
+                      ]
+                    }
+                  },
+                  "staticBlockId": "510219f7-5022-440c-a8c2-387e4978e70f"
+                },
+                "id": 1507123013692
+              }
+            ],
+            "id": 1507122998196
+          },
+          {
+            "name": "Continued action",
+            "path": "continued-action",
+            "resolvers": [
+              {
+                "type": "botbuild.message",
+                "params": {
+                  "replies": [
+                    {
+                      "title": "digg it",
+                      "targetRouteId": "1507122998196/1507123395255"
+                    }
+                  ],
+                  "text": "Lets try to go deeper"
+                },
+                "id": 1507123380278
+              }
+            ],
+            "id": 1507123353009
+          },
+          {
+            "name": "Just a fallback",
+            "path": "just-a-fallback",
+            "resolvers": [
+              {
+                "type": "botbuild.message",
+                "params": {
+                  "replies": [],
+                  "text": "Yes, this is the fallback"
+                },
+                "id": 1507123689852
+              }
+            ],
+            "id": 1507123652202,
+            "isFallback": true
+          }
+        ],
+        "isRoot": true,
+        "blockName": "Root Block",
+        "codeBlocksDefinition": "[\n {\n \"name\": \"example block name\",\n \"description\": \"example block description text\",\n \"id\": \"exampleBlock\",\n \"items\": [\n {\n \"description\": \"optional description\",\n \"id\": \"responseBlockName\"\n }\n ]\n }\n]",
+        "botId": "2a781536-40eb-4aa4-95aa-68848e6661a4",
+        "id": "563bd584-e906-4a27-8e16-cb5a67e8d230",
+        "staticBlockId": "dbff3f48-7c2f-488c-87dd-cd74f4094c84",
+        "stageBlock": "HEAD|dbff3f48-7c2f-488c-87dd-cd74f4094c84"
+      }
+    ],
+    "nextPage": null
+  }

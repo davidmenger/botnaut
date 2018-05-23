@@ -1,0 +1,66 @@
+{
+  "name": "botnaut",
+  "version": "0.30.0",
+  "description": "Facebook Messenger Chatbot Framework",
+  "main": "index.js",
+  "scripts": {
+    "doc": "node ./bin/makeApiDoc.js && gitbook install ./doc && gitbook build ./doc && rm -rf ./docs && mv ./doc/_book ./docs",
+    "test": "npm run test:lint && npm run test:coverage && npm run test:coverage:threshold",
+    "test:coverage": "nyc --reporter=html mocha --opts ./mocha.opts ./test && nyc report",
+    "test:coverage:threshold": "nyc check-coverage --lines 80 --functions 80 --branches 75",
+    "test:backend": "mocha --opts ./mocha.opts ./test ./src",
+    "test:lint": "eslint --ext .js src test *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/davidmenger/botnaut.git"
+  },
+  "keywords": [
+    "Facebook",
+    "Messenger",
+    "Chatbot",
+    "Framework",
+    "Bot"
+  ],
+  "engines": {
+    "node": "^6.0.0"
+  },
+  "author": "David Menger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidmenger/botnaut/issues"
+  },
+  "homepage": "https://github.com/davidmenger/botnaut#readme",
+  "devDependencies": {
+    "eslint": "^4.7.1",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-mocha": "^0.3.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.0.0",
+    "eslint-plugin-mocha": "^4.11.0",
+    "eslint-plugin-react": "^7.3.0",
+    "gitbook-cli": "^2.3.2",
+    "handlebars": "^4.0.10",
+    "jsdoc-to-markdown": "^3.0.3",
+    "mocha": "^3.5.3",
+    "nyc": "^11.2.1",
+    "po2json": "^0.4.5",
+    "sinon": "^3.3.0"
+  },
+  "dependencies": {
+    "co": "^4.6.0",
+    "deep-equal": "^1.0.1",
+    "lodash.transform": "^4.6.0",
+    "path-to-regexp": "^1.7.0",
+    "request": "^2.79.0",
+    "request-promise-native": "^1.0.4"
+  },
+  "optionalDependencies": {
+    "aws-sdk": "^2.78.0",
+    "body-parser": "^1.10.0",
+    "express": "^4.0.0",
+    "mongoose": "^4.0.0",
+    "po2json": "^0.4.5",
+    "handlebars": "^4.0.0"
+  }
+}

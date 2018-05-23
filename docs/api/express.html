@@ -1,0 +1,1280 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Express/MongoDb tools · Botnaut</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="David Menger">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="bufferloader.html" />
+    
+    
+    <link rel="prev" href="Settings.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Building a chat bot</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../tutorial/buildingConversation.html">
+            
+                <a href="../tutorial/buildingConversation.html">
+            
+                    
+                    Building a Conversation
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../tutorial/buildingConversation.html">
+            
+                <a href="../tutorial/buildingConversation.html#asking-a-question">
+            
+                    
+                    Asking a question
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../tutorial/buildingConversation.html">
+            
+                <a href="../tutorial/buildingConversation.html#using-quick-replies-for-controlling-conversation">
+            
+                    
+                    Using quick replies
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../tutorial/buildingConversation.html">
+            
+                <a href="../tutorial/buildingConversation.html#post-back-is-also-an-action">
+            
+                    
+                    Postbacks
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../tutorial/conversationState.html">
+            
+                <a href="../tutorial/conversationState.html">
+            
+                    
+                    Conversation State
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../tutorial/conversationState.html">
+            
+                <a href="../tutorial/conversationState.html#accessing-user-profile">
+            
+                    
+                    User profile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../tutorial/conversationState.html">
+            
+                <a href="../tutorial/conversationState.html#using-the-state-in-navigation">
+            
+                    
+                    Using state in navigation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../tutorial/conversationState.html">
+            
+                <a href="../tutorial/conversationState.html#reading-and-modifiing-user-state">
+            
+                    
+                    Reading and writing state
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../tutorial/asyncActions.html">
+            
+                <a href="../tutorial/asyncActions.html">
+            
+                    
+                    Asynchronous Actions
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../tutorial/asyncActions.html">
+            
+                <a href="../tutorial/asyncActions.html#blocking-asynchronous-actions">
+            
+                    
+                    Blocking Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../tutorial/asyncActions.html">
+            
+                <a href="../tutorial/asyncActions.html#non-blocking-asynchronous-actions">
+            
+                    
+                    Non Blocking Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../tutorial/asyncActions.html">
+            
+                <a href="../tutorial/asyncActions.html#loading-attachments-to-buffer">
+            
+                    
+                    Loading Attachments
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../tutorial/advancedRouting.html">
+            
+                <a href="../tutorial/advancedRouting.html">
+            
+                    
+                    Advanced Routing
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../tutorial/advancedRouting.html">
+            
+                <a href="../tutorial/advancedRouting.html#resolving-actions">
+            
+                    
+                    Resolving Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../tutorial/advancedRouting.html">
+            
+                <a href="../tutorial/advancedRouting.html#simple-text-actions">
+            
+                    
+                    Text Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../tutorial/advancedRouting.html">
+            
+                <a href="../tutorial/advancedRouting.html#integrating-with-ai-prediction">
+            
+                    
+                    Integrating AI
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../tutorial/advancedRouting.html">
+            
+                <a href="../tutorial/advancedRouting.html#redirecting-flow-with-post-back">
+            
+                    
+                    Redirecting with Postback
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../tutorial/nestingRouters.html">
+            
+                <a href="../tutorial/nestingRouters.html">
+            
+                    
+                    Nesting - Reusable Blocks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../tutorial/nestingRouters.html">
+            
+                <a href="../tutorial/nestingRouters.html#basic-concept">
+            
+                    
+                    Concept
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../tutorial/nestingRouters.html">
+            
+                <a href="../tutorial/nestingRouters.html#example">
+            
+                    
+                    Example
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../tutorial/templates.html">
+            
+                <a href="../tutorial/templates.html">
+            
+                    
+                    Sending Templates
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../tutorial/templates.html">
+            
+                <a href="../tutorial/templates.html#button-template">
+            
+                    
+                    Button Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../tutorial/templates.html">
+            
+                <a href="../tutorial/templates.html#generic-template">
+            
+                    
+                    Generic Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="../tutorial/templates.html">
+            
+                <a href="../tutorial/templates.html#receipt-template">
+            
+                    
+                    Receipt Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="../tutorial/templates.html">
+            
+                <a href="../tutorial/templates.html#working-with-webviews">
+            
+                    
+                    Webviews
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../tutorial/testing.html">
+            
+                <a href="../tutorial/testing.html">
+            
+                    
+                    Testing
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../tutorial/analytics.html">
+            
+                <a href="../tutorial/analytics.html">
+            
+                    
+                    Analytics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html">
+            
+                    
+                    Using with Wingbot.ai
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html#bot-configuration">
+            
+                    
+                    Bot configuration
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html#express-mongodb">
+            
+                    
+                    Express Mongodb
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.3" data-path="../tutorial/usingWithWingbot.html">
+            
+                <a href="../tutorial/usingWithWingbot.html#serverless-aws-lambda">
+            
+                    
+                    Serverless AWS Lambda
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="Request.html">
+            
+                <a href="Request.html">
+            
+                    
+                    Request
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="Responder.html">
+            
+                <a href="Responder.html">
+            
+                    
+                    Responder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="Router.html">
+            
+                <a href="Router.html">
+            
+                    
+                    Router
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="Tester.html">
+            
+                <a href="Tester.html">
+            
+                    
+                    Tester
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="ButtonTemplate.html">
+            
+                <a href="ButtonTemplate.html">
+            
+                    
+                    Template Builders
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.5.1" data-path="ButtonTemplate.html">
+            
+                <a href="ButtonTemplate.html#ButtonTemplate">
+            
+                    
+                    ButtonTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.2" data-path="ButtonTemplate.html">
+            
+                <a href="ButtonTemplate.html#GenericTemplate">
+            
+                    
+                    GenericTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5.3" data-path="ButtonTemplate.html">
+            
+                <a href="ButtonTemplate.html#ReceiptTemplate">
+            
+                    
+                    ReceiptTemplate
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="Settings.html">
+            
+                <a href="Settings.html">
+            
+                    
+                    Bot Settings
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.7" data-path="express.html">
+            
+                <a href="express.html">
+            
+                    
+                    Express/MongoDb tools
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="bufferloader.html">
+            
+                <a href="bufferloader.html">
+            
+                    
+                    Utils
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="Ai.html">
+            
+                <a href="Ai.html">
+            
+                    
+                    Ai
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="serverlessAWS.html">
+            
+                <a href="serverlessAWS.html">
+            
+                    
+                    Serverless
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="BuildRouter.html">
+            
+                <a href="BuildRouter.html">
+            
+                    
+                    Wingbot.ai
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="callback.html">
+            
+                <a href="callback.html">
+            
+                    
+                    Middlewares
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Express/MongoDb tools</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="classes"><a name="classes" class="plugin-anchor" href="#classes"><i class="fa fa-link" aria-hidden="true"></i></a>Classes</h2>
+<dl>
+<dt><a href="#State">State</a></dt>
+<dd><p>Conversation state storage</p>
+</dd>
+<dt><a href="#ChatLog">ChatLog</a></dt>
+<dd><p>Chat logs storage</p>
+</dd>
+</dl>
+
+<h2 id="functions"><a name="functions" class="plugin-anchor" href="#functions"><i class="fa fa-link" aria-hidden="true"></i></a>Functions</h2>
+<dl>
+<dt><a href="#createProcessor">createProcessor(reducer, processorOptions, [stateStorage])</a></dt>
+<dd><p>Create a chat event processor</p>
+</dd>
+<dt><a href="#createRouter">createRouter(reducer, verifyToken, [log])</a></dt>
+<dd><p>Create an express route for accepting messenger events</p>
+</dd>
+</dl>
+
+<div id="State">&#xA0;</div>
+
+<h2 id="state"><a name="state" class="plugin-anchor" href="#state"><i class="fa fa-link" aria-hidden="true"></i></a>State</h2>
+<p>Conversation state storage</p>
+<p><strong>Kind</strong>: global class  </p>
+<ul>
+<li><a href="#State">State</a><ul>
+<li><a href="#State_connectAndSubscribe">.connectAndSubscribe(senderId, [defaultState], [timeout])</a> &#x21D2; <code>Promise.&lt;Object&gt;</code></li>
+<li><a href="#State_onAfterStateLoad">.onAfterStateLoad(req, state)</a> &#x21D2; <code>Promise.&lt;Object&gt;</code></li>
+<li><a href="#State_saveState">.saveState(state)</a> &#x21D2; <code>Promise</code></li>
+</ul>
+</li>
+</ul>
+<div id="State_connectAndSubscribe">&#xA0;</div>
+
+<h3 id="stateconnectandsubscribesenderid-defaultstate-timeout-&#x21D2;-promiseobject"><a name="stateconnectandsubscribesenderid-defaultstate-timeout-&#x21D2;-promiseobject" class="plugin-anchor" href="#stateconnectandsubscribesenderid-defaultstate-timeout-&#x21D2;-promiseobject"><i class="fa fa-link" aria-hidden="true"></i></a>state.connectAndSubscribe(senderId, [defaultState], [timeout]) &#x21D2; <code>Promise.&lt;Object&gt;</code></h3>
+<p>Load state and lock for other requests</p>
+<p><strong>Kind</strong>: instance method of <a href="#State"><code>State</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>senderId</td>
+<td><code>*</code></td>
+<td></td>
+<td>user identifier</td>
+</tr>
+<tr>
+<td>[defaultState]</td>
+<td><code>Object</code></td>
+<td><code>Object</code></td>
+<td>given default state</td>
+</tr>
+<tr>
+<td>[timeout]</td>
+<td><code>number</code></td>
+<td><code>300</code></td>
+<td>given default state</td>
+</tr>
+</tbody>
+</table>
+<div id="State_onAfterStateLoad">&#xA0;</div>
+
+<h3 id="stateonafterstateloadreq-state-&#x21D2;-promiseobject"><a name="stateonafterstateloadreq-state-&#x21D2;-promiseobject" class="plugin-anchor" href="#stateonafterstateloadreq-state-&#x21D2;-promiseobject"><i class="fa fa-link" aria-hidden="true"></i></a>state.onAfterStateLoad(req, state) &#x21D2; <code>Promise.&lt;Object&gt;</code></h3>
+<p>Called after load for postprocessing purposes</p>
+<p><strong>Kind</strong>: instance method of <a href="#State"><code>State</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>req</td>
+<td><code>Request</code></td>
+<td>chat request</td>
+</tr>
+<tr>
+<td>state</td>
+<td><code>Object</code></td>
+<td>given default state</td>
+</tr>
+</tbody>
+</table>
+<div id="State_saveState">&#xA0;</div>
+
+<h3 id="statesavestatestate-&#x21D2;-promise"><a name="statesavestatestate-&#x21D2;-promise" class="plugin-anchor" href="#statesavestatestate-&#x21D2;-promise"><i class="fa fa-link" aria-hidden="true"></i></a>state.saveState(state) &#x21D2; <code>Promise</code></h3>
+<p>Called for saving state</p>
+<p><strong>Kind</strong>: instance method of <a href="#State"><code>State</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>state</td>
+<td><code>Object</code></td>
+<td>given default state</td>
+</tr>
+</tbody>
+</table>
+<div id="ChatLog">&#xA0;</div>
+
+<h2 id="chatlog"><a name="chatlog" class="plugin-anchor" href="#chatlog"><i class="fa fa-link" aria-hidden="true"></i></a>ChatLog</h2>
+<p>Chat logs storage</p>
+<p><strong>Kind</strong>: global class  </p>
+<ul>
+<li><a href="#ChatLog">ChatLog</a><ul>
+<li><a href="#ChatLog_log">.log(userId, responses, request)</a></li>
+<li><a href="#ChatLog_error">.error(err, userId, [responses], [request])</a></li>
+</ul>
+</li>
+</ul>
+<div id="ChatLog_log">&#xA0;</div>
+
+<h3 id="chatlogloguserid-responses-request"><a name="chatlogloguserid-responses-request" class="plugin-anchor" href="#chatlogloguserid-responses-request"><i class="fa fa-link" aria-hidden="true"></i></a>chatLog.log(userId, responses, request)</h3>
+<p>Log single event</p>
+<p><strong>Kind</strong>: instance method of <a href="#ChatLog"><code>ChatLog</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>userId</td>
+<td><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td>responses</td>
+<td><code>Array.&lt;Object&gt;</code></td>
+<td>list of sent responses</td>
+</tr>
+<tr>
+<td>request</td>
+<td><code>Object</code></td>
+<td>event request</td>
+</tr>
+</tbody>
+</table>
+<div id="ChatLog_error">&#xA0;</div>
+
+<h3 id="chatlogerrorerr-userid-responses-request"><a name="chatlogerrorerr-userid-responses-request" class="plugin-anchor" href="#chatlogerrorerr-userid-responses-request"><i class="fa fa-link" aria-hidden="true"></i></a>chatLog.error(err, userId, [responses], [request])</h3>
+<p>Log single event</p>
+<p><strong>Kind</strong>: instance method of <a href="#ChatLog"><code>ChatLog</code></a>  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>err</td>
+<td><code>any</code></td>
+<td>error</td>
+</tr>
+<tr>
+<td>userId</td>
+<td><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td>[responses]</td>
+<td><code>Array.&lt;Object&gt;</code></td>
+<td>list of sent responses</td>
+</tr>
+<tr>
+<td>[request]</td>
+<td><code>Object</code></td>
+<td>event request</td>
+</tr>
+</tbody>
+</table>
+<div id="createProcessor">&#xA0;</div>
+
+<h2 id="createprocessorreducer-processoroptions-statestorage"><a name="createprocessorreducer-processoroptions-statestorage" class="plugin-anchor" href="#createprocessorreducer-processoroptions-statestorage"><i class="fa fa-link" aria-hidden="true"></i></a>createProcessor(reducer, processorOptions, [stateStorage])</h2>
+<p>Create a chat event processor</p>
+<p><strong>Kind</strong>: global function  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>reducer</td>
+<td><code>function</code> \</td>
+<td><code>Router</code></td>
+<td>Root router object or processor function</td>
+</tr>
+<tr>
+<td>processorOptions</td>
+<td><code>Object</code></td>
+<td>settings for message processing</td>
+</tr>
+<tr>
+<td>[processorOptions.pageToken]</td>
+<td><code>string</code></td>
+<td>page token</td>
+</tr>
+<tr>
+<td>[processorOptions.appSecret]</td>
+<td><code>string</code></td>
+<td>bot application secret</td>
+</tr>
+<tr>
+<td>[processorOptions.appUrl]</td>
+<td><code>string</code></td>
+<td>where the bot application is deployed</td>
+</tr>
+<tr>
+<td>[processorOptions.timeout]</td>
+<td><code>number</code></td>
+<td>how long the state will be locked for single event</td>
+</tr>
+<tr>
+<td>[processorOptions.log]</td>
+<td><code>Object</code></td>
+<td>console.log/error/warn like object</td>
+</tr>
+<tr>
+<td>[processorOptions.defaultState]</td>
+<td><code>Object</code></td>
+<td>default conversation state</td>
+</tr>
+<tr>
+<td>[processorOptions.chatLog]</td>
+<td><code>MongoChatLog</code></td>
+<td>discussion logger</td>
+</tr>
+<tr>
+<td>[processorOptions.tokenStorage]</td>
+<td><code>MongoBotToken</code></td>
+<td>storage for chabot tokens</td>
+</tr>
+<tr>
+<td>[processorOptions.senderFnFactory]</td>
+<td><code>function</code></td>
+<td>override default sender function</td>
+</tr>
+<tr>
+<td>[processorOptions.securityMiddleware]</td>
+<td><code>function</code></td>
+<td>override webview calls authorizer</td>
+</tr>
+<tr>
+<td>[processorOptions.cookieName]</td>
+<td><code>string</code></td>
+<td>webview cookie (for default securityMiddleware)</td>
+</tr>
+<tr>
+<td>[processorOptions.loadUsers]</td>
+<td><code>boolean</code></td>
+<td>set false to not load user profiles</td>
+</tr>
+<tr>
+<td>[processorOptions.userLoader]</td>
+<td><code>Object</code></td>
+<td>override default user loader</td>
+</tr>
+<tr>
+<td>[processorOptions.onSenderError]</td>
+<td><code>function</code></td>
+<td>override default sender error reporter</td>
+</tr>
+<tr>
+<td>[processorOptions.autoTyping]</td>
+<td><code>Object</code> \</td>
+<td><code>boolean</code></td>
+<td>enable auto typing</td>
+</tr>
+<tr>
+<td>[processorOptions.autoTyping.time]</td>
+<td><code>number</code></td>
+<td>default typing time</td>
+</tr>
+<tr>
+<td>[processorOptions.autoTyping.perCharacters]</td>
+<td><code>number</code></td>
+<td>typing time per character</td>
+</tr>
+<tr>
+<td>[processorOptions.autoTyping.minTime]</td>
+<td><code>number</code></td>
+<td>auto typing lower threshold</td>
+</tr>
+<tr>
+<td>[processorOptions.autoTyping.maxTime]</td>
+<td><code>number</code></td>
+<td>auto typing upper threshold</td>
+</tr>
+<tr>
+<td>[stateStorage]</td>
+<td><code>MongoState</code></td>
+<td>storage for states</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>  </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;express&apos;</span>);
+<span class="hljs-keyword">const</span> bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;body-parser&apos;</span>);
+<span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;mongoose&apos;</span>);
+<span class="hljs-keyword">const</span> { createRouter, createProcessor } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;botnaut/express&apos;</span>);
+
+<span class="hljs-keyword">const</span> handler = (req, res, postBack) =&gt; {
+    res.typingOn()
+        .wait();
+
+    <span class="hljs-keyword">switch</span> (req.action()) {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&apos;hello&apos;</span>:
+            res.text(<span class="hljs-string">&apos;Hello world&apos;</span>);
+            <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-comment">// send one quick reply</span>
+            res.text(<span class="hljs-string">&apos;What you want?&apos;</span>, {
+                hello: <span class="hljs-string">&apos;Say hello world&apos;</span>
+            })
+    }
+};
+
+<span class="hljs-keyword">const</span> processor = createProcessor(handler, {
+    pageToken: <span class="hljs-string">&apos;stringhere&apos;</span>,
+    appSecret: <span class="hljs-string">&apos;botappsecret&apos;</span>
+});
+
+app = express();
+
+app.use(<span class="hljs-string">&apos;/bot&apos;</span>, createRouter(processor));
+
+mongoose.connect(<span class="hljs-string">&apos;mongodb://localhost/myapp&apos;</span>)
+    .then(() =&gt; app.listen(<span class="hljs-number">3000</span>));
+</code></pre>
+<div id="createRouter">&#xA0;</div>
+
+<h2 id="createrouterreducer-verifytoken-log"><a name="createrouterreducer-verifytoken-log" class="plugin-anchor" href="#createrouterreducer-verifytoken-log"><i class="fa fa-link" aria-hidden="true"></i></a>createRouter(reducer, verifyToken, [log])</h2>
+<p>Create an express route for accepting messenger events</p>
+<p><strong>Kind</strong>: global function  </p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>reducer</td>
+<td><code>function</code> \</td>
+<td><code>Router</code></td>
+<td>Root router object or processor function</td>
+</tr>
+<tr>
+<td>verifyToken</td>
+<td><code>string</code></td>
+<td>chatbot application token</td>
+</tr>
+<tr>
+<td>[log]</td>
+<td><code>Object</code></td>
+<td>console.* like logger object</td>
+</tr>
+</tbody>
+</table>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Settings.html" class="navigation navigation-prev " aria-label="Previous page: Bot Settings">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="bufferloader.html" class="navigation navigation-next " aria-label="Next page: Utils">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Express/MongoDb tools","level":"2.7","depth":1,"next":{"title":"Utils","level":"2.8","depth":1,"path":"api/bufferloader.md","ref":"api/bufferloader.md","articles":[]},"previous":{"title":"Bot Settings","level":"2.6","depth":1,"path":"api/Settings.md","ref":"api/Settings.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","collapsible-menu","anchors"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"collapsible-menu":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"theme":"dark","languages":[{"lang":"js","name":"JavaScript","default":true}]},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":false,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"anchors":{}},"theme":"default","author":"David Menger","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"twitter":"https://twitter.com/davidmenger"},"title":"Botnaut","gitbook":"*","description":"Facebook Messenger framework for Node.js"},"file":{"path":"api/express.md","mtime":"2018-05-23T15:31:55.111Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-23T15:31:59.833Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-collapsible-menu/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
